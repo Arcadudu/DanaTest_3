@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "DanaTest_v.0.3.0"

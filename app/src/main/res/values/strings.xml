@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">DanaTest_v.0.3.0</string>
+
+    <!--activity_titles-->
+    <string name="main_activity_title">Доступные тесты</string>
+    <!--test_titles-->
+    <string name="translate">Прямой перевод</string>
+    <string name="variants">Четыре варианта</string>
+    <string name="shuffle">Перемешать</string>
+    <string name="translate_description_light">Укажите корректный перевод предложенного слова</string>
+    <string name="variants_description_light">Выберите верный перевод слова из предложенных вариантов</string>
+    <string name="shuffle_description_light">Отгадайте слово, буквы в  котором случайно перемешаны</string>
+    <string name="menu_item_profile_title">Профиль</string>
+    <string name="menu_item_wordset_title">Наборы</string>
+    <string name="menu_item_home_title">Тесты</string>
+    <string name="menu_item_stats_title">Статистика</string>
+    <string name="menu_item_settings_title">Настройки</string>
+
+    <string name="no_mistakes">
+        Части тела \n
+        Великобритания \n
+        Лицо и его части \n
+        Кухня \n
+        Животные</string>
+
+
+    <!--descriptions-->
+
+    <!--light-->
+
+    <!--detailed-->
+    <string name="home_bs_details_straight_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
+
+</resources>

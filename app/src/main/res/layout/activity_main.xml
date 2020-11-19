@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/plt_background_light"
+        tools:context=".HomeActivity">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/main_header"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_main_exit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/icon_main_close_24" />
+
+
+            <TextView
+                android:id="@+id/tv_main_tests"
+                style="@style/TextStyle_title_expanded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/main_activity_title" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!--Прямой перевод-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crd_straight_translate_card"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_header">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_main_straigh_translate_title"
+                    style="@style/TextStyle_card_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="18dp"
+                    android:gravity="start"
+                    android:text="@string/translate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_main_straigh_translate_subtext"
+                    style="@style/TextStyle_card_subtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="start"
+                    android:text="@string/translate_description_light"
+                    app:layout_constraintEnd_toStartOf="@id/iv_straight_translate_info_button"
+                    app:layout_constraintStart_toStartOf="@+id/tv_main_straigh_translate_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_main_straigh_translate_title" />
+
+                <ImageView
+                    android:id="@+id/iv_straight_translate_info_button"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/cardview_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/icon_info_24_white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_straight_translate_info_button"
+                    app:layout_constraintEnd_toEndOf="@id/iv_straight_translate_info_button"
+                    app:layout_constraintStart_toStartOf="@id/iv_straight_translate_info_button"
+                    app:layout_constraintTop_toTopOf="@id/iv_straight_translate_info_button" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!--Четыре варианта-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crd_four_variants_card"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/crd_straight_translate_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_main_four_variants_title"
+                    style="@style/TextStyle_card_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="18dp"
+                    android:gravity="start"
+                    android:text="@string/variants"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_main_four_variants_subtext"
+                    style="@style/TextStyle_card_subtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="start"
+                    android:text="@string/variants_description_light"
+                    app:layout_constraintEnd_toStartOf="@id/iv_four_variants_info_button"
+                    app:layout_constraintStart_toStartOf="@+id/tv_main_four_variants_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_main_four_variants_title" />
+
+                <ImageView
+                    android:id="@+id/iv_four_variants_info_button"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/cardview_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/icon_info_24_white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_four_variants_info_button"
+                    app:layout_constraintEnd_toEndOf="@id/iv_four_variants_info_button"
+                    app:layout_constraintStart_toStartOf="@id/iv_four_variants_info_button"
+                    app:layout_constraintTop_toTopOf="@id/iv_four_variants_info_button" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!--Перемешать-->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/crd_shuffle_card"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/crd_four_variants_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_main_shuffle_title"
+                    style="@style/TextStyle_card_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="18dp"
+                    android:gravity="start"
+                    android:text="@string/shuffle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_main_shuffle_subtext"
+                    style="@style/TextStyle_card_subtext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="start"
+                    android:text="@string/shuffle_description_light"
+                    app:layout_constraintEnd_toStartOf="@id/iv_shuffle_info_button"
+                    app:layout_constraintStart_toStartOf="@+id/tv_main_shuffle_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_main_shuffle_title" />
+
+                <ImageView
+                    android:id="@+id/iv_shuffle_info_button"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/cardview_button"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/icon_info_24_white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_shuffle_info_button"
+                    app:layout_constraintEnd_toEndOf="@id/iv_shuffle_info_button"
+                    app:layout_constraintStart_toStartOf="@id/iv_shuffle_info_button"
+                    app:layout_constraintTop_toTopOf="@id/iv_shuffle_info_button" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/my_navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:itemIconSize="28dp"
+            app:itemIconTint="@color/item_navigation_colorset"
+            app:itemRippleColor="@color/plt_semi_active_blue_light"
+            app:itemTextColor="@color/item_navigation_colorset"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/my_navigation_menu" />
+
+        <View
+            android:id="@+id/transparent_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@color/plt_transparent_background"
+            android:elevation="5dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/home_bottom_sheet" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

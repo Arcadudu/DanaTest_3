@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/profile_item"
+        android:title="@string/menu_item_profile_title"
+        android:icon="@drawable/icon_menu_item_profile"/>
+    <item android:id="@+id/wordset_item"
+        android:title="@string/menu_item_wordset_title"
+        android:icon="@drawable/icon_set"/>
+    <item android:id="@+id/home_item"
+        android:title="@string/menu_item_home_title"
+        android:icon="@drawable/icon_menu_item_home"/>
+    <item android:id="@+id/stats_item"
+        android:title="@string/menu_item_stats_title"
+        android:icon="@drawable/icon_menu_item_stats"/>
+    <item android:id="@+id/settings_item"
+        android:title="@string/menu_item_settings_title"
+        android:icon="@drawable/icon_menu_item_settings" />
+
+</menu>
