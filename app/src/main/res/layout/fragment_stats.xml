@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/tv_stats_fragment_title"
-                style="@style/TextStyle_bs_header"
+                style="@style/TextStyle_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"

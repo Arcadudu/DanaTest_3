@@ -10,13 +10,12 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import ru.arcadudu.danatest_v030.activities.EditAddWordSetActivity
+import ru.arcadudu.danatest_v030.activities.WsEditorActivity
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.models.WordSet
@@ -56,7 +55,7 @@ class WordSetFragment : Fragment() {
         }
         initSwiper(recyclerView)
 
-        et_searchBar = view.findViewById(R.id.et_searchfield)
+        et_searchBar = view.findViewById(R.id.et_ws_frag_searchfield)
         et_searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -123,7 +122,7 @@ class WordSetFragment : Fragment() {
                     }
                     ItemTouchHelper.RIGHT -> {
                         myAdapter.notifyDataSetChanged()
-                        val intent = Intent(activity, EditAddWordSetActivity::class.java)
+                        val intent = Intent(activity, WsEditorActivity::class.java)
                         intent.putExtra("chosen_item", chosenItem)
                         startActivity(intent)
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/plt_background_light"
-    tools:context=".fragments.WordSetFragment">
+    tools:context=".activities.WsEditorActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/action_bar"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iv_WS_frag_back_arrow_icon"
+                android:id="@+id/iv_editor_back_arrow_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="12dp"
@@ -34,14 +34,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_ws_frag_title"
+                android:id="@+id/tv_editor_title"
                 style="@style/TextStyle_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="Наборы"
+                android:text="Временные константы"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,9 +57,9 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/et_ws_frag_searchBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/editor_detail_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,10 +67,68 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/editor_info_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_info_24_grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/editor_detail_body"
+                style="@style/TextStyle_bs_subtext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="@string/dummy_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_editor_edit_details_icon"
+                app:layout_constraintStart_toEndOf="@id/editor_info_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--todo: вынести все clickable/focusable в отдельный стиль -->
+            <ImageView
+                android:id="@+id/iv_editor_edit_details_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/icon_edit_blue"
+                app:layout_constraintBottom_toBottomOf="@id/editor_detail_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/editor_detail_body" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/editor_searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editor_detail_bar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/ws_frag_search_icon"
+                android:id="@+id/editor_search_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="12dp"
@@ -75,7 +138,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/et_ws_frag_searchfield"
+                android:id="@+id/et_editor_searchField"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="12dp"
@@ -83,17 +146,17 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/search_background"
-                android:hint="Какой набор ищем?"
+                android:hint="Какое слово ищем?"
                 android:inputType="text"
                 android:paddingStart="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_WS_frag_add_icon"
-                app:layout_constraintStart_toEndOf="@id/ws_frag_search_icon"
+                app:layout_constraintEnd_toStartOf="@id/iv_editor_add_icon"
+                app:layout_constraintStart_toEndOf="@id/editor_search_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
-                android:id="@+id/iv_WS_frag_add_icon"
+                android:id="@+id/iv_editor_add_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="12dp"
@@ -101,27 +164,15 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:src="@drawable/icon_add_blue"
-                app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"
+                app:layout_constraintBottom_toBottomOf="@id/et_editor_searchField"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/et_ws_frag_searchfield"
-                app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />
+                app:layout_constraintStart_toEndOf="@id/et_editor_searchField"
+                app:layout_constraintTop_toTopOf="@id/et_editor_searchField" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/wordSet_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:clipToPadding="false"
-        android:paddingTop="6dp"
-        android:paddingBottom="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_ws_frag_searchBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

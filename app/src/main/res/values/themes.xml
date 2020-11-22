@@ -36,7 +36,7 @@
         <item name="android:textColor">@color/plt_subtext_grey</item>
     </style>
 
-    <style name="TextStyle_bs_header">
+    <style name="TextStyle_header">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/plt_almost_black</item>
