@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.WordSet
 
-class WordSetAdapter :
+class WordSetAdapter(var itemList:MutableList<WordSet> ) :
     RecyclerView.Adapter<WordSetAdapter.MyViewHolder>() {
-
-    private var itemList: MutableList<WordSet> = mutableListOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,7 +27,10 @@ class WordSetAdapter :
         return itemList.size
     }
 
-    fun submitList(list:MutableList<WordSet>) = run { itemList = list }
+    fun filterList(list:MutableList<WordSet>){
+        itemList = list
+        notifyDataSetChanged()
+    }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var title: TextView = itemView.findViewById(R.id.tv_item_title)

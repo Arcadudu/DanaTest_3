@@ -1,9 +1,10 @@
-package ru.arcadudu.danatest_v030
+package ru.arcadudu.danatest_v030.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.fragments.*
 
 class HomeActivity : AppCompatActivity() {
@@ -44,7 +45,6 @@ class HomeActivity : AppCompatActivity() {
                 }
             setFragment(selectedFragment)
             true
-
         }
 
 
@@ -53,6 +53,8 @@ class HomeActivity : AppCompatActivity() {
     private fun setFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_fragment_container, fragment)
+            .addToBackStack(null)
             .commit()
+
     }
 }

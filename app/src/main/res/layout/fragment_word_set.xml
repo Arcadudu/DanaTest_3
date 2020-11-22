@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/plt_background_light"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".fragments.WordSetFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/action_bar"
@@ -45,19 +45,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_WS_frag_add_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="12dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/icon_add_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,6 +75,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
+                android:id="@+id/et_searchfield"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="12dp"
@@ -99,10 +87,25 @@
                 android:inputType="text"
                 android:paddingStart="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_WS_frag_add_icon"
                 app:layout_constraintStart_toEndOf="@id/search_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
+
+            <ImageView
+                android:id="@+id/iv_WS_frag_add_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/icon_add_blue"
+                app:layout_constraintBottom_toBottomOf="@id/et_searchfield"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/et_searchfield"
+                app:layout_constraintTop_toTopOf="@id/et_searchfield" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,11 +115,13 @@
         android:id="@+id/wordSet_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/wordSet_searchBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        />
+        android:clipToPadding="false"
+        android:paddingTop="6dp"
+        android:paddingBottom="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wordSet_searchBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

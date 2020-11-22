@@ -1,6 +1,8 @@
 package ru.arcadudu.danatest_v030.models
 
-class WordSet(val name:String, val description:String) {
+import java.io.Serializable
+
+class WordSet(val name:String, val description:String) : Serializable {
     private val pairList:MutableList<Pair> = mutableListOf()
     val listLength = pairList.size
 

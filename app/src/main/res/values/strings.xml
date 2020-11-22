@@ -32,5 +32,6 @@
     <string name="home_bs_details_straight_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummy_text">Список названий месяцев, дней неделии других констант измерения времени.</string>
 
 </resources>
