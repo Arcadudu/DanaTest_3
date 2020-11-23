@@ -1,13 +1,16 @@
 package ru.arcadudu.danatest_v030.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.fragments.*
+import ru.arcadudu.danatest_v030.interfaces.ClickableItem
+import ru.arcadudu.danatest_v030.models.WordSet
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(){
 
     private lateinit var homeFragment: HomeFragment
     private lateinit var profileFragment: ProfileFragment
@@ -57,4 +60,6 @@ class HomeActivity : AppCompatActivity() {
             .commit()
 
     }
+
+
 }

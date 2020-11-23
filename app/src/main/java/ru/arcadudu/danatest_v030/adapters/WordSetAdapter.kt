@@ -7,10 +7,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.interfaces.ClickableItem
 import ru.arcadudu.danatest_v030.models.WordSet
 
-class WordSetAdapter(var itemList:MutableList<WordSet> ) :
+class WordSetAdapter :
     RecyclerView.Adapter<WordSetAdapter.MyViewHolder>() {
+    var itemList: MutableList<WordSet> = mutableListOf()
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -27,10 +31,16 @@ class WordSetAdapter(var itemList:MutableList<WordSet> ) :
         return itemList.size
     }
 
-    fun filterList(list:MutableList<WordSet>){
+    fun submitList(list: MutableList<WordSet>) {
         itemList = list
         notifyDataSetChanged()
     }
+
+    fun filterList(list: MutableList<WordSet>) {
+        itemList = list
+        notifyDataSetChanged()
+    }
+
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var title: TextView = itemView.findViewById(R.id.tv_item_title)
@@ -39,9 +49,7 @@ class WordSetAdapter(var itemList:MutableList<WordSet> ) :
 
         init {
             itemView.setOnClickListener {
-                val position: Int = adapterPosition
-                val context = itemView.context
-                Toast.makeText(context, "you clicked ${itemList[position].name}", Toast.LENGTH_SHORT).show()
+                goToEditor(adapterPosition)
             }
         }
 
@@ -51,5 +59,12 @@ class WordSetAdapter(var itemList:MutableList<WordSet> ) :
             length.text = wordSet.listLength.toString()
         }
 
+        private fun goToEditor(position: Int) {
+            val wordSet: WordSet = itemList[position]
+
+
+        }
     }
+
+
 }

@@ -9,16 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import ru.arcadudu.danatest_v030.activities.WsEditorActivity
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.activities.WsEditorActivity
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.models.WordSet
+import java.util.*
 
 private lateinit var recyclerView: RecyclerView
 private lateinit var myAdapter: WordSetAdapter
@@ -39,8 +39,8 @@ class WordSetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnBack:ImageView = view.findViewById(R.id.iv_WS_frag_back_arrow_icon)
-        btnBack.setOnClickListener{
+        val btnBack: ImageView = view.findViewById(R.id.iv_WS_frag_back_arrow_icon)
+        btnBack.setOnClickListener {
             // todo: onBackPressed override
         }
 
@@ -48,8 +48,9 @@ class WordSetFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.wordSet_recycler)
         recyclerView.apply {
-            myAdapter = WordSetAdapter(itemList)
+            myAdapter = WordSetAdapter()
             adapter = myAdapter
+            myAdapter.submitList(itemList)
             layoutManager = LinearLayoutManager(activity)
 
         }
@@ -73,14 +74,17 @@ class WordSetFragment : Fragment() {
         btnAddWordSet.setOnClickListener {
 //            todo: open modal window for adding new wordSet
             added++
-            Toast.makeText(activity, "you added new wordSet", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(activity, "you added new wordSet", Toast.LENGTH_SHORT).show()
             itemList.add(
+                0,
                 WordSet(
                     name = "new Item $added",
                     description = "This is an item tt you added pushing plus button"
                 )
             )
-            myAdapter.notifyDataSetChanged()
+            myAdapter.notifyItemInserted(0)
+            val layoutManager = recyclerView.layoutManager
+            layoutManager?.scrollToPosition(0)
         }
 
 
@@ -96,7 +100,11 @@ class WordSetFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                TODO("Not yet implemented")
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+                Collections.swap(itemList, fromPosition, toPosition)
+                myAdapter.notifyItemMoved(fromPosition, toPosition)
+                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -108,16 +116,16 @@ class WordSetFragment : Fragment() {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         itemList.remove(chosenItem)
-                        myAdapter.notifyDataSetChanged()
+                        myAdapter.notifyItemRemoved(position)
                         Snackbar.make(
-                                recyclerView,
-                                "$chosenItemName удалено",
-                                Snackbar.LENGTH_LONG
-                            )
-                                .setAction("Отмена", View.OnClickListener {
-                                    itemList.add(position, chosenItem)
-                                    myAdapter.notifyDataSetChanged()
-                                }).show()
+                            recyclerView,
+                            "$chosenItemName удалено",
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setAction("Отмена", View.OnClickListener {
+                                itemList.add(position, chosenItem)
+                                myAdapter.notifyItemInserted(position)
+                            }).show()
 
                     }
                     ItemTouchHelper.RIGHT -> {
@@ -141,7 +149,10 @@ class WordSetFragment : Fragment() {
     private fun filter(text: String) {
         var filteredList: MutableList<WordSet> = mutableListOf()
         for (item in itemList) {
-            if (item.name.toLowerCase().contains(text.toLowerCase()) || item.description.toLowerCase().contains(text.toLowerCase())) {
+            if (item.name.toLowerCase()
+                    .contains(text.toLowerCase()) || item.description.toLowerCase()
+                    .contains(text.toLowerCase())
+            ) {
                 filteredList.add(item)
             }
         }
