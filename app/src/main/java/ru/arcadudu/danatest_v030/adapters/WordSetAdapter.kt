@@ -1,20 +1,19 @@
 package ru.arcadudu.danatest_v030.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.interfaces.ClickableItem
 import ru.arcadudu.danatest_v030.models.WordSet
 
-class WordSetAdapter :
+class WordSetAdapter(clickableItem: ClickableItem) :
     RecyclerView.Adapter<WordSetAdapter.MyViewHolder>() {
     var itemList: MutableList<WordSet> = mutableListOf()
-
-
+    var clickableItem: ClickableItem = clickableItem
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -49,7 +48,9 @@ class WordSetAdapter :
 
         init {
             itemView.setOnClickListener {
+                Log.d("AAA", "adapter on click listener: adapter pos = $adapterPosition ")
                 goToEditor(adapterPosition)
+
             }
         }
 
@@ -59,10 +60,13 @@ class WordSetAdapter :
             length.text = wordSet.listLength.toString()
         }
 
+
+
+
         private fun goToEditor(position: Int) {
             val wordSet: WordSet = itemList[position]
-
-
+            Log.d("AAA", "adapter goToEditor: ${wordSet == null} ")
+            clickableItem.clickToEditor(wordSet)
         }
     }
 

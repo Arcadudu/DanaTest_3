@@ -12,14 +12,12 @@ class WsEditorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_ws_editor)
 
         val title:TextView = findViewById(R.id.tv_editor_title)
-        val details:TextView = findViewById(R.id.editor_detail_body)
+        val details:TextView = findViewById(R.id.editor_details)
 
+        val incomingWordSet: WordSet = intent.getSerializableExtra("selected_wordset") as WordSet
 
-
-        val incomingWordSet:WordSet = intent.getSerializableExtra("chosen_item") as WordSet
-
-        title.text = incomingWordSet?.name
-        details.text = incomingWordSet?.description
+        title.text = incomingWordSet.name
+        details.text = incomingWordSet.description
 
 
     }

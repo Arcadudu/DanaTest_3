@@ -37,7 +37,7 @@
                 android:id="@+id/tv_editor_title"
                 style="@style/TextStyle_header"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:clickable="true"
                 android:enabled="true"
                 android:focusable="true"
@@ -68,23 +68,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="12dp">
-
-            <ImageView
-                android:id="@+id/editor_info_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_info_24_grey"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
 
             <TextView
-                android:id="@+id/editor_detail_body"
+                android:id="@+id/editor_details"
                 style="@style/TextStyle_bs_subtext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="54dp"
                 android:layout_marginEnd="12dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -92,7 +84,7 @@
                 android:text="@string/dummy_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_editor_edit_details_icon"
-                app:layout_constraintStart_toEndOf="@id/editor_info_icon"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!--todo: вынести все clickable/focusable в отдельный стиль -->
@@ -100,13 +92,14 @@
                 android:id="@+id/iv_editor_edit_details_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:src="@drawable/icon_edit_blue"
-                app:layout_constraintBottom_toBottomOf="@id/editor_detail_body"
+                app:layout_constraintBottom_toBottomOf="@id/editor_details"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/editor_detail_body" />
+                app:layout_constraintTop_toTopOf="@id/editor_details" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

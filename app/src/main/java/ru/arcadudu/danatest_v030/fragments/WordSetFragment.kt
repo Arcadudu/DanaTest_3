@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.WsEditorActivity
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
+import ru.arcadudu.danatest_v030.interfaces.ClickableItem
 import ru.arcadudu.danatest_v030.models.WordSet
 import java.util.*
 
@@ -27,7 +28,7 @@ private lateinit var et_searchBar: EditText
 
 private lateinit var itemList: MutableList<WordSet>
 
-class WordSetFragment : Fragment() {
+class WordSetFragment : Fragment(), ClickableItem {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +49,7 @@ class WordSetFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.wordSet_recycler)
         recyclerView.apply {
-            myAdapter = WordSetAdapter()
+            myAdapter = WordSetAdapter(this@WordSetFragment)
             adapter = myAdapter
             myAdapter.submitList(itemList)
             layoutManager = LinearLayoutManager(activity)
@@ -145,9 +146,8 @@ class WordSetFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-
     private fun filter(text: String) {
-        var filteredList: MutableList<WordSet> = mutableListOf()
+        val filteredList: MutableList<WordSet> = mutableListOf()
         for (item in itemList) {
             if (item.name.toLowerCase()
                     .contains(text.toLowerCase()) || item.description.toLowerCase()
@@ -163,5 +163,11 @@ class WordSetFragment : Fragment() {
         val string = getString(R.string.dummy_text)
         itemList = mutableListOf()
         for (i in 1..20) itemList.add(WordSet(name = "WordSet $i", description = string))
+    }
+
+    override fun clickToEditor(wordSet: WordSet) {
+        val intent = Intent(activity, WsEditorActivity::class.java)
+        intent.putExtra("selected_wordset", wordSet)
+        startActivity(intent)
     }
 }
