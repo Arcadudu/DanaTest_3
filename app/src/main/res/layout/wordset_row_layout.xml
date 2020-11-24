@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="0dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
             android:id="@+id/iv_item_drawable"
             android:layout_width="70dp"
             android:layout_height="0dp"
-            android:background="@drawable/cardview_button"
+            android:background="@drawable/cardview_button_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

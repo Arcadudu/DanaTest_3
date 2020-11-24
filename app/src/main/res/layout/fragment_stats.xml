@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--todo: remove arrow-->
             <ImageView
                 android:id="@+id/iv_stats_frag_back_arrow_icon"
                 android:layout_width="30dp"

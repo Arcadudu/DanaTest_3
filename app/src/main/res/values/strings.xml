@@ -16,22 +16,24 @@
     <string name="menu_item_stats_title">Статистика</string>
     <string name="menu_item_settings_title">Настройки</string>
 
+    // temp
     <string name="no_mistakes">
         Части тела \n
         Великобритания \n
         Лицо и его части \n
         Кухня \n
         Животные</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummy_text">Список названий месяцев, дней неделии других констант измерения времени.</string>
 
 
     <!--descriptions-->
 
     <!--light-->
 
-    <!--detailed-->
-    <string name="home_bs_details_straight_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
+    <!--heavy-->
+    <string name="home_bs_details_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummy_text">Список названий месяцев, дней неделии других констант измерения времени.</string>
+
 
 </resources>

@@ -94,7 +94,7 @@ class WordSetFragment : Fragment(), ClickableItem {
     private fun initSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ItemTouchHelper.LEFT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -129,13 +129,13 @@ class WordSetFragment : Fragment(), ClickableItem {
                             }).show()
 
                     }
-                    ItemTouchHelper.RIGHT -> {
-                        myAdapter.notifyDataSetChanged()
-                        val intent = Intent(activity, WsEditorActivity::class.java)
-                        intent.putExtra("chosen_item", chosenItem)
-                        startActivity(intent)
-
-                    }
+//                    ItemTouchHelper.RIGHT -> {
+//                        myAdapter.notifyDataSetChanged()
+//                        val intent = Intent(activity, WsEditorActivity::class.java)
+//                        intent.putExtra("chosen_item", chosenItem)
+//                        startActivity(intent)
+//
+//                    }
 
                 }
             }
@@ -166,6 +166,7 @@ class WordSetFragment : Fragment(), ClickableItem {
     }
 
     override fun clickToEditor(wordSet: WordSet) {
+        //todo: startActivityForResult -> into editor and back
         val intent = Intent(activity, WsEditorActivity::class.java)
         intent.putExtra("selected_wordset", wordSet)
         startActivity(intent)
