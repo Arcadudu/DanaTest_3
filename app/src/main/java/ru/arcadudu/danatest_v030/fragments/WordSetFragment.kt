@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,8 @@ private lateinit var et_searchBar: EditText
 
 private lateinit var itemList: MutableList<WordSet>
 
+private lateinit var favWordSet: WordSet
+
 class WordSetFragment : Fragment(), ClickableItem {
 
     override fun onCreateView(
@@ -40,10 +43,7 @@ class WordSetFragment : Fragment(), ClickableItem {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnBack: ImageView = view.findViewById(R.id.iv_WS_frag_back_arrow_icon)
-        btnBack.setOnClickListener {
-            // todo: onBackPressed override
-        }
+
 
         packList()
 
@@ -96,16 +96,25 @@ class WordSetFragment : Fragment(), ClickableItem {
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT
         ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
+
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+
                 val fromPosition = viewHolder.adapterPosition
                 val toPosition = target.adapterPosition
-                Collections.swap(itemList, fromPosition, toPosition)
-                myAdapter.notifyItemMoved(fromPosition, toPosition)
-                 return true
+                return if (fromPosition != 0 && toPosition != 0) {
+                    Collections.swap(itemList, fromPosition, toPosition)
+                    myAdapter.notifyItemMoved(fromPosition, toPosition)
+                    true
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Невозможно изменить позицию избранного набора",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                }
+
+
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -114,21 +123,22 @@ class WordSetFragment : Fragment(), ClickableItem {
                 val chosenItem: WordSet = itemList[position]
                 val chosenItemName = chosenItem.name
 
-                when (direction) {
-                    ItemTouchHelper.LEFT -> {
-                        itemList.remove(chosenItem)
-                        myAdapter.notifyItemRemoved(position)
-                        Snackbar.make(
-                            recyclerView,
-                            "$chosenItemName удалено",
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction("Отмена", View.OnClickListener {
-                                itemList.add(position, chosenItem)
-                                myAdapter.notifyItemInserted(position)
-                            }).show()
+                if (viewHolder !is WordSetAdapter.FavWordSetViewHolder) {
+                    when (direction) {
+                        ItemTouchHelper.LEFT -> {
+                            itemList.remove(chosenItem)
+                            myAdapter.notifyItemRemoved(position)
+                            Snackbar.make(
+                                recyclerView,
+                                "$chosenItemName удалено",
+                                Snackbar.LENGTH_LONG
+                            )
+                                .setAction("Отмена", View.OnClickListener {
+                                    itemList.add(position, chosenItem)
+                                    myAdapter.notifyItemInserted(position)
+                                }).show()
 
-                    }
+                        }
 //                    ItemTouchHelper.RIGHT -> {
 //                        myAdapter.notifyDataSetChanged()
 //                        val intent = Intent(activity, WsEditorActivity::class.java)
@@ -137,7 +147,11 @@ class WordSetFragment : Fragment(), ClickableItem {
 //
 //                    }
 
+                    }
+                }else{
+                    Toast.makeText(context, "Невозмножно удалить избранный набор", Toast.LENGTH_SHORT).show()
                 }
+
             }
 
         }
@@ -161,7 +175,10 @@ class WordSetFragment : Fragment(), ClickableItem {
 
     private fun packList() {
         val string = getString(R.string.dummy_text)
+        var favWordSet = WordSet(isFavorites =  true, name = "Избранный набор", description = "Сюда попадают избранные Вами пары из других наборов")
+
         itemList = mutableListOf()
+        itemList.add(0, favWordSet)
         for (i in 1..20) itemList.add(WordSet(name = "WordSet $i", description = string))
     }
 

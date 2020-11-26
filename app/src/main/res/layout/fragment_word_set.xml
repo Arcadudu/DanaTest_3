@@ -20,19 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--todo: remove arrow-->
-            <ImageView
-                android:id="@+id/iv_WS_frag_back_arrow_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="12dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/icon_arrow_back_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_ws_frag_title"

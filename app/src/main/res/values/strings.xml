@@ -33,6 +33,8 @@
 
     <!--heavy-->
     <string name="home_bs_details_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
+    <string name="fav_wordset_title">Избранный набор</string>
+    <string name="fav_details">Сюда попадают избранные Вами пары из других наборов</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
