@@ -103,7 +103,9 @@
         android:id="@+id/wordSet_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbarThumbVertical="@drawable/scrollbar_drawable"
         android:clipToPadding="false"
         android:paddingTop="6dp"
         android:paddingBottom="120dp"

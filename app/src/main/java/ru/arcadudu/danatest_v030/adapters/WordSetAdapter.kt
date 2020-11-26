@@ -4,9 +4,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.databinding.WordsetRowLayoutBinding
+import ru.arcadudu.danatest_v030.databinding.WordsetRowLayoutFavBinding
 import ru.arcadudu.danatest_v030.interfaces.ClickableItem
 import ru.arcadudu.danatest_v030.models.WordSet
 
@@ -14,19 +15,15 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var itemList: MutableList<WordSet> = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordSetViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when(viewType){
+            0->FavWordSetViewHolder(inflater.inflate(R.layout.wordset_row_layout_fav, parent, false))
+            else->WordSetViewHolder(inflater.inflate(R.layout.wordset_row_layout, parent, false))
+        }
 
 
-        val layout: Int =
-            when (viewType) {
-                // Favorite
-                0 -> R.layout.wordset_row_layout_fav
-                // Regular
-                else -> R.layout.wordset_row_layout
-            }
-        return WordSetViewHolder(
-            LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        )
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -34,21 +31,10 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(position == 0){
-            val favViewHolder : FavWordSetViewHolder = holder as FavWordSetViewHolder
-            favViewHolder.bind(itemList[position])
-        }else{
-            val viewHolder : WordSetViewHolder = holder as WordSetViewHolder
-            viewHolder.bind(itemList[position])
-        }
-//        val item: WordSet = itemList[position]
-//        if(item.isFavorites){
-//            val favViewHolder : FavWordSetViewHolder = holder as FavWordSetViewHolder
-//            favViewHolder.bind(itemList[position])
-//        }else{
-//            val viewHolder : WordSetViewHolder = holder as WordSetViewHolder
-//            viewHolder.bind(itemList[position])
-//        }
+       when(holder){
+           is FavWordSetViewHolder->holder.bind(itemList[position])
+           is WordSetViewHolder ->holder.bind(itemList[position])
+       }
 
     }
 
@@ -67,11 +53,9 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
     }
 
     //REGULAR
-    inner class WordSetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private var title: TextView = itemView.findViewById(R.id.tv_item_title)
-        private var details: TextView = itemView.findViewById(R.id.tv_item_details)
-        private var length: TextView = itemView.findViewById(R.id.tv_item_length)
+    inner class WordSetViewHolder(view: View) :
+        RecyclerView.ViewHolder(view) {
+        private val binding = WordsetRowLayoutBinding.bind(view)
 
         init {
             itemView.setOnClickListener {
@@ -82,9 +66,11 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
         }
 
         fun bind(wordSet: WordSet) {
-            title.text = wordSet.name
-            details.text = wordSet.description
-            length.text = wordSet.listLength.toString()
+            binding.apply {
+                tvItemTitle.text = wordSet.name
+                tvItemDetails.text = wordSet.description
+                tvItemLength.text = wordSet.listLength.toString()
+            }
         }
 
         private fun goToEditor(position: Int) {
@@ -95,21 +81,22 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
     }
 
     // FAVOURITE
-    inner class FavWordSetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var favTitle: TextView = itemView.findViewById(R.id.tv_fav_title)
-        private var favDetails: TextView = itemView.findViewById(R.id.tv_fav_details)
-        private var favLength: TextView = itemView.findViewById(R.id.tv_fav_length)
+    inner class FavWordSetViewHolder(view: View) :
+        RecyclerView.ViewHolder(view) {
+        private val binding = WordsetRowLayoutFavBinding.bind(view)
 
         init {
             itemView.setOnClickListener {
-               goToEditor(0)
+                goToEditor(0)
             }
         }
 
-        fun bind(wordSet: WordSet) {
-            favTitle.text = wordSet.name
-            favDetails.text = wordSet.description
-            favLength.text = wordSet.listLength.toString()
+        fun bind(favWordSet: WordSet) {
+            binding.apply {
+                tvFavTitle.text = favWordSet.name
+                tvFavDetails.text = favWordSet.description
+                tvFavLength.text = favWordSet.listLength.toString()
+            }
         }
 
         private fun goToEditor(position: Int) {
@@ -117,7 +104,6 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
             Log.d("AAA", "adapter goToEditor: ${wordSet == null} ")
             clickableItem.clickToEditor(wordSet)
         }
-
 
 
     }
