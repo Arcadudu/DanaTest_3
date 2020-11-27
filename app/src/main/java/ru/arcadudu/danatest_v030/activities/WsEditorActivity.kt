@@ -1,5 +1,6 @@
 package ru.arcadudu.danatest_v030.activities
 
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -27,6 +28,7 @@ class WsEditorActivity : AppCompatActivity() {
         tvTitle = binding.tvEditorTitle
         tvDetails = binding.editorDetails
         btnEdit = binding.ivEditorEditDetailsIcon
+        // todo: optional color change on title and detail editing
 
         val incomingWordSet: WordSet = intent.getSerializableExtra("selected_wordset") as WordSet
 
@@ -35,10 +37,16 @@ class WsEditorActivity : AppCompatActivity() {
 
 
         if(incomingWordSet.isFavorites){
-           btnEdit.apply {
-               isEnabled = false
-               isVisible = false
-           }
+//            val window = window
+//            window.statusBarColor = getColor(R.color.plt_active_blue_light)
+//            tvTitle.setTextColor(getColor(R.color.white))
+//            tvDetails.setTextColor(getColor(R.color.white))
+
+            btnEdit.apply {
+                isEnabled = false
+                setImageDrawable(resources.getDrawable(R.drawable.icon_star_favorite_blue_outlined, theme))
+                isVisible = true
+            }
             tvTitle.setOnClickListener{
                 Snackbar.make(view, "Невозможно изменить название избранного набора", Snackbar.LENGTH_LONG).show()
             }

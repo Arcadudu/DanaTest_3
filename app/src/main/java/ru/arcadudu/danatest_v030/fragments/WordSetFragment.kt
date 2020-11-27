@@ -1,5 +1,8 @@
 package ru.arcadudu.danatest_v030.fragments
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -141,17 +144,31 @@ class WordSetFragment : Fragment(), ClickableItem {
 
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
+//                        val builder = AlertDialog.Builder(activity)
+//                        builder.apply {
+//                            setTitle("Удалить набор ${chosenItem.name}?")
+//                            setPositiveButton("Ок", DialogInterface.OnClickListener{dialog, which ->
+//                                itemList.remove(chosenItem)
+//                                myAdapter.notifyItemRemoved(position)
+//                            })
+//                            setNegativeButton("Отмена",DialogInterface.OnClickListener{dialog, which ->
+//                                dialog.dismiss()
+//                            })
+//                            show()
+//                        }
                         itemList.remove(chosenItem)
                         myAdapter.notifyItemRemoved(position)
                         Snackbar.make(
                             recyclerView,
                             "$chosenItemName удалено",
-                            Snackbar.LENGTH_LONG
-                        )
+                            5000
+                        ).setBackgroundTint(resources.getColor(R.color.plt_active_blue_light))
+                            .setAnchorView(R.id.my_navigation_bar)
                             .setAction("Отмена", View.OnClickListener {
                                 itemList.add(position, chosenItem)
                                 myAdapter.notifyItemInserted(position)
-                            }).show()
+                            })
+                            .show()
 
                     }
 

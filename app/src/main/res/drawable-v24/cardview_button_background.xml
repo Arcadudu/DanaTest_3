@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/plt_semi_active_blue_light" />
+    <solid android:color="@color/plt_divider_light" />
+    <gradient android:startColor="@color/plt_background_light"
+        android:endColor="@color/white"
+        android:angle="180"
+        android:centerX="50"/>
+
 </shape>

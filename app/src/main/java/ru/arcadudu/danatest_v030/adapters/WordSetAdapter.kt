@@ -69,7 +69,7 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
             binding.apply {
                 tvItemTitle.text = wordSet.name
                 tvItemDetails.text = wordSet.description
-                tvItemLength.text = wordSet.listLength.toString()
+//                tvItemLength.text = wordSet.listLength.toString()
             }
         }
 
@@ -95,7 +95,7 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
             binding.apply {
                 tvFavTitle.text = favWordSet.name
                 tvFavDetails.text = favWordSet.description
-                tvFavLength.text = favWordSet.listLength.toString()
+//                tvFavLength.text = favWordSet.listLength.toString()
             }
         }
 
