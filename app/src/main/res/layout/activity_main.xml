@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,14 +29,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/my_navigation_menu" />
 
-        <View
-            android:id="@+id/transparent_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            android:background="@color/plt_transparent_background"
-            android:elevation="5dp" />
-
         <FrameLayout
             android:id="@+id/fl_fragment_container"
             android:layout_width="0dp"
@@ -50,8 +41,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/transparent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/plt_transparent_background"
+        android:visibility="gone"/>
+
     <include
-        layout="@layout/home_bottom_sheet"
+        layout="@layout/bottom_sheet_home"
         android:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

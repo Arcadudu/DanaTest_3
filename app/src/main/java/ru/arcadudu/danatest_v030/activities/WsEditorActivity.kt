@@ -3,6 +3,7 @@ package ru.arcadudu.danatest_v030.activities
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.models.WordSet
+import java.io.Serializable
 
 private lateinit var binding:ActivityWsEditorBinding
 private lateinit var btnEdit:ImageView
@@ -34,6 +36,15 @@ class WsEditorActivity : AppCompatActivity() {
 
         tvTitle.text = incomingWordSet.name
         tvDetails.text = incomingWordSet.description
+
+        var itemList = intent.getSerializableExtra("key") as ArrayList<WordSet>
+        for(item in itemList){
+            Log.d("itemlist", "onCreate: ${item.name}")
+        }
+
+
+
+
 
 
         if(incomingWordSet.isFavorites){

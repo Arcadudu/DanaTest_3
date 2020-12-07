@@ -54,13 +54,14 @@
 
             <ImageView
                 android:id="@+id/ws_frag_search_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="12dp"
+                android:elevation="3dp"
                 android:src="@drawable/icon_search_light_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"
+                app:layout_constraintStart_toStartOf="@id/et_ws_frag_searchfield"
+                app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />
 
             <EditText
                 android:id="@+id/et_ws_frag_searchfield"
@@ -73,10 +74,10 @@
                 android:background="@drawable/search_background"
                 android:hint="Какой набор ищем?"
                 android:inputType="text"
-                android:paddingStart="12dp"
+                android:paddingStart="44dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_WS_frag_add_icon"
-                app:layout_constraintStart_toEndOf="@id/ws_frag_search_icon"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
 
@@ -103,14 +104,20 @@
         android:id="@+id/wordSet_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbarThumbVertical="@drawable/scrollbar_drawable"
         android:clipToPadding="false"
         android:paddingTop="6dp"
         android:paddingBottom="120dp"
+        android:scrollbarStyle="insideInset"
+        android:scrollbarSize="4dp"
+        android:verticalScrollbarPosition="right"
+        android:scrollbarThumbVertical="@color/plt_active_blue_light_transparent"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_ws_frag_searchBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

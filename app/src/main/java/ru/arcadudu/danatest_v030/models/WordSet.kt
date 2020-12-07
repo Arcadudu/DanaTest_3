@@ -14,7 +14,9 @@ open class WordSet(var name:String, var description:String, var isFavorites:Bool
 
     }
 
-    val listLength = pairList.size
+    fun getPairList() = pairList
+
+    val pairListSize = pairList.size
 
     fun addPair(key:String, description: String){
         val newPair = Pair(key, description)

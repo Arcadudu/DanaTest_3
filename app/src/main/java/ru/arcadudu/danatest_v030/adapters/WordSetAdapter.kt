@@ -8,22 +8,26 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.WordsetRowLayoutBinding
 import ru.arcadudu.danatest_v030.databinding.WordsetRowLayoutFavBinding
-import ru.arcadudu.danatest_v030.interfaces.ClickableItem
+import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.WordSet
 
-class WordSetAdapter(var clickableItem: ClickableItem) :
+class WordSetAdapter(var transferToEditor: TransferToEditor) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var itemList: MutableList<WordSet> = mutableListOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return when(viewType){
-            0->FavWordSetViewHolder(inflater.inflate(R.layout.wordset_row_layout_fav, parent, false))
-            else->WordSetViewHolder(inflater.inflate(R.layout.wordset_row_layout, parent, false))
+        return when (viewType) {
+            0 -> FavWordSetViewHolder(
+                inflater.inflate(
+                    R.layout.wordset_row_layout_fav,
+                    parent,
+                    false
+                )
+            )
+            else -> WordSetViewHolder(inflater.inflate(R.layout.wordset_row_layout, parent, false))
         }
-
-
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -31,16 +35,14 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       when(holder){
-           is FavWordSetViewHolder->holder.bind(itemList[position])
-           is WordSetViewHolder ->holder.bind(itemList[position])
-       }
-
+        when (holder) {
+            is FavWordSetViewHolder -> holder.bind(itemList[position])
+            is WordSetViewHolder -> holder.bind(itemList[position])
+        }
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
+    override fun getItemCount() = itemList.size
+
 
     fun submitList(list: MutableList<WordSet>) {
         itemList = list
@@ -76,7 +78,7 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
         private fun goToEditor(position: Int) {
             val wordSet: WordSet = itemList[position]
             Log.d("AAA", "adapter goToEditor: ${wordSet == null} ")
-            clickableItem.clickToEditor(wordSet)
+            transferToEditor.clickToEditor(wordSet)
         }
     }
 
@@ -102,7 +104,7 @@ class WordSetAdapter(var clickableItem: ClickableItem) :
         private fun goToEditor(position: Int) {
             val wordSet: WordSet = itemList[position]
             Log.d("AAA", "adapter goToEditor: ${wordSet == null} ")
-            clickableItem.clickToEditor(wordSet)
+            transferToEditor.clickToEditor(wordSet)
         }
 
 

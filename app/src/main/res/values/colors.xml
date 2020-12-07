@@ -11,11 +11,13 @@
 
 <!--palette-->
     <color name="plt_background_light">#f2f2f2</color>
-    <color name="plt_active_blue_light">#529ff7</color>
+    <color name="plt_active_blue">#529ff7</color>
+    <color name="plt_active_blue_light_transparent">#CC71B3FF</color>
     <color name="plt_active_blue_dark">#2787f5</color>
     <color name="plt_semi_active_blue_light">#bddbfc</color>
     <color name="plt_almost_black">#363636</color>
-    <color name="plt_subtext_grey">#828282</color>
+    <color name="plt_subtext_grey">#CC676767</color>
+    <color name="edit_text_loupe">#80676767</color>
     <color name="plt_grey_light">#CDCDCD</color>
     <color name="plt_divider_light">#E6E6E6</color>
 

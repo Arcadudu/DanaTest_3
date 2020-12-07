@@ -126,12 +126,13 @@
 
             <ImageView
                 android:id="@+id/editor_search_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="12dp"
+                android:elevation="3dp"
                 android:src="@drawable/icon_search_light_blue"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/et_editor_searchField"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
@@ -145,11 +146,13 @@
                 android:background="@drawable/search_background"
                 android:hint="Какое слово ищем?"
                 android:inputType="text"
-                android:paddingStart="12dp"
+                android:paddingStart="44dp"
+                android:textColorHint="@color/plt_subtext_grey"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_editor_add_icon"
-                app:layout_constraintStart_toEndOf="@id/editor_search_icon"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView

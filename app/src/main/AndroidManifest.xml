@@ -9,7 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DanaTest_v030">
-        <activity android:name=".activities.WsEditorActivity"></activity>
+        <activity
+            android:name=".activities.tests.VariantsActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.tests.TranslateActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".activities.tests.ShuffleActivity" />
+        <activity
+            android:name=".activities.WsEditorActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".activities.HomeActivity"
             android:windowSoftInputMode="adjustNothing">
