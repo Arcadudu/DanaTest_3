@@ -1,14 +1,13 @@
 package ru.arcadudu.danatest_v030.activities.tests
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ProgressBar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import ru.arcadudu.danatest_v030.R
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.*
 import ru.arcadudu.danatest_v030.adapters.VariantsCardAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityVariantsBinding
+import ru.arcadudu.danatest_v030.interfaces.ICheckWord
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
 import ru.arcadudu.danatest_v030.utils.getWordSet
@@ -21,7 +20,7 @@ private lateinit var myAdapter: VariantsCardAdapter
 private lateinit var wordSet: WordSet
 private lateinit var pairList: MutableList<Pair>
 
-class VariantsActivity : AppCompatActivity() {
+class VariantsActivity : AppCompatActivity() , ICheckWord{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVariantsBinding.inflate(layoutInflater)
@@ -39,9 +38,15 @@ class VariantsActivity : AppCompatActivity() {
             adapter = myAdapter
             layoutManager =
                 LinearLayoutManager(this@VariantsActivity, LinearLayoutManager.HORIZONTAL, false)
+
             PagerSnapHelper().attachToRecyclerView(this)
         }
 
 
+    }
+
+    override fun checkWord(word: String) {
+        Toast.makeText(this@VariantsActivity, "word is $word", Toast.LENGTH_SHORT).show()
+        Log.d("radio", "activity: word is $word ")
     }
 }

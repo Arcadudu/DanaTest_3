@@ -44,7 +44,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
 
 
         fun bind(wordSet: WordSet) {
-            //private var pairList:MutableList<Pair> = mutableListOf()
+
             val position = bindingAdapterPosition
             iProgress = TranslateActivity()
             //
@@ -53,20 +53,15 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
                 if (pairs.size != 0) {
 
                     tvPairSetTitle.text = wordSet.name
-
                     tvPairSetCount.text = "${position + 1}/${pairs.size}"
-
                     tvQuestWord.text = pairs[position].key
 
+
                     btnAddToFav.setOnClickListener {
-//                        if(isFav){
-//                            constraintBackground.setBackgroundResource(R.drawable.test_cardview_background_fav)
-//                            iconIsFav.visibility = View.VISIBLE
-//                        }else{
-//                            constraintBackground.setBackgroundResource(R.drawable.test_cardview_background)
-//                        }
-//                        isFav = !isFav
+
                     }
+
+
 
                     btnConfirm.setOnClickListener {
                         // todo: checking quest=>answer correctness
@@ -76,13 +71,8 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
                         Log.d("progress", "bind: done = $done")
                         iProgress.setTestProgress((done*multiply))
                     }
-
-
                 }
-
-
                 // todo -> checking quest+answer via interface
-
             }
         }
 

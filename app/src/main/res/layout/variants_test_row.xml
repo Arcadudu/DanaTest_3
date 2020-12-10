@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="420dp">
+    android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="408dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -70,50 +72,53 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider" />
 
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/tv_quest_word"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:elevation="3dp">
 
-            <Button
-                android:id="@+id/btn_var1"
-                style="@style/TextStyle_bs_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="52dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:background="@color/plt_background_light"
-                android:text="var1"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_quest_word" />
+                    <RadioButton
+                        android:id="@+id/radio_var1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Forearm"
+                        style="@style/Variants_text"
+                        android:background="@drawable/radio_button_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        />
 
-            <Button
-                android:id="@+id/btn_var2"
-                style="@style/TextStyle_bs_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/plt_background_light"
-                android:text="var2"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_var1" />
+                    <RadioButton
+                        android:id="@+id/radio_var2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/radio_button_selector"
+                        style="@style/Variants_text"
+                        android:text="Fouramr"
+                        android:button="@null"
+                        android:gravity="center"
+                        />
 
-            <Button
-                android:id="@+id/btn_var3"
-                style="@style/TextStyle_bs_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/plt_background_light"
-                android:text="var3"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_var2" />
+                    <RadioButton
+                        android:id="@+id/radio_var3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/radio_button_selector"
+                        android:text="Fromarm"
+                        style="@style/Variants_text"
+                        android:button="@android:color/transparent"
+                        android:gravity="center"
+                        />
+
+                </RadioGroup>
+
+
 
             <ImageButton
                 android:id="@+id/btn_add_to_fav"
@@ -121,7 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp"
                 android:background="@color/white"
                 android:clickable="true"
@@ -132,7 +137,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_var3" />
+                app:layout_constraintTop_toBottomOf="@id/radio_group" />
 
             <ImageButton
                 android:id="@+id/btn_confirm"
@@ -158,3 +163,4 @@
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
