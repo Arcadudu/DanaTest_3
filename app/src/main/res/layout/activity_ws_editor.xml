@@ -8,7 +8,7 @@
     tools:context=".activities.WsEditorActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/action_bar"
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
         app:cardCornerRadius="0dp"
         android:layout_height="?attr/actionBarSize"
@@ -78,7 +78,7 @@
         app:cardCornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/action_bar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

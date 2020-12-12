@@ -8,38 +8,20 @@
     tools:context=".fragments.ProfileFragment">
 
 
-    <androidx.cardview.widget.CardView
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="40dp"
+        app:title="Статистика"
+        android:elevation="6dp"
         android:background="@color/white"
-        app:cardElevation="2dp"
+        app:titleTextAppearance="@style/appbar_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <TextView
-                android:id="@+id/tv_stats_fragment_title"
-                style="@style/TextStyle_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Статистика"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
 
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.cardview.widget.CardView>
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

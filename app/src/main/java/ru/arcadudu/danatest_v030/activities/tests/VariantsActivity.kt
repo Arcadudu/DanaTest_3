@@ -46,7 +46,7 @@ class VariantsActivity : AppCompatActivity() , ICheckWord{
     }
 
     override fun checkWord(word: String) {
-        Toast.makeText(this@VariantsActivity, "word is $word", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this@VariantsActivity, "word is $word", Toast.LENGTH_SHORT).show()
         Log.d("radio", "activity: word is $word ")
     }
 }

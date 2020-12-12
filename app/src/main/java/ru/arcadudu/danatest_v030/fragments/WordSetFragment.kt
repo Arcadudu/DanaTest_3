@@ -162,7 +162,6 @@ class WordSetFragment : Fragment(), TransferToEditor {
                             "$chosenItemName удалено",
                             5000
                         ).setBackgroundTint(resources.getColor(R.color.plt_active_blue))
-                            .setAnchorView(R.id.my_navigation_bar)
                             .setAction("Отмена", View.OnClickListener {
                                 itemList.add(position, chosenItem)
                                 myAdapter.notifyItemInserted(position)
