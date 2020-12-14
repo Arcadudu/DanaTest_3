@@ -23,7 +23,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Forearm" />
+            android:text="Forearm"
+            style="@style/TextStyle_quest_word"
+            android:textStyle="normal"
+            android:textSize="18sp"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -46,7 +49,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Предплечье" />
+            android:text="Предплечье"
+            style="@style/TextStyle_quest_word"
+            android:textSize="18sp"
+            android:textStyle="normal"/>
 
     </androidx.cardview.widget.CardView>
 

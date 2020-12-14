@@ -24,6 +24,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|snap"
+            app:menu="@menu/ws_editor_menu"
+            app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
             app:subtitle="subtitle"
             app:title="WordSetTitle">
 
@@ -63,7 +65,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/search_background"
-                    android:hint="Какое слово ищем?"
+                    android:hint="Поиск слова"
                     android:inputType="text"
                     android:paddingStart="44dp"
                     android:textColorHint="@color/plt_subtext_grey"
@@ -107,6 +109,6 @@
         android:scrollbarThumbVertical="@color/plt_active_blue_light_transparent"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

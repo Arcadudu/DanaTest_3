@@ -63,7 +63,14 @@ class WordSetFragment : Fragment(), TransferToEditor {
                 layoutManager = LinearLayoutManager(activity)
 //                val snapper: SnapHelper = LinearSnapHelper()
 //                snapper.attachToRecyclerView(this)
-
+                var divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+                divider.setDrawable(
+                    resources.getDrawable(
+                        R.drawable.divider_drawable,
+                        activity?.theme
+                    )
+                )
+                addItemDecoration(divider)
             }
 
         initSwiper(recyclerView)
