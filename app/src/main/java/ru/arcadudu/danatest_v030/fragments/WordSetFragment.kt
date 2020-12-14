@@ -20,6 +20,7 @@ import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.databinding.FragmentWordSetBinding
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.utils.getWordSet
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -69,6 +70,7 @@ class WordSetFragment : Fragment(), TransferToEditor {
 
 
         etSearch = binding.etWsFragSearchfield
+        etSearch.hint = "Поиск набора"
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -88,11 +90,11 @@ class WordSetFragment : Fragment(), TransferToEditor {
             added++
 //            Toast.makeText(activity, "you added new wordSet", Toast.LENGTH_SHORT).show()
             itemList.add(
-                1,
-                WordSet(
-                    name = "new Item $added",
-                    description = "This is an item tt you added pushing plus button"
-                )
+                1, getWordSet()
+//                WordSet(
+//                    name = "new Item $added",
+//                    description = "This is an item tt you added pushing plus button"
+//                )
             )
             myAdapter.notifyItemInserted(1)
             val layoutManager = recyclerView.layoutManager

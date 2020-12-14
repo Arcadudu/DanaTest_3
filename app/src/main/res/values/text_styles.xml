@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="appbar_title">
+    <style name="toolbar_title">
         <item name="android:textSize">22sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/black</item>

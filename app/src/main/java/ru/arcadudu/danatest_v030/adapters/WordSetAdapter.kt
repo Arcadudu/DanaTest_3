@@ -41,7 +41,7 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
         }
     }
 
-    override fun getItemCount() = itemList.size
+    override fun getItemCount() = itemList.count()
 
 
     fun submitList(list: MutableList<WordSet>) {

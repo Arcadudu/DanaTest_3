@@ -37,7 +37,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
         holderTranslate.bind(wordSet)
     }
 
-    override fun getItemCount() = pairs.size
+    override fun getItemCount() = pairs.count()
 
     inner class TranslateCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = TranslateTestRowBinding.bind(itemView)

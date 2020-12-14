@@ -39,7 +39,7 @@ class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCar
         holderShuffle.bind(wordSet)
     }
 
-    override fun getItemCount() = pairs.size
+    override fun getItemCount() = pairs.count()
 
     inner class VariantsCardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = VariantsTestRowBinding.bind(itemView)

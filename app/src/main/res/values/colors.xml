@@ -20,6 +20,7 @@
     <color name="edit_text_loupe">#80676767</color>
     <color name="plt_grey_light">#CDCDCD</color>
     <color name="plt_divider_light">#E6E6E6</color>
+    <color name="plt_search_bar_background">#ECEDF1</color>
     <color name="navigation_bar">#ECECEC</color>
 
     <color name="plt_transparent_background">#80000000</color>
