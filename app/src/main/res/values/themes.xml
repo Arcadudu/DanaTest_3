@@ -86,4 +86,13 @@
 
     </style>
 
+    <style name="PairRow">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/plt_almost_black</item>
+
+
+    </style>
+
 </resources>

@@ -2,7 +2,6 @@ package ru.arcadudu.danatest_v030.activities.tests
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.*
 import ru.arcadudu.danatest_v030.adapters.VariantsCardAdapter
@@ -10,7 +9,7 @@ import ru.arcadudu.danatest_v030.databinding.ActivityVariantsBinding
 import ru.arcadudu.danatest_v030.interfaces.ICheckWord
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
-import ru.arcadudu.danatest_v030.utils.getWordSet
+import ru.arcadudu.danatest_v030.utils.getFakeWordSet
 
 //private lateinit var binding: ActivityShuffleTranslateBinding
 private lateinit var binding: ActivityVariantsBinding
@@ -28,7 +27,7 @@ class VariantsActivity : AppCompatActivity() , ICheckWord{
         setContentView(view)
 
 
-        wordSet = getWordSet()
+        wordSet = getFakeWordSet()
         pairList = wordSet.getPairList()
 
         recyclerView = binding.varsRecycler

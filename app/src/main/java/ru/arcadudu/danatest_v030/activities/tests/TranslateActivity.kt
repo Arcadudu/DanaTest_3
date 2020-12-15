@@ -11,7 +11,7 @@ import ru.arcadudu.danatest_v030.databinding.ActivityShuffleTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
-import ru.arcadudu.danatest_v030.utils.getWordSet
+import ru.arcadudu.danatest_v030.utils.getFakeWordSet
 
 private lateinit var binding: ActivityShuffleTranslateBinding
 private lateinit var recyclerView: RecyclerView
@@ -31,7 +31,7 @@ class TranslateActivity : AppCompatActivity(), IProgress {
 
 
         //getting chosen wordSet + extracting pairList
-        wordSet = getWordSet()
+        wordSet = getFakeWordSet()
         pairList = wordSet.getPairList()
 
 

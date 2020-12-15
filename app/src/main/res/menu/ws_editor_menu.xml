@@ -4,9 +4,8 @@
 
     <item
         android:id="@+id/toolbar_edit"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/icon_edit_blue"
         android:title="edit"
-        />
+        app:showAsAction="always" />
 
 </menu>

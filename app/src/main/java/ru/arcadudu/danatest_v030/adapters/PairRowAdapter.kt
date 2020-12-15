@@ -28,6 +28,10 @@ class PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() 
     }
 
     override fun getItemCount() = pairList.count()
+    fun filterList(filteredList: MutableList<Pair>) {
+        pairList = filteredList
+        notifyDataSetChanged()
+    }
 
     inner class PairRowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = PairRowLayoutBinding.bind(itemView)

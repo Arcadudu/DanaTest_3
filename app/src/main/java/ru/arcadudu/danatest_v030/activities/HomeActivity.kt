@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.databinding.ActivityMainBinding
 import ru.arcadudu.danatest_v030.fragments.*
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var homeFragment: HomeFragment
     private lateinit var profileFragment: ProfileFragment
@@ -20,32 +23,33 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         homeFragment = HomeFragment()
+        statsFragment = StatsFragment()
         profileFragment = ProfileFragment()
         wordSetFragment = WordSetFragment()
-        statsFragment = StatsFragment()
         settingsFragment = SettingsFragment()
         setFragment(homeFragment)
 
-        bottomNavigationView = findViewById(R.id.my_navigation_bar)
-        bottomNavigationView.selectedItemId = R.id.home_item
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            val selectedFragment: Fragment =
-                when (item.itemId) {
-                    R.id.home_item -> homeFragment
-                    R.id.profile_item -> profileFragment
-                    R.id.wordset_item -> wordSetFragment
-                    R.id.stats_item -> statsFragment
-                    R.id.settings_item -> settingsFragment
-                    else -> homeFragment
-                }
-            setFragment(selectedFragment)
-            true
+        bottomNavigationView = binding.myNavigationBar.apply {
+            selectedItemId = R.id.home_item
+            setOnNavigationItemSelectedListener { item ->
+                val selectedFragment: Fragment =
+                    when (item.itemId) {
+                        R.id.home_item -> homeFragment
+                        R.id.profile_item -> profileFragment
+                        R.id.wordset_item -> wordSetFragment
+                        R.id.stats_item -> statsFragment
+                        R.id.settings_item -> settingsFragment
+                        else -> homeFragment
+                    }
+                setFragment(selectedFragment)
+                true
+            }
         }
-
-
     }
 
     private fun setFragment(fragment: Fragment) {
@@ -53,8 +57,5 @@ class HomeActivity : AppCompatActivity() {
             .replace(R.id.fl_fragment_container, fragment)
             .addToBackStack(null)
             .commit()
-
     }
-
-
 }

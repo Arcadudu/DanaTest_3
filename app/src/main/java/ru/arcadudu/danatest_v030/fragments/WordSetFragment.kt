@@ -20,7 +20,8 @@ import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.databinding.FragmentWordSetBinding
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.WordSet
-import ru.arcadudu.danatest_v030.utils.getWordSet
+import ru.arcadudu.danatest_v030.utils.getFakeWordSet
+import ru.arcadudu.danatest_v030.utils.getTimeWordSet
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -63,7 +64,8 @@ class WordSetFragment : Fragment(), TransferToEditor {
                 layoutManager = LinearLayoutManager(activity)
 //                val snapper: SnapHelper = LinearSnapHelper()
 //                snapper.attachToRecyclerView(this)
-                var divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+
+                val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
                 divider.setDrawable(
                     resources.getDrawable(
                         R.drawable.divider_drawable,
@@ -71,6 +73,7 @@ class WordSetFragment : Fragment(), TransferToEditor {
                     )
                 )
                 addItemDecoration(divider)
+               
             }
 
         initSwiper(recyclerView)
@@ -97,7 +100,7 @@ class WordSetFragment : Fragment(), TransferToEditor {
             added++
 //            Toast.makeText(activity, "you added new wordSet", Toast.LENGTH_SHORT).show()
             itemList.add(
-                1, getWordSet()
+                1, getTimeWordSet()
 //                WordSet(
 //                    name = "new Item $added",
 //                    description = "This is an item tt you added pushing plus button"
@@ -131,8 +134,8 @@ class WordSetFragment : Fragment(), TransferToEditor {
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                val fromPosition = viewHolder.adapterPosition
-                val toPosition = target.adapterPosition
+                val fromPosition = viewHolder.bindingAdapterPosition
+                val toPosition = target.bindingAdapterPosition
 
                 return if (fromPosition != 0 && toPosition != 0) {
                     Collections.swap(itemList, fromPosition, toPosition)
@@ -146,24 +149,26 @@ class WordSetFragment : Fragment(), TransferToEditor {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.bindingAdapterPosition
                 val chosenItem: WordSet = itemList[position]
                 val chosenItemName = chosenItem.name
 
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-//                        val builder = AlertDialog.Builder(activity)
-//                        builder.apply {
-//                            setTitle("Удалить набор ${chosenItem.name}?")
-//                            setPositiveButton("Ок", DialogInterface.OnClickListener{dialog, which ->
-//                                itemList.remove(chosenItem)
-//                                myAdapter.notifyItemRemoved(position)
-//                            })
-//                            setNegativeButton("Отмена",DialogInterface.OnClickListener{dialog, which ->
-//                                dialog.dismiss()
-//                            })
-//                            show()
-//                        }
+/*
+val builder = AlertDialog.Builder(activity)
+builder.apply {
+setTitle("Удалить набор ${chosenItem.name}?")
+setPositiveButton("Ок", DialogInterface.OnClickListener{dialog, which ->
+itemList.remove(chosenItem)
+myAdapter.notifyItemRemoved(position)
+})
+setNegativeButton("Отмена",DialogInterface.OnClickListener{dialog, which ->
+dialog.dismiss()
+})
+show()
+}
+*/
                         itemList.remove(chosenItem)
                         myAdapter.notifyItemRemoved(position)
                         Snackbar.make(
@@ -191,9 +196,9 @@ class WordSetFragment : Fragment(), TransferToEditor {
     private fun filter(text: String) {
         val filteredList: MutableList<WordSet> = mutableListOf()
         for (item in itemList) {
-            if (item.name.toLowerCase()
-                    .contains(text.toLowerCase()) || item.description.toLowerCase()
-                    .contains(text.toLowerCase())
+            if (item.name.toLowerCase(Locale.ROOT)
+                    .contains(text.toLowerCase(Locale.ROOT)) || item.description.toLowerCase(Locale.ROOT)
+                    .contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
             }
