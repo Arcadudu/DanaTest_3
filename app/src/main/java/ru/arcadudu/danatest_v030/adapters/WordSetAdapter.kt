@@ -14,7 +14,16 @@ import ru.arcadudu.danatest_v030.models.WordSet
 class WordSetAdapter(var transferToEditor: TransferToEditor) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var itemList: MutableList<WordSet> = mutableListOf()
+//    private lateinit var swipeListener : OnItemSwipedListener
 
+    interface OnItemSwipedListener{
+        fun showRemoveAlertDialog(position:Int)
+    }
+
+    fun removeItem(position: Int){
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

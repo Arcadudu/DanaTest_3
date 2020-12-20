@@ -16,6 +16,11 @@ class PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() 
         pairList = list
     }
 
+    fun removeItem(position: Int){
+        pairList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PairRowViewHolder {
         return PairRowViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.pair_row_layout, parent, false)

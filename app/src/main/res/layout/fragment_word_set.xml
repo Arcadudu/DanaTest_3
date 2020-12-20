@@ -9,7 +9,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -61,7 +62,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/search_background"
+                    android:background="@drawable/background_edit_text"
                     android:hint="Какой набор ищем?"
                     android:inputType="text"
                     android:paddingStart="44dp"
@@ -70,6 +71,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlSymmetry" />
+
+                <ImageView
+                    android:id="@+id/btn_search_close"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/icon_close_search_gray"
+                    app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield"
+                    app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"
+                    app:layout_constraintEnd_toEndOf="@id/et_ws_frag_searchfield"
+                     />
 
                 <ImageView
                     android:id="@+id/iv_WS_frag_add_icon"
@@ -99,11 +111,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:scrollbarSize="3dp"
         android:scrollbarStyle="insideOverlay"
-        android:scrollbarThumbVertical="@color/plt_active_blue_light_transparent"
+        android:scrollbarThumbVertical="@color/plt_search_icons"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

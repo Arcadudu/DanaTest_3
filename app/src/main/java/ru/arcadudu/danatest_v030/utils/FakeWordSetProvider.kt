@@ -36,9 +36,12 @@ var gbEng = listOf("island", "islands", "average", "temperature", "above", "thou
 fun getTimeWordSet():WordSet{
     val wordSet = WordSet("Time WordSet", "This is time wordSet", false)
     if(gbRu.count() == gbEng.count()){
-        for(i in gbRu.indices){
-            wordSet.addPair(gbEng[i].capitalize(), gbRu[i].capitalize())
+        for(i in 0..3){
+            for(i in gbRu.indices){
+                wordSet.addPair(gbEng[i].capitalize(), gbRu[i].capitalize())
+            }
         }
+
     }
     return wordSet
 }

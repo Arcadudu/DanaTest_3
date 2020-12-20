@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-        <solid android:color="@color/plt_active_blue" />
-        <gradient android:type="radial"
-                android:gradientRadius="170dp"
-                android:startColor="@color/plt_active_blue_light_transparent"
-                android:endColor="@color/plt_background_light"
-            />
-</shape>

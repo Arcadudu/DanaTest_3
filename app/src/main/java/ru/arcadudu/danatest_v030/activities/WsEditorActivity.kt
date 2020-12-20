@@ -1,21 +1,26 @@
 package ru.arcadudu.danatest_v030.activities
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.util.Log
+import android.view.*
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
+import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
+import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
 import java.util.*
@@ -26,11 +31,13 @@ private lateinit var search: EditText
 private lateinit var recyclerView: RecyclerView
 private lateinit var myAdapter: PairRowAdapter
 
+private lateinit var searchCloseBtn: ImageView
+private lateinit var addPairBtn: ImageView
 
 private lateinit var currentWordSet: WordSet
 private lateinit var currentPairList: MutableList<Pair>
 
-class WsEditorActivity : AppCompatActivity() {
+class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +58,14 @@ class WsEditorActivity : AppCompatActivity() {
             subtitle = currentWordSet.description
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
-            navigationIcon = resources.getDrawable(R.drawable.icon_arrow_back_blue)
+            navigationIcon = resources.getDrawable(R.drawable.icon_arrow_back_blue, theme)
             setNavigationOnClickListener {
                 //todo: save wordSet state
                 onBackPressed()
             }
 
         }
+
 
         recyclerView = binding.pairsRecycler.apply {
             myAdapter = PairRowAdapter()
@@ -92,33 +100,36 @@ class WsEditorActivity : AppCompatActivity() {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
+                    if (s.toString().isNotEmpty()) {
+                        searchCloseBtn.apply {
+                            visibility = View.VISIBLE
+                            isEnabled = true
+                        }
+                    } else {
+                        searchCloseBtn.apply {
+                            visibility = View.GONE
+                            isEnabled = false
+                        }
+                    }
                     filter(s.toString())
                 }
 
             })
         }
 
-
-/*
-*  etSearch = binding.etWsFragSearchfield
-        etSearch.hint = "Поиск набора"
-        etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        searchCloseBtn = binding.btnSearchClose.apply {
+            visibility = View.GONE
+            setOnClickListener {
+                if (searchCloseBtn.visibility == View.VISIBLE) {
+                    search.setText("")
+                }
             }
+        }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                filter(s.toString())
-            }
-        })*/
-
-
-        /*val itemList = intent.getSerializableExtra("key") as ArrayList<WordSet>
-        for (item in itemList) {
-            Log.d("itemlist", "onCreate: ${item.name}")
-        }*/
+        addPairBtn = binding.ivEditorAddIcon
+        addPairBtn.setOnClickListener {
+            showAddNewPairAlertDialog()
+        }
 
 
     }
@@ -151,11 +162,20 @@ class WsEditorActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                when (direction) {
+                    ItemTouchHelper.LEFT -> {
+                        showRemoveAlertDialog(position)
+                        Log.d("Swipe", "activity: swiped left")
+                    }
+                }
+
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
+
 
     private fun filter(text: String) {
         val filteredList: MutableList<Pair> = mutableListOf()
@@ -183,6 +203,91 @@ class WsEditorActivity : AppCompatActivity() {
         }
         return true
     }
+
+    override fun showRemoveAlertDialog(position: Int) {
+        Log.d("Swipe", "showRemoveAlertDialog: called ")
+        val chosenPair: Pair = currentPairList[position]
+        val itemName = "${chosenPair.key} / ${chosenPair.value}"
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setTitle("Удаление пары")
+            setMessage("Вы действительно хотите удалить пару\n\"$itemName\" ?")
+
+            setPositiveButton("Удалить", DialogInterface.OnClickListener { _, _ ->
+                myAdapter.removeItem(position)
+                Snackbar.make(
+                    recyclerView,
+                    "\"$itemName\" удалено",
+                    3000
+                ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, theme))
+                    .setAction("Отмена", View.OnClickListener {
+                        currentPairList.add(position, chosenPair)
+                        myAdapter.notifyItemInserted(position)
+                    })
+                    .show()
+
+            })
+            setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
+                myAdapter.notifyDataSetChanged()
+            })
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val btnCancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(getColor(R.color.plt_almost_black))
+        val btnOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(getColor(R.color.plt_almost_black))
+
+    }
+
+    private fun showAddNewPairAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this)
+        val view: View = inflater.inflate(R.layout.dialog_add_pair, null)
+
+        val dialogBinding = DialogAddPairBinding.bind(view)
+        val editTextKey = dialogBinding.etNewPairKey
+        val editTextValue = dialogBinding.etNewPairValue
+
+
+        builder.setView(inflater.inflate(R.layout.dialog_add_pair, null))
+            .setPositiveButton("Добавить", DialogInterface.OnClickListener { _, _ ->
+                val keyStr = editTextKey.text.toString()
+                val valueStr = editTextValue.text.toString()
+
+/*                val keyStr = dialogBinding.etNewPairKey.text.toString().trim()
+                val valueStr = dialogBinding.etNewPairValue.text.toString().trim()*/
+                Log.d(
+                    "pair",
+                    "showAddNewPairAlertDialog: keyStr = $keyStr | valueStr = $valueStr"
+                )
+                Log.d(
+                    "pair",
+                    "showAddNewPairAlertDialog: before currentPairList size = ${currentPairList.size} "
+                )
+                currentPairList.add(0, Pair(keyStr, valueStr))
+                Log.d(
+                    "pair",
+                    "showAddNewPairAlertDialog: after currentPairList size = ${currentPairList.size} "
+                )
+                myAdapter.notifyItemInserted(0)
+            })
+            .setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
+                myAdapter.notifyDataSetChanged()
+            })
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val btnCancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(getColor(R.color.plt_almost_black))
+        val btnAdd = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(getColor(R.color.plt_almost_black))
+    }
+
+
 }
 
 //private fun checkForFav(incomingWordSet: WordSet) {

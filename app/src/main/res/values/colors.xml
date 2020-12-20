@@ -17,7 +17,7 @@
     <color name="plt_semi_active_blue_light">#bddbfc</color>
     <color name="plt_almost_black">#363636</color>
     <color name="plt_subtext_grey">#CC676767</color>
-    <color name="edit_text_loupe">#80676767</color>
+    <color name="plt_search_icons">#80676767</color>
     <color name="plt_grey_light">#CDCDCD</color>
     <color name="plt_divider_light">#E6E6E6</color>
     <color name="plt_search_bar_background">#ECEDF1</color>

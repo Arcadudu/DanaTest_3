@@ -18,8 +18,8 @@ private lateinit var recyclerView: RecyclerView
 private lateinit var testAdapter: TranslateCardAdapter
 private lateinit var progressBar: ProgressBar
 
-private lateinit var wordSet:WordSet
-private lateinit var pairList:MutableList<Pair>
+private lateinit var wordSet: WordSet
+private lateinit var pairList: MutableList<Pair>
 const val multiply = 1000
 
 class TranslateActivity : AppCompatActivity(), IProgress {
@@ -50,7 +50,7 @@ class TranslateActivity : AppCompatActivity(), IProgress {
 
         progressBar = binding.progressHorizontal
         Log.d("progress", "onCreate: pairListSize = ${wordSet.pairListSize}")
-        progressBar.max = pairList.size* multiply
+        progressBar.max = pairList.size * multiply
         Log.d("progress", "onCreate: progressbar max = ${progressBar.max} ")
 
 
