@@ -11,7 +11,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.models.Pair
 
 class AddPairDialogFragment(
@@ -34,6 +33,7 @@ class AddPairDialogFragment(
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        Log.d("pair", "onCreateDialog: creating dialog from class")
         return activity?.let {
             // Use the Builder class for convenient dialog construction
             builder = AlertDialog.Builder(it)
@@ -56,6 +56,7 @@ class AddPairDialogFragment(
                     dialog?.cancel()
                 })
             }
+            Log.d("pair", "onCreateDialog: builder is ready ")
             // Create the AlertDialog object and return it
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

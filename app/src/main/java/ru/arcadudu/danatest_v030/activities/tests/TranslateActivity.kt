@@ -38,15 +38,7 @@ class TranslateActivity : AppCompatActivity(), IProgress {
         Log.d("progress", "onCreate: fakeWordset pairList = ${wordSet.getPairList()}")
 
 
-        recyclerView = binding.translateShuffleRecycler
-        recyclerView.apply {
-            testAdapter = TranslateCardAdapter()
-            testAdapter.submitData(wordSet)
-            adapter = testAdapter
-            layoutManager =
-                LinearLayoutManager(this@TranslateActivity, LinearLayoutManager.HORIZONTAL, false)
-            PagerSnapHelper().attachToRecyclerView(this)
-        }
+
 
         progressBar = binding.progressHorizontal
         Log.d("progress", "onCreate: pairListSize = ${wordSet.pairListSize}")

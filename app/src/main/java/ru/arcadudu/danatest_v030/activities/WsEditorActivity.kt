@@ -1,5 +1,6 @@
 package ru.arcadudu.danatest_v030.activities
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
@@ -19,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
+import ru.arcadudu.danatest_v030.alertDialogs.AddPairDialogFragment
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.models.Pair
@@ -31,6 +33,8 @@ private lateinit var search: EditText
 private lateinit var recyclerView: RecyclerView
 private lateinit var myAdapter: PairRowAdapter
 
+private lateinit var addPairDialog: AddPairDialogFragment
+
 private lateinit var searchCloseBtn: ImageView
 private lateinit var addPairBtn: ImageView
 
@@ -38,6 +42,7 @@ private lateinit var currentWordSet: WordSet
 private lateinit var currentPairList: MutableList<Pair>
 
 class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListener {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +53,8 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
         currentWordSet = intent.getSerializableExtra("selected_wordset") as WordSet
         currentPairList = currentWordSet.getPairList()
 
-
 /*        checkForFav(incomingWordSet)*/
+
 
         toolbar = binding.toolbar
         toolbar.apply {
@@ -63,7 +68,6 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 //todo: save wordSet state
                 onBackPressed()
             }
-
         }
 
 
@@ -128,11 +132,17 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
         addPairBtn = binding.ivEditorAddIcon
         addPairBtn.setOnClickListener {
-            showAddNewPairAlertDialog()
+             showAddNewPairAlertDialog(this){ key, value ->
+                 currentPairList.add(0, Pair(key, value))
+                 myAdapter.notifyItemInserted(0)
+             }
+            Log.d("pair", "onCreate: you pressed addPairBtn ")
+
         }
 
 
     }
+
 
     private fun initSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
@@ -242,36 +252,144 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
     }
 
-    private fun showAddNewPairAlertDialog() {
+
+    private fun showAddNewPairAlertDialog(
+        context: Context,
+        onConfirm: ((String, String) -> Unit)?
+    ): AlertDialog {
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.dialog_add_pair, null, false)//кнопки добавь в верстку
+        val dialog = AlertDialog.Builder(context)
+            .setView(view)
+            .create()
+        val dialogBinding = DialogAddPairBinding.bind(view)
+        var keyString = ""
+        var valueString = ""
+        dialogBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                keyString = s.toString()
+            }
+        })
+        dialogBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                valueString = s.toString()
+            }
+        })
+        dialogBinding.btnAdd.setOnClickListener {
+            if (keyString.isBlank() && valueString.isBlank()) {
+                keyString = "Ключ не задан"
+                valueString = "Значение не задано"
+            }
+            onConfirm?.invoke(keyString, valueString)
+            dialog.dismiss()
+        }
+        dialogBinding.btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+        return dialog
+    }
+
+    /*
+        private fun showAddNewPairAlertDialog() {
         val builder = AlertDialog.Builder(this)
         val inflater = LayoutInflater.from(this)
         val view: View = inflater.inflate(R.layout.dialog_add_pair, null)
 
+
         val dialogBinding = DialogAddPairBinding.bind(view)
+
         val editTextKey = dialogBinding.etNewPairKey
+
         val editTextValue = dialogBinding.etNewPairValue
 
 
         builder.setView(inflater.inflate(R.layout.dialog_add_pair, null))
             .setPositiveButton("Добавить", DialogInterface.OnClickListener { _, _ ->
-                val keyStr = editTextKey.text.toString()
-                val valueStr = editTextValue.text.toString()
-
-/*                val keyStr = dialogBinding.etNewPairKey.text.toString().trim()
-                val valueStr = dialogBinding.etNewPairValue.text.toString().trim()*/
+*//*                val keyStr = dialogBinding.etNewPairKey.text.toString().trim()
+                val valueStr = dialogBinding.etNewPairValue.text.toString().trim()*//*
                 Log.d(
                     "pair",
-                    "showAddNewPairAlertDialog: keyStr = $keyStr | valueStr = $valueStr"
+                    "showAddNewPairAlertDialog: keyStr = $keyString | valueStr = $valueString"
                 )
                 Log.d(
                     "pair",
                     "showAddNewPairAlertDialog: before currentPairList size = ${currentPairList.size} "
                 )
-                currentPairList.add(0, Pair(keyStr, valueStr))
                 Log.d(
                     "pair",
                     "showAddNewPairAlertDialog: after currentPairList size = ${currentPairList.size} "
                 )
+
+                editTextKey.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        keyString = s.toString().trim()
+                    }
+
+                })
+
+                editTextValue.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        valueString = s.toString().trim()
+                    }
+
+                })
+                currentPairList.add(0, Pair(keyString, valueString))
+
                 myAdapter.notifyItemInserted(0)
             })
             .setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
@@ -285,7 +403,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
             .setTextColor(getColor(R.color.plt_almost_black))
         val btnAdd = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             .setTextColor(getColor(R.color.plt_almost_black))
-    }
+    }*/
 
 
 }
