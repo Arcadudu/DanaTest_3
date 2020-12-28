@@ -33,6 +33,7 @@ class PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() 
     }
 
     override fun getItemCount() = pairList.count()
+
     fun filterList(filteredList: MutableList<Pair>) {
         pairList = filteredList
         notifyDataSetChanged()

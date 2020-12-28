@@ -225,9 +225,19 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         dialog.show()
 
         val btnCancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-        btnCancel.setTextColor(resources.getColor(R.color.plt_almost_black, activity?.theme))
+        btnCancel.apply {
+//            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
+            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
+
+        }
+
         val btnOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        btnOk.setTextColor(resources.getColor(R.color.plt_almost_black, activity?.theme))
+        btnOk.apply {
+//            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
+            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
+        }
+
+
 
 
     }

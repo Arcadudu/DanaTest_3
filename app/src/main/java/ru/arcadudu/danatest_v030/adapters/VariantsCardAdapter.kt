@@ -8,7 +8,7 @@ import android.widget.RadioGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.tests.VariantsActivity
-import ru.arcadudu.danatest_v030.databinding.VariantsTestRowBinding
+import ru.arcadudu.danatest_v030.databinding.TestVariantsRowBinding
 import ru.arcadudu.danatest_v030.interfaces.ICheckWord
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair
@@ -31,7 +31,7 @@ class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCar
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariantsCardHolder {
         return VariantsCardHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.variants_test_row, parent, false)
+                .inflate(R.layout.test_variants_row, parent, false)
         )
     }
 
@@ -42,7 +42,7 @@ class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCar
     override fun getItemCount() = pairs.count()
 
     inner class VariantsCardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = VariantsTestRowBinding.bind(itemView)
+        private val binding = TestVariantsRowBinding.bind(itemView)
 
 
         fun bind(wordSet: WordSet) {

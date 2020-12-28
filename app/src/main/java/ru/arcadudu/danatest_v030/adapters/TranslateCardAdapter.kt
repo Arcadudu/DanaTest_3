@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
-import ru.arcadudu.danatest_v030.databinding.TranslateTestRowBinding
+import ru.arcadudu.danatest_v030.databinding.TestTranslateRowBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
@@ -29,7 +29,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TranslateCardViewHolder {
         return TranslateCardViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.translate_test_row, parent, false)
+                .inflate(R.layout.test_translate_row, parent, false)
         )
     }
 
@@ -40,7 +40,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
     override fun getItemCount() = pairs.count()
 
     inner class TranslateCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = TranslateTestRowBinding.bind(itemView)
+        private val binding = TestTranslateRowBinding.bind(itemView)
 
 
         fun bind(wordSet: WordSet) {

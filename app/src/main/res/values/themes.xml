@@ -68,7 +68,7 @@
 
     <style name="TextStyle_quest_word">
         <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
     </style>
