@@ -9,7 +9,9 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.*
+import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairSelectorAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityShuffleTranslateBinding
@@ -18,104 +20,125 @@ import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
-import ru.arcadudu.danatest_v030.utils.getFakeWordSet
+import ru.arcadudu.danatest_v030.utils.getTimeWordSet
+import java.util.*
 
-private lateinit var binding: ActivityShuffleTranslateBinding
+private lateinit var translateActivityBinding: ActivityShuffleTranslateBinding
 
-private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+private lateinit var toolbar: Toolbar
 private lateinit var progressBar: ProgressBar
-private lateinit var ivMakeFav: ImageView
-private lateinit var etAnswer: EditText
+private lateinit var ivMakePairFavorite: ImageView
+private lateinit var etAnswerField: EditText
 private lateinit var ivDoneBtn: ImageView
 
-private lateinit var recycler: RecyclerView
-private lateinit var layoutManager: LinearLayoutManager
+private lateinit var recyclerView: RecyclerView
+private lateinit var pairSelectorLayoutManager: LinearLayoutManager
 private lateinit var pagerSnapHelper: PagerSnapHelper
-private lateinit var snapView: View
+private lateinit var pairSelectorAdapter: PairSelectorAdapter
 
+private lateinit var currentWordSet: WordSet
+private lateinit var currentPairList: MutableList<Pair>
 
-private lateinit var myAdapter: PairSelectorAdapter
-
-private lateinit var wordSet: WordSet
-private lateinit var pairList: MutableList<Pair>
+private var currentSnapPosition = 0
+private var ivDoneBtnIsShownAndEnabled = false
+private var answerContainsForbiddenLetters = false
 
 class TranslateActivity : AppCompatActivity(), IProgress,
     OnSnapPositionChangeListener {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityShuffleTranslateBinding.inflate(layoutInflater)
-        val view = binding.root
+        translateActivityBinding = ActivityShuffleTranslateBinding.inflate(layoutInflater)
+        val view = translateActivityBinding.root
         setContentView(view)
 
-
         //getting chosen wordSet + extracting pairList
-        wordSet = getFakeWordSet()
-        pairList = wordSet.getPairList()
+        currentWordSet = getTimeWordSet()
+        currentPairList = currentWordSet.getPairList()
 
+        progressBar = translateActivityBinding.progressHorizontal
 
-        Log.d("progress", "onCreate: fakeWordset pairList = ${wordSet.getPairList()}")
+        toolbar = translateActivityBinding.testToolbar
+        prepareToolbar(toolbar)
 
+        recyclerView = translateActivityBinding.questRecyclerview
+        prepareRecyclerView(recyclerView)
 
-        progressBar = binding.progressHorizontal
-        Log.d("progress", "onCreate: pairListSize = ${wordSet.pairListSize}")
+        etAnswerField = translateActivityBinding.etAnswer
+        addTextWatcher(etAnswerField)
 
+        ivDoneBtn = translateActivityBinding.ivDoneBtn
+        showIvDoneBtn(imageView = ivDoneBtn, showAndEnable = false)
+        ivDoneBtn.setOnClickListener {
+            if (ivDoneBtnIsShownAndEnabled) {
+                when (answerContainsForbiddenLetters) {
+                    true -> Toast.makeText(this, "Неприемлимые символы", Toast.LENGTH_SHORT).show()
+                    else -> {
+                        checkAnswerCorrectness(
+                            userAnswer = etAnswerField.text.toString(),
+                            currentSnapPosition
+                        )
+                        setToolbarSubtitle(toolbar, currentSnapPosition + 1)
+                    }
+                }
+            }
+        }
 
-        toolbar = binding.testToolbar
+        ivMakePairFavorite = translateActivityBinding.ivMakeFav
+        ivMakePairFavorite.setOnClickListener {
+            Toast.makeText(
+                this,
+                "${currentPairList[currentSnapPosition].key} added to fav!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+    }
+
+    private fun prepareToolbar(toolbar: Toolbar) {
         toolbar.apply {
             setSupportActionBar(this)
             title = getString(R.string.translate)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            navigationIcon = resources.getDrawable(R.drawable.icon_arrow_back_blue, theme)
+            navigationIcon =
+                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
             setNavigationOnClickListener {
                 onBackPressed()
             }
         }
+    }
 
-
-        etAnswer = binding.etAnswer
-        ivDoneBtn = binding.ivDoneBtn
-        ivDoneBtn.visibility = View.GONE
-        ivDoneBtn.isEnabled = false
-        var contains = false
-        ivDoneBtn.setOnClickListener {
-            if (it.visibility == View.VISIBLE && it.isEnabled) {
-                when (contains) {
-                    true -> Toast.makeText(this, "Неприемлимые символы", Toast.LENGTH_SHORT).show()
-                    else -> Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
-                }
-
-            }
+    private fun prepareRecyclerView(recyclerView: RecyclerView) {
+        pairSelectorLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        pagerSnapHelper = PagerSnapHelper()
+        pairSelectorAdapter = PairSelectorAdapter()
+        pairSelectorAdapter.submitData(currentPairList, this)
+        recyclerView.apply {
+            setHasFixedSize(true)
+            adapter = pairSelectorAdapter
+            layoutManager = pairSelectorLayoutManager
+            attachSnapHelperWithListener(
+                snapHelper = pagerSnapHelper,
+                onSnapPositionChangeListener = this@TranslateActivity
+            )
         }
 
-        etAnswer.addTextChangedListener(object : TextWatcher {
+    }
+
+    private fun addTextWatcher(editText: EditText) {
+        editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                ivDoneBtn.visibility = if (s.toString().isNotEmpty()) View.VISIBLE else View.GONE
-                if (s.toString().isNotEmpty()) {
-                    ivDoneBtn.visibility = View.VISIBLE
-                    ivDoneBtn.isEnabled = true
-                    contains = if (s.toString().toLowerCase().contains(" ")) {
-                        ivDoneBtn.setImageDrawable(
-                            resources.getDrawable(
-                                R.drawable.icon_done_error_red,
-                                theme
-                            )
-                        )
-                        true
-                    } else {
-                        ivDoneBtn.setImageDrawable(resources.getDrawable(R.drawable.icon_done_active_blue))
-                        false
-
-                    }
+                val userAnswer = s.toString().toLowerCase(Locale.ROOT)
+                if (userAnswer.isNotEmpty()) {
+                    showIvDoneBtn(ivDoneBtn, showAndEnable = true)
+                    answerContainsForbiddenLetters = checkAnswerForForbiddenLetters(userAnswer)
+                    setIvDoneBtnAppearance(answerContainsForbiddenLetters)
                 } else {
-                    ivDoneBtn.visibility = View.GONE
-                    ivDoneBtn.isEnabled = false
-
+                    showIvDoneBtn(ivDoneBtn, showAndEnable = false)
                 }
             }
 
@@ -123,41 +146,34 @@ class TranslateActivity : AppCompatActivity(), IProgress,
             }
 
         })
-
-        recycler = binding.questRecyclerview
-        layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-
-
-        recycler.apply {
-            myAdapter = PairSelectorAdapter()
-            myAdapter.submitData(pairList, context)
-            adapter = myAdapter
-            layoutManager =
-                LinearLayoutManager(this@TranslateActivity, LinearLayoutManager.HORIZONTAL, false)
-
-            pagerSnapHelper = PagerSnapHelper()
-            attachSnapHelperWithListener(
-                snapHelper = pagerSnapHelper,
-                onSnapPositionChangeListener = this@TranslateActivity
-            )
-
-        }
-
-
     }
 
+    fun showIvDoneBtn(imageView: ImageView, showAndEnable: Boolean) {
+        when (showAndEnable) {
+            true -> imageView.apply {
+                visibility = View.VISIBLE
+                isEnabled = true
+            }
+            else -> imageView.apply {
+                visibility = View.GONE
+                isEnabled = false
+            }
+        }
+        ivDoneBtnIsShownAndEnabled = showAndEnable
+    }
+
+
     private fun setToolbarSubtitle(toolbar: Toolbar, position: Int) {
-        val subtitle = "${wordSet.name} - $position/${pairList.count()}"
+        val subtitle = "${currentWordSet.name} - $position/${currentPairList.count()}"
         toolbar.subtitle = subtitle
     }
 
     private fun loggingSnapPairs(position: Int) {
-        Log.d("snap", "loggingSnapPairs: ${pairList[position].toString()} ")
+        Log.d("snap", "loggingSnapPairs: ${currentPairList[position].toString()} ")
     }
 
-    fun setHint(editText: EditText, position: Int){
-        val pair:Pair = pairList[position]
+    fun setHint(editText: EditText, position: Int) {
+        val pair: Pair = currentPairList[position]
         editText.hint = pair.value
     }
 
@@ -168,12 +184,46 @@ class TranslateActivity : AppCompatActivity(), IProgress,
         Log.d("progress", "setTestProgress: done = $done")
     }
 
+    fun checkAnswerForForbiddenLetters(answer: String): Boolean {
+        // here you can define any illegal letters
+        val space = " "
+        return answer.trim().contains(space)
+    }
 
+    private fun checkAnswerCorrectness(userAnswer: String, position: Int): Boolean {
+        val pair = currentPairList[position]
+        val trueValue = pair.key.trim().toLowerCase(Locale.ROOT)
+
+        val toastText = if (userAnswer.trim()
+                .toLowerCase(Locale.ROOT) == trueValue
+        ) "Верно!" else "Ошибка!! $trueValue"
+
+
+        Snackbar.make(
+            recyclerView,
+            toastText,
+            3000
+        ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, theme))
+            .show()
+
+        currentPairList.removeAt(position)
+        pairSelectorAdapter.notifyItemRemoved(position)
+        etAnswerField.text = null
+        return userAnswer.trim().toLowerCase(Locale.ROOT) == trueValue
+    }
+
+    fun setIvDoneBtnAppearance(answerContainsForbiddenLetters: Boolean) {
+        val drawableId =
+            if (answerContainsForbiddenLetters) R.drawable.icon_done_error_red else R.drawable.icon_done_active_blue
+        ivDoneBtn.setImageDrawable(ResourcesCompat.getDrawable(resources, drawableId, theme))
+    }
 
     override fun onSnapPositionChange(position: Int) {
         Log.d("snap", "onSnapPositionChange: $position")
         setToolbarSubtitle(toolbar, position + 1)
         loggingSnapPairs(position)
+        currentSnapPosition = position
+
 //        setHint(editText = etAnswer, position = position)
     }
 

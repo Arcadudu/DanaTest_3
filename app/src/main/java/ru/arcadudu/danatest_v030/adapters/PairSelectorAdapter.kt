@@ -42,10 +42,8 @@ class PairSelectorAdapter : RecyclerView.Adapter<PairSelectorAdapter.PairSelecto
 
         fun bind(pair: Pair, position: Int) {
             Log.d("change", "bind: position = $position, selected position = ")
-            questWordItem.text = pair.key.trim()
+            questWordItem.text = pair.value.trim()
             Log.d("change", "bind: pair.key = ${pair.key}")
-
-
 
             questWordItem.setOnClickListener {
 

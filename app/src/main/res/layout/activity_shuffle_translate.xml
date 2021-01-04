@@ -83,16 +83,19 @@
                 android:textColor="@color/plt_active_blue"
                 android:textColorHint="@color/plt_subtext_grey"
                 android:textSize="22sp"
-                app:layout_constraintEnd_toStartOf="@id/iv_make_fav2"
+                app:layout_constraintEnd_toStartOf="@id/iv_make_fav"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/quest_recyclerview" />
 
             <ImageView
                 android:id="@+id/iv_doneBtn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="16dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground"
                 android:src="@drawable/icon_done_active_blue"
+                android:scaleType="fitCenter"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/et_answer"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,17 +118,20 @@
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
 
-                app:layout_constraintEnd_toStartOf="@id/iv_make_fav2"
+                app:layout_constraintEnd_toStartOf="@id/iv_make_fav"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bottom_divider"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/iv_make_fav2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="16dp"
+                android:id="@+id/iv_make_fav"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/icon_star_favorite_blue_outlined"
+                android:background="?attr/selectableItemBackground"
                 app:layout_constraintBottom_toBottomOf="@id/quest_recyclerview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/quest_recyclerview" />

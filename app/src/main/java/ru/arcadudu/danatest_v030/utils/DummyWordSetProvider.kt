@@ -2,7 +2,7 @@ package ru.arcadudu.danatest_v030.utils
 
 import ru.arcadudu.danatest_v030.models.WordSet
 
-fun getFakeWordSet(): WordSet {
+fun getDummyWordSet(): WordSet {
     val wordSet = WordSet("fake WordSet", "This is a fake WordSet", false)
     for(i in 0..6){
         wordSet.addPair("table", "стол")
@@ -35,12 +35,11 @@ var gbEng = listOf("island", "islands", "average", "temperature", "above", "thou
 
 fun getTimeWordSet():WordSet{
     val wordSet = WordSet("Time WordSet", "This is time wordSet", false)
-    if(gbRu.count() == gbEng.count()){
-        for(i in 0..3){
-            for(i in gbRu.indices){
-                wordSet.addPair(gbEng[i].capitalize(), gbRu[i].capitalize())
+    if(timeRu.count() == timeEng.count()){
+            for(i in timeRu.indices){
+                wordSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())
             }
-        }
+
 
     }
     return wordSet
