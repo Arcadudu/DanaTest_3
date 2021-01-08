@@ -31,7 +31,7 @@ private lateinit var ivMakePairFavorite: ImageView
 private lateinit var etAnswerField: EditText
 private lateinit var ivDoneBtn: ImageView
 
-private lateinit var recyclerView: RecyclerView
+private lateinit var questRecyclerView: RecyclerView
 private lateinit var pairSelectorLayoutManager: LinearLayoutManager
 private lateinit var pagerSnapHelper: PagerSnapHelper
 private lateinit var pairSelectorAdapter: PairSelectorAdapter
@@ -61,8 +61,8 @@ class TranslateActivity : AppCompatActivity(), IProgress,
         toolbar = translateActivityBinding.testToolbar
         prepareToolbar(toolbar)
 
-        recyclerView = translateActivityBinding.questRecyclerview
-        prepareRecyclerView(recyclerView)
+        questRecyclerView = translateActivityBinding.questRecyclerview
+        prepareRecyclerView(questRecyclerView, currentPairList)
 
         etAnswerField = translateActivityBinding.etAnswer
         addTextWatcher(etAnswerField)
@@ -109,11 +109,11 @@ class TranslateActivity : AppCompatActivity(), IProgress,
         }
     }
 
-    private fun prepareRecyclerView(recyclerView: RecyclerView) {
+    private fun prepareRecyclerView(recyclerView: RecyclerView, pairList: MutableList<Pair>) {
         pairSelectorLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         pagerSnapHelper = PagerSnapHelper()
         pairSelectorAdapter = PairSelectorAdapter()
-        pairSelectorAdapter.submitData(currentPairList, this)
+        pairSelectorAdapter.submitData(pairList, this)
         recyclerView.apply {
             setHasFixedSize(true)
             adapter = pairSelectorAdapter
@@ -149,16 +149,8 @@ class TranslateActivity : AppCompatActivity(), IProgress,
     }
 
     fun showIvDoneBtn(imageView: ImageView, showAndEnable: Boolean) {
-        when (showAndEnable) {
-            true -> imageView.apply {
-                visibility = View.VISIBLE
-                isEnabled = true
-            }
-            else -> imageView.apply {
-                visibility = View.GONE
-                isEnabled = false
-            }
-        }
+        imageView.visibility = if(showAndEnable) View.VISIBLE else View.GONE
+        imageView.isEnabled = showAndEnable
         ivDoneBtnIsShownAndEnabled = showAndEnable
     }
 
@@ -200,7 +192,7 @@ class TranslateActivity : AppCompatActivity(), IProgress,
 
 
         Snackbar.make(
-            recyclerView,
+            questRecyclerView,
             toastText,
             3000
         ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, theme))

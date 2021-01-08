@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:paddingTop="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вы действительно хотите удалить ВордСетИкс?"
+            style="@style/TextStyle_card_title"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <Button
+            android:id="@+id/btn_remove_wordSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Удалить"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/dialog_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/plt_almost_black"/>
+
+        <Button
+            android:id="@+id/btn_cancel_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Отмена"
+            app:layout_constraintTop_toTopOf="@id/btn_remove_wordSet"
+            app:layout_constraintEnd_toStartOf="@id/btn_remove_wordSet"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/plt_almost_black"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>
