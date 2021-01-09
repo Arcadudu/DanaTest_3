@@ -22,10 +22,12 @@ import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.WsEditorActivity
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
+import ru.arcadudu.danatest_v030.databinding.DialogRemoveWordSetBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentWordSetBinding
 import ru.arcadudu.danatest_v030.interfaces.RemovableItem
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.utils.getDummyWordSet
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -42,8 +44,10 @@ private const val TAG = "fragment"
 
 
 private lateinit var fragmentWordSetBinding: FragmentWordSetBinding
+private lateinit var dialogRemoveWordSetBinding: DialogRemoveWordSetBinding
 
-class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener, RemovableItem{
+class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener,
+    RemovableItem {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -154,6 +158,8 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
             description = "Сюда попадают избранные Вами пары из других наборов"
         )
         targetWordSetList.add(0, favoriteWordSet)
+
+        targetWordSetList.add(1, getDummyWordSet())
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -201,54 +207,80 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     }
 
     override fun showRemoveAlertDialog(position: Int) {
-        val chosenItem: WordSet = wordSetList[position]
-        val chosenItemName = chosenItem.name
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder.apply {
-            val itemName = wordSetList[position].name
-            setTitle("Удаление набора")
-            setMessage("Вы действительно хотите удалить $itemName\nиз коллекции?")
+        val removeDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val layoutInflater = this.layoutInflater
+        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_word_set, null)
+        removeDialogBuilder.setView(removeDialogView)
+        val removeDialog = removeDialogBuilder.create()
+        val chosenWordSet = wordSetList[position]
 
-            setPositiveButton("Удалить", DialogInterface.OnClickListener { _, _ ->
-                wordSetAdapter.removeItem(position)
-                Snackbar.make(
-                    recyclerView,
-                    "$chosenItemName удалено",
-                    3000
-                ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, activity?.theme))
-                    .setAction("Отмена", View.OnClickListener {
-                        wordSetList.add(position, chosenItem)
-                        wordSetAdapter.notifyItemInserted(position)
-                    })
-                    .show()
+        dialogRemoveWordSetBinding = DialogRemoveWordSetBinding.bind(removeDialogView)
 
-            })
+        dialogRemoveWordSetBinding.dialogMessage.text =
+            "Вы действительно хотите\nудалить ${chosenWordSet.name} ?"
 
-            setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
-                wordSetAdapter.notifyDataSetChanged()
-            })
-
-
+        dialogRemoveWordSetBinding.btnRemoveWordSet.setOnClickListener {
+            wordSetAdapter.removeItem(position)
+            removeDialog.dismiss()
         }
 
-        val removeAlertDialog = dialogBuilder.create()
-        removeAlertDialog.show()
-
-        val btnCancel = removeAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-        btnCancel.apply {
-//            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
-            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
-
+        dialogRemoveWordSetBinding.btnCancelRemove.setOnClickListener {
+            wordSetAdapter.notifyDataSetChanged()
+            removeDialog.dismiss()
         }
 
-        val btnOk = removeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        btnOk.apply {
-//            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
-            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
-        }
-
-
+        removeDialog.show()
     }
+
+    //    override fun showRemoveAlertDialog(position: Int) {
+//        val chosenItem: WordSet = wordSetList[position]
+//        val chosenItemName = chosenItem.name
+//        val dialogBuilder = AlertDialog.Builder(context)
+//        dialogBuilder.apply {
+//            val itemName = wordSetList[position].name
+//            setTitle("Удаление набора")
+//            setMessage("Вы действительно хотите удалить $itemName\nиз коллекции?")
+//
+//            setPositiveButton("Удалить", DialogInterface.OnClickListener { _, _ ->
+//                wordSetAdapter.removeItem(position)
+//                Snackbar.make(
+//                    recyclerView,
+//                    "$chosenItemName удалено",
+//                    3000
+//                ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, activity?.theme))
+//                    .setAction("Отмена", View.OnClickListener {
+//                        wordSetList.add(position, chosenItem)
+//                        wordSetAdapter.notifyItemInserted(position)
+//                    })
+//                    .show()
+//
+//            })
+//
+//            setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
+//                wordSetAdapter.notifyDataSetChanged()
+//            })
+//
+//
+//        }
+//
+//        val removeAlertDialog = dialogBuilder.create()
+//        removeAlertDialog.show()
+//
+//        val btnCancel = removeAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+//        btnCancel.apply {
+////            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
+//            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
+//
+//        }
+//
+//        val btnOk = removeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+//        btnOk.apply {
+////            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
+//            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
+//        }
+//
+//
+//    }
 
     private fun filter(text: String) {
         val filteredList: MutableList<WordSet> = mutableListOf()

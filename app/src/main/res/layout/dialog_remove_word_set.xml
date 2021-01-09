@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,10 +16,12 @@
 
         <TextView
             android:id="@+id/dialog_message"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="Вы действительно хотите удалить ВордСетИкс?"
             style="@style/TextStyle_card_title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
 
@@ -29,6 +31,7 @@
             android:layout_height="wrap_content"
             android:text="Удалить"
             android:layout_marginTop="24dp"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintTop_toBottomOf="@id/dialog_message"
             app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/plt_almost_black"/>
@@ -38,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Отмена"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintTop_toTopOf="@id/btn_remove_wordSet"
             app:layout_constraintEnd_toStartOf="@id/btn_remove_wordSet"
             android:layout_marginEnd="8dp"
