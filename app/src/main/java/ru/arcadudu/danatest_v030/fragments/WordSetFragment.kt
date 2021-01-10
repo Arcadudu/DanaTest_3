@@ -85,7 +85,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         btnAddNewWordSet = fragmentWordSetBinding.ivWSFragAddIcon
         btnAddNewWordSet.setOnClickListener {
             /*todo: open modal dialog for adding new WordSet
-            *  when dialog openes adapters first scrolls to 0 position*/
+            *  when dialog opens adapters first scrolls to 0 position*/
 
 //            wordSetList.add(
 //                1, getTimeWordSet()
@@ -171,7 +171,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
-                if (viewHolder.bindingAdapterPosition == 0) return 0 // for favorite wordSet
+                if (viewHolder.adapterPosition == 0) return 0 // for favorite wordSet
                 return super.getMovementFlags(recyclerView, viewHolder)
             }
 
@@ -181,8 +181,8 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                val fromPosition = viewHolder.bindingAdapterPosition
-                val toPosition = target.bindingAdapterPosition
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
                 val isFavoriteWordSet = (fromPosition == 0 || toPosition == 0)
 
                 if (!isFavoriteWordSet) {
@@ -193,7 +193,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.bindingAdapterPosition
+                val position = viewHolder.adapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         showRemoveAlertDialog(position)
@@ -216,8 +216,10 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
 
         dialogRemoveWordSetBinding = DialogRemoveWordSetBinding.bind(removeDialogView)
 
+        dialogRemoveWordSetBinding.dialogTitle.text = chosenWordSet.name
+
         dialogRemoveWordSetBinding.dialogMessage.text =
-            "Вы действительно хотите\nудалить ${chosenWordSet.name} ?"
+            getString(R.string.remove_dialog_warning)
 
         dialogRemoveWordSetBinding.btnRemoveWordSet.setOnClickListener {
             wordSetAdapter.removeItem(position)
