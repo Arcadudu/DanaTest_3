@@ -2,7 +2,6 @@ package ru.arcadudu.danatest_v030.fragments
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -18,21 +17,25 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.WsEditorActivity
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
-import ru.arcadudu.danatest_v030.databinding.DialogRemoveWordSetBinding
+import ru.arcadudu.danatest_v030.databinding.DialogAddWordSetBinding
+import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentWordSetBinding
-import ru.arcadudu.danatest_v030.interfaces.RemovableItem
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.WordSet
 import ru.arcadudu.danatest_v030.utils.getDummyWordSet
+import ru.arcadudu.danatest_v030.utils.getTimeWordSet
 import java.util.*
-import kotlin.collections.ArrayList
+
+private lateinit var fragmentWordSetBinding: FragmentWordSetBinding
+private lateinit var dialogRemoveWordSetBinding: DialogRemoveItemBinding
+private lateinit var dialogAddWordSetBinding: DialogAddWordSetBinding
 
 private lateinit var wordSetAdapter: WordSetAdapter
 private var wordSetList: MutableList<WordSet> = mutableListOf()
+
 private lateinit var favoriteWordSet: WordSet
 private lateinit var recyclerView: RecyclerView
 private lateinit var etSearchField: EditText
@@ -40,14 +43,12 @@ private lateinit var btnAddNewWordSet: ImageView
 private lateinit var btnClearSearchField: ImageView
 
 private var ivBtnClearIsShownAndEnabled = false
-private const val TAG = "fragment"
 
+private const val TAG = "cycle"
 
-private lateinit var fragmentWordSetBinding: FragmentWordSetBinding
-private lateinit var dialogRemoveWordSetBinding: DialogRemoveWordSetBinding
+private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
-class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener,
-    RemovableItem {
+class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,24 +85,15 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
 
         btnAddNewWordSet = fragmentWordSetBinding.ivWSFragAddIcon
         btnAddNewWordSet.setOnClickListener {
-            /*todo: open modal dialog for adding new WordSet
-            *  when dialog opens adapters first scrolls to 0 position*/
-
-//            wordSetList.add(
-//                1, getTimeWordSet()
-//            )
-//            wordSetAdapter.notifyItemInserted(1)
-
-            recyclerView.smoothScrollToPosition(0)
+            showAddWordSetAlertDialog()
         }
+
     }
 
     private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
         imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
         imageView.isEnabled = showAndEnable
         ivBtnClearIsShownAndEnabled = showAndEnable
-
-
     }
 
     private fun addTextWatcher(editText: EditText) {
@@ -152,6 +144,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 )
             )
         }
+
         favoriteWordSet = WordSet(
             isFavorites = true,
             name = "Избранный набор",
@@ -159,8 +152,9 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         )
         targetWordSetList.add(0, favoriteWordSet)
 
-        targetWordSetList.add(1, getDummyWordSet())
+        targetWordSetList.add(1, getTimeWordSet())
     }
+
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
@@ -196,6 +190,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 val position = viewHolder.adapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
+                        wordSetAdapter.notifyDataSetChanged()
                         showRemoveAlertDialog(position)
                     }
                 }
@@ -206,26 +201,88 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    private fun showAddWordSetAlertDialog() {
+        val addWordSetDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val layoutInflater = this.layoutInflater
+        val addWordSetDialogView = layoutInflater.inflate(R.layout.dialog_add_word_set, null, false)
+        addWordSetDialogBuilder.setView(addWordSetDialogView)
+        val addWordSetDialog = addWordSetDialogBuilder.create()
+        var inputWordSetName = ""
+        var inputWordSetDetails = ""
+
+        dialogAddWordSetBinding = DialogAddWordSetBinding.bind(addWordSetDialogView)
+        dialogAddWordSetBinding.tvAddWordSetDialogTitle.text =
+            getString(R.string.add_word_set_dialog_title)
+        dialogAddWordSetBinding.etNewWordSetName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                inputWordSetName = s.toString()
+            }
+        })
+        dialogAddWordSetBinding.etNewWordSetDetails.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                inputWordSetDetails = s.toString()
+            }
+
+        })
+
+        dialogAddWordSetBinding.btnAddWordSet.setOnClickListener {
+            if (inputWordSetName.isBlank()) {
+                dialogAddWordSetBinding.etNewWordSetName.hint = "Набору нужно название!"
+                dialogAddWordSetBinding.etNewWordSetName.setHintTextColor(resources.getColor(R.color.plt_error_red, null))
+            } else {
+                if (inputWordSetDetails.isBlank()) {
+                    inputWordSetDetails = "Без описания"
+                }
+                wordSetList.add(
+                    1,
+                    WordSet(name = inputWordSetName.capitalize(), description = inputWordSetDetails.capitalize())
+                )
+                wordSetAdapter.notifyItemInserted(1)
+                addWordSetDialog.dismiss()
+            }
+
+        }
+
+        dialogAddWordSetBinding.btnCancelAddWordSet.setOnClickListener {
+            addWordSetDialog.dismiss()
+        }
+
+        addWordSetDialog.show()
+    }
+
     override fun showRemoveAlertDialog(position: Int) {
         val removeDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
         val layoutInflater = this.layoutInflater
-        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_word_set, null)
+        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
         val chosenWordSet = wordSetList[position]
 
-        dialogRemoveWordSetBinding = DialogRemoveWordSetBinding.bind(removeDialogView)
+        dialogRemoveWordSetBinding = DialogRemoveItemBinding.bind(removeDialogView)
 
-        dialogRemoveWordSetBinding.dialogTitle.text = chosenWordSet.name
-
-        dialogRemoveWordSetBinding.dialogMessage.text =
+        dialogRemoveWordSetBinding.tvRemoveDialogTitle.text = chosenWordSet.name
+        dialogRemoveWordSetBinding.tvRemoveDialogMessage.text =
             getString(R.string.remove_dialog_warning)
-
         dialogRemoveWordSetBinding.btnRemoveWordSet.setOnClickListener {
             wordSetAdapter.removeItem(position)
             removeDialog.dismiss()
         }
-
         dialogRemoveWordSetBinding.btnCancelRemove.setOnClickListener {
             wordSetAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
@@ -234,62 +291,12 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         removeDialog.show()
     }
 
-    //    override fun showRemoveAlertDialog(position: Int) {
-//        val chosenItem: WordSet = wordSetList[position]
-//        val chosenItemName = chosenItem.name
-//        val dialogBuilder = AlertDialog.Builder(context)
-//        dialogBuilder.apply {
-//            val itemName = wordSetList[position].name
-//            setTitle("Удаление набора")
-//            setMessage("Вы действительно хотите удалить $itemName\nиз коллекции?")
-//
-//            setPositiveButton("Удалить", DialogInterface.OnClickListener { _, _ ->
-//                wordSetAdapter.removeItem(position)
-//                Snackbar.make(
-//                    recyclerView,
-//                    "$chosenItemName удалено",
-//                    3000
-//                ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, activity?.theme))
-//                    .setAction("Отмена", View.OnClickListener {
-//                        wordSetList.add(position, chosenItem)
-//                        wordSetAdapter.notifyItemInserted(position)
-//                    })
-//                    .show()
-//
-//            })
-//
-//            setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
-//                wordSetAdapter.notifyDataSetChanged()
-//            })
-//
-//
-//        }
-//
-//        val removeAlertDialog = dialogBuilder.create()
-//        removeAlertDialog.show()
-//
-//        val btnCancel = removeAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-//        btnCancel.apply {
-////            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
-//            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
-//
-//        }
-//
-//        val btnOk = removeAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-//        btnOk.apply {
-////            textSize = resources.getDimension(R.dimen.dialog_button_text_size)
-//            setTextAppearance(R.style.MaterialAlertDialog_MaterialComponents_Title_Text)
-//        }
-//
-//
-//    }
 
     private fun filter(text: String) {
         val filteredList: MutableList<WordSet> = mutableListOf()
         for (item in wordSetList) {
-            if (item.name.toLowerCase(Locale.ROOT)
-                    .contains(text.toLowerCase(Locale.ROOT)) || item.description.toLowerCase(Locale.ROOT)
-                    .contains(text.toLowerCase(Locale.ROOT))
+            if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
+                item.description.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
             }
@@ -299,11 +306,11 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
 
     override fun clickToEditor(wordSet: WordSet) {
         //todo: startActivityForResult -> into editor and back
-        val intent = Intent(activity, WsEditorActivity::class.java)
+        val toEditorIntent = Intent(activity, WsEditorActivity::class.java)
         var bundle = Bundle()
-        intent.putExtra("key", ArrayList(wordSetList))
-        intent.putExtra("selected_wordset", wordSet)
-        startActivity(intent)
+//        toEditorIntent.putExtra("key", ArrayList(wordSetList))
+        toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, wordSet)
+        startActivity(toEditorIntent)
     }
 
     //lifecycle
@@ -321,6 +328,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
 
     override fun onResume() {
         super.onResume()
+
         Log.d(TAG, "onResume: ")
     }
 
@@ -332,14 +340,6 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d(TAG, "onAttach: ")
-    }
-
-    override fun obtainRemovableItemName(itemName: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun removeRemovableItem(wordSet: WordSet) {
-        TODO("Not yet implemented")
     }
 
 

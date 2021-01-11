@@ -1,7 +1,6 @@
 package ru.arcadudu.danatest_v030.activities
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,13 +15,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
-import ru.arcadudu.danatest_v030.alertDialogs.AddPairDialogFragment
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
+import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
 import java.util.*
@@ -32,8 +30,10 @@ private lateinit var toolbar: androidx.appcompat.widget.Toolbar
 private lateinit var search: EditText
 private lateinit var recyclerView: RecyclerView
 private lateinit var myAdapter: PairRowAdapter
+private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
-private lateinit var addPairDialog: AddPairDialogFragment
+private lateinit var dialogRemovePairBinding: DialogRemoveItemBinding
+
 
 private lateinit var searchCloseBtn: ImageView
 private lateinit var addPairBtn: ImageView
@@ -50,7 +50,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
         val view = binding.root
         setContentView(view)
 
-        currentWordSet = intent.getSerializableExtra("selected_wordset") as WordSet
+        currentWordSet = intent.getSerializableExtra(TO_EDITOR_SELECTED_WORD_SET) as WordSet
         currentPairList = currentWordSet.getPairList()
 
 /*        checkForFav(incomingWordSet)*/
@@ -132,10 +132,10 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
         addPairBtn = binding.ivEditorAddIcon
         addPairBtn.setOnClickListener {
-             showAddNewPairAlertDialog(this){ key, value ->
-                 currentPairList.add(0, Pair(key, value))
-                 myAdapter.notifyItemInserted(0)
-             }
+            showAddNewPairAlertDialog(this) { key, value ->
+                currentPairList.add(0, Pair(key, value))
+                myAdapter.notifyItemInserted(0)
+            }
             Log.d("pair", "onCreate: you pressed addPairBtn ")
 
         }
@@ -175,6 +175,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
+                        myAdapter.notifyDataSetChanged()
                         showRemoveAlertDialog(position)
                         Log.d("Swipe", "activity: swiped left")
                     }
@@ -215,104 +216,151 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
     }
 
     override fun showRemoveAlertDialog(position: Int) {
-        Log.d("Swipe", "showRemoveAlertDialog: called ")
-        val chosenPair: Pair = currentPairList[position]
-        val itemName = "${chosenPair.key} / ${chosenPair.value}"
-        val builder = AlertDialog.Builder(this)
-        builder.apply {
-            setTitle("Удаление пары")
-            setMessage("Вы действительно хотите удалить пару\n\"$itemName\" ?")
+        val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val layoutInflater = this.layoutInflater
+        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
+        removeDialogBuilder.setView(removeDialogView)
+        val removeDialog = removeDialogBuilder.create()
+        val chosenPair = currentPairList[position]
 
-            setPositiveButton("Удалить", DialogInterface.OnClickListener { _, _ ->
-                myAdapter.removeItem(position)
-                Snackbar.make(
-                    recyclerView,
-                    "\"$itemName\" удалено",
-                    3000
-                ).setBackgroundTint(resources.getColor(R.color.plt_active_blue, theme))
-                    .setAction("Отмена", View.OnClickListener {
-                        currentPairList.add(position, chosenPair)
-                        myAdapter.notifyItemInserted(position)
-                    })
-                    .show()
+        dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
 
-            })
-            setNegativeButton("Отмена", DialogInterface.OnClickListener { _, _ ->
-                myAdapter.notifyDataSetChanged()
-            })
+        dialogRemovePairBinding.tvRemoveDialogTitle.text = "${chosenPair.key} — ${chosenPair.value}"
+
+        dialogRemovePairBinding.tvRemoveDialogMessage.text =
+            getString(R.string.remove_dialog_warning)
+
+        dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
+            myAdapter.notifyDataSetChanged()
+            removeDialog.dismiss()
         }
 
-        val dialog = builder.create()
-        dialog.show()
-
-        val btnCancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            .setTextColor(getColor(R.color.plt_almost_black))
-        val btnOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(getColor(R.color.plt_almost_black))
+        dialogRemovePairBinding.btnRemoveWordSet.setOnClickListener {
+            myAdapter.removeItem(position)
+            removeDialog.dismiss()
+        }
+        removeDialog.show()
 
     }
-
 
     private fun showAddNewPairAlertDialog(
         context: Context,
         onConfirm: ((String, String) -> Unit)?
     ): AlertDialog {
-        val view = LayoutInflater.from(context)
-            .inflate(R.layout.dialog_add_pair, null, false)//кнопки добавь в верстку
-        val dialog = AlertDialog.Builder(context)
-            .setView(view)
-            .create()
-        val dialogBinding = DialogAddPairBinding.bind(view)
-        var keyString = ""
-        var valueString = ""
-        dialogBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
+        val addPairDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val layoutInflater = this.layoutInflater
+        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        addPairDialogBuilder.setView(addPairDialogView)
+        val addPairDialog = addPairDialogBuilder.create()
+
+        var keyInput = ""
+        var valueInput = ""
+
+        val addPairBinding = DialogAddPairBinding.bind(addPairDialogView)
+        addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
+
+        addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                keyString = s.toString()
+                keyInput = s.toString()
             }
         })
-        dialogBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
+
+        addPairBinding.etNewPairValue.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
             }
 
             override fun afterTextChanged(s: Editable?) {
-                valueString = s.toString()
+               valueInput = s.toString()
             }
         })
-        dialogBinding.btnAdd.setOnClickListener {
-            if (keyString.isBlank() && valueString.isBlank()) {
-                keyString = "Ключ не задан"
-                valueString = "Значение не задано"
+
+        addPairBinding.btnAddPair.setOnClickListener{
+            if(keyInput.isBlank()&& valueInput.isBlank()){
+                keyInput = "Ключ не задан"
+                valueInput = "Значение не задано"
             }
-            onConfirm?.invoke(keyString, valueString)
-            dialog.dismiss()
+            onConfirm?.invoke(keyInput, valueInput)
+            addPairDialog.dismiss()
         }
-        dialogBinding.btnClose.setOnClickListener {
-            dialog.dismiss()
+
+        addPairBinding.btnCancelAddPair.setOnClickListener{
+            addPairDialog.dismiss()
         }
-        dialog.show()
-        return dialog
+
+        addPairDialog.show()
+        return addPairDialog
     }
 
 
+//    private fun showAddNewPairAlertDialog(
+//        context: Context,
+//        onConfirm: ((String, String) -> Unit)?
+//    ): AlertDialog {
+//        val view = LayoutInflater.from(context)
+//            .inflate(R.layout.dialog_add_pair, null, false)//кнопки добавь в верстку
+//        val dialog = AlertDialog.Builder(context)
+//            .setView(view)
+//            .create()
+//        val dialogBinding = DialogAddPairBinding.bind(view)
+//        var keyString = ""
+//        var valueString = ""
+//        dialogBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(
+//                s: CharSequence?,
+//                start: Int,
+//                count: Int,
+//                after: Int
+//            ) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                keyString = s.toString()
+//            }
+//        })
+//        dialogBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(
+//                s: CharSequence?,
+//                start: Int,
+//                count: Int,
+//                after: Int
+//            ) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                valueString = s.toString()
+//            }
+//        })
+//        dialogBinding.btnAdd.setOnClickListener {
+//            if (keyString.isBlank() && valueString.isBlank()) {
+//                keyString = "Ключ не задан"
+//                valueString = "Значение не задано"
+//            }
+//            onConfirm?.invoke(keyString, valueString)
+//            dialog.dismiss()
+//        }
+//        dialogBinding.btnClose.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        dialog.show()
+//        return dialog
+//    }
 
 
 }

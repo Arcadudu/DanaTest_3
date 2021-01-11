@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         android:paddingEnd="8dp">
 
         <TextView
-            android:id="@+id/tv_add_pair_dialog_title"
+            android:id="@+id/tv_add_word_set_dialog_title"
             style="@style/TextStyle_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,38 +23,40 @@
             android:gravity="start"
             android:text="Новая пара"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <EditText
-            android:id="@+id/et_newPairKey"
+            android:id="@+id/et_newWordSetName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:background="@color/white"
             android:textColor="@color/plt_active_blue"
-            android:hint="Ключ"
+            android:hint="Название набора"
             android:textSize="18sp"
             android:inputType="text"
             android:padding="8dp"
-            app:layout_constraintStart_toStartOf="@id/tv_add_pair_dialog_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_add_pair_dialog_title" />
+            app:layout_constraintStart_toStartOf="@id/tv_add_word_set_dialog_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_word_set_dialog_title" />
 
         <EditText
-            android:id="@+id/et_newPairValue"
+            android:id="@+id/et_newWordSetDetails"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="96dp"
+            android:gravity="top|start"
             android:background="@color/white"
-            android:hint="Значение"
+            android:hint="Описание набора"
             android:textColor="@color/plt_active_blue"
             android:textSize="18sp"
+            android:minLines="1"
+            android:maxLines="3"
             android:inputType="text"
             android:padding="8dp"
-            app:layout_constraintStart_toStartOf="@+id/et_newPairKey"
-            app:layout_constraintTop_toBottomOf="@id/et_newPairKey" />
+            app:layout_constraintStart_toStartOf="@+id/et_newWordSetName"
+            app:layout_constraintTop_toBottomOf="@id/et_newWordSetName" />
 
         <Button
-            android:id="@+id/btn_add_pair"
+            android:id="@+id/btn_add_wordSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -63,18 +65,19 @@
             android:textColor="@color/plt_active_blue"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_newPairValue" />
+            app:layout_constraintTop_toBottomOf="@id/et_newWordSetDetails"/>
 
         <Button
-            android:id="@+id/btn_cancel_add_pair"
+            android:id="@+id/btn_cancel_add_wordSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:text="Отмена"
             android:textColor="@color/plt_active_blue"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@id/btn_add_pair"
-            app:layout_constraintTop_toTopOf="@id/btn_add_pair" />
+            app:layout_constraintEnd_toStartOf="@id/btn_add_wordSet"
+            app:layout_constraintTop_toTopOf="@id/btn_add_wordSet"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -36,7 +36,9 @@
     <string name="fav_wordset_title">Избранный набор</string>
     <string name="fav_details">Сюда попадают избранные Вами пары\n из других наборов</string>
     <string name="wordset_search_field_hint">Поиск набора</string>
-    <string name="remove_dialog_warning">Вы действительно хотите удалить выбранный элемент?</string>
+    <string name="remove_dialog_warning">Вы действительно хотите удалить\nвыбранный элемент?</string>
+    <string name="add_pair_dialog_title">Новая пара</string>
+    <string name="add_word_set_dialog_title">Новый набор</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
