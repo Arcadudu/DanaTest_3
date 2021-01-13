@@ -25,7 +25,6 @@ import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentWordSetBinding
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.WordSet
-import ru.arcadudu.danatest_v030.utils.getDummyWordSet
 import ru.arcadudu.danatest_v030.utils.getTimeWordSet
 import java.util.*
 
@@ -33,20 +32,19 @@ private lateinit var fragmentWordSetBinding: FragmentWordSetBinding
 private lateinit var dialogRemoveWordSetBinding: DialogRemoveItemBinding
 private lateinit var dialogAddWordSetBinding: DialogAddWordSetBinding
 
-private lateinit var wordSetAdapter: WordSetAdapter
-private var wordSetList: MutableList<WordSet> = mutableListOf()
-
 private lateinit var favoriteWordSet: WordSet
-private lateinit var recyclerView: RecyclerView
-private lateinit var etSearchField: EditText
+private lateinit var etWordSetSearchField: EditText
 private lateinit var btnAddNewWordSet: ImageView
 private lateinit var btnClearSearchField: ImageView
+private lateinit var recyclerView: RecyclerView
 
-private var ivBtnClearIsShownAndEnabled = false
-
+private lateinit var wordSetAdapter: WordSetAdapter
 private const val TAG = "cycle"
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
+private var ivBtnClearIsShownAndEnabled = false
+
+private var wordSetList: MutableList<WordSet> = mutableListOf()
 
 class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener {
 
@@ -70,17 +68,15 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         prepareWordSetRecycler(recyclerView, wordSetList)
         initRecyclerSwiper(recyclerView)
 
-        etSearchField = fragmentWordSetBinding.etWsFragSearchfield
-        etSearchField.hint = getString(R.string.wordset_search_field_hint)
-        addTextWatcher(etSearchField)
+        etWordSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
+        etWordSetSearchField.hint = getString(R.string.word_set_search_field_hint)
+        addTextWatcher(etWordSetSearchField)
 
         btnClearSearchField = fragmentWordSetBinding.btnSearchClose
         showBtnClear(btnClearSearchField, false)
         btnClearSearchField.setOnClickListener {
-            if (ivBtnClearIsShownAndEnabled) {
-                etSearchField.text = null
-            }
-            etSearchField.hint = getString(R.string.wordset_search_field_hint)
+            if (ivBtnClearIsShownAndEnabled) etWordSetSearchField.text = null
+            etWordSetSearchField.hint = getString(R.string.word_set_search_field_hint)
         }
 
         btnAddNewWordSet = fragmentWordSetBinding.ivWSFragAddIcon
@@ -96,8 +92,8 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         ivBtnClearIsShownAndEnabled = showAndEnable
     }
 
-    private fun addTextWatcher(editText: EditText) {
-        editText.addTextChangedListener(object : TextWatcher {
+    private fun addTextWatcher(targetEditText: EditText) {
+        targetEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -105,8 +101,8 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val isStringIsEmpty = s.toString().isNotEmpty()
-                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringIsEmpty)
+                val isStringEmpty = s.toString().isNotEmpty()
+                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
                 filter(s.toString())
             }
         })
@@ -119,14 +115,14 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     ) {
         wordSetAdapter = WordSetAdapter(this)
         wordSetAdapter.submitList(targetWordSetList)
-        val divider = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
-        divider.setDrawable(resources.getDrawable(R.drawable.divider_drawable, null))
+        val horizontalDivider = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
+        horizontalDivider.setDrawable(resources.getDrawable(R.drawable.divider_drawable, null))
 
         targetRecyclerView.apply {
             setHasFixedSize(true)
             adapter = wordSetAdapter
             layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(divider)
+            addItemDecoration(horizontalDivider)
         }
     }
 
@@ -165,7 +161,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
-                if (viewHolder.adapterPosition == 0) return 0 // for favorite wordSet
+                if (viewHolder.bindingAdapterPosition == 0) return 0 // for favorite wordSet
                 return super.getMovementFlags(recyclerView, viewHolder)
             }
 
@@ -175,8 +171,8 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                val fromPosition = viewHolder.adapterPosition
-                val toPosition = target.adapterPosition
+                val fromPosition = viewHolder.bindingAdapterPosition
+                val toPosition = target.bindingAdapterPosition
                 val isFavoriteWordSet = (fromPosition == 0 || toPosition == 0)
 
                 if (!isFavoriteWordSet) {
@@ -243,15 +239,24 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
 
         dialogAddWordSetBinding.btnAddWordSet.setOnClickListener {
             if (inputWordSetName.isBlank()) {
-                dialogAddWordSetBinding.etNewWordSetName.hint = "Набору нужно название!"
-                dialogAddWordSetBinding.etNewWordSetName.setHintTextColor(resources.getColor(R.color.plt_error_red, null))
+                dialogAddWordSetBinding.etNewWordSetName.hint =
+                    "Название набора не может быть пустым"
+                dialogAddWordSetBinding.etNewWordSetName.setHintTextColor(
+                    resources.getColor(
+                        R.color.plt_error_red,
+                        null
+                    )
+                )
             } else {
                 if (inputWordSetDetails.isBlank()) {
                     inputWordSetDetails = "Без описания"
                 }
                 wordSetList.add(
                     1,
-                    WordSet(name = inputWordSetName.capitalize(), description = inputWordSetDetails.capitalize())
+                    WordSet(
+                        name = inputWordSetName.capitalize(),
+                        description = inputWordSetDetails.capitalize()
+                    )
                 )
                 wordSetAdapter.notifyItemInserted(1)
                 addWordSetDialog.dismiss()
@@ -307,14 +312,11 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     override fun clickToEditor(wordSet: WordSet) {
         //todo: startActivityForResult -> into editor and back
         val toEditorIntent = Intent(activity, WsEditorActivity::class.java)
-        var bundle = Bundle()
-//        toEditorIntent.putExtra("key", ArrayList(wordSetList))
         toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, wordSet)
         startActivity(toEditorIntent)
     }
 
     //lifecycle
-
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause:")

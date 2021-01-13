@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,126 +27,126 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
 import java.util.*
 
-private lateinit var binding: ActivityWsEditorBinding
-private lateinit var toolbar: androidx.appcompat.widget.Toolbar
-private lateinit var search: EditText
-private lateinit var recyclerView: RecyclerView
-private lateinit var myAdapter: PairRowAdapter
-private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
-
+private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
 private lateinit var dialogRemovePairBinding: DialogRemoveItemBinding
 
-
-private lateinit var searchCloseBtn: ImageView
-private lateinit var addPairBtn: ImageView
-
+private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+private lateinit var etPairSearchField: EditText
+private lateinit var btnClearSearchField: ImageView
+private lateinit var btnAddPair: ImageView
 private lateinit var currentWordSet: WordSet
 private lateinit var currentPairList: MutableList<Pair>
 
-class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListener {
+private lateinit var recyclerView: RecyclerView
+private lateinit var pairRowAdapter: PairRowAdapter
 
+private var ivBtnClearIsShownAndEnabled = false
+
+private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
+
+class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWsEditorBinding.inflate(layoutInflater)
-        val view = binding.root
+        activityWsEditorBinding = ActivityWsEditorBinding.inflate(layoutInflater)
+        val view = activityWsEditorBinding.root
         setContentView(view)
 
-        currentWordSet = intent.getSerializableExtra(TO_EDITOR_SELECTED_WORD_SET) as WordSet
-        currentPairList = currentWordSet.getPairList()
+        extractIncomingWordSet(tag = TO_EDITOR_SELECTED_WORD_SET)
 
-/*        checkForFav(incomingWordSet)*/
+        toolbar = activityWsEditorBinding.toolbar
+        prepareToolbar(toolbar, currentWordSet)
 
+        recyclerView = activityWsEditorBinding.pairsRecycler
+        preparePairRecycler(recyclerView, currentPairList)
+        initRecyclerSwiper(recyclerView)
 
-        toolbar = binding.toolbar
-        toolbar.apply {
-            setSupportActionBar(this)
-            title = currentWordSet.name
-            subtitle = currentWordSet.description
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            navigationIcon = resources.getDrawable(R.drawable.icon_arrow_back_blue, theme)
-            setNavigationOnClickListener {
-                //todo: save wordSet state
-                onBackPressed()
-            }
+        etPairSearchField = activityWsEditorBinding.etEditorSearchField
+        etPairSearchField.hint = getString(R.string.pair_search_field_hint)
+        addTextWatcher(etPairSearchField)
+
+        btnClearSearchField = activityWsEditorBinding.btnSearchClose
+        showBtnClear(btnClearSearchField, false)
+        btnClearSearchField.setOnClickListener {
+            if (ivBtnClearIsShownAndEnabled) etPairSearchField.text = null
+            etPairSearchField.hint = getString(R.string.pair_search_field_hint)
         }
 
-
-        recyclerView = binding.pairsRecycler.apply {
-            myAdapter = PairRowAdapter()
-            myAdapter.submitPairs(currentPairList)
-            adapter = myAdapter
-            layoutManager = LinearLayoutManager(this@WsEditorActivity)
-
-            val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(
-                resources.getDrawable(
-                    R.drawable.divider_drawable, theme
-                )
-            )
-            addItemDecoration(divider)
-        }
-
-
-        initSwiper(recyclerView)
-
-        search = binding.etEditorSearchField.apply {
-            hint = "Поиск слова"
-            addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    if (s.toString().isNotEmpty()) {
-                        searchCloseBtn.apply {
-                            visibility = View.VISIBLE
-                            isEnabled = true
-                        }
-                    } else {
-                        searchCloseBtn.apply {
-                            visibility = View.GONE
-                            isEnabled = false
-                        }
-                    }
-                    filter(s.toString())
-                }
-
-            })
-        }
-
-        searchCloseBtn = binding.btnSearchClose.apply {
-            visibility = View.GONE
-            setOnClickListener {
-                if (searchCloseBtn.visibility == View.VISIBLE) {
-                    search.setText("")
-                }
-            }
-        }
-
-        addPairBtn = binding.ivEditorAddIcon
-        addPairBtn.setOnClickListener {
+        btnAddPair = activityWsEditorBinding.ivEditorAddIcon
+        btnAddPair.setOnClickListener {
             showAddNewPairAlertDialog(this) { key, value ->
                 currentPairList.add(0, Pair(key, value))
-                myAdapter.notifyItemInserted(0)
+                pairRowAdapter.notifyItemInserted(0)
             }
             Log.d("pair", "onCreate: you pressed addPairBtn ")
+        }
+    }
 
+    private fun addTextWatcher(targetEditText: EditText) {
+        targetEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val isStringEmpty = s.toString().isNotEmpty()
+                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
+                filter(s.toString())
+            }
+
+        })
+    }
+
+    private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
+        imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
+        imageView.isEnabled = showAndEnable
+        ivBtnClearIsShownAndEnabled = showAndEnable
+
+    }
+
+    private fun preparePairRecycler(targetRecyclerView: RecyclerView, pairList: MutableList<Pair>) {
+        pairRowAdapter = PairRowAdapter()
+        pairRowAdapter.submitPairs(pairList)
+        val horizontalDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
+        horizontalDivider.setDrawable(
+            resources.getDrawable(R.drawable.divider_drawable, null)
+        )
+
+        targetRecyclerView.apply {
+            setHasFixedSize(true)
+            adapter = pairRowAdapter
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(horizontalDivider)
         }
 
 
     }
 
+    private fun prepareToolbar(targetToolbar: Toolbar, wordSet: WordSet) {
+        setSupportActionBar(targetToolbar)
+        targetToolbar.apply {
+            title = wordSet.name
+            subtitle = currentWordSet.description
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            navigationIcon =
+                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
+            this.setNavigationOnClickListener {
+                // TODO: 13.01.2021 save wordSet state
+                onBackPressed()
+            }
+        }
+    }
 
-    private fun initSwiper(recyclerView: RecyclerView) {
+    private fun extractIncomingWordSet(tag: String) {
+        currentWordSet = intent.getSerializableExtra(tag) as WordSet
+        currentPairList = currentWordSet.getPairList()
+    }
+
+
+    private fun initRecyclerSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT
@@ -165,9 +167,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 val toPosition = target.bindingAdapterPosition
 
                 Collections.swap(currentPairList, fromPosition, toPosition)
-                myAdapter.notifyItemMoved(fromPosition, toPosition)
-                val layoutManager = recyclerView.layoutManager
-                layoutManager?.scrollToPosition(toPosition)
+                pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
                 return true
             }
 
@@ -175,7 +175,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        myAdapter.notifyDataSetChanged()
+                        pairRowAdapter.notifyDataSetChanged()
                         showRemoveAlertDialog(position)
                         Log.d("Swipe", "activity: swiped left")
                     }
@@ -191,14 +191,13 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
     private fun filter(text: String) {
         val filteredList: MutableList<Pair> = mutableListOf()
         for (item in currentPairList) {
-            if (item.key.toLowerCase(Locale.ROOT)
-                    .contains(text.toLowerCase(Locale.ROOT)) || item.value.toLowerCase(Locale.ROOT)
-                    .contains(text.toLowerCase(Locale.ROOT))
+            if (item.key.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
+                item.value.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
             }
         }
-        myAdapter.filterList(filteredList)
+        pairRowAdapter.filterList(filteredList)
     }
 
 
@@ -231,12 +230,12 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
             getString(R.string.remove_dialog_warning)
 
         dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
-            myAdapter.notifyDataSetChanged()
+            pairRowAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
 
         dialogRemovePairBinding.btnRemoveWordSet.setOnClickListener {
-            myAdapter.removeItem(position)
+            pairRowAdapter.removeItem(position)
             removeDialog.dismiss()
         }
         removeDialog.show()
@@ -253,8 +252,8 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
         addPairDialogBuilder.setView(addPairDialogView)
         val addPairDialog = addPairDialogBuilder.create()
 
-        var keyInput = ""
-        var valueInput = ""
+        var inputKey = ""
+        var inputValue = ""
 
         val addPairBinding = DialogAddPairBinding.bind(addPairDialogView)
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
@@ -267,11 +266,11 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
             }
 
             override fun afterTextChanged(s: Editable?) {
-                keyInput = s.toString()
+                inputKey = s.toString()
             }
         })
 
-        addPairBinding.etNewPairValue.addTextChangedListener(object :TextWatcher{
+        addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -281,20 +280,20 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
             }
 
             override fun afterTextChanged(s: Editable?) {
-               valueInput = s.toString()
+                inputValue = s.toString()
             }
         })
 
-        addPairBinding.btnAddPair.setOnClickListener{
-            if(keyInput.isBlank()&& valueInput.isBlank()){
-                keyInput = "Ключ не задан"
-                valueInput = "Значение не задано"
+        addPairBinding.btnAddPair.setOnClickListener {
+            if (inputKey.isBlank() && inputValue.isBlank()) {
+                inputKey = "Ключ не задан"
+                inputValue = "Значение не задано"
             }
-            onConfirm?.invoke(keyInput, valueInput)
+            onConfirm?.invoke(inputKey, inputValue)
             addPairDialog.dismiss()
         }
 
-        addPairBinding.btnCancelAddPair.setOnClickListener{
+        addPairBinding.btnCancelAddPair.setOnClickListener {
             addPairDialog.dismiss()
         }
 
@@ -303,92 +302,4 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
     }
 
 
-//    private fun showAddNewPairAlertDialog(
-//        context: Context,
-//        onConfirm: ((String, String) -> Unit)?
-//    ): AlertDialog {
-//        val view = LayoutInflater.from(context)
-//            .inflate(R.layout.dialog_add_pair, null, false)//кнопки добавь в верстку
-//        val dialog = AlertDialog.Builder(context)
-//            .setView(view)
-//            .create()
-//        val dialogBinding = DialogAddPairBinding.bind(view)
-//        var keyString = ""
-//        var valueString = ""
-//        dialogBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(
-//                s: CharSequence?,
-//                start: Int,
-//                count: Int,
-//                after: Int
-//            ) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                keyString = s.toString()
-//            }
-//        })
-//        dialogBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(
-//                s: CharSequence?,
-//                start: Int,
-//                count: Int,
-//                after: Int
-//            ) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                valueString = s.toString()
-//            }
-//        })
-//        dialogBinding.btnAdd.setOnClickListener {
-//            if (keyString.isBlank() && valueString.isBlank()) {
-//                keyString = "Ключ не задан"
-//                valueString = "Значение не задано"
-//            }
-//            onConfirm?.invoke(keyString, valueString)
-//            dialog.dismiss()
-//        }
-//        dialogBinding.btnClose.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        dialog.show()
-//        return dialog
-//    }
-
-
 }
-
-//private fun checkForFav(incomingWordSet: WordSet) {
-//    if (incomingWordSet.isFavorites) {
-//        btnEdit.apply {
-//            isEnabled = false
-//            setImageDrawable(
-//                resources.getDrawable(
-//                    R.drawable.icon_star_favorite_blue_outlined
-//                )
-//            )
-//            isVisible = true
-//        }
-//        tvTitle.setOnClickListener {
-//            Snackbar.make(
-//                recyclerView,
-//                "Невозможно изменить название избранного набора",
-//                Snackbar.LENGTH_LONG
-//            ).show()
-//        }
-//        tvDetails.setOnClickListener {
-//            Snackbar.make(
-//                recyclerView,
-//                "Невозможно изменить описание избранного набора",
-//                Snackbar.LENGTH_LONG
-//            ).show()
-//        }
-//    }
-//}

@@ -21,7 +21,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:gravity="start"
-            android:text="Новая пара"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -32,20 +31,30 @@
             android:layout_marginTop="16dp"
             android:background="@color/white"
             android:textColor="@color/plt_active_blue"
-            android:hint="Название набора"
+            android:hint="Название"
             android:textSize="18sp"
             android:inputType="text"
             android:padding="8dp"
             app:layout_constraintStart_toStartOf="@id/tv_add_word_set_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_add_word_set_dialog_title" />
+        <View
+            android:id="@+id/etDivider1"
+            android:layout_width="0dp"
+            android:layout_height="0.8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="@id/et_newWordSetName"
+            app:layout_constraintEnd_toEndOf="@id/et_newWordSetName"
+            android:background="@color/plt_semi_active_blue_light"
+            app:layout_constraintTop_toBottomOf="@id/et_newWordSetName"
+            />
 
         <EditText
             android:id="@+id/et_newWordSetDetails"
             android:layout_width="match_parent"
-            android:layout_height="96dp"
+            android:layout_height="68dp"
             android:gravity="top|start"
             android:background="@color/white"
-            android:hint="Описание набора"
+            android:hint="Описание"
             android:textColor="@color/plt_active_blue"
             android:textSize="18sp"
             android:minLines="1"
@@ -53,7 +62,18 @@
             android:inputType="text"
             android:padding="8dp"
             app:layout_constraintStart_toStartOf="@+id/et_newWordSetName"
-            app:layout_constraintTop_toBottomOf="@id/et_newWordSetName" />
+            app:layout_constraintTop_toBottomOf="@id/etDivider1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.8dp"
+            android:id="@+id/etDivider2"
+            android:background="@color/plt_semi_active_blue_light"
+            app:layout_constraintTop_toBottomOf="@id/et_newWordSetDetails"
+            app:layout_constraintStart_toStartOf="@id/et_newWordSetDetails"
+            app:layout_constraintEnd_toEndOf="@id/et_newWordSetDetails"
+            android:layout_marginEnd="16dp"/>
+
 
         <Button
             android:id="@+id/btn_add_wordSet"

@@ -35,7 +35,8 @@
     <string name="home_bs_details_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
     <string name="fav_wordset_title">Избранный набор</string>
     <string name="fav_details">Сюда попадают избранные Вами пары\n из других наборов</string>
-    <string name="wordset_search_field_hint">Поиск набора</string>
+    <string name="word_set_search_field_hint">Поиск набора</string>
+    <string name="pair_search_field_hint">Поиск слова</string>
     <string name="remove_dialog_warning">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="add_pair_dialog_title">Новая пара</string>
     <string name="add_word_set_dialog_title">Новый набор</string>
