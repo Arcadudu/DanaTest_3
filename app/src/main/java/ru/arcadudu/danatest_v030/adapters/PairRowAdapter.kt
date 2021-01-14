@@ -8,7 +8,8 @@ import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pair
 
-class PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
+class
+PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
     private lateinit var pair: Pair
 

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/plt_violet">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
         <TextView
             android:id="@+id/tv_add_pair_dialog_title"
             style="@style/TextStyle_card_title"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -31,12 +33,13 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
-            android:background="@color/white"
-            android:textColor="@color/plt_active_blue"
+            android:background="@color/plt_violet"
             android:hint="Ключ"
-            android:textSize="18sp"
+            android:textColorHint="@color/plt_background_light"
             android:inputType="text"
             android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/tv_add_pair_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_add_pair_dialog_title" />
 
@@ -44,22 +47,23 @@
             android:id="@+id/et_divider1"
             android:layout_width="0dp"
             android:layout_height="0.8dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/plt_semi_active_blue_light"
-            app:layout_constraintTop_toBottomOf="@id/et_newPairKey"
-            app:layout_constraintStart_toStartOf="@id/et_newPairKey"
             app:layout_constraintEnd_toEndOf="@id/et_newPairKey"
-            android:layout_marginEnd="16dp"/>
+            app:layout_constraintStart_toStartOf="@id/et_newPairKey"
+            app:layout_constraintTop_toBottomOf="@id/et_newPairKey" />
 
         <EditText
             android:id="@+id/et_newPairValue"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@color/white"
+            android:background="@color/plt_violet"
             android:hint="Значение"
-            android:textColor="@color/plt_active_blue"
-            android:textSize="18sp"
             android:inputType="text"
             android:padding="8dp"
+            android:textColorHint="@color/plt_background_light"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/et_newPairKey"
             app:layout_constraintTop_toBottomOf="@id/et_divider1" />
 
@@ -67,11 +71,11 @@
             android:id="@+id/et_divider2"
             android:layout_width="0dp"
             android:layout_height="0.8dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/plt_semi_active_blue_light"
-            app:layout_constraintTop_toBottomOf="@id/et_newPairValue"
-            app:layout_constraintStart_toStartOf="@id/et_newPairValue"
             app:layout_constraintEnd_toEndOf="@id/et_newPairValue"
-            android:layout_marginEnd="16dp"/>
+            app:layout_constraintStart_toStartOf="@id/et_newPairValue"
+            app:layout_constraintTop_toBottomOf="@id/et_newPairValue" />
 
         <Button
             android:id="@+id/btn_add_pair"
@@ -80,7 +84,7 @@
             android:layout_marginTop="18dp"
             android:background="?attr/selectableItemBackground"
             android:text="Добавить"
-            android:textColor="@color/plt_active_blue"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_divider2" />
@@ -91,7 +95,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:text="Отмена"
-            android:textColor="@color/plt_active_blue"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btn_add_pair"
             app:layout_constraintTop_toTopOf="@id/btn_add_pair" />

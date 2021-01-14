@@ -11,7 +11,8 @@
 
 <!--palette-->
     <color name="plt_background_light">#f2f2f2</color>
-    <color name="plt_active_blue">#529ff7</color>
+<!--    <color name="plt_active_blue">#529ff7</color>-->
+    <color name="plt_active_blue">#7986CB</color>
     <color name="plt_active_blue_light_transparent">#CC71B3FF</color>
     <color name="plt_active_blue_dark">#2787f5</color>
     <color name="plt_semi_active_blue_light">#bddbfc</color>
@@ -24,6 +25,7 @@
     <color name="plt_navigation_bar">#ECECEC</color>
     <color name="plt_error_red">#E57373</color>
 
+    <color name="plt_violet">#7986CB</color>
     <color name="plt_transparent_background">#80000000</color>
 
 

@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -30,7 +33,7 @@ import java.util.*
 private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
 private lateinit var dialogRemovePairBinding: DialogRemoveItemBinding
 
-private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+private lateinit var toolbar: Toolbar
 private lateinit var etPairSearchField: EditText
 private lateinit var btnClearSearchField: ImageView
 private lateinit var btnAddPair: ImageView
@@ -74,6 +77,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
         btnAddPair = activityWsEditorBinding.ivEditorAddIcon
         btnAddPair.setOnClickListener {
+            //addNewPairPresenter handles
             showAddNewPairAlertDialog(this) { key, value ->
                 currentPairList.add(0, Pair(key, value))
                 pairRowAdapter.notifyItemInserted(0)
@@ -91,6 +95,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
             }
 
             override fun afterTextChanged(s: Editable?) {
+                //clearAllPresenter handles
                 val isStringEmpty = s.toString().isNotEmpty()
                 showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
                 filter(s.toString())
@@ -149,18 +154,13 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT
         ) {
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ): Int {
-                return super.getMovementFlags(recyclerView, viewHolder)
-            }
 
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                // onMovePresenter handles
                 val fromPosition = viewHolder.bindingAdapterPosition
                 val toPosition = target.bindingAdapterPosition
 
@@ -173,6 +173,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
+                        // onSwipePresenter handles
                         pairRowAdapter.notifyDataSetChanged()
                         showRemoveAlertDialog(position)
                         Log.d("Swipe", "activity: swiped left")
@@ -207,6 +208,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.toolbar_edit) {
+            //editItemPresenter handles
             Toast.makeText(this, "редактировать название и детали", Toast.LENGTH_SHORT).show()
         }
         return true

@@ -37,7 +37,7 @@ class PairSelectorAdapter : RecyclerView.Adapter<PairSelectorAdapter.PairSelecto
     override fun getItemCount() = pairList.count()
 
     inner class PairSelectorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = PairSelectorRowBinding.bind(itemView)
+        private val binding = PairSelectorRowBinding.bind(itemView)
         private val questWordItem = binding.questWordItem
 
         fun bind(pair: Pair, position: Int) {
