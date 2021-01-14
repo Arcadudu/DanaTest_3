@@ -88,7 +88,6 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
 
     private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
         imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
-        imageView.isEnabled = showAndEnable
         ivBtnClearIsShownAndEnabled = showAndEnable
     }
 

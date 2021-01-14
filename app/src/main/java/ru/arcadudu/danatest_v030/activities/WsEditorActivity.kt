@@ -101,9 +101,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
     private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
         imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
-        imageView.isEnabled = showAndEnable
         ivBtnClearIsShownAndEnabled = showAndEnable
-
     }
 
     private fun preparePairRecycler(targetRecyclerView: RecyclerView, pairList: MutableList<Pair>) {
