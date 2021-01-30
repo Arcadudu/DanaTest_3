@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/plt_background_light"
     android:orientation="vertical"
-    tools:context=".activities.WsEditorActivity">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -26,13 +26,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|snap"
-            app:menu="@menu/ws_editor_menu"
             app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
             app:subtitle="subtitle"
             app:title="WordSetTitle">
 
-
         </androidx.appcompat.widget.Toolbar>
+
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/editor_searchBar"

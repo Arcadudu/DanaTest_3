@@ -1,25 +1,22 @@
-package ru.arcadudu.danatest_v030.activities
+package ru.arcadudu.danatest_v030.wordSetEditorActivity
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import moxy.MvpAppCompatActivity
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
@@ -47,7 +44,8 @@ private var ivBtnClearIsShownAndEnabled = false
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
-class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListener {
+class WsEditorActivity : MvpAppCompatActivity(),
+    WordSetAdapter.OnItemSwipedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +56,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
         extractIncomingWordSet(tag = TO_EDITOR_SELECTED_WORD_SET)
 
         toolbar = activityWsEditorBinding.toolbar
+
         prepareToolbar(toolbar, currentWordSet)
 
         recyclerView = activityWsEditorBinding.pairsRecycler
@@ -71,47 +70,46 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
         btnClearSearchField = activityWsEditorBinding.btnSearchClose
         showBtnClear(btnClearSearchField, false)
         btnClearSearchField.setOnClickListener {
-            if (ivBtnClearIsShownAndEnabled) etPairSearchField.text = null
-            etPairSearchField.hint = getString(R.string.pair_search_field_hint)
+            etPairSearchField.text = null
         }
 
         btnAddPair = activityWsEditorBinding.ivEditorAddIcon
         btnAddPair.setOnClickListener {
-            //addNewPairPresenter handles
+            //presenter calls addNewPairDialog
             showAddNewPairAlertDialog(this) { key, value ->
                 currentPairList.add(0, Pair(key, value))
+                //view notifies adapter
                 pairRowAdapter.notifyItemInserted(0)
             }
             Log.d("pair", "onCreate: you pressed addPairBtn ")
         }
     }
 
-    private fun addTextWatcher(targetEditText: EditText) {
-        targetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    /*LEAVE HERE*/
+    private fun prepareToolbar(targetToolbar: Toolbar, wordSet: WordSet) {
+        setSupportActionBar(targetToolbar)
+        targetToolbar.apply {
+            title = wordSet.name
+            subtitle = currentWordSet.description
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            navigationIcon =
+                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
+            this.setNavigationOnClickListener {
+                // TODO: 13.01.2021 save wordSet state
+                onBackPressed()
             }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            targetToolbar.setOnClickListener {
+                //Presenter calls dialog with editTexts for title and details
+                Toast.makeText(context, "You clicked on toolbar!", Toast.LENGTH_SHORT).show()
             }
-
-            override fun afterTextChanged(s: Editable?) {
-                //clearAllPresenter handles
-                val isStringEmpty = s.toString().isNotEmpty()
-                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
-                filter(s.toString())
-            }
-
-        })
+        }
     }
 
-    private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
-        imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
-        ivBtnClearIsShownAndEnabled = showAndEnable
-    }
-
+    /*LEAVE HERE*/
     private fun preparePairRecycler(targetRecyclerView: RecyclerView, pairList: MutableList<Pair>) {
         pairRowAdapter = PairRowAdapter()
-        pairRowAdapter.submitPairs(pairList)
+        pairRowAdapter.submitPairs(pairList) // to be executed after rendering
         val horizontalDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         horizontalDivider.setDrawable(
             resources.getDrawable(R.drawable.divider_drawable, null)
@@ -127,28 +125,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
     }
 
-    private fun prepareToolbar(targetToolbar: Toolbar, wordSet: WordSet) {
-        setSupportActionBar(targetToolbar)
-        targetToolbar.apply {
-            title = wordSet.name
-            subtitle = currentWordSet.description
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            navigationIcon =
-                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
-            this.setNavigationOnClickListener {
-                // TODO: 13.01.2021 save wordSet state
-                onBackPressed()
-            }
-        }
-    }
-
-    private fun extractIncomingWordSet(tag: String) {
-        currentWordSet = intent.getSerializableExtra(tag) as WordSet
-        currentPairList = currentWordSet.getPairList()
-    }
-
-
+    /*LEAVE HERE*/
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -160,9 +137,9 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                // onMovePresenter handles
                 val fromPosition = viewHolder.bindingAdapterPosition
                 val toPosition = target.bindingAdapterPosition
+                // presenter onMove(fromPosition, toPosition)
 
                 Collections.swap(currentPairList, fromPosition, toPosition)
                 pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
@@ -173,8 +150,8 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        // onSwipePresenter handles
                         pairRowAdapter.notifyDataSetChanged()
+                        // presenter showRemoveDialog
                         showRemoveAlertDialog(position)
                         Log.d("Swipe", "activity: swiped left")
                     }
@@ -186,7 +163,33 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    /*LEAVE HERE*/
+    private fun addTextWatcher(targetEditText: EditText) {
+        targetEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //presenter checkStringForLetters(s.toString())
+                val isStringEmpty = s.toString().isNotEmpty()
+                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
+                filter(s.toString())
+            }
+
+        })
+    }
+
+    /*LEAVE HERE*/
+    private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
+        imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
+        ivBtnClearIsShownAndEnabled = showAndEnable
+    }
+
+
+    /*MOVE TO PRESENTER*/
     private fun filter(text: String) {
         val filteredList: MutableList<Pair> = mutableListOf()
         for (item in currentPairList) {
@@ -196,24 +199,18 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
                 filteredList.add(item)
             }
         }
+        // here view receives and filters list
         pairRowAdapter.filterList(filteredList)
     }
 
-
-    // toolbar menu setup
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        MenuInflater(this).inflate(R.menu.ws_editor_menu, menu)
-        return true
+    /*MOVE TO PRESENTER*/
+    private fun extractIncomingWordSet(tag: String) {
+        // presenter extractIncomingWordSet(serializableIncomingIntent :Intent)
+        currentWordSet = intent.getSerializableExtra(tag) as WordSet
+        currentPairList = currentWordSet.getPairList()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.toolbar_edit) {
-            //editItemPresenter handles
-            Toast.makeText(this, "редактировать название и детали", Toast.LENGTH_SHORT).show()
-        }
-        return true
-    }
-
+    /*MOVE TO PRESENTER OR MAKE CLASS*/
     override fun showRemoveAlertDialog(position: Int) {
         val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val layoutInflater = this.layoutInflater
@@ -242,6 +239,7 @@ class WsEditorActivity : AppCompatActivity(), WordSetAdapter.OnItemSwipedListene
 
     }
 
+    /*MOVE TO PRESENTER OR MAKE CLASS*/
     private fun showAddNewPairAlertDialog(
         context: Context,
         onConfirm: ((String, String) -> Unit)?

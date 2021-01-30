@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.activities.WsEditorActivity
+import ru.arcadudu.danatest_v030.wordSetEditorActivity.WsEditorActivity
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.databinding.DialogAddWordSetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
