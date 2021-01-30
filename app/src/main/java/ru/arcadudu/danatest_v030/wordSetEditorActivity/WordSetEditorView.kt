@@ -1,29 +1,28 @@
 package ru.arcadudu.danatest_v030.wordSetEditorActivity
 
+import androidx.appcompat.widget.Toolbar
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pair
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface WordSetEditorView :MvpView {
+interface WordSetEditorView : MvpView {
 
+    //  viewState.decorateToolbar(wordSetTitle, wordSetDetails) ***
+//    fun prepareToolbar(targetToolbar: Toolbar, wordSetTitle: String, wordSetDescription: String)
 
-//    viewState.decorateToolbar(wordSetTitle, wordSetDetails) ***
-    fun decorateToolbar(wordSetTitle:String, wordSetDetails:String)
+    fun notifyAdapterOnSwap(fromPosition:Int, toPosition:Int)
 
-    //      viewState.obtainPairList(currentPairList) ***
-    fun obtainPairList(currentPairList:MutableList<Pair>)
+    //  viewState.obtainPairList(currentPairList) ***
+    fun obtainPairList(currentPairList: MutableList<Pair>)
 
-    //      viewState.onSwap(currentPairList)
-    fun onSwap(currentPairList:MutableList<Pair>)
+    //  viewState.onSwap(currentPairList)
+    fun onSwap(currentPairList: MutableList<Pair>)
 
-    //       viewState.obtainFilteredList(filteredList) ***
+    //  viewState.obtainFilteredList(filteredList) ***
+    fun obtainFilteredList(filteredList: MutableList<Pair>)
 
-    fun obtainFilteredList(filteredList:MutableList<Pair>)
-
-//    viewState.showBtnClearAll(!isStringEmpty) ***
-
-    fun showBtnClearAll(isStringEmpty:Boolean)
-    //
+    //  viewState.showBtnClearAll(!isStringEmpty) ***
+    fun showBtnClearAll(isStringEmpty: Boolean)
 }

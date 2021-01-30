@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
@@ -24,8 +25,6 @@ import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
-import java.util.*
 
 private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
 private lateinit var dialogRemovePairBinding: DialogRemoveItemBinding
@@ -34,8 +33,7 @@ private lateinit var toolbar: Toolbar
 private lateinit var etPairSearchField: EditText
 private lateinit var btnClearSearchField: ImageView
 private lateinit var btnAddPair: ImageView
-private lateinit var currentWordSet: WordSet
-private lateinit var currentPairList: MutableList<Pair>
+//private lateinit var currentPairList: MutableList<Pair>
 
 private lateinit var recyclerView: RecyclerView
 private lateinit var pairRowAdapter: PairRowAdapter
@@ -44,8 +42,10 @@ private var ivBtnClearIsShownAndEnabled = false
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
-class WsEditorActivity : MvpAppCompatActivity(),
+class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
     WordSetAdapter.OnItemSwipedListener {
+    @InjectPresenter
+    lateinit var wsEditorPresenter: WsEditorPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +53,19 @@ class WsEditorActivity : MvpAppCompatActivity(),
         val view = activityWsEditorBinding.root
         setContentView(view)
 
-        extractIncomingWordSet(tag = TO_EDITOR_SELECTED_WORD_SET)
+        wsEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
+//        extractIncomingWordSet(tag = TO_EDITOR_SELECTED_WORD_SET)
 
         toolbar = activityWsEditorBinding.toolbar
-
-        prepareToolbar(toolbar, currentWordSet)
+        prepareToolbar(
+            toolbar,
+            wsEditorPresenter.wordSetTitle,
+            wsEditorPresenter.wordSetDescription
+        )
 
         recyclerView = activityWsEditorBinding.pairsRecycler
-        preparePairRecycler(recyclerView, currentPairList)
+        preparePairRecycler(recyclerView)
+        pairRowAdapter.submitPairs(wsEditorPresenter.providePairList())
         initRecyclerSwiper(recyclerView)
 
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
@@ -77,7 +82,8 @@ class WsEditorActivity : MvpAppCompatActivity(),
         btnAddPair.setOnClickListener {
             //presenter calls addNewPairDialog
             showAddNewPairAlertDialog(this) { key, value ->
-                currentPairList.add(0, Pair(key, value))
+
+                wsEditorPresenter.providePairList().add(0, Pair(key, value))
                 //view notifies adapter
                 pairRowAdapter.notifyItemInserted(0)
             }
@@ -86,11 +92,35 @@ class WsEditorActivity : MvpAppCompatActivity(),
     }
 
     /*LEAVE HERE*/
-    private fun prepareToolbar(targetToolbar: Toolbar, wordSet: WordSet) {
+    /*private fun prepareToolbar(targetToolbar: Toolbar) {
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
-            title = wordSet.name
-            subtitle = currentWordSet.description
+            title = wsEditorPresenter.wordSetTitle
+            subtitle = wsEditorPresenter.wordSetDescription
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            navigationIcon =
+                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
+            this.setNavigationOnClickListener {
+                // TODO: 13.01.2021 save wordSet state
+                onBackPressed()
+            }
+            targetToolbar.setOnClickListener {
+                //Presenter calls dialog with editTexts for title and details
+                Toast.makeText(context, "You clicked on toolbar!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }*/
+
+    private fun prepareToolbar(
+        targetToolbar: Toolbar,
+        wordSetTitle: String,
+        wordSetDescription: String
+    ) {
+        setSupportActionBar(targetToolbar)
+        targetToolbar.apply {
+            title = wordSetTitle
+            subtitle = wordSetDescription
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             navigationIcon =
@@ -107,9 +137,8 @@ class WsEditorActivity : MvpAppCompatActivity(),
     }
 
     /*LEAVE HERE*/
-    private fun preparePairRecycler(targetRecyclerView: RecyclerView, pairList: MutableList<Pair>) {
+    private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
         pairRowAdapter = PairRowAdapter()
-        pairRowAdapter.submitPairs(pairList) // to be executed after rendering
         val horizontalDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         horizontalDivider.setDrawable(
             resources.getDrawable(R.drawable.divider_drawable, null)
@@ -121,7 +150,6 @@ class WsEditorActivity : MvpAppCompatActivity(),
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(horizontalDivider)
         }
-
 
     }
 
@@ -137,12 +165,13 @@ class WsEditorActivity : MvpAppCompatActivity(),
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                val fromPosition = viewHolder.bindingAdapterPosition
-                val toPosition = target.bindingAdapterPosition
+//                val fromPosition = viewHolder.bindingAdapterPosition
+//                val toPosition = target.bindingAdapterPosition
                 // presenter onMove(fromPosition, toPosition)
-
-                Collections.swap(currentPairList, fromPosition, toPosition)
-                pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
+                wsEditorPresenter.onMove(
+                    fromPosition = viewHolder.bindingAdapterPosition,
+                    toPosition = target.bindingAdapterPosition
+                )
                 return true
             }
 
@@ -174,13 +203,12 @@ class WsEditorActivity : MvpAppCompatActivity(),
 
             override fun afterTextChanged(s: Editable?) {
                 //presenter checkStringForLetters(s.toString())
-                val isStringEmpty = s.toString().isNotEmpty()
-                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
-                filter(s.toString())
+                wsEditorPresenter.checkStringForLetters(s.toString())
             }
 
         })
     }
+
 
     /*LEAVE HERE*/
     private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
@@ -188,27 +216,20 @@ class WsEditorActivity : MvpAppCompatActivity(),
         ivBtnClearIsShownAndEnabled = showAndEnable
     }
 
+    ///*MOVE TO PRESENTER*/
+    //    private fun filter(text: String) {
+    //        val filteredList: MutableList<Pair> = mutableListOf()
+    //        for (item in currentPairList) {
+    //            if (item.key.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
+    //                item.value.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
+    //            ) {
+    //                filteredList.add(item)
+    //            }
+    //        }
+    //        // here view receives and filters list
+    //        pairRowAdapter.filterList(filteredList)
+    //    }
 
-    /*MOVE TO PRESENTER*/
-    private fun filter(text: String) {
-        val filteredList: MutableList<Pair> = mutableListOf()
-        for (item in currentPairList) {
-            if (item.key.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
-                item.value.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
-            ) {
-                filteredList.add(item)
-            }
-        }
-        // here view receives and filters list
-        pairRowAdapter.filterList(filteredList)
-    }
-
-    /*MOVE TO PRESENTER*/
-    private fun extractIncomingWordSet(tag: String) {
-        // presenter extractIncomingWordSet(serializableIncomingIntent :Intent)
-        currentWordSet = intent.getSerializableExtra(tag) as WordSet
-        currentPairList = currentWordSet.getPairList()
-    }
 
     /*MOVE TO PRESENTER OR MAKE CLASS*/
     override fun showRemoveAlertDialog(position: Int) {
@@ -217,7 +238,7 @@ class WsEditorActivity : MvpAppCompatActivity(),
         val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
-        val chosenPair = currentPairList[position]
+        val chosenPair = wsEditorPresenter.providePairList()[position]
 
         dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
 
@@ -297,6 +318,27 @@ class WsEditorActivity : MvpAppCompatActivity(),
 
         addPairDialog.show()
         return addPairDialog
+    }
+
+    override fun notifyAdapterOnSwap(fromPosition: Int, toPosition: Int) {
+        pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
+    }
+
+
+    override fun obtainPairList(currentPairList: MutableList<Pair>) {
+
+    }
+
+    override fun onSwap(currentPairList: MutableList<Pair>) {
+
+    }
+
+    override fun obtainFilteredList(filteredList: MutableList<Pair>) {
+        pairRowAdapter.submitPairs(filteredList)
+    }
+
+    override fun showBtnClearAll(isStringEmpty: Boolean) {
+
     }
 
 
