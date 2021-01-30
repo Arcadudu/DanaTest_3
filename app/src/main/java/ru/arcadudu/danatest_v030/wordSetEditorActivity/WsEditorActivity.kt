@@ -334,7 +334,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
     }
 
     override fun obtainFilteredList(filteredList: MutableList<Pair>) {
-        pairRowAdapter.submitPairs(filteredList)
+        pairRowAdapter.filterList(filteredList)
     }
 
     override fun showBtnClearAll(isStringEmpty: Boolean) {
