@@ -53,7 +53,7 @@ class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCar
                 binding.apply {
                     tvPairSetTitle.text = wordSet.name
                     tvPairSetCount.text = "${position + 1}/${pairs.size}"
-                    tvQuestWord.text = pairs[position].key
+                    tvQuestWord.text = pairs[position].pairKey
 
                     radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
                         iCheckWord = VariantsActivity()

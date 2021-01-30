@@ -46,8 +46,8 @@ PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
         fun bind(pair: Pair) {
 
             binding.apply {
-                tvKey.text = pair.key
-                tvValue.text = pair.value
+                tvKey.text = pair.pairKey
+                tvValue.text = pair.pairValue
             }
 
         }

@@ -88,7 +88,7 @@ class TranslateActivity : AppCompatActivity(), IProgress,
         ivMakePairFavorite.setOnClickListener {
             Toast.makeText(
                 this,
-                "${currentPairList[currentSnapPosition].key} added to fav!",
+                "${currentPairList[currentSnapPosition].pairKey} added to fav!",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -166,7 +166,7 @@ class TranslateActivity : AppCompatActivity(), IProgress,
 
     fun setHint(editText: EditText, position: Int) {
         val pair: Pair = currentPairList[position]
-        editText.hint = pair.value
+        editText.hint = pair.pairValue
     }
 
     override fun setTestProgress(done: Int) {
@@ -184,7 +184,7 @@ class TranslateActivity : AppCompatActivity(), IProgress,
 
     private fun checkAnswerCorrectness(userAnswer: String, position: Int): Boolean {
         val pair = currentPairList[position]
-        val trueValue = pair.key.trim().toLowerCase(Locale.ROOT)
+        val trueValue = pair.pairKey.trim().toLowerCase(Locale.ROOT)
 
         val toastText = if (userAnswer.trim()
                 .toLowerCase(Locale.ROOT) == trueValue

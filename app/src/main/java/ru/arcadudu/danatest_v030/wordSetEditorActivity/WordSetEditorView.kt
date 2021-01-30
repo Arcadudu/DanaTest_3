@@ -10,7 +10,9 @@ import ru.arcadudu.danatest_v030.models.Pair
 interface WordSetEditorView : MvpView {
 
     //  viewState.decorateToolbar(wordSetTitle, wordSetDetails) ***
-//    fun prepareToolbar(targetToolbar: Toolbar, wordSetTitle: String, wordSetDescription: String)
+    //    fun prepareToolbar(targetToolbar: Toolbar, wordSetTitle: String, wordSetDescription: String)
+
+    fun showAddNewPairDialog()
 
     fun notifyAdapterOnSwap(fromPosition:Int, toPosition:Int)
 
@@ -25,4 +27,6 @@ interface WordSetEditorView : MvpView {
 
     //  viewState.showBtnClearAll(!isStringEmpty) ***
     fun showBtnClearAll(isStringEmpty: Boolean)
+
+    fun onSuccessfulAddedPair()
 }

@@ -33,12 +33,10 @@ private lateinit var toolbar: Toolbar
 private lateinit var etPairSearchField: EditText
 private lateinit var btnClearSearchField: ImageView
 private lateinit var btnAddPair: ImageView
-//private lateinit var currentPairList: MutableList<Pair>
 
 private lateinit var recyclerView: RecyclerView
 private lateinit var pairRowAdapter: PairRowAdapter
 
-private var ivBtnClearIsShownAndEnabled = false
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
@@ -65,7 +63,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
         recyclerView = activityWsEditorBinding.pairsRecycler
         preparePairRecycler(recyclerView)
-        pairRowAdapter.submitPairs(wsEditorPresenter.providePairList())
+
         initRecyclerSwiper(recyclerView)
 
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
@@ -81,12 +79,14 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         btnAddPair = activityWsEditorBinding.ivEditorAddIcon
         btnAddPair.setOnClickListener {
             //presenter calls addNewPairDialog
-            showAddNewPairAlertDialog(this) { key, value ->
 
-                wsEditorPresenter.providePairList().add(0, Pair(key, value))
+            wsEditorPresenter.onAddNewPair()
+
+            /*showAddNewPairAlertDialog(this) { key, value ->
+
                 //view notifies adapter
                 pairRowAdapter.notifyItemInserted(0)
-            }
+            }*/
             Log.d("pair", "onCreate: you pressed addPairBtn ")
         }
     }
@@ -150,7 +150,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(horizontalDivider)
         }
-
+        pairRowAdapter.submitPairs(wsEditorPresenter.providePairList())
     }
 
     /*LEAVE HERE*/
@@ -213,23 +213,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
     /*LEAVE HERE*/
     private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
         imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
-        ivBtnClearIsShownAndEnabled = showAndEnable
     }
-
-    ///*MOVE TO PRESENTER*/
-    //    private fun filter(text: String) {
-    //        val filteredList: MutableList<Pair> = mutableListOf()
-    //        for (item in currentPairList) {
-    //            if (item.key.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
-    //                item.value.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
-    //            ) {
-    //                filteredList.add(item)
-    //            }
-    //        }
-    //        // here view receives and filters list
-    //        pairRowAdapter.filterList(filteredList)
-    //    }
-
 
     /*MOVE TO PRESENTER OR MAKE CLASS*/
     override fun showRemoveAlertDialog(position: Int) {
@@ -242,7 +226,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
         dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
 
-        dialogRemovePairBinding.tvRemoveDialogTitle.text = "${chosenPair.key} — ${chosenPair.value}"
+        dialogRemovePairBinding.tvRemoveDialogTitle.text =
+            "${chosenPair.pairKey} — ${chosenPair.pairValue}"
 
         dialogRemovePairBinding.tvRemoveDialogMessage.text =
             getString(R.string.remove_dialog_warning)
@@ -260,7 +245,65 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
     }
 
-    /*MOVE TO PRESENTER OR MAKE CLASS*/
+    override fun showAddNewPairDialog() {
+        val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val layoutInflater = this.layoutInflater
+        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        addPairDialogBuilder.setView(addPairDialogView)
+        val addPairDialog = addPairDialogBuilder.create()
+
+        var inputKey = ""
+        var inputValue = ""
+
+        val addPairBinding = DialogAddPairBinding.bind(addPairDialogView)
+        addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
+
+        addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                inputKey = s.toString()
+            }
+
+        })
+
+        addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                inputValue = s.toString()
+            }
+
+        })
+
+        addPairBinding.btnAddPair.setOnClickListener {
+            if (inputKey.isBlank()) inputKey = "Ключ не задан"
+            if (inputValue.isBlank()) inputValue = "Значение не задано"
+            /*if (inputKey.isBlank() && inputValue.isBlank()) {
+                inputKey = "Ключ не задан"
+                inputValue = "Значение не задано"
+            }*/
+            wsEditorPresenter.addNewPair(inputKey, inputValue)
+            addPairDialog.dismiss()
+        }
+
+        addPairBinding.btnCancelAddPair.setOnClickListener {
+            addPairDialog.dismiss()
+        }
+        addPairDialog.show()
+    }
+
+    /*MOVE TO PRESENTER OR MAKE CLASS*//*
     private fun showAddNewPairAlertDialog(
         context: Context,
         onConfirm: ((String, String) -> Unit)?
@@ -318,7 +361,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
         addPairDialog.show()
         return addPairDialog
-    }
+    }*/
+
 
     override fun notifyAdapterOnSwap(fromPosition: Int, toPosition: Int) {
         pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
@@ -339,6 +383,10 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
     override fun showBtnClearAll(isStringEmpty: Boolean) {
 
+    }
+
+    override fun onSuccessfulAddedPair() {
+        pairRowAdapter.notifyItemInserted(0)
     }
 
 

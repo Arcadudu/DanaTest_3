@@ -54,7 +54,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
 
                     tvPairSetTitle.text = wordSet.name
                     tvPairSetCount.text = "${position + 1}/${pairs.size}"
-                    tvQuestWord.text = pairs[position].key
+                    tvQuestWord.text = pairs[position].pairKey
 
 
                     btnAddToFav.setOnClickListener {
