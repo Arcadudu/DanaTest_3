@@ -14,7 +14,7 @@ interface WordSetEditorView : MvpView {
 
     fun showAddNewPairDialog()
 
-    fun notifyAdapterOnSwap(fromPosition:Int, toPosition:Int)
+    fun notifyAdapterOnSwap(fromPosition: Int, toPosition: Int)
 
     //  viewState.obtainPairList(currentPairList) ***
     fun obtainPairList(currentPairList: MutableList<Pair>)
@@ -29,4 +29,10 @@ interface WordSetEditorView : MvpView {
     fun showBtnClearAll(isStringEmpty: Boolean)
 
     fun onSuccessfulAddedPair()
+
+    fun showRemovePairDialog(chosenPairKey: String, chosenPairValue: String, position: Int)
+
+    fun notifyAdapterOnRemove(removePosition: Int)
+
+
 }

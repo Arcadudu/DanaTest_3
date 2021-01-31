@@ -35,23 +35,9 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
     }
 
 //    fun onSwipedLeft(swipePosition: Int) {
-//        val chosenPair = currentPairList[swipePosition]
-//        viewState.showAddNewPairDialog(chosenPair.pairKey, chosenPair.pairValue)
-//    }
-
 
     //providePairList(currentPairList){
-//      viewState.obtainPairList(currentPairList) ***
-//    }
 
-    //onMove(fromPosition, toPosition){
-//      Collections.swap(currentPairList, fromPosition, toPosition)
-//      viewState.onSwap(currentPairList)
-//    }
-
-    //showRemoveItemDialog(){}
-
-    //showAddItemDialog(){}
 
     private fun filter(text: String) {
         val filteredList: MutableList<Pair> = mutableListOf()
@@ -62,9 +48,9 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
                 filteredList.add(item)
             }
         }
-        // here view receives and filters list
         viewState.obtainFilteredList(filteredList)
     }
+
 
     fun checkStringForLetters(resultString: String) {
         val isStringEmpty = resultString.isEmpty()
@@ -77,6 +63,17 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
         Log.d("presenter", "addNewPair: list size after: ${currentPairList.size}")
         viewState.onSuccessfulAddedPair()
+    }
+
+    fun onSwipedLeft(swipePosition: Int) {
+        val chosenPair = currentPairList[swipePosition]
+        viewState.showRemovePairDialog(chosenPair.pairKey, chosenPair.pairValue, position = swipePosition)
+
+    }
+
+    fun removePairFromList(removePosition:Int) {
+        currentPairList.removeAt(removePosition)
+        viewState.notifyAdapterOnRemove(removePosition)
     }
 
     //checkStringForLetters(resultString){

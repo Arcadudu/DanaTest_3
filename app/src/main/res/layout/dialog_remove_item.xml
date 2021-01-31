@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/remove_dialog_warning"
+            android:text="@string/remove_dialog_message"
             android:textColor="@color/plt_subtext_grey"
             app:layout_constraintStart_toStartOf="@id/tv_remove_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_title" />

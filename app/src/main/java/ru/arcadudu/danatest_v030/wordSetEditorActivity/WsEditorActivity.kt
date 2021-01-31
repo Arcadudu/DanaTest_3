@@ -1,6 +1,5 @@
 package ru.arcadudu.danatest_v030.wordSetEditorActivity
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -79,38 +78,11 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         btnAddPair = activityWsEditorBinding.ivEditorAddIcon
         btnAddPair.setOnClickListener {
             //presenter calls addNewPairDialog
-
             wsEditorPresenter.onAddNewPair()
-
-            /*showAddNewPairAlertDialog(this) { key, value ->
-
-                //view notifies adapter
-                pairRowAdapter.notifyItemInserted(0)
-            }*/
             Log.d("pair", "onCreate: you pressed addPairBtn ")
         }
     }
 
-    /*LEAVE HERE*/
-    /*private fun prepareToolbar(targetToolbar: Toolbar) {
-        setSupportActionBar(targetToolbar)
-        targetToolbar.apply {
-            title = wsEditorPresenter.wordSetTitle
-            subtitle = wsEditorPresenter.wordSetDescription
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            navigationIcon =
-                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
-            this.setNavigationOnClickListener {
-                // TODO: 13.01.2021 save wordSet state
-                onBackPressed()
-            }
-            targetToolbar.setOnClickListener {
-                //Presenter calls dialog with editTexts for title and details
-                Toast.makeText(context, "You clicked on toolbar!", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }*/
 
     private fun prepareToolbar(
         targetToolbar: Toolbar,
@@ -165,9 +137,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-//                val fromPosition = viewHolder.bindingAdapterPosition
-//                val toPosition = target.bindingAdapterPosition
-                // presenter onMove(fromPosition, toPosition)
+
                 wsEditorPresenter.onMove(
                     fromPosition = viewHolder.bindingAdapterPosition,
                     toPosition = target.bindingAdapterPosition
@@ -180,7 +150,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         pairRowAdapter.notifyDataSetChanged()
-                        // presenter showRemoveDialog
+                        wsEditorPresenter.onSwipedLeft(position)
                         showRemoveAlertDialog(position)
                         Log.d("Swipe", "activity: swiped left")
                     }
@@ -195,14 +165,9 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
     /*LEAVE HERE*/
     private fun addTextWatcher(targetEditText: EditText) {
         targetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                //presenter checkStringForLetters(s.toString())
                 wsEditorPresenter.checkStringForLetters(s.toString())
             }
 
@@ -213,6 +178,38 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
     /*LEAVE HERE*/
     private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
         imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
+    }
+
+    override fun showRemovePairDialog(
+        chosenPairKey: String,
+        chosenPairValue: String,
+        position: Int
+    ) {
+        val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val layoutInflater = this.layoutInflater
+        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
+        removeDialogBuilder.setView(removeDialogView)
+        val removeDialog = removeDialogBuilder.create()
+
+        dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
+
+        dialogRemovePairBinding.tvRemoveDialogTitle.text = "$chosenPairKey - $chosenPairValue"
+
+        dialogRemovePairBinding.tvRemoveDialogMessage.text =
+            getString(R.string.remove_dialog_message)
+
+        dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
+            pairRowAdapter.notifyDataSetChanged()
+            removeDialog.dismiss()
+        }
+
+        dialogRemovePairBinding.btnRemoveWordSet.setOnClickListener {
+            wsEditorPresenter.removePairFromList(position)
+        }
+    }
+
+    override fun notifyAdapterOnRemove(removePosition: Int) {
+        pairRowAdapter.notifyItemRemoved(removePosition)
     }
 
     /*MOVE TO PRESENTER OR MAKE CLASS*/
@@ -230,7 +227,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
             "${chosenPair.pairKey} — ${chosenPair.pairValue}"
 
         dialogRemovePairBinding.tvRemoveDialogMessage.text =
-            getString(R.string.remove_dialog_warning)
+            getString(R.string.remove_dialog_message)
 
         dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
             pairRowAdapter.notifyDataSetChanged()
@@ -289,10 +286,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         addPairBinding.btnAddPair.setOnClickListener {
             if (inputKey.isBlank()) inputKey = "Ключ не задан"
             if (inputValue.isBlank()) inputValue = "Значение не задано"
-            /*if (inputKey.isBlank() && inputValue.isBlank()) {
-                inputKey = "Ключ не задан"
-                inputValue = "Значение не задано"
-            }*/
+
             wsEditorPresenter.addNewPair(inputKey, inputValue)
             addPairDialog.dismiss()
         }
@@ -302,66 +296,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         }
         addPairDialog.show()
     }
-
-    /*MOVE TO PRESENTER OR MAKE CLASS*//*
-    private fun showAddNewPairAlertDialog(
-        context: Context,
-        onConfirm: ((String, String) -> Unit)?
-    ): AlertDialog {
-        val addPairDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
-        addPairDialogBuilder.setView(addPairDialogView)
-        val addPairDialog = addPairDialogBuilder.create()
-
-        var inputKey = ""
-        var inputValue = ""
-
-        val addPairBinding = DialogAddPairBinding.bind(addPairDialogView)
-        addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
-
-        addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                inputKey = s.toString()
-            }
-        })
-
-        addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                inputValue = s.toString()
-            }
-        })
-
-        addPairBinding.btnAddPair.setOnClickListener {
-            if (inputKey.isBlank() && inputValue.isBlank()) {
-                inputKey = "Ключ не задан"
-                inputValue = "Значение не задано"
-            }
-            onConfirm?.invoke(inputKey, inputValue)
-            addPairDialog.dismiss()
-        }
-
-        addPairBinding.btnCancelAddPair.setOnClickListener {
-            addPairDialog.dismiss()
-        }
-
-        addPairDialog.show()
-        return addPairDialog
-    }*/
 
 
     override fun notifyAdapterOnSwap(fromPosition: Int, toPosition: Int) {
