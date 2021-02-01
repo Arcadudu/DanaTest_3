@@ -32,7 +32,6 @@ private lateinit var toolbar: Toolbar
 private lateinit var etPairSearchField: EditText
 private lateinit var btnClearSearchField: ImageView
 private lateinit var btnAddPair: ImageView
-
 private lateinit var recyclerView: RecyclerView
 private lateinit var pairRowAdapter: PairRowAdapter
 
@@ -50,8 +49,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         val view = activityWsEditorBinding.root
         setContentView(view)
 
+
         wsEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
-//        extractIncomingWordSet(tag = TO_EDITOR_SELECTED_WORD_SET)
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(
@@ -65,12 +64,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
         initRecyclerSwiper(recyclerView)
 
+        /*поле поиска "пары" по названию*/
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
         etPairSearchField.hint = getString(R.string.pair_search_field_hint)
         addTextWatcher(etPairSearchField)
 
         btnClearSearchField = activityWsEditorBinding.btnSearchClose
-        showBtnClear(btnClearSearchField, false)
+        showBtnClearAll(true)
         btnClearSearchField.setOnClickListener {
             etPairSearchField.text = null
         }
@@ -108,13 +108,15 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         }
     }
 
-    /*LEAVE HERE*/
     private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
         pairRowAdapter = PairRowAdapter()
         val horizontalDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
-        horizontalDivider.setDrawable(
-            resources.getDrawable(R.drawable.divider_drawable, null)
-        )
+        ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, null)?.let {
+            horizontalDivider.setDrawable(
+                it
+
+            )
+        }
 
         targetRecyclerView.apply {
             setHasFixedSize(true)
@@ -125,7 +127,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         pairRowAdapter.submitPairs(wsEditorPresenter.providePairList())
     }
 
-    /*LEAVE HERE*/
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -162,7 +163,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    /*LEAVE HERE*/
     private fun addTextWatcher(targetEditText: EditText) {
         targetEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -174,10 +174,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         })
     }
 
-
-    /*LEAVE HERE*/
-    private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
-        imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
+    override fun showBtnClearAll(isStringEmpty: Boolean) {
+        btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
 
     override fun showRemovePairDialog(
@@ -198,11 +196,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         dialogRemovePairBinding.tvRemoveDialogMessage.text =
             getString(R.string.remove_dialog_message)
 
+        //negative btn
         dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
             pairRowAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
 
+        //positive btn
         dialogRemovePairBinding.btnRemoveWordSet.setOnClickListener {
             wsEditorPresenter.removePairFromList(position)
         }
@@ -212,7 +212,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         pairRowAdapter.notifyItemRemoved(removePosition)
     }
 
-    /*MOVE TO PRESENTER OR MAKE CLASS*/
+
     override fun showRemoveAlertDialog(position: Int) {
         val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val layoutInflater = this.layoutInflater
@@ -256,12 +256,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
         addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 inputKey = s.toString()
             }
@@ -269,14 +265,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         })
 
         addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 inputValue = s.toString()
             }
@@ -297,26 +287,12 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         addPairDialog.show()
     }
 
-
     override fun notifyAdapterOnSwap(fromPosition: Int, toPosition: Int) {
         pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
     }
 
-
-    override fun obtainPairList(currentPairList: MutableList<Pair>) {
-
-    }
-
-    override fun onSwap(currentPairList: MutableList<Pair>) {
-
-    }
-
     override fun obtainFilteredList(filteredList: MutableList<Pair>) {
         pairRowAdapter.filterList(filteredList)
-    }
-
-    override fun showBtnClearAll(isStringEmpty: Boolean) {
-
     }
 
     override fun onSuccessfulAddedPair() {

@@ -23,20 +23,33 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         currentPairList = currentWordSet.getPairList()
     }
 
+
     fun providePairList() = currentPairList
+
 
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(currentPairList, fromPosition, toPosition)
         viewState.notifyAdapterOnSwap(fromPosition, toPosition)
     }
 
+
     fun onAddNewPair() {
         viewState.showAddNewPairDialog()
     }
 
-//    fun onSwipedLeft(swipePosition: Int) {
+    fun addNewPair(inputKey: String, inputValue: String) {
+        Log.d("presenter", "addNewPair: list size before: ${currentPairList.size}")
+        currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
+        Log.d("presenter", "addNewPair: list size after: ${currentPairList.size}")
+        viewState.onSuccessfulAddedPair()
+    }
 
-    //providePairList(currentPairList){
+
+    fun checkStringForLetters(resultString: String) {
+        val isStringEmpty = resultString.isEmpty()
+        viewState.showBtnClearAll(isStringEmpty)
+        filter(resultString)
+    }
 
 
     private fun filter(text: String) {
@@ -52,35 +65,21 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
     }
 
 
-    fun checkStringForLetters(resultString: String) {
-        val isStringEmpty = resultString.isEmpty()
-        viewState.showBtnClearAll(!isStringEmpty)
-        filter(resultString)
-    }
-
-    fun addNewPair(inputKey: String, inputValue: String) {
-        Log.d("presenter", "addNewPair: list size before: ${currentPairList.size}")
-        currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
-        Log.d("presenter", "addNewPair: list size after: ${currentPairList.size}")
-        viewState.onSuccessfulAddedPair()
-    }
-
     fun onSwipedLeft(swipePosition: Int) {
         val chosenPair = currentPairList[swipePosition]
-        viewState.showRemovePairDialog(chosenPair.pairKey, chosenPair.pairValue, position = swipePosition)
+        viewState.showRemovePairDialog(
+            chosenPair.pairKey,
+            chosenPair.pairValue,
+            position = swipePosition
+        )
 
     }
 
-    fun removePairFromList(removePosition:Int) {
+
+    fun removePairFromList(removePosition: Int) {
         currentPairList.removeAt(removePosition)
         viewState.notifyAdapterOnRemove(removePosition)
     }
-
-    //checkStringForLetters(resultString){
-//      val isStringEmpty = resultString.isEmpty
-//      viewState.showBtnClearAll(!isStringEmpty) ***
-//      filter(resultString)
-//      }
 
 
 }
