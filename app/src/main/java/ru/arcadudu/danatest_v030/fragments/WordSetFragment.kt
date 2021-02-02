@@ -283,7 +283,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         dialogRemoveWordSetBinding.tvRemoveDialogTitle.text = chosenWordSet.name
         dialogRemoveWordSetBinding.tvRemoveDialogMessage.text =
             getString(R.string.remove_dialog_message)
-        dialogRemoveWordSetBinding.btnRemoveWordSet.setOnClickListener {
+        dialogRemoveWordSetBinding.btnRemovePair.setOnClickListener {
             wordSetAdapter.removeItem(position)
             removeDialog.dismiss()
         }

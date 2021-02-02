@@ -19,7 +19,6 @@ import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
-import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
@@ -38,8 +37,7 @@ private lateinit var pairRowAdapter: PairRowAdapter
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
-class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
-    WordSetAdapter.OnItemSwipedListener {
+class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     @InjectPresenter
     lateinit var wsEditorPresenter: WsEditorPresenter
 
@@ -61,7 +59,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
         recyclerView = activityWsEditorBinding.pairsRecycler
         preparePairRecycler(recyclerView)
-
         initRecyclerSwiper(recyclerView)
 
         /*поле поиска "пары" по названию*/
@@ -148,12 +145,16 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
+                Log.d("Swiper", "Activity: onSwiped called")
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        pairRowAdapter.notifyDataSetChanged()
+//                        pairRowAdapter.notifyDataSetChanged()
+                        Log.d(
+                            "Swipe",
+                            "Activity, direction = left! : onSwiped: position = $position"
+                        )
                         wsEditorPresenter.onSwipedLeft(position)
-                        showRemoveAlertDialog(position)
-                        Log.d("Swipe", "activity: swiped left")
+                        Log.d("Swipe", "Activity: swiped left")
                     }
                 }
 
@@ -178,21 +179,25 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
 
+
     override fun showRemovePairDialog(
         chosenPairKey: String,
         chosenPairValue: String,
         position: Int
     ) {
+        Log.d("Swiper", "Activity: showRemovePairDialog: method called ")
         val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val layoutInflater = this.layoutInflater
         val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
+        Log.d(
+            "Swiper",
+            "Activity: showRemovePairDialog: removeDialog is null? ${removeDialog == null} "
+        )
 
         dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
-
         dialogRemovePairBinding.tvRemoveDialogTitle.text = "$chosenPairKey - $chosenPairValue"
-
         dialogRemovePairBinding.tvRemoveDialogMessage.text =
             getString(R.string.remove_dialog_message)
 
@@ -201,46 +206,16 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
             pairRowAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
-
         //positive btn
-        dialogRemovePairBinding.btnRemoveWordSet.setOnClickListener {
-            wsEditorPresenter.removePairFromList(position)
-        }
-    }
-
-    override fun notifyAdapterOnRemove(removePosition: Int) {
-        pairRowAdapter.notifyItemRemoved(removePosition)
-    }
-
-
-    override fun showRemoveAlertDialog(position: Int) {
-        val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
-        removeDialogBuilder.setView(removeDialogView)
-        val removeDialog = removeDialogBuilder.create()
-        val chosenPair = wsEditorPresenter.providePairList()[position]
-
-        dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
-
-        dialogRemovePairBinding.tvRemoveDialogTitle.text =
-            "${chosenPair.pairKey} — ${chosenPair.pairValue}"
-
-        dialogRemovePairBinding.tvRemoveDialogMessage.text =
-            getString(R.string.remove_dialog_message)
-
-        dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
-            pairRowAdapter.notifyDataSetChanged()
+        dialogRemovePairBinding.btnRemovePair.setOnClickListener {
+            wsEditorPresenter.removePairAtPosition(position)
             removeDialog.dismiss()
         }
 
-        dialogRemovePairBinding.btnRemoveWordSet.setOnClickListener {
-            pairRowAdapter.removeItem(position)
-            removeDialog.dismiss()
-        }
         removeDialog.show()
-
     }
+
+
 
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
@@ -276,7 +251,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         addPairBinding.btnAddPair.setOnClickListener {
             if (inputKey.isBlank()) inputKey = "Ключ не задан"
             if (inputValue.isBlank()) inputValue = "Значение не задано"
-
             wsEditorPresenter.addNewPair(inputKey, inputValue)
             addPairDialog.dismiss()
         }
@@ -287,17 +261,44 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView,
         addPairDialog.show()
     }
 
-    override fun notifyAdapterOnSwap(fromPosition: Int, toPosition: Int) {
-        pairRowAdapter.notifyItemMoved(fromPosition, toPosition)
-    }
-
     override fun obtainFilteredList(filteredList: MutableList<Pair>) {
         pairRowAdapter.filterList(filteredList)
     }
 
-    override fun onSuccessfulAddedPair() {
-        pairRowAdapter.notifyItemInserted(0)
+
+    override fun updatePairList(updatedPairList: MutableList<Pair>) {
+        pairRowAdapter.submitPairs(updatedPairList)
+        pairRowAdapter.notifyDataSetChanged()
     }
 
 
+    override fun updateRecyclerOnSwap(
+        updatedPairList: MutableList<Pair>,
+        fromPosition: Int,
+        toPosition: Int
+    ) {
+        pairRowAdapter.apply {
+            submitPairs(updatedPairList)
+            notifyItemMoved(fromPosition, toPosition)
+        }
+    }
+
+    override fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition: Int) {
+        pairRowAdapter.apply {
+            submitPairs(updatedPairList)
+            notifyItemRemoved(removePosition)
+        }
+    }
+
+    override fun updateRecyclerOnAdded(updatedPairList: MutableList<Pair>) {
+        pairRowAdapter.apply {
+            submitPairs(updatedPairList)
+            notifyItemInserted(0)
+        }
+        recyclerView.scrollToPosition(0)
+    }
 }
+
+
+
+

@@ -14,7 +14,6 @@ import ru.arcadudu.danatest_v030.models.WordSet
 class WordSetAdapter(var transferToEditor: TransferToEditor) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var itemList: MutableList<WordSet> = mutableListOf()
-//    private lateinit var swipeListener : OnItemSwipedListener
 
     interface OnItemSwipedListener{
         fun showRemoveAlertDialog(position:Int)
@@ -70,8 +69,8 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
 
         init {
             itemView.setOnClickListener {
-                Log.d("AAA", "adapter on click listener: adapter pos = $adapterPosition ")
-                goToEditor(adapterPosition)
+                Log.d("AAA", "adapter on click listener: adapter pos = $bindingAdapterPosition ")
+                goToEditor(bindingAdapterPosition)
 
             }
         }

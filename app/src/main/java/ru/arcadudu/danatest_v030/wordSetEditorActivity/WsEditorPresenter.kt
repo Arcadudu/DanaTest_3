@@ -23,13 +23,11 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         currentPairList = currentWordSet.getPairList()
     }
 
-
     fun providePairList() = currentPairList
-
 
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(currentPairList, fromPosition, toPosition)
-        viewState.notifyAdapterOnSwap(fromPosition, toPosition)
+        viewState.updateRecyclerOnSwap(currentPairList, fromPosition, toPosition)
     }
 
 
@@ -41,7 +39,7 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         Log.d("presenter", "addNewPair: list size before: ${currentPairList.size}")
         currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
         Log.d("presenter", "addNewPair: list size after: ${currentPairList.size}")
-        viewState.onSuccessfulAddedPair()
+        viewState.updateRecyclerOnAdded(currentPairList)
     }
 
 
@@ -67,6 +65,7 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
 
     fun onSwipedLeft(swipePosition: Int) {
         val chosenPair = currentPairList[swipePosition]
+        Log.d("Swiper", "Presenter: onSwipedLeft: position = $swipePosition")
         viewState.showRemovePairDialog(
             chosenPair.pairKey,
             chosenPair.pairValue,
@@ -76,9 +75,9 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
     }
 
 
-    fun removePairFromList(removePosition: Int) {
+    fun removePairAtPosition(removePosition: Int) {
         currentPairList.removeAt(removePosition)
-        viewState.notifyAdapterOnRemove(removePosition)
+        viewState.updateRecyclerOnRemoved(currentPairList, removePosition)
     }
 
 
