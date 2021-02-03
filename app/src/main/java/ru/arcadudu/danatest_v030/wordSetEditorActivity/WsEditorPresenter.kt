@@ -13,14 +13,18 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
 
     private lateinit var currentWordSet: WordSet
     private lateinit var currentPairList: MutableList<Pair>
-    lateinit var wordSetTitle: String
-    lateinit var wordSetDescription: String
+    private lateinit var wordSetTitle: String
+    private lateinit var wordSetDescription: String
 
     fun extractIncomingWordSet(incomingIntent: Intent, INTENT_TAG: String) {
         currentWordSet = incomingIntent.getSerializableExtra(INTENT_TAG) as WordSet
         wordSetTitle = currentWordSet.name
         wordSetDescription = currentWordSet.description
         currentPairList = currentWordSet.getPairList()
+    }
+
+    fun provideDataForToolbar() {
+        viewState.obtainDataForToolbar(wordSetTitle, wordSetDescription)
     }
 
     fun providePairList() = currentPairList
@@ -30,27 +34,16 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         viewState.updateRecyclerOnSwap(currentPairList, fromPosition, toPosition)
     }
 
-
     fun onAddNewPair() {
         viewState.showAddNewPairDialog()
     }
 
     fun addNewPair(inputKey: String, inputValue: String) {
-        Log.d("presenter", "addNewPair: list size before: ${currentPairList.size}")
         currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
-        Log.d("presenter", "addNewPair: list size after: ${currentPairList.size}")
         viewState.updateRecyclerOnAdded(currentPairList)
     }
 
-
-    fun checkStringForLetters(resultString: String) {
-        val isStringEmpty = resultString.isEmpty()
-        viewState.showBtnClearAll(isStringEmpty)
-        filter(resultString)
-    }
-
-
-    private fun filter(text: String) {
+    fun filter(text: String) {
         val filteredList: MutableList<Pair> = mutableListOf()
         for (item in currentPairList) {
             if (item.pairKey.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
@@ -62,7 +55,6 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         viewState.obtainFilteredList(filteredList)
     }
 
-
     fun onSwipedLeft(swipePosition: Int) {
         val chosenPair = currentPairList[swipePosition]
         Log.d("Swiper", "Presenter: onSwipedLeft: position = $swipePosition")
@@ -73,7 +65,6 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         )
 
     }
-
 
     fun removePairAtPosition(removePosition: Int) {
         currentPairList.removeAt(removePosition)

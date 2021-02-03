@@ -8,6 +8,8 @@ import ru.arcadudu.danatest_v030.models.Pair
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface WordSetEditorView : MvpView {
 
+    fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String)
+
     fun obtainFilteredList(filteredList: MutableList<Pair>)
 
     fun updatePairList(updatedPairList: MutableList<Pair>)
@@ -18,10 +20,9 @@ interface WordSetEditorView : MvpView {
     fun updateRecyclerOnAdded(updatedPairList:MutableList<Pair>)
 
     fun showBtnClearAll(isStringEmpty: Boolean)
-
     fun showRemovePairDialog(chosenPairKey: String, chosenPairValue: String, position: Int)
-    fun showAddNewPairDialog()
 
+    fun showAddNewPairDialog()
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
 
 }

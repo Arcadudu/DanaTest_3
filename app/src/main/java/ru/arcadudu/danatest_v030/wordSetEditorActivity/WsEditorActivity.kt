@@ -25,7 +25,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 
 private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
-private lateinit var dialogRemovePairBinding: DialogRemoveItemBinding
+private lateinit var removeDialogBinding: DialogRemoveItemBinding
 
 private lateinit var toolbar: Toolbar
 private lateinit var etPairSearchField: EditText
@@ -47,15 +47,10 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         val view = activityWsEditorBinding.root
         setContentView(view)
 
-
         wsEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
 
         toolbar = activityWsEditorBinding.toolbar
-        prepareToolbar(
-            toolbar,
-            wsEditorPresenter.wordSetTitle,
-            wsEditorPresenter.wordSetDescription
-        )
+        prepareToolbar(toolbar)
 
         recyclerView = activityWsEditorBinding.pairsRecycler
         preparePairRecycler(recyclerView)
@@ -81,15 +76,9 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     }
 
 
-    private fun prepareToolbar(
-        targetToolbar: Toolbar,
-        wordSetTitle: String,
-        wordSetDescription: String
-    ) {
+    private fun prepareToolbar(targetToolbar: Toolbar) {
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
-            title = wordSetTitle
-            subtitle = wordSetDescription
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             navigationIcon =
@@ -103,6 +92,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
                 Toast.makeText(context, "You clicked on toolbar!", Toast.LENGTH_SHORT).show()
             }
         }
+        wsEditorPresenter.provideDataForToolbar()
     }
 
     private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
@@ -169,7 +159,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                wsEditorPresenter.checkStringForLetters(s.toString())
+                showBtnClearAll(s.toString().isEmpty())
+                wsEditorPresenter.filter(s.toString())
             }
 
         })
@@ -185,37 +176,30 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         chosenPairValue: String,
         position: Int
     ) {
-        Log.d("Swiper", "Activity: showRemovePairDialog: method called ")
+
         val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
+        val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
-        Log.d(
-            "Swiper",
-            "Activity: showRemovePairDialog: removeDialog is null? ${removeDialog == null} "
-        )
 
-        dialogRemovePairBinding = DialogRemoveItemBinding.bind(removeDialogView)
-        dialogRemovePairBinding.tvRemoveDialogTitle.text = "$chosenPairKey - $chosenPairValue"
-        dialogRemovePairBinding.tvRemoveDialogMessage.text =
+        removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
+        removeDialogBinding.tvRemoveDialogTitle.text = "$chosenPairKey - $chosenPairValue"
+        removeDialogBinding.tvRemoveDialogMessage.text =
             getString(R.string.remove_dialog_message)
 
         //negative btn
-        dialogRemovePairBinding.btnCancelRemove.setOnClickListener {
+        removeDialogBinding.btnCancelRemove.setOnClickListener {
             pairRowAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
         //positive btn
-        dialogRemovePairBinding.btnRemovePair.setOnClickListener {
+        removeDialogBinding.btnRemovePair.setOnClickListener {
             wsEditorPresenter.removePairAtPosition(position)
             removeDialog.dismiss()
         }
 
         removeDialog.show()
     }
-
-
 
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
@@ -259,6 +243,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             addPairDialog.dismiss()
         }
         addPairDialog.show()
+    }
+
+    override fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
+        toolbar.apply {
+            title = wordSetTitle
+            subtitle = wordSetDescription
+        }
     }
 
     override fun obtainFilteredList(filteredList: MutableList<Pair>) {
