@@ -3,7 +3,6 @@ package ru.arcadudu.danatest_v030.wordSetEditorActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -71,7 +70,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         btnAddPair.setOnClickListener {
             //presenter calls addNewPairDialog
             wsEditorPresenter.onAddNewPair()
-            Log.d("pair", "onCreate: you pressed addPairBtn ")
         }
     }
 
@@ -84,7 +82,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             navigationIcon =
                 ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
             this.setNavigationOnClickListener {
-                // TODO: 13.01.2021 save wordSet state
+                // TODO: save wordSet state
                 onBackPressed()
             }
             targetToolbar.setOnClickListener {
@@ -135,16 +133,10 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
-                Log.d("Swiper", "Activity: onSwiped called")
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
 //                        pairRowAdapter.notifyDataSetChanged()
-                        Log.d(
-                            "Swipe",
-                            "Activity, direction = left! : onSwiped: position = $position"
-                        )
                         wsEditorPresenter.onSwipedLeft(position)
-                        Log.d("Swipe", "Activity: swiped left")
                     }
                 }
 
