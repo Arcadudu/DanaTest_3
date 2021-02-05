@@ -38,11 +38,9 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
 
     fun saveEditedPair(newPairKey:String, newPairValue:String, position:Int){
         currentPairList.removeAt(position)
+        viewState.updateRecyclerOnRemoved(currentPairList, removePosition = position)
         currentPairList.add(position, Pair(newPairKey, newPairValue))
         viewState.updateRecyclerOnEditedPair(currentPairList, position)
-//        var editedPair = currentPairList[position]
-//        editedPair.pairKey = newPairKey
-//        editedPair.pairValue = newPairValue
     }
 
     fun onAddNewPair() {

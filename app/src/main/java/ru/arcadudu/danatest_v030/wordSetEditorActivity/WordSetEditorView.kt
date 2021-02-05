@@ -27,7 +27,7 @@ interface WordSetEditorView : MvpView {
 
     fun showAddNewPairDialog()
 
-    fun showEditPairDialog(position: Int, pairKey: String, pairValue: String)
+    fun showEditPairDialog(position: Int, currentPairKey: String, currentPairValue: String)
 
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
 

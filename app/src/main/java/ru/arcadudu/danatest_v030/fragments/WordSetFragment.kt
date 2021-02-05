@@ -160,7 +160,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
-                if (viewHolder.bindingAdapterPosition == 0) return 0 // for favorite wordSet
+                if (viewHolder.adapterPosition == 0) return 0 // for favorite wordSet
                 return super.getMovementFlags(recyclerView, viewHolder)
             }
 
@@ -170,8 +170,8 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                val fromPosition = viewHolder.bindingAdapterPosition
-                val toPosition = target.bindingAdapterPosition
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
                 val isFavoriteWordSet = (fromPosition == 0 || toPosition == 0)
 
                 if (!isFavoriteWordSet) {
