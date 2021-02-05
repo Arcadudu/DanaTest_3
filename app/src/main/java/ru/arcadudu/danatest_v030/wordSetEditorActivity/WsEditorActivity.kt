@@ -97,10 +97,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         pairRowAdapter = PairRowAdapter()
         val horizontalDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, null)?.let {
-            horizontalDivider.setDrawable(
-                it
-
-            )
+            horizontalDivider.setDrawable(it)
         }
 
         targetRecyclerView.apply {
@@ -109,7 +106,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(horizontalDivider)
         }
-        pairRowAdapter.submitPairs(wsEditorPresenter.providePairList())
+        wsEditorPresenter.providePairList()
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -193,6 +190,52 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         removeDialog.show()
     }
 
+    override fun showEditPairDialog(position: Int, pairKey: String, pairValue: String) {
+        val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        editPairDialogBuilder.setView(editPairDialogView)
+        val editPairDialog = editPairDialogBuilder.create()
+
+        val editPairBinding = DialogAddPairBinding.bind(editPairDialogView)
+        editPairBinding.tvAddPairDialogTitle.text = "Редактировать пару"
+
+        var inputKey = pairKey
+        var inputValue = pairValue
+
+        editPairBinding.etNewPairKey.setText(pairKey)
+        editPairBinding.etNewPairValue.setText(pairValue)
+
+        editPairBinding.etNewPairKey.addTextChangedListener(object:TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                inputKey = s.toString()
+            }
+
+        })
+
+        editPairBinding.etNewPairValue.addTextChangedListener(object :TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+             inputValue = s.toString()
+            }
+
+        })
+
+        editPairBinding.btnAddPair.text = "Сохранить"
+        editPairBinding.btnAddPair.setOnClickListener{
+            if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
+            if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
+            wsEditorPresenter.saveEditedPair(inputKey, inputValue, position)
+            //todo доработать в адаптере
+        }
+
+
+
+    }
+
+
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val layoutInflater = this.layoutInflater
@@ -225,8 +268,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         })
 
         addPairBinding.btnAddPair.setOnClickListener {
-            if (inputKey.isBlank()) inputKey = "Ключ не задан"
-            if (inputValue.isBlank()) inputValue = "Значение не задано"
+            if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
+            if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
             wsEditorPresenter.addNewPair(inputKey, inputValue)
             addPairDialog.dismiss()
         }
@@ -237,6 +280,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         addPairDialog.show()
     }
 
+
     override fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
         toolbar.apply {
             title = wordSetTitle
@@ -244,14 +288,15 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
     }
 
-    override fun obtainFilteredList(filteredList: MutableList<Pair>) {
-        pairRowAdapter.filterList(filteredList)
+    override fun initPairList(currentPairList: MutableList<Pair>) {
+        pairRowAdapter.apply {
+            submitPairs(currentPairList)
+            notifyDataSetChanged()
+        }
     }
 
-
-    override fun updatePairList(updatedPairList: MutableList<Pair>) {
-        pairRowAdapter.submitPairs(updatedPairList)
-        pairRowAdapter.notifyDataSetChanged()
+    override fun obtainFilteredList(filteredList: MutableList<Pair>) {
+        pairRowAdapter.filterList(filteredList)
     }
 
 
@@ -279,6 +324,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             notifyItemInserted(0)
         }
         recyclerView.scrollToPosition(0)
+    }
+
+    override fun updateRecyclerOnEditedPair(updatedPairList: MutableList<Pair>, position: Int) {
+        pairRowAdapter.apply {
+            submitPairs(updatedPairList)
+            notifyItemInserted(position)
+        }
     }
 }
 

@@ -10,19 +10,26 @@ interface WordSetEditorView : MvpView {
 
     fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String)
 
+    fun initPairList(currentPairList: MutableList<Pair>)
+
     fun obtainFilteredList(filteredList: MutableList<Pair>)
 
-    fun updatePairList(updatedPairList: MutableList<Pair>)
-
-    fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition:Int)
+    fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition: Int)
 
     /*addPosition always = 1*/
-    fun updateRecyclerOnAdded(updatedPairList:MutableList<Pair>)
+    fun updateRecyclerOnAdded(updatedPairList: MutableList<Pair>)
+
+    fun updateRecyclerOnEditedPair(updatedPairList:MutableList<Pair>, position:Int)
 
     fun showBtnClearAll(isStringEmpty: Boolean)
+
     fun showRemovePairDialog(chosenPairKey: String, chosenPairValue: String, position: Int)
 
     fun showAddNewPairDialog()
+
+    fun showEditPairDialog(position: Int, pairKey: String, pairValue: String)
+
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
+
 
 }

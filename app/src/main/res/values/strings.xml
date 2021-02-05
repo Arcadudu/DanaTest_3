@@ -40,6 +40,8 @@
     <string name="remove_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="add_pair_dialog_title">Новая пара</string>
     <string name="add_word_set_dialog_title">Новый набор</string>
+    <string name="emptyInputKey">Ключ не задан</string>
+    <string name="emptyInputValue">Значение не задано</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
