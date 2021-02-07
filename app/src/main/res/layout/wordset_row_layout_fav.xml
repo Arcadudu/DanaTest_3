@@ -28,7 +28,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:gravity="start"
-            android:text="@string/fav_wordset_title"
+            android:text="@string/fav_word_set_title"
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@id/iv_item_drawable"
             app:layout_constraintStart_toStartOf="parent"

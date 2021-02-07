@@ -3,7 +3,6 @@ package ru.arcadudu.danatest_v030.wordSetEditorActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -36,6 +35,7 @@ private lateinit var pairRowAdapter: PairRowAdapter
 
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
+private const val TAG = "TextWatcher"
 
 class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     @InjectPresenter
@@ -203,10 +203,14 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         val editPairDialog = editPairDialogBuilder.create()
 
         val editPairBinding = DialogAddPairBinding.bind(editPairDialogView)
-        editPairBinding.tvAddPairDialogTitle.text = "Редактировать пару"
+        editPairBinding.tvAddPairDialogTitle.text = getString(R.string.edit_pair_dialog_edit_button_text)
 
-        var inputKey = currentPairKey
-        var inputValue = currentPairValue
+
+        var resultPairKey = ""
+        var resultPairValue = ""
+
+        var pairKeyAfterChange = ""
+        var pairValueAfterChange = ""
 
         editPairBinding.etNewPairKey.setText(currentPairKey)
         editPairBinding.etNewPairValue.setText(currentPairValue)
@@ -215,30 +219,33 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                inputKey = s.toString()
-                Log.d("edit", "afterTextChanged: inputKey = $inputKey ")
+                pairKeyAfterChange = s.toString()
             }
 
         })
 
-        editPairBinding.etNewPairValue.addTextChangedListener(object :TextWatcher {
+        editPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                inputValue = s.toString()
-                Log.d("edit", "afterTextChanged: inputKey = $inputValue")
+                pairValueAfterChange = s.toString()
             }
 
         })
 
-        editPairBinding.btnAddPair.text = "Сохранить"
+        editPairBinding.btnAddPair.text = getString(R.string.edit_pair_dialog_save_button_text)
         editPairBinding.btnAddPair.setOnClickListener {
 
-//            if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
-//            if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
+            resultPairKey = if (pairKeyAfterChange.isEmpty()) currentPairKey
+            else pairKeyAfterChange
+            resultPairValue = if (pairValueAfterChange.isEmpty()) currentPairValue
+            else pairValueAfterChange
 
-
-            wsEditorPresenter.saveEditedPair(inputKey, inputValue, position)
+            if (resultPairKey == currentPairKey && resultPairValue == currentPairValue) {
+                editPairDialog.dismiss()
+            } else {
+                wsEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
+            }
             editPairDialog.dismiss()
 
         }
@@ -265,8 +272,12 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
         addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
             override fun afterTextChanged(s: Editable?) {
                 inputKey = s.toString()
             }
@@ -274,8 +285,14 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         })
 
         addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
             override fun afterTextChanged(s: Editable?) {
                 inputValue = s.toString()
             }

@@ -11,7 +11,7 @@
     <string name="variants_description_light">Выберите верный перевод слова из предложенных вариантов</string>
     <string name="shuffle_description_light">Отгадайте слово, буквы в  котором случайно перемешаны</string>
     <string name="menu_item_profile_title">Профиль</string>
-    <string name="menu_item_wordset_title">Наборы</string>
+    <string name="menu_item_word_set_title">Наборы</string>
     <string name="menu_item_home_title">Тесты</string>
     <string name="menu_item_stats_title">Статистика</string>
     <string name="menu_item_settings_title">Настройки</string>
@@ -33,7 +33,7 @@
 
     <!--heavy-->
     <string name="home_bs_details_translate">По мере прохождения данного теста на экране будут появляться слова из выбранного набора. Ваша задача - при помощи клавиатуры ввести корректный перевод предложенного слова. </string>
-    <string name="fav_wordset_title">Избранный набор</string>
+    <string name="fav_word_set_title">Избранный набор</string>
     <string name="fav_details">Сюда попадают избранные Вами пары\n из других наборов</string>
     <string name="word_set_search_field_hint">Поиск набора</string>
     <string name="pair_search_field_hint">Поиск слова</string>
@@ -42,6 +42,8 @@
     <string name="add_word_set_dialog_title">Новый набор</string>
     <string name="emptyInputKey">Ключ не задан</string>
     <string name="emptyInputValue">Значение не задано</string>
+    <string name="edit_pair_dialog_save_button_text">Сохранить</string>
+    <string name="edit_pair_dialog_edit_button_text">Редактировать пару</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
