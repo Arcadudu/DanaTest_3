@@ -107,6 +107,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             addItemDecoration(horizontalDivider)
         }
         wsEditorPresenter.providePairList()
+        pairRowAdapter.onItemClickCallback(this)
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -190,6 +191,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         removeDialog.show()
     }
 
+//    fun buildPairDialog():AlertDialog{
+//        val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+//        val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+//        editPairDialogBuilder.setView(editPairDialogView)
+//        return editPairDialogBuilder.create()
+//    }
+
     override fun showEditPairDialog(position: Int, pairKey: String, pairValue: String) {
         val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
@@ -205,7 +213,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         editPairBinding.etNewPairKey.setText(pairKey)
         editPairBinding.etNewPairValue.setText(pairValue)
 
-        editPairBinding.etNewPairKey.addTextChangedListener(object:TextWatcher{
+        editPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -214,32 +222,35 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
         })
 
-        editPairBinding.etNewPairValue.addTextChangedListener(object :TextWatcher {
+        editPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-             inputValue = s.toString()
+                inputValue = s.toString()
             }
 
         })
 
         editPairBinding.btnAddPair.text = "Сохранить"
-        editPairBinding.btnAddPair.setOnClickListener{
+        editPairBinding.btnAddPair.setOnClickListener {
             if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
             if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
             wsEditorPresenter.saveEditedPair(inputKey, inputValue, position)
-            //todo доработать в адаптере
+            editPairDialog.dismiss()
         }
 
+        editPairBinding.btnCancelAddPair.setOnClickListener {
+            editPairDialog.dismiss()
+        }
 
+        editPairDialog.show()
 
     }
 
 
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        val addPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
         addPairDialogBuilder.setView(addPairDialogView)
         val addPairDialog = addPairDialogBuilder.create()
 
