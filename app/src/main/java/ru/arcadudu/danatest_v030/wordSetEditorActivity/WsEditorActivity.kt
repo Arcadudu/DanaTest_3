@@ -3,7 +3,6 @@ package ru.arcadudu.danatest_v030.wordSetEditorActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -108,7 +107,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             addItemDecoration(horizontalDivider)
         }
         wsEditorPresenter.providePairList()
-        pairRowAdapter.activityImplementationCallback(this)
+        pairRowAdapter.onItemClickCallback(this)
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -192,11 +191,14 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         removeDialog.show()
     }
 
-    override fun showEditPairDialog(
-        position: Int,
-        currentPairKey: String,
-        currentPairValue: String
-    ) {
+//    fun buildPairDialog():AlertDialog{
+//        val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+//        val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+//        editPairDialogBuilder.setView(editPairDialogView)
+//        return editPairDialogBuilder.create()
+//    }
+
+    override fun showEditPairDialog(position: Int, pairKey: String, pairValue: String) {
         val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
         editPairDialogBuilder.setView(editPairDialogView)
@@ -205,42 +207,36 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         val editPairBinding = DialogAddPairBinding.bind(editPairDialogView)
         editPairBinding.tvAddPairDialogTitle.text = "Редактировать пару"
 
-        var inputKey = currentPairKey
-        var inputValue = currentPairValue
+        var inputKey = pairKey
+        var inputValue = pairValue
 
-        editPairBinding.etNewPairKey.setText(currentPairKey)
-        editPairBinding.etNewPairValue.setText(currentPairValue)
+        editPairBinding.etNewPairKey.setText(pairKey)
+        editPairBinding.etNewPairValue.setText(pairValue)
 
         editPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 inputKey = s.toString()
-                Log.d("edit", "afterTextChanged: inputKey = $inputKey ")
             }
 
         })
 
-        editPairBinding.etNewPairValue.addTextChangedListener(object :TextWatcher {
+        editPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 inputValue = s.toString()
-                Log.d("edit", "afterTextChanged: inputKey = $inputValue")
             }
 
         })
 
         editPairBinding.btnAddPair.text = "Сохранить"
         editPairBinding.btnAddPair.setOnClickListener {
-
-//            if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
-//            if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
-
-
+            if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
+            if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
             wsEditorPresenter.saveEditedPair(inputKey, inputValue, position)
             editPairDialog.dismiss()
-
         }
 
         editPairBinding.btnCancelAddPair.setOnClickListener {
@@ -248,13 +244,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
 
         editPairDialog.show()
+
     }
 
 
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        val addPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
         addPairDialogBuilder.setView(addPairDialogView)
         val addPairDialog = addPairDialogBuilder.create()
 
@@ -292,7 +288,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         addPairBinding.btnCancelAddPair.setOnClickListener {
             addPairDialog.dismiss()
         }
-
         addPairDialog.show()
     }
 

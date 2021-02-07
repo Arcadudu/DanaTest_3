@@ -10,18 +10,22 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.wordSetEditorActivity.WordSetEditorView
 
 class
-PairRowAdapter() : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
+PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
     private lateinit var pair: Pair
-    lateinit var activityImpl:WordSetEditorView
-
+    private lateinit var activityImplementation: WordSetEditorView
 
     fun submitPairs(list: MutableList<Pair>) {
         pairList = list
     }
 
-    fun activityImplementationCallback(implementation:WordSetEditorView){
-        this.activityImpl = implementation
+    fun removeItem(position: Int) {
+        pairList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun onItemClickCallback(activityImplementation: WordSetEditorView) {
+        this.activityImplementation = activityImplementation
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PairRowViewHolder {
@@ -50,7 +54,11 @@ PairRowAdapter() : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
                 val position = bindingAdapterPosition
                 val currentPairKey = pairList[position].pairKey
                 val currentPairValue = pairList[position].pairValue
-                activityImpl.showEditPairDialog(position, currentPairKey, currentPairValue)
+                activityImplementation.showEditPairDialog(
+                    position = position,
+                    pairKey = currentPairKey,
+                    pairValue = currentPairValue
+                )
             }
         }
 
@@ -62,7 +70,5 @@ PairRowAdapter() : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
             }
 
         }
-
-
     }
 }
