@@ -24,8 +24,10 @@
     <color name="plt_search_bar_background">#ECEDF1</color>
     <color name="plt_navigation_bar">#ECECEC</color>
     <color name="plt_error_red">#E57373</color>
+    <color name="plt_hint_grey">#B3878787</color>
 
-    <color name="plt_violet">#7986CB</color>
+    <color name="plt_active_violet">#7986CB</color>
+    <color name="plt_semi_active_violet">#B37986CB</color>
     <color name="plt_transparent_background">#80000000</color>
 
 

@@ -22,22 +22,23 @@ import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
-
-private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
-private lateinit var removeDialogBinding: DialogRemoveItemBinding
-
-private lateinit var toolbar: Toolbar
-private lateinit var etPairSearchField: EditText
-private lateinit var btnClearSearchField: ImageView
-private lateinit var btnAddPair: ImageView
-private lateinit var recyclerView: RecyclerView
-private lateinit var pairRowAdapter: PairRowAdapter
+import java.util.*
 
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
-private const val TAG = "TextWatcher"
+
 
 class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
+    private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
+    private lateinit var removeDialogBinding: DialogRemoveItemBinding
+
+    private lateinit var toolbar: Toolbar
+    private lateinit var etPairSearchField: EditText
+    private lateinit var btnClearSearchField: ImageView
+    private lateinit var btnAddPair: ImageView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var pairRowAdapter: PairRowAdapter
+
     @InjectPresenter
     lateinit var wsEditorPresenter: WsEditorPresenter
 
@@ -108,7 +109,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             addItemDecoration(horizontalDivider)
         }
         wsEditorPresenter.providePairList()
-        pairRowAdapter.activityImplementationCallback(this)
+        pairRowAdapter.onItemClickCallback(this)
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -194,17 +195,18 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
     override fun showEditPairDialog(
         position: Int,
-        currentPairKey: String,
-        currentPairValue: String
+        pairKey: String,
+        pairValue: String
     ) {
         val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-        val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        val editPairDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_add_pair_white, null, false)
         editPairDialogBuilder.setView(editPairDialogView)
         val editPairDialog = editPairDialogBuilder.create()
 
         val editPairBinding = DialogAddPairBinding.bind(editPairDialogView)
-        editPairBinding.tvAddPairDialogTitle.text = getString(R.string.edit_pair_dialog_edit_button_text)
-
+        editPairBinding.tvAddPairDialogTitle.text =
+            getString(R.string.edit_pair_dialog_edit_button_text)
 
         var resultPairKey = ""
         var resultPairValue = ""
@@ -212,14 +214,14 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         var pairKeyAfterChange = ""
         var pairValueAfterChange = ""
 
-        editPairBinding.etNewPairKey.setText(currentPairKey)
-        editPairBinding.etNewPairValue.setText(currentPairValue)
+        editPairBinding.etNewPairKey.setText(pairKey)
+        editPairBinding.etNewPairValue.setText(pairValue)
 
         editPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                pairKeyAfterChange = s.toString()
+                pairKeyAfterChange = s.toString().capitalize(Locale.ROOT).trim()
             }
 
         })
@@ -228,7 +230,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                pairValueAfterChange = s.toString()
+                pairValueAfterChange = s.toString().capitalize(Locale.ROOT).trim()
             }
 
         })
@@ -236,12 +238,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         editPairBinding.btnAddPair.text = getString(R.string.edit_pair_dialog_save_button_text)
         editPairBinding.btnAddPair.setOnClickListener {
 
-            resultPairKey = if (pairKeyAfterChange.isEmpty()) currentPairKey
+            resultPairKey = if (pairKeyAfterChange.isEmpty()) pairKey.capitalize(Locale.ROOT).trim()
             else pairKeyAfterChange
-            resultPairValue = if (pairValueAfterChange.isEmpty()) currentPairValue
-            else pairValueAfterChange
+            resultPairValue =
+                if (pairValueAfterChange.isEmpty()) pairValue.capitalize(Locale.ROOT).trim()
+                else pairValueAfterChange.capitalize(Locale.ROOT).trim()
 
-            if (resultPairKey == currentPairKey && resultPairValue == currentPairValue) {
+            if (resultPairKey == pairKey && resultPairValue == pairValue) {
                 editPairDialog.dismiss()
             } else {
                 wsEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
@@ -261,7 +264,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val layoutInflater = this.layoutInflater
-        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair_white, null, false)
         addPairDialogBuilder.setView(addPairDialogView)
         val addPairDialog = addPairDialogBuilder.create()
 
@@ -279,22 +282,20 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                inputKey = s.toString()
+                inputKey = s.toString().capitalize(Locale.ROOT).trim()
             }
 
         })
 
         addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
             }
 
             override fun afterTextChanged(s: Editable?) {
-                inputValue = s.toString()
+                inputValue = s.toString().capitalize(Locale.ROOT).trim()
             }
 
         })
