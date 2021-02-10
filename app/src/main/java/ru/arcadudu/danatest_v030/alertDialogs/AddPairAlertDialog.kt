@@ -27,7 +27,7 @@ class AddPairDialogFragment(
 
     init {
         list = mutableListOf()
-        val view = inflater.inflate(R.layout.dialog_add_pair, null)
+        val view = inflater.inflate(R.layout.dialog_add_pair_violet, null)
         etKey = view.findViewById(R.id.et_newPairKey)
         etValue = view.findViewById(R.id.et_newPairValue)
     }

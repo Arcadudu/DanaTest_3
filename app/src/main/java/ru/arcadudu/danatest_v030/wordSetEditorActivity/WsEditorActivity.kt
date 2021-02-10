@@ -4,14 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -28,7 +27,7 @@ import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
 import ru.arcadudu.danatest_v030.activities.tests.VariantsActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
+import ru.arcadudu.danatest_v030.databinding.DialogAddPairWhiteBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.WordSet
@@ -46,8 +45,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     private lateinit var toolbar: Toolbar
     private lateinit var etPairSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
-    private lateinit var btnAddPair: ImageView
-    private lateinit var recyclerView: RecyclerView
+        private lateinit var recyclerView: RecyclerView
     private lateinit var pairRowAdapter: PairRowAdapter
     private lateinit var fabAddPair: FloatingActionButton
 
@@ -87,14 +85,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             wsEditorPresenter.onAddNewPair()
         }
 
-
-
-
-//        btnAddPair = activityWsEditorBinding.ivEditorAddIcon
-//        btnAddPair.setOnClickListener {
-//            //presenter calls addNewPairDialog
-//            wsEditorPresenter.onAddNewPair()
-//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -121,13 +111,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
-        val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.icon_hamburger_menu)
+        val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.icon_hamburger_menu_active_violet_light)
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             navigationIcon =
-                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_blue, theme)
+                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_violet_light, theme)
             this.setNavigationOnClickListener {
                 // TODO: save wordSet state
                 onBackPressed()
@@ -247,7 +237,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         editPairDialogBuilder.setView(editPairDialogView)
         val editPairDialog = editPairDialogBuilder.create()
 
-        val editPairBinding = DialogAddPairBinding.bind(editPairDialogView)
+        val editPairBinding = DialogAddPairWhiteBinding.bind(editPairDialogView)
         editPairBinding.tvAddPairDialogTitle.text =
             getString(R.string.edit_pair_dialog_edit_button_text)
 
@@ -300,6 +290,10 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             editPairDialog.dismiss()
         }
 
+        editPairBinding.ivSwapPairBtn.setOnClickListener {
+            swapEditTexts(editPairBinding.etNewPairKey, editPairBinding.etNewPairValue)
+        }
+
         editPairDialog.show()
     }
 
@@ -314,7 +308,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         var inputKey = ""
         var inputValue = ""
 
-        val addPairBinding = DialogAddPairBinding.bind(addPairDialogView)
+        val addPairBinding = DialogAddPairWhiteBinding.bind(addPairDialogView)
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
         addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
@@ -354,7 +348,20 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             addPairDialog.dismiss()
         }
 
+        addPairBinding.ivSwapPairBtn.setOnClickListener {
+           swapEditTexts(addPairBinding.etNewPairKey, addPairBinding.etNewPairValue)
+        }
+
         addPairDialog.show()
+    }
+
+    private fun swapEditTexts(et1:EditText, et2:EditText){
+        Log.d("swapEditTexts", "swapEditTexts: callback ok ")
+        val newEt1 = et2.text
+        val newEt2 = et1.text
+
+        et1.text = newEt1
+        et2.text = newEt2
     }
 
 

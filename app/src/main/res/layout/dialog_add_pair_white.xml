@@ -27,6 +27,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/iv_swap_pair_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@android:color/transparent"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/icon_swap_violet_light"
+            app:layout_constraintTop_toTopOf="@id/tv_add_pair_dialog_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_add_pair_dialog_title"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
         <EditText
             android:id="@+id/et_newPairKey"
@@ -35,10 +47,10 @@
             android:layout_marginTop="16dp"
             android:background="@color/white"
             android:hint="Ключ"
-            android:textColorHint="@color/plt_hint_grey"
+            android:textColorHint="@color/plt_subtext_grey"
             android:inputType="text"
             android:padding="8dp"
-            android:textColor="@color/plt_active_violet"
+            android:textColor="@color/plt_almost_black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/tv_add_pair_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_add_pair_dialog_title" />
@@ -62,8 +74,8 @@
             android:hint="Значение"
             android:inputType="text"
             android:padding="8dp"
-            android:textColorHint="@color/plt_hint_grey"
-            android:textColor="@color/plt_active_violet"
+            android:textColorHint="@color/plt_subtext_grey"
+            android:textColor="@color/plt_almost_black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/et_newPairKey"
             app:layout_constraintTop_toBottomOf="@id/et_divider1" />

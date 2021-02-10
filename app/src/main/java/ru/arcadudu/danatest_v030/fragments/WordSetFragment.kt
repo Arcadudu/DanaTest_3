@@ -79,10 +79,10 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
             etWordSetSearchField.hint = getString(R.string.word_set_search_field_hint)
         }
 
-        btnAddNewWordSet = fragmentWordSetBinding.ivWSFragAddIcon
-        btnAddNewWordSet.setOnClickListener {
-            showAddWordSetAlertDialog()
-        }
+//        btnAddNewWordSet = fragmentWordSetBinding.ivWSFragAddIcon
+//        btnAddNewWordSet.setOnClickListener {
+//            showAddWordSetAlertDialog()
+//        }
 
     }
 

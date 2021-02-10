@@ -58,9 +58,8 @@
             android:id="@+id/card_handler"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:text="0"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/icon_drag_indicator"
+            android:src="@drawable/icon_drag_indicator_horizontal"
             app:layout_constraintBottom_toBottomOf="@id/iv_item_drawable"
             app:layout_constraintEnd_toEndOf="@id/iv_item_drawable"
             app:layout_constraintTop_toTopOf="@id/iv_item_drawable" />

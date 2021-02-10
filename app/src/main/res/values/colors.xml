@@ -29,7 +29,7 @@
     <color name="plt_drag_grey">#66878787</color>
 
     <color name="plt_active_violet">#7986CB</color>
-    <color name="plt_active_violet2">#8892CA</color>
+    <color name="plt_active_violet_lighter">#8892CA</color>
     <color name="plt_semi_active_violet">#B37986CB</color>
     <color name="plt_transparent_background">#80000000</color>
 

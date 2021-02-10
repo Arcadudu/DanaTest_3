@@ -32,14 +32,14 @@ class HomeActivity : AppCompatActivity() {
         profileFragment = ProfileFragment()
         wordSetFragment = WordSetFragment()
         settingsFragment = SettingsFragment()
-        setFragment(homeFragment)
+        setFragment(wordSetFragment)
 
         bottomNavigationView = binding.myNavigationBar.apply {
-            selectedItemId = R.id.home_item
+            selectedItemId = R.id.wordset_item
             setOnNavigationItemSelectedListener { item ->
                 val selectedFragment: Fragment =
                     when (item.itemId) {
-                        R.id.home_item -> homeFragment
+//                        R.id.home_item -> homeFragment
                         R.id.profile_item -> profileFragment
                         R.id.wordset_item -> wordSetFragment
                         R.id.stats_item -> statsFragment
