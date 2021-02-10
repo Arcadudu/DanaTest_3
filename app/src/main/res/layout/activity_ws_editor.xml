@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/plt_background_light"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -28,11 +27,9 @@
             app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
             app:subtitle="subtitle"
-            app:title="WordSetTitle"
-            >
+            app:title="WordSetTitle">
 
         </androidx.appcompat.widget.Toolbar>
-
 
 
         <androidx.cardview.widget.CardView
@@ -124,6 +121,19 @@
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_pair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="24dp"
+        app:fabSize="normal"
+        android:layout_marginBottom="24dp"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        android:backgroundTint="@color/plt_active_violet2"
+        android:src="@drawable/icon_add_white"
+        style="@style/Widget.Design.FloatingActionButton" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

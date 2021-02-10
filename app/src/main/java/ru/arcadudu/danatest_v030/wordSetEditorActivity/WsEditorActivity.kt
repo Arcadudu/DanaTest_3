@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -48,6 +49,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     private lateinit var btnAddPair: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var pairRowAdapter: PairRowAdapter
+    private lateinit var fabAddPair: FloatingActionButton
 
     val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
 
@@ -80,11 +82,19 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             etPairSearchField.text = null
         }
 
-        btnAddPair = activityWsEditorBinding.ivEditorAddIcon
-        btnAddPair.setOnClickListener {
-            //presenter calls addNewPairDialog
+        fabAddPair = activityWsEditorBinding.fabAddPair
+        fabAddPair.setOnClickListener{
             wsEditorPresenter.onAddNewPair()
         }
+
+
+
+
+//        btnAddPair = activityWsEditorBinding.ivEditorAddIcon
+//        btnAddPair.setOnClickListener {
+//            //presenter calls addNewPairDialog
+//            wsEditorPresenter.onAddNewPair()
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
