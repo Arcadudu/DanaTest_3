@@ -28,7 +28,8 @@
             app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
             app:subtitle="subtitle"
-            app:title="WordSetTitle">
+            app:title="WordSetTitle"
+            >
 
         </androidx.appcompat.widget.Toolbar>
 

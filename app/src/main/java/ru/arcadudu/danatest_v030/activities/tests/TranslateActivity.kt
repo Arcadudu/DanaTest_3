@@ -43,6 +43,8 @@ private var currentSnapPosition = 0
 private var ivDoneBtnIsShownAndEnabled = false
 private var answerContainsForbiddenLetters = false
 
+private val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
+
 class TranslateActivity : AppCompatActivity(), IProgress,
     OnSnapPositionChangeListener {
 
@@ -53,7 +55,11 @@ class TranslateActivity : AppCompatActivity(), IProgress,
         setContentView(view)
 
         //getting chosen wordSet + extracting pairList
-        currentWordSet = getTimeWordSet()
+//        currentWordSet = getTimeWordSet()
+//        currentPairList = currentWordSet.getPairList()
+
+        val incomingIntent = intent
+        currentWordSet = incomingIntent.getSerializableExtra(WORDSET_TO_TEST_TAG) as WordSet
         currentPairList = currentWordSet.getPairList()
 
         progressBar = translateActivityBinding.progressHorizontal

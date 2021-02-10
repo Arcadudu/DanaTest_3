@@ -19,11 +19,6 @@ PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
         pairList = list
     }
 
-    fun removeItem(position: Int) {
-        pairList.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
     fun onItemClickCallback(activityImplementation: WordSetEditorView) {
         this.activityImplementation = activityImplementation
     }

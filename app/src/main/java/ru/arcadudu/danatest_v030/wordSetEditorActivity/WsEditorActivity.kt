@@ -1,14 +1,19 @@
 package ru.arcadudu.danatest_v030.wordSetEditorActivity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,11 +22,15 @@ import androidx.recyclerview.widget.RecyclerView
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.activities.tests.ShuffleActivity
+import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
+import ru.arcadudu.danatest_v030.activities.tests.VariantsActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
+import ru.arcadudu.danatest_v030.models.WordSet
 import java.util.*
 
 
@@ -31,6 +40,7 @@ private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
+    private lateinit var wordSetForTesting: WordSet
 
     private lateinit var toolbar: Toolbar
     private lateinit var etPairSearchField: EditText
@@ -38,6 +48,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     private lateinit var btnAddPair: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var pairRowAdapter: PairRowAdapter
+
+    val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
 
     @InjectPresenter
     lateinit var wsEditorPresenter: WsEditorPresenter
@@ -75,8 +87,31 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.ws_editor_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent =
+            when (item.itemId) {
+                R.id.begin_test_translate_menu_action ->
+                    Intent(this, TranslateActivity::class.java)
+                R.id.begin_test_variants_menu_action ->
+                    Intent(this, VariantsActivity::class.java)
+                R.id.begin_test_shuffle_menu_action ->
+                    Intent(this, ShuffleActivity::class.java)
+                else -> null
+            }
+
+        wsEditorPresenter.deliverWordSetForTest()
+        intent?.putExtra(WORDSET_TO_TEST_TAG, wordSetForTesting)
+        startActivity(intent)
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
+        val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.icon_hamburger_menu)
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -87,10 +122,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
                 // TODO: save wordSet state
                 onBackPressed()
             }
-            targetToolbar.setOnClickListener {
-                //Presenter calls dialog with editTexts for title and details
-                Toast.makeText(context, "You clicked on toolbar!", Toast.LENGTH_SHORT).show()
-            }
+            overflowIcon = drawable
+
         }
         wsEditorPresenter.provideDataForToolbar()
     }
@@ -343,6 +376,10 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             submitPairs(updatedPairList)
             notifyItemMoved(fromPosition, toPosition)
         }
+    }
+
+    override fun obtainWordSetForTest(currentWordSet: WordSet) {
+        wordSetForTesting = currentWordSet
     }
 
     override fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition: Int) {

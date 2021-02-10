@@ -4,6 +4,7 @@ import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pair
+import ru.arcadudu.danatest_v030.models.WordSet
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface WordSetEditorView : MvpView {
@@ -30,6 +31,8 @@ interface WordSetEditorView : MvpView {
     fun showAddNewPairDialog()
 
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
+
+    fun obtainWordSetForTest(currentWordSet: WordSet)
 
 
 }

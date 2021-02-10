@@ -23,6 +23,10 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
         currentPairList = currentWordSet.getPairList()
     }
 
+    fun deliverWordSetForTest(){
+        viewState.obtainWordSetForTest(currentWordSet)
+    }
+
     fun provideDataForToolbar() {
         viewState.obtainDataForToolbar(wordSetTitle, wordSetDescription)
     }

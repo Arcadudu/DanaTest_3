@@ -2,10 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
-        android:id="@+id/toolbar_edit"
-        android:icon="@drawable/icon_edit_blue"
-        android:title="edit"
-        app:showAsAction="always" />
+        android:id="@+id/begin_test_translate_menu_action"
+        android:icon="@drawable/icon_drag_indicator"
+        android:title="Прямой перевод"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/begin_test_variants_menu_action"
+        android:icon="@drawable/icon_drag_indicator"
+        android:title="Четыре варианта"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/begin_test_shuffle_menu_action"
+        android:icon="@drawable/icon_drag_indicator"
+        android:title="Перемешать"
+        app:showAsAction="never"/>
+
+
+
 
 </menu>
