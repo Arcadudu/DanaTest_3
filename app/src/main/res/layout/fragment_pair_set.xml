@@ -22,7 +22,7 @@
             android:minHeight="?attr/actionBarSize"
             app:layout_collapseMode="parallax"
             app:layout_scrollFlags="scroll|snap"
-            app:subtitle="Здесь хранятся доступные Вам наборы"
+            app:subtitle="@string/pair_set_fragment_title"
             app:title="Наборы">
 
 
@@ -62,7 +62,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/background_edit_text"
-                    android:hint="Какой набор ищем?"
+                    android:hint="@string/pair_set_search_field_hint"
                     android:inputType="text"
                     android:paddingStart="44dp"
                     android:textColorHint="@color/plt_subtext_grey"
@@ -82,19 +82,7 @@
                     app:layout_constraintEnd_toEndOf="@id/et_ws_frag_searchfield"
                     app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />
 
-                <!--                <ImageView-->
-                <!--                    android:id="@+id/iv_WS_frag_add_icon"-->
-                <!--                    android:layout_width="30dp"-->
-                <!--                    android:layout_height="30dp"-->
-                <!--                    android:layout_marginEnd="12dp"-->
-                <!--                    android:clickable="true"-->
-                <!--                    android:focusable="true"-->
-                <!--                    android:foreground="?attr/selectableItemBackground"-->
-                <!--                    android:src="@drawable/icon_add_blue"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintStart_toEndOf="@id/et_ws_frag_searchfield"-->
-                <!--                    app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />-->
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -132,8 +120,7 @@
         app:elevation="2dp"
         app:fabSize="normal"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:rippleColor="@color/white"
-         />
+        app:rippleColor="@color/white" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

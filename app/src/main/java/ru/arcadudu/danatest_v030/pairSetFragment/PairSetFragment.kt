@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.fragments
+package ru.arcadudu.danatest_v030.pairSetFragment
 
 import android.app.AlertDialog
 import android.content.Context
@@ -18,28 +18,27 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.wordSetEditorActivity.WsEditorActivity
 import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairSetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
-import ru.arcadudu.danatest_v030.databinding.FragmentWordSetBinding
+import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.utils.getTimeWordSet
+import ru.arcadudu.danatest_v030.wordSetEditorActivity.WsEditorActivity
 import java.util.*
 
 
 private const val TAG = "cycle"
-
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 private var ivBtnClearIsShownAndEnabled = false
-
 private var pairSetList: MutableList<PairSet> = mutableListOf()
 
-class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener {
+class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener, PairSetFragmentView {
 
-    private lateinit var fragmentWordSetBinding: FragmentWordSetBinding
+    private lateinit var fragmentWordSetBinding: FragmentPairSetBinding
     private lateinit var dialogRemoveWordSetBinding: DialogRemoveItemBinding
     private lateinit var dialogAddWordSetBinding: DialogAddPairSetBinding
 
@@ -49,22 +48,29 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     private lateinit var btnClearSearchField: ImageView
     private lateinit var recyclerView: RecyclerView
 
+    @InjectPresenter
+    private lateinit var pairSetPresenter:PairSetFragmentPresenter
+
 
     private lateinit var wordSetAdapter: WordSetAdapter
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_word_set, container, false)
+        return inflater.inflate(R.layout.fragment_pair_set, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
-        fragmentWordSetBinding = FragmentWordSetBinding.bind(view)
+        fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
         ///////////////////////////////////////////////
+
+
 
         packWordSetList(pairSetList)
 
@@ -73,14 +79,13 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         initRecyclerSwiper(recyclerView)
 
         etWordSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
-        etWordSetSearchField.hint = getString(R.string.word_set_search_field_hint)
         addTextWatcher(etWordSetSearchField)
 
         btnClearSearchField = fragmentWordSetBinding.btnSearchClose
         showBtnClear(btnClearSearchField, false)
         btnClearSearchField.setOnClickListener {
             if (ivBtnClearIsShownAndEnabled) etWordSetSearchField.text = null
-            etWordSetSearchField.hint = getString(R.string.word_set_search_field_hint)
+            etWordSetSearchField.hint = getString(R.string.pair_set_search_field_hint)
         }
 
         fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
@@ -349,6 +354,10 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d(TAG, "onAttach: ")
+    }
+
+    override fun retrievePairSetList(pairSetList: MutableList<PairSet>) {
+        wordSetAdapter.submitList(pairSetList)
     }
 
 
