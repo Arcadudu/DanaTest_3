@@ -5,26 +5,26 @@ import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 import java.util.*
 
 @InjectViewState
 class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
 
-    private lateinit var currentWordSet: WordSet
+    private lateinit var currentPairSet: PairSet
     private lateinit var currentPairList: MutableList<Pair>
     private lateinit var wordSetTitle: String
     private lateinit var wordSetDescription: String
 
     fun extractIncomingWordSet(incomingIntent: Intent, INTENT_TAG: String) {
-        currentWordSet = incomingIntent.getSerializableExtra(INTENT_TAG) as WordSet
-        wordSetTitle = currentWordSet.name
-        wordSetDescription = currentWordSet.description
-        currentPairList = currentWordSet.getPairList()
+        currentPairSet = incomingIntent.getSerializableExtra(INTENT_TAG) as PairSet
+        wordSetTitle = currentPairSet.name
+        wordSetDescription = currentPairSet.description
+        currentPairList = currentPairSet.getPairList()
     }
 
     fun deliverWordSetForTest(){
-        viewState.obtainWordSetForTest(currentWordSet)
+        viewState.obtainWordSetForTest(currentPairSet)
     }
 
     fun provideDataForToolbar() {

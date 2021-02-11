@@ -10,18 +10,18 @@ import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
 import ru.arcadudu.danatest_v030.databinding.TestTranslateRowBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 
 class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.TranslateCardViewHolder>() {
-    private lateinit var wordSet: WordSet
+    private lateinit var pairSet: PairSet
     private lateinit var iProgress: IProgress
     var pairs: MutableList<Pair> = mutableListOf()
 
     var done = 0
     val multiply = 1000
 
-    fun submitData(set: WordSet) {
-        wordSet = set
+    fun submitData(set: PairSet) {
+        pairSet = set
         pairs = set.getPairList()
         notifyDataSetChanged()
     }
@@ -34,7 +34,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
     }
 
     override fun onBindViewHolder(holderTranslate: TranslateCardViewHolder, position: Int) {
-        holderTranslate.bind(wordSet)
+        holderTranslate.bind(pairSet)
     }
 
     override fun getItemCount() = pairs.count()
@@ -43,7 +43,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
         private val binding = TestTranslateRowBinding.bind(itemView)
 
 
-        fun bind(wordSet: WordSet) {
+        fun bind(pairSet: PairSet) {
 
             val position = bindingAdapterPosition
             iProgress = TranslateActivity()
@@ -52,7 +52,7 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
 
                 if (pairs.size != 0) {
 
-                    tvPairSetTitle.text = wordSet.name
+                    tvPairSetTitle.text = pairSet.name
                     tvPairSetCount.text = "${position + 1}/${pairs.size}"
                     tvQuestWord.text = pairs[position].pairKey
 

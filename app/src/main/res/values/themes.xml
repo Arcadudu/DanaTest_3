@@ -34,6 +34,7 @@
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/plt_almost_black</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextStyle_card_subtext">

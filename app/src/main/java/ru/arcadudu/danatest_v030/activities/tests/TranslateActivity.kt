@@ -18,9 +18,8 @@ import ru.arcadudu.danatest_v030.databinding.ActivityShuffleTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
-import ru.arcadudu.danatest_v030.utils.getTimeWordSet
 import java.util.*
 
 private lateinit var translateActivityBinding: ActivityShuffleTranslateBinding
@@ -36,7 +35,7 @@ private lateinit var pairSelectorLayoutManager: LinearLayoutManager
 private lateinit var pagerSnapHelper: PagerSnapHelper
 private lateinit var pairSelectorAdapter: PairSelectorAdapter
 
-private lateinit var currentWordSet: WordSet
+private lateinit var currentPairSet: PairSet
 private lateinit var currentPairList: MutableList<Pair>
 
 private var currentSnapPosition = 0
@@ -59,8 +58,8 @@ class TranslateActivity : AppCompatActivity(), IProgress,
 //        currentPairList = currentWordSet.getPairList()
 
         val incomingIntent = intent
-        currentWordSet = incomingIntent.getSerializableExtra(WORDSET_TO_TEST_TAG) as WordSet
-        currentPairList = currentWordSet.getPairList()
+        currentPairSet = incomingIntent.getSerializableExtra(WORDSET_TO_TEST_TAG) as PairSet
+        currentPairList = currentPairSet.getPairList()
 
         progressBar = translateActivityBinding.progressHorizontal
 
@@ -162,7 +161,7 @@ class TranslateActivity : AppCompatActivity(), IProgress,
 
 
     private fun setToolbarSubtitle(toolbar: Toolbar, position: Int) {
-        val subtitle = "${currentWordSet.name} - $position/${currentPairList.count()}"
+        val subtitle = "${currentPairSet.name} - $position/${currentPairList.count()}"
         toolbar.subtitle = subtitle
     }
 

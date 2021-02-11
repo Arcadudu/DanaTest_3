@@ -30,7 +30,7 @@ import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairWhiteBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 import java.util.*
 
 
@@ -40,16 +40,16 @@ private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
-    private lateinit var wordSetForTesting: WordSet
+    private lateinit var pairSetForTesting: PairSet
 
     private lateinit var toolbar: Toolbar
     private lateinit var etPairSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
-        private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var pairRowAdapter: PairRowAdapter
     private lateinit var fabAddPair: FloatingActionButton
 
-    val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
+    private val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
 
     @InjectPresenter
     lateinit var wsEditorPresenter: WsEditorPresenter
@@ -81,7 +81,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
 
         fabAddPair = activityWsEditorBinding.fabAddPair
-        fabAddPair.setOnClickListener{
+        fabAddPair.setOnClickListener {
             wsEditorPresenter.onAddNewPair()
         }
 
@@ -105,19 +105,26 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             }
 
         wsEditorPresenter.deliverWordSetForTest()
-        intent?.putExtra(WORDSET_TO_TEST_TAG, wordSetForTesting)
+        intent?.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
         startActivity(intent)
         return super.onOptionsItemSelected(item)
     }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
-        val drawable = ContextCompat.getDrawable(applicationContext, R.drawable.icon_hamburger_menu_active_violet_light)
+        val drawable = ContextCompat.getDrawable(
+            applicationContext,
+            R.drawable.icon_hamburger_menu_active_violet_light
+        )
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
             navigationIcon =
-                ResourcesCompat.getDrawable(resources, R.drawable.icon_arrow_back_violet_light, theme)
+                ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.icon_arrow_back_violet_light,
+                    theme
+                )
             this.setNavigationOnClickListener {
                 // TODO: save wordSet state
                 onBackPressed()
@@ -349,13 +356,13 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
 
         addPairBinding.ivSwapPairBtn.setOnClickListener {
-           swapEditTexts(addPairBinding.etNewPairKey, addPairBinding.etNewPairValue)
+            swapEditTexts(addPairBinding.etNewPairKey, addPairBinding.etNewPairValue)
         }
 
         addPairDialog.show()
     }
 
-    private fun swapEditTexts(et1:EditText, et2:EditText){
+    private fun swapEditTexts(et1: EditText, et2: EditText) {
         Log.d("swapEditTexts", "swapEditTexts: callback ok ")
         val newEt1 = et2.text
         val newEt2 = et1.text
@@ -395,8 +402,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
     }
 
-    override fun obtainWordSetForTest(currentWordSet: WordSet) {
-        wordSetForTesting = currentWordSet
+    override fun obtainWordSetForTest(currentPairSet: PairSet) {
+        pairSetForTesting = currentPairSet
     }
 
     override fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition: Int) {

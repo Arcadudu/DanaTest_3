@@ -12,17 +12,17 @@ import ru.arcadudu.danatest_v030.databinding.TestVariantsRowBinding
 import ru.arcadudu.danatest_v030.interfaces.ICheckWord
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 
 class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCardHolder>() {
-    private lateinit var wordSet: WordSet
+    private lateinit var pairSet: PairSet
     private lateinit var iProgress: IProgress
     private lateinit var iCheckWord: ICheckWord
 
     var pairs: MutableList<Pair> = mutableListOf()
 
-    fun submitData(set: WordSet) {
-        wordSet = set
+    fun submitData(set: PairSet) {
+        pairSet = set
         pairs = set.getPairList()
         notifyDataSetChanged()
     }
@@ -36,7 +36,7 @@ class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCar
     }
 
     override fun onBindViewHolder(holderShuffle: VariantsCardHolder, position: Int) {
-        holderShuffle.bind(wordSet)
+        holderShuffle.bind(pairSet)
     }
 
     override fun getItemCount() = pairs.count()
@@ -45,13 +45,13 @@ class VariantsCardAdapter : RecyclerView.Adapter<VariantsCardAdapter.VariantsCar
         private val binding = TestVariantsRowBinding.bind(itemView)
 
 
-        fun bind(wordSet: WordSet) {
+        fun bind(pairSet: PairSet) {
 
             val position = bindingAdapterPosition
             if (pairs.size != 0) {
 
                 binding.apply {
-                    tvPairSetTitle.text = wordSet.name
+                    tvPairSetTitle.text = pairSet.name
                     tvPairSetCount.text = "${position + 1}/${pairs.size}"
                     tvQuestWord.text = pairs[position].pairKey
 

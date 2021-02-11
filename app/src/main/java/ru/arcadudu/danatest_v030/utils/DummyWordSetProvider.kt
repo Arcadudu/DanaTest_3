@@ -1,9 +1,9 @@
 package ru.arcadudu.danatest_v030.utils
 
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 
-fun getDummyWordSet(): WordSet {
-    val wordSet = WordSet("fake WordSet", "This is a fake WordSet", false)
+fun getDummyWordSet(): PairSet {
+    val wordSet = PairSet("fake WordSet", "This is a fake WordSet", false)
     for(i in 0..6){
         wordSet.addPair("table", "стол")
         wordSet.addPair("chair", "стул")
@@ -33,8 +33,8 @@ var gbEng = listOf("island", "islands", "average", "temperature", "above", "thou
     "Atlantic", "ocean", "area", "kilometer", "urban",
     "fog", "surface", "mountain", "mountainous", "lake", "river", "climate", "autumn")
 
-fun getTimeWordSet():WordSet{
-    val wordSet = WordSet("Time WordSet", "This is time wordSet", false)
+fun getTimeWordSet():PairSet{
+    val wordSet = PairSet("Time WordSet", "This is time wordSet", false)
     if(timeRu.count() == timeEng.count()){
             for(i in timeRu.indices){
                 wordSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())

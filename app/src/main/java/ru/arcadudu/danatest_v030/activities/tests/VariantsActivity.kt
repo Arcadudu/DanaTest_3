@@ -8,7 +8,7 @@ import ru.arcadudu.danatest_v030.adapters.VariantsCardAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityVariantsBinding
 import ru.arcadudu.danatest_v030.interfaces.ICheckWord
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.utils.getDummyWordSet
 
 //private lateinit var binding: ActivityShuffleTranslateBinding
@@ -16,7 +16,7 @@ private lateinit var binding: ActivityVariantsBinding
 private lateinit var recyclerView: RecyclerView
 private lateinit var myAdapter: VariantsCardAdapter
 
-private lateinit var wordSet: WordSet
+private lateinit var pairSet: PairSet
 private lateinit var pairList: MutableList<Pair>
 
 class VariantsActivity : AppCompatActivity() , ICheckWord{
@@ -27,13 +27,13 @@ class VariantsActivity : AppCompatActivity() , ICheckWord{
         setContentView(view)
 
 
-        wordSet = getDummyWordSet()
-        pairList = wordSet.getPairList()
+        pairSet = getDummyWordSet()
+        pairList = pairSet.getPairList()
 
         recyclerView = binding.varsRecycler
         recyclerView.apply {
             myAdapter = VariantsCardAdapter()
-            myAdapter.submitData(wordSet)
+            myAdapter.submitData(pairSet)
             adapter = myAdapter
             layoutManager =
                 LinearLayoutManager(this@VariantsActivity, LinearLayoutManager.HORIZONTAL, false)

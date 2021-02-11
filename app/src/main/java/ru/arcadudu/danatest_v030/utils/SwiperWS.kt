@@ -1,13 +1,10 @@
 package ru.arcadudu.danatest_v030.utils
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.models.WordSet
 
 abstract class SwiperWS(context: Context) : ItemTouchHelper.SimpleCallback(
     ItemTouchHelper.UP and ItemTouchHelper.DOWN,

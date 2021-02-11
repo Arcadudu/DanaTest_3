@@ -98,7 +98,7 @@
             android:layout_marginTop="18dp"
             android:background="?attr/selectableItemBackground"
             android:text="Добавить"
-            android:textColor="@color/plt_active_violet"
+            android:textColor="@color/plt_active_violet_lighter"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_divider2" />
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:text="Отмена"
-            android:textColor="@color/plt_active_violet"
+            android:textColor="@color/plt_active_violet_lighter"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btn_add_pair"
             app:layout_constraintTop_toTopOf="@id/btn_add_pair" />

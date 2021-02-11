@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.databinding.WordsetRowLayoutBinding
-import ru.arcadudu.danatest_v030.databinding.WordsetRowLayoutFavBinding
+import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
+import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutFavBinding
 import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
-import ru.arcadudu.danatest_v030.models.WordSet
+import ru.arcadudu.danatest_v030.models.PairSet
 
 class WordSetAdapter(var transferToEditor: TransferToEditor) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var itemList: MutableList<WordSet> = mutableListOf()
+    var itemList: MutableList<PairSet> = mutableListOf()
 
     interface OnItemSwipedListener{
         fun showRemoveAlertDialog(position:Int)
@@ -29,12 +29,12 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
         return when (viewType) {
             0 -> FavWordSetViewHolder(
                 inflater.inflate(
-                    R.layout.wordset_row_layout_fav,
+                    R.layout.pairset_row_layout_fav,
                     parent,
                     false
                 )
             )
-            else -> WordSetViewHolder(inflater.inflate(R.layout.wordset_row_layout, parent, false))
+            else -> WordSetViewHolder(inflater.inflate(R.layout.pairset_row_layout, parent, false))
         }
     }
 
@@ -52,12 +52,12 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
     override fun getItemCount() = itemList.count()
 
 
-    fun submitList(list: MutableList<WordSet>) {
+    fun submitList(list: MutableList<PairSet>) {
         itemList = list
         notifyDataSetChanged()
     }
 
-    fun filterList(list: MutableList<WordSet>) {
+    fun filterList(list: MutableList<PairSet>) {
         itemList = list
         notifyDataSetChanged()
     }
@@ -65,7 +65,7 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
     //REGULAR
     inner class WordSetViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        private val binding = WordsetRowLayoutBinding.bind(view)
+        private val binding = PairsetRowLayoutBinding.bind(view)
 
         init {
             itemView.setOnClickListener {
@@ -75,25 +75,25 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
             }
         }
 
-        fun bind(wordSet: WordSet) {
+        fun bind(pairSet: PairSet) {
             binding.apply {
-                tvItemTitle.text = wordSet.name
-                tvItemDetails.text = wordSet.description
+                tvItemTitle.text = pairSet.name
+                tvItemDetails.text = pairSet.description
 //                tvItemLength.text = wordSet.listLength.toString()
             }
         }
 
         private fun goToEditor(position: Int) {
-            val wordSet: WordSet = itemList[position]
-            Log.d("AAA", "adapter goToEditor: ${wordSet == null} ")
-            transferToEditor.clickToEditor(wordSet)
+            val pairSet: PairSet = itemList[position]
+            Log.d("AAA", "adapter goToEditor: ${pairSet == null} ")
+            transferToEditor.clickToEditor(pairSet)
         }
     }
 
     // FAVOURITE
     inner class FavWordSetViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        private val binding = WordsetRowLayoutFavBinding.bind(view)
+        private val binding = PairsetRowLayoutFavBinding.bind(view)
 
         init {
             itemView.setOnClickListener {
@@ -101,18 +101,18 @@ class WordSetAdapter(var transferToEditor: TransferToEditor) :
             }
         }
 
-        fun bind(favWordSet: WordSet) {
+        fun bind(favPairSet: PairSet) {
             binding.apply {
-                tvFavTitle.text = favWordSet.name
-                tvFavDetails.text = favWordSet.description
+                tvFavTitle.text = favPairSet.name
+                tvFavDetails.text = favPairSet.description
 //                tvFavLength.text = favWordSet.listLength.toString()
             }
         }
 
         private fun goToEditor(position: Int) {
-            val wordSet: WordSet = itemList[position]
-            Log.d("AAA", "adapter goToEditor: ${wordSet == null} ")
-            transferToEditor.clickToEditor(wordSet)
+            val pairSet: PairSet = itemList[position]
+            Log.d("AAA", "adapter goToEditor: ${pairSet == null} ")
+            transferToEditor.clickToEditor(pairSet)
         }
 
 

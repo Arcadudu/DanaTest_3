@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(view)
 
         homeFragment = HomeFragment()
-        statsFragment = StatsFragment()
+//        statsFragment = StatsFragment()
         profileFragment = ProfileFragment()
         wordSetFragment = WordSetFragment()
         settingsFragment = SettingsFragment()
@@ -42,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
 //                        R.id.home_item -> homeFragment
                         R.id.profile_item -> profileFragment
                         R.id.wordset_item -> wordSetFragment
-                        R.id.stats_item -> statsFragment
+//                        R.id.stats_item -> statsFragment
                         R.id.settings_item -> settingsFragment
                         else -> homeFragment
                     }
