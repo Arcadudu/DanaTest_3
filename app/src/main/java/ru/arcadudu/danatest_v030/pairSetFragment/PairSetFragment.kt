@@ -12,48 +12,39 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.adapters.WordSetAdapter
+import ru.arcadudu.danatest_v030.adapters.PairSetAdapter
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairSetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
-import ru.arcadudu.danatest_v030.interfaces.TransferToEditor
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.utils.getTimeWordSet
 import ru.arcadudu.danatest_v030.wordSetEditorActivity.WsEditorActivity
 import java.util.*
 
 
 private const val TAG = "cycle"
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
-private var ivBtnClearIsShownAndEnabled = false
-private var pairSetList: MutableList<PairSet> = mutableListOf()
 
-class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipedListener, PairSetFragmentView {
+class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     private lateinit var fragmentWordSetBinding: FragmentPairSetBinding
-    private lateinit var dialogRemoveWordSetBinding: DialogRemoveItemBinding
-    private lateinit var dialogAddWordSetBinding: DialogAddPairSetBinding
+    private lateinit var removeDialogBinding: DialogRemoveItemBinding
+    private lateinit var addPairSetDialogBinding: DialogAddPairSetBinding
 
-    private lateinit var favoritePairSet: PairSet
-    private lateinit var etWordSetSearchField: EditText
-    private lateinit var fabAddNewPairSet: FloatingActionButton
+    private lateinit var etPairSetSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var pairSetRecyclerView: RecyclerView
+    private lateinit var pairSetAdapter: PairSetAdapter
+    private lateinit var fabAddNewPairSet: FloatingActionButton
 
     @InjectPresenter
-    private lateinit var pairSetPresenter:PairSetFragmentPresenter
-
-
-    private lateinit var wordSetAdapter: WordSetAdapter
-
+    lateinit var pairSetPresenter: PairSetFragmentPresenter
 
 
     override fun onCreateView(
@@ -68,99 +59,51 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
         fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
-        ///////////////////////////////////////////////
 
+        pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
+        prepareWordSetRecycler(pairSetRecyclerView)
+        initRecyclerSwiper(pairSetRecyclerView)
 
-
-        packWordSetList(pairSetList)
-
-        recyclerView = fragmentWordSetBinding.wordSetRecycler
-        prepareWordSetRecycler(recyclerView, pairSetList)
-        initRecyclerSwiper(recyclerView)
-
-        etWordSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
-        addTextWatcher(etWordSetSearchField)
+        etPairSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
+        addTextWatcher(etPairSetSearchField)
 
         btnClearSearchField = fragmentWordSetBinding.btnSearchClose
-        showBtnClear(btnClearSearchField, false)
         btnClearSearchField.setOnClickListener {
-            if (ivBtnClearIsShownAndEnabled) etWordSetSearchField.text = null
-            etWordSetSearchField.hint = getString(R.string.pair_set_search_field_hint)
+            etPairSetSearchField.text = null
         }
 
         fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
         fabAddNewPairSet.setOnClickListener {
-            showAddWordSetAlertDialog()
+            pairSetPresenter.onAddNewPairSet()
         }
-//        btnAddNewWordSet = fragmentWordSetBinding.ivWSFragAddIcon
-//        btnAddNewWordSet.setOnClickListener {
-//            showAddWordSetAlertDialog()
-//        }
 
     }
 
-    private fun showBtnClear(imageView: ImageView, showAndEnable: Boolean) {
-        imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
-        ivBtnClearIsShownAndEnabled = showAndEnable
+    private fun showBtnClear(isStringEmpty: Boolean) {
+        btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
 
     private fun addTextWatcher(targetEditText: EditText) {
         targetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val isStringEmpty = s.toString().isNotEmpty()
-                showBtnClear(imageView = btnClearSearchField, showAndEnable = isStringEmpty)
-                filter(s.toString())
+                showBtnClear(s.toString().isEmpty())
+                pairSetPresenter.filter(s.toString())
             }
         })
     }
 
 
-    private fun prepareWordSetRecycler(
-        targetRecyclerView: RecyclerView,
-        targetPairSetList: MutableList<PairSet>,
-    ) {
-        wordSetAdapter = WordSetAdapter(this)
-        wordSetAdapter.submitList(targetPairSetList)
-        val horizontalDivider = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
-        horizontalDivider.setDrawable(resources.getDrawable(R.drawable.divider_drawable, null))
-
+    private fun prepareWordSetRecycler(targetRecyclerView: RecyclerView) {
+        pairSetAdapter = PairSetAdapter()
         targetRecyclerView.apply {
             setHasFixedSize(true)
-            adapter = wordSetAdapter
+            adapter = pairSetAdapter
             layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(horizontalDivider)
         }
-    }
-
-
-    private fun packWordSetList(targetPairSetList: MutableList<PairSet>) {
-        targetPairSetList.clear()
-        val dummyDescription = getString(R.string.dummy_text)
-        var wordSetNameCount = 0
-        repeat(20) {
-            wordSetNameCount++
-            targetPairSetList.add(
-                PairSet(
-                    name = "WordSet $wordSetNameCount",
-                    description = dummyDescription
-                )
-            )
-        }
-
-        favoritePairSet = PairSet(
-            isFavorites = true,
-            name = "Избранный набор",
-            description = "Сюда попадают избранные Вами пары из других наборов"
-        )
-        targetPairSetList.add(0, favoritePairSet)
-
-        targetPairSetList.add(1, getTimeWordSet())
+        pairSetPresenter.providePairSetList()
+        pairSetAdapter.onItemClickCallback(this)
     }
 
 
@@ -173,7 +116,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
-                if (viewHolder.adapterPosition == 0) return 0 // for favorite wordSet
+                if (viewHolder.bindingAdapterPosition == 0) return 0 // for favorite wordSet
                 return super.getMovementFlags(recyclerView, viewHolder)
             }
 
@@ -183,23 +126,18 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                val fromPosition = viewHolder.adapterPosition
-                val toPosition = target.adapterPosition
-                val isFavoriteWordSet = (fromPosition == 0 || toPosition == 0)
-
-                if (!isFavoriteWordSet) {
-                    Collections.swap(pairSetList, fromPosition, toPosition)
-                    wordSetAdapter.notifyItemMoved(fromPosition, toPosition)
-                }
-                return isFavoriteWordSet
+                val fromPosition = viewHolder.bindingAdapterPosition
+                val toPosition = target.bindingAdapterPosition
+                pairSetPresenter.onMove(fromPosition, toPosition)
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        wordSetAdapter.notifyDataSetChanged()
-                        showRemoveAlertDialog(position)
+                        pairSetAdapter.notifyDataSetChanged()
+                        pairSetPresenter.onSwipedLeft(position)
                     }
                 }
             }
@@ -209,124 +147,109 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun showAddWordSetAlertDialog() {
-        val addWordSetDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val addWordSetDialogView = layoutInflater.inflate(R.layout.dialog_add_pair_set, null, false)
-        addWordSetDialogBuilder.setView(addWordSetDialogView)
-        val addWordSetDialog = addWordSetDialogBuilder.create()
-        var inputWordSetName = ""
-        var inputWordSetDetails = ""
+    override fun showAddNewPairSetDialog() {
+        val addPairSetDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val addPairSetDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_add_pair_set, null, false)
+        addPairSetDialogBuilder.setView(addPairSetDialogView)
+        val addPairSetDialog = addPairSetDialogBuilder.create()
 
-        dialogAddWordSetBinding = DialogAddPairSetBinding.bind(addWordSetDialogView)
-        dialogAddWordSetBinding.tvAddWordSetDialogTitle.text =
-            getString(R.string.add_word_set_dialog_title)
-        dialogAddWordSetBinding.etNewWordSetName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        var inputPairSetName = ""
+        var inputPairSetDetails = ""
 
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
+        addPairSetDialogBinding = DialogAddPairSetBinding.bind(addPairSetDialogView)
+        addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
+            getString(R.string.add_pair_set_dialog_title)
+        addPairSetDialogBinding.etNewWordSetName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                inputWordSetName = s.toString()
+                inputPairSetName = s.toString().capitalize(Locale.ROOT).trim()
             }
         })
-        dialogAddWordSetBinding.etNewWordSetDetails.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
+        addPairSetDialogBinding.etNewPairSetDetails.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                inputWordSetDetails = s.toString()
+                inputPairSetDetails = s.toString().capitalize(Locale.ROOT).trim()
             }
-
         })
 
-        dialogAddWordSetBinding.btnAddWordSet.setOnClickListener {
-            if (inputWordSetName.isBlank()) {
-                dialogAddWordSetBinding.etNewWordSetName.hint =
-                    "Название набора не может быть пустым"
-                dialogAddWordSetBinding.etNewWordSetName.setHintTextColor(
-                    resources.getColor(
-                        R.color.plt_error_red,
-                        null
-                    )
-                )
-            } else {
-                if (inputWordSetDetails.isBlank()) {
-                    inputWordSetDetails = "Без описания"
+        addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
+            if (inputPairSetName.isEmpty()) {
+                addPairSetDialogBinding.etNewWordSetName.apply {
+                    hint = getString(R.string.add_pair_set_dialog_warning)
+                    setHintTextColor(resources.getColor(R.color.plt_error_red, null))
                 }
-                pairSetList.add(
-                    1,
-                    PairSet(
-                        name = inputWordSetName.capitalize(),
-                        description = inputWordSetDetails.capitalize()
-                    )
-                )
-                wordSetAdapter.notifyItemInserted(1)
-                addWordSetDialog.dismiss()
+            } else {
+                if (inputPairSetDetails.isEmpty()) inputPairSetDetails =
+                    getString(R.string.add_pair_set_dialog_no_details)
+                pairSetPresenter.addNewPairSet(inputPairSetName, inputPairSetDetails)
+                addPairSetDialog.dismiss()
+
             }
-
         }
 
-        dialogAddWordSetBinding.btnCancelAddWordSet.setOnClickListener {
-            addWordSetDialog.dismiss()
+        addPairSetDialogBinding.btnCancelAddWordSet.setOnClickListener {
+            addPairSetDialog.dismiss()
         }
 
-        addWordSetDialog.show()
+        addPairSetDialog.show()
     }
 
-    override fun showRemoveAlertDialog(position: Int) {
+    override fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>) {
+        pairSetAdapter.apply {
+            submitList(pairSetList)
+            notifyItemInserted(1)
+        }
+        pairSetRecyclerView.scrollToPosition(1)
+    }
+
+
+    override fun showRemovePairSetDialog(name: String, description: String, position: Int) {
+        Log.d("swipe", "showAddWordSetAlertDialog: method called")
         val removeDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val removeDialogView = layoutInflater.inflate(R.layout.dialog_remove_item, null)
+        val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
-        val chosenWordSet = pairSetList[position]
 
-        dialogRemoveWordSetBinding = DialogRemoveItemBinding.bind(removeDialogView)
+        removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
+        removeDialogBinding.tvRemoveDialogTitle.text = name
+        removeDialogBinding.tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
 
-        dialogRemoveWordSetBinding.tvRemoveDialogTitle.text = chosenWordSet.name
-        dialogRemoveWordSetBinding.tvRemoveDialogMessage.text =
-            getString(R.string.remove_dialog_message)
-        dialogRemoveWordSetBinding.btnRemovePair.setOnClickListener {
-            wordSetAdapter.removeItem(position)
+        removeDialogBinding.btnCancelRemove.setOnClickListener {
+            pairSetAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
-        dialogRemoveWordSetBinding.btnCancelRemove.setOnClickListener {
-            wordSetAdapter.notifyDataSetChanged()
+
+        removeDialogBinding.btnRemovePair.setOnClickListener {
+            pairSetPresenter.removePairSetAtPosition(position)
             removeDialog.dismiss()
         }
 
         removeDialog.show()
+
+
     }
 
-
-    private fun filter(text: String) {
-        val filteredList: MutableList<PairSet> = mutableListOf()
-        for (item in pairSetList) {
-            if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
-                item.description.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
-            ) {
-                filteredList.add(item)
-            }
+    override fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int) {
+        pairSetAdapter.apply {
+            submitList(updatedPairSetList)
+            notifyItemRemoved(position)
         }
-        wordSetAdapter.filterList(filteredList)
     }
 
-    override fun clickToEditor(pairSet: PairSet) {
-        //todo: startActivityForResult -> into editor and back
+    override fun obtainFilteredList(filteredList: MutableList<PairSet>) {
+        pairSetAdapter.filterList(filteredList)
+    }
+
+    override fun putPairSetIntoIntent(chosenPairSet: PairSet) {
         val toEditorIntent = Intent(activity, WsEditorActivity::class.java)
-        toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, pairSet)
+        toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
         startActivity(toEditorIntent)
     }
+
 
     //lifecycle
     override fun onPause() {
@@ -347,6 +270,7 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     }
 
     override fun onDestroy() {
+        pairSetPresenter.detachView(this)
         super.onDestroy()
         Log.d(TAG, "onDestroy: ")
     }
@@ -357,7 +281,18 @@ class WordSetFragment : Fragment(), TransferToEditor, WordSetAdapter.OnItemSwipe
     }
 
     override fun retrievePairSetList(pairSetList: MutableList<PairSet>) {
-        wordSetAdapter.submitList(pairSetList)
+        pairSetAdapter.submitList(pairSetList)
+    }
+
+    override fun updateRecyclerOnSwap(
+        pairSetList: MutableList<PairSet>,
+        fromPosition: Int,
+        toPosition: Int
+    ) {
+        pairSetAdapter.apply {
+            submitList(pairSetList)
+            notifyItemMoved(fromPosition, toPosition)
+        }
     }
 
 

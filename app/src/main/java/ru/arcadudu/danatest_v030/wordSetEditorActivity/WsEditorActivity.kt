@@ -71,7 +71,6 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
         /*поле поиска "пары" по названию*/
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
-        etPairSearchField.hint = getString(R.string.pair_search_field_hint)
         addTextWatcher(etPairSearchField)
 
         btnClearSearchField = activityWsEditorBinding.btnSearchClose
@@ -137,16 +136,11 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
     private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
         pairRowAdapter = PairRowAdapter()
-        val horizontalDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
-        ResourcesCompat.getDrawable(resources, R.drawable.divider_drawable, null)?.let {
-            horizontalDivider.setDrawable(it)
-        }
 
         targetRecyclerView.apply {
             setHasFixedSize(true)
             adapter = pairRowAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(horizontalDivider)
         }
         wsEditorPresenter.providePairList()
         pairRowAdapter.onItemClickCallback(this)
@@ -307,8 +301,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-        val layoutInflater = this.layoutInflater
-        val addPairDialogView = layoutInflater.inflate(R.layout.dialog_add_pair_white, null, false)
+        val addPairDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_add_pair_white, null, false)
         addPairDialogBuilder.setView(addPairDialogView)
         val addPairDialog = addPairDialogBuilder.create()
 
@@ -319,12 +313,8 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
         addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 inputKey = s.toString().capitalize(Locale.ROOT).trim()
             }

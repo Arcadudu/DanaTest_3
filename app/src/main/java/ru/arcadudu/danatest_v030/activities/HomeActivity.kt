@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.ActivityMainBinding
 import ru.arcadudu.danatest_v030.fragments.*
+import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -14,7 +15,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var homeFragment: HomeFragment
     private lateinit var profileFragment: ProfileFragment
-    private lateinit var wordSetFragment: WordSetFragment
+    private lateinit var wordSetFragment: PairSetFragment
     private lateinit var statsFragment: StatsFragment
     private lateinit var settingsFragment: SettingsFragment
 
@@ -30,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
         homeFragment = HomeFragment()
 //        statsFragment = StatsFragment()
         profileFragment = ProfileFragment()
-        wordSetFragment = WordSetFragment()
+        wordSetFragment = PairSetFragment()
         settingsFragment = SettingsFragment()
         setFragment(wordSetFragment)
 

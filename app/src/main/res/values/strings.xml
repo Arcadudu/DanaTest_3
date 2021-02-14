@@ -39,7 +39,9 @@
     <string name="pair_search_field_hint">Поиск слова</string>
     <string name="remove_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="add_pair_dialog_title">Новая пара</string>
-    <string name="add_word_set_dialog_title">Новый набор</string>
+    <string name="add_pair_set_dialog_title">Новый набор</string>
+    <string name="add_pair_set_dialog_warning">Название набора не может быть пусты</string>
+    <string name="add_pair_set_dialog_no_details">Без описания</string>
     <string name="emptyInputKey">Ключ не задан</string>
     <string name="emptyInputValue">Значение не задано</string>
     <string name="edit_pair_dialog_save_button_text">Сохранить</string>

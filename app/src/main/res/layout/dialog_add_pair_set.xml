@@ -14,7 +14,7 @@
         android:paddingEnd="8dp">
 
         <TextView
-            android:id="@+id/tv_add_word_set_dialog_title"
+            android:id="@+id/tv_add_pair_set_dialog_title"
             style="@style/TextStyle_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,8 +35,8 @@
             android:textSize="18sp"
             android:inputType="text"
             android:padding="8dp"
-            app:layout_constraintStart_toStartOf="@id/tv_add_word_set_dialog_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_add_word_set_dialog_title" />
+            app:layout_constraintStart_toStartOf="@id/tv_add_pair_set_dialog_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_pair_set_dialog_title" />
         <View
             android:id="@+id/etDivider1"
             android:layout_width="0dp"
@@ -50,7 +50,7 @@
             />
 
         <EditText
-            android:id="@+id/et_newWordSetDetails"
+            android:id="@+id/et_new_pair_set_details"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:gravity="top|start"
@@ -71,14 +71,14 @@
             android:id="@+id/etDivider2"
             android:visibility="gone"
             android:background="@color/plt_semi_active_blue_light"
-            app:layout_constraintTop_toBottomOf="@id/et_newWordSetDetails"
-            app:layout_constraintStart_toStartOf="@id/et_newWordSetDetails"
-            app:layout_constraintEnd_toEndOf="@id/et_newWordSetDetails"
+            app:layout_constraintTop_toBottomOf="@id/et_new_pair_set_details"
+            app:layout_constraintStart_toStartOf="@id/et_new_pair_set_details"
+            app:layout_constraintEnd_toEndOf="@id/et_new_pair_set_details"
             android:layout_marginEnd="16dp"/>
 
 
         <Button
-            android:id="@+id/btn_add_wordSet"
+            android:id="@+id/btn_add_pair_set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -87,7 +87,7 @@
             android:textColor="@color/plt_active_violet_lighter"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_newWordSetDetails"/>
+            app:layout_constraintTop_toBottomOf="@id/et_new_pair_set_details"/>
 
         <Button
             android:id="@+id/btn_cancel_add_wordSet"
@@ -97,8 +97,8 @@
             android:text="Отмена"
             android:textColor="@color/plt_active_violet_lighter"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@id/btn_add_wordSet"
-            app:layout_constraintTop_toTopOf="@id/btn_add_wordSet"/>
+            app:layout_constraintEnd_toStartOf="@id/btn_add_pair_set"
+            app:layout_constraintTop_toTopOf="@id/btn_add_pair_set"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

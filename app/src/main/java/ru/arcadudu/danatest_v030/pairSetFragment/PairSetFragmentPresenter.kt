@@ -1,22 +1,24 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import moxy.InjectViewState
 import moxy.MvpPresenter
-import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.utils.getTimeWordSet
+import java.util.*
 
 @InjectViewState
 class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     private lateinit var pairSetList: MutableList<PairSet>
 
+    init {
+        initiatePairSetList()
+    }
 
-    fun providePairSetList() {
+    private fun initiatePairSetList() {
         pairSetList = mutableListOf()
 
-        //before database
+        //no database stub
         var pairSetCount = 0
         repeat(20) {
             pairSetCount++
@@ -27,41 +29,56 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
                 )
             )
         }
-        pairSetList.add(
-            0,
-            PairSet(
-                isFavorites = true,
-                name = "Избранный набор",
-                description = "Сюда попадают избранные Вами пары из других наборов"
-            )
-        )
+        pairSetList.add(0, getTimeWordSet())
+    }
 
-        //
-
+    fun providePairSetList() {
         viewState.retrievePairSetList(pairSetList)
     }
 
-    //private fun packWordSetList(targetPairSetList: MutableList<PairSet>) {
-    //        targetPairSetList.clear()
-    //        val dummyDescription = getString(R.string.dummy_text)
-    //        var wordSetNameCount = 0
-    //        repeat(20) {
-    //            wordSetNameCount++
-    //            targetPairSetList.add(
-    //                PairSet(
-    //                    name = "WordSet $wordSetNameCount",
-    //                    description = dummyDescription
-    //                )
-    //            )
-    //        }
-    //
-    //        favoritePairSet = PairSet(
-    //            isFavorites = true,
-    //            name = "Избранный набор",
-    //            description = "Сюда попадают избранные Вами пары из других наборов"
-    //        )
-    //        targetPairSetList.add(0, favoritePairSet)
-    //
-    //        targetPairSetList.add(1, getTimeWordSet())
-    //    }
+    fun onMove(fromPosition: Int, toPosition: Int) {
+        Collections.swap(pairSetList, fromPosition, toPosition)
+        viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
+
+    }
+
+    fun onSwipedLeft(swipePosition: Int) {
+        val chosenPairSet = pairSetList[swipePosition]
+        viewState.showRemovePairSetDialog(
+            chosenPairSet.name,
+            chosenPairSet.description,
+            position = swipePosition
+        )
+    }
+
+    fun removePairSetAtPosition(position: Int) {
+        pairSetList.removeAt(position)
+        viewState.updateRecyclerOnRemoved(pairSetList, position)
+    }
+
+    fun filter(text: String) {
+        val filteredList: MutableList<PairSet> = mutableListOf()
+        for (item in pairSetList) {
+            if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
+                item.description.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
+            ) {
+                filteredList.add(item)
+            }
+        }
+        viewState.obtainFilteredList(filteredList)
+    }
+
+    fun onAddNewPairSet() {
+        viewState.showAddNewPairSetDialog()
+    }
+
+    fun addNewPairSet(inputPairSetName: String, inputPairSetDetails: String) {
+        pairSetList.add(
+            index = 1,
+            element = PairSet(name = inputPairSetName, description = inputPairSetDetails)
+        )
+        viewState.updateRecyclerOnAdded(pairSetList)
+    }
+
+
 }
