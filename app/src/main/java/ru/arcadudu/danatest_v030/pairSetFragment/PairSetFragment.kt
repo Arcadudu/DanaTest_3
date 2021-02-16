@@ -64,6 +64,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         prepareWordSetRecycler(pairSetRecyclerView)
         initRecyclerSwiper(pairSetRecyclerView)
 
+        pairSetPresenter.providePairSetListCount()
+
         etPairSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
         addTextWatcher(etPairSetSearchField)
 
@@ -203,6 +205,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             submitList(pairSetList)
             notifyItemInserted(1)
         }
+        pairSetPresenter.providePairSetListCount()
         pairSetRecyclerView.scrollToPosition(1)
     }
 
@@ -238,6 +241,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             submitList(updatedPairSetList)
             notifyItemRemoved(position)
         }
+        pairSetPresenter.providePairSetListCount()
     }
 
     override fun obtainFilteredList(filteredList: MutableList<PairSet>) {
@@ -280,6 +284,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         Log.d(TAG, "onAttach: ")
     }
 
+    override fun updateToolbarInfo(pairSetCounter: String) {
+        fragmentWordSetBinding.toolbar.subtitle = pairSetCounter
+    }
+
     override fun retrievePairSetList(pairSetList: MutableList<PairSet>) {
         pairSetAdapter.submitList(pairSetList)
     }
@@ -293,6 +301,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             submitList(pairSetList)
             notifyItemMoved(fromPosition, toPosition)
         }
+        pairSetPresenter.providePairSetListCount()
     }
 
 

@@ -15,6 +15,10 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         initiatePairSetList()
     }
 
+    fun providePairSetListCount(){
+        viewState.updateToolbarInfo("${pairSetList.count()} наборов")
+    }
+
     private fun initiatePairSetList() {
         pairSetList = mutableListOf()
 
