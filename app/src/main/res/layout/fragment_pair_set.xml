@@ -77,12 +77,22 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_marginEnd="12dp"
-                    android:visibility="gone"
                     android:src="@drawable/icon_close_search_gray"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"
                     app:layout_constraintEnd_toEndOf="@id/et_ws_frag_searchfield"
                     app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />
 
+                <TextView
+                    android:id="@+id/tv_invisible_counter"
+                    style="@style/TextStyle_bs_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    android:gravity="center"
+                    android:text="counting"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -117,7 +127,7 @@
         android:src="@drawable/icon_add_white"
         app:borderWidth="0dp"
         app:elevation="2dp"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:rippleColor="@color/white" />
 

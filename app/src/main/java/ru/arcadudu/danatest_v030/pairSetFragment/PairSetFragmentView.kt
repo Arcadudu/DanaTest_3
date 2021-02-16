@@ -1,7 +1,9 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
+import android.content.Context
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.PairSet
 
@@ -14,13 +16,15 @@ interface PairSetFragmentView : MvpView {
 
     fun updateRecyclerOnSwap(pairSetList: MutableList<PairSet>, fromPosition: Int, toPosition: Int)
 
+    @StateStrategyType(value = SkipStrategy::class)
     fun showRemovePairSetDialog(name: String, description: String, position: Int)
+
+    @StateStrategyType(value = SkipStrategy::class)
+    fun showAddNewPairSetDialog()
 
     fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int)
 
     fun obtainFilteredList(filteredList: MutableList<PairSet>)
-
-    fun showAddNewPairSetDialog()
 
     fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>)
 

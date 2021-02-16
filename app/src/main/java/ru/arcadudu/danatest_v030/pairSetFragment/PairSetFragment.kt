@@ -12,10 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import me.everything.android.ui.overscroll.IOverScrollDecor
+import me.everything.android.ui.overscroll.IOverScrollState
+import me.everything.android.ui.overscroll.IOverScrollStateListener
+import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
+import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -43,6 +49,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
+    private lateinit var toolbar: Toolbar
+
+
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
 
@@ -59,6 +68,15 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
         fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
+
+        toolbar = fragmentWordSetBinding.toolbar
+
+        val context = context
+        if (context != null) {
+            pairSetPresenter.captureContext(context)
+        }
+
+        pairSetPresenter.initiatePairSetList()
 
         pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
         prepareWordSetRecycler(pairSetRecyclerView)
@@ -84,6 +102,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private fun showBtnClear(isStringEmpty: Boolean) {
         btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
+
 
     private fun addTextWatcher(targetEditText: EditText) {
         targetEditText.addTextChangedListener(object : TextWatcher {
@@ -114,13 +133,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT
         ) {
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ): Int {
-                if (viewHolder.bindingAdapterPosition == 0) return 0 // for favorite wordSet
-                return super.getMovementFlags(recyclerView, viewHolder)
-            }
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -143,10 +155,14 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     }
                 }
             }
+
+
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
     }
 
     override fun showAddNewPairSetDialog() {
@@ -233,7 +249,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         removeDialog.show()
 
-
     }
 
     override fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int) {
@@ -283,6 +298,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         super.onAttach(context)
         Log.d(TAG, "onAttach: ")
     }
+
 
     override fun updateToolbarInfo(pairSetCounter: String) {
         fragmentWordSetBinding.toolbar.subtitle = pairSetCounter

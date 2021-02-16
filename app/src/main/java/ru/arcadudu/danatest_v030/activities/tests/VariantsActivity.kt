@@ -9,7 +9,7 @@ import ru.arcadudu.danatest_v030.databinding.ActivityVariantsBinding
 import ru.arcadudu.danatest_v030.interfaces.ICheckWord
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.utils.getDummyWordSet
+import ru.arcadudu.danatest_v030.utils.getDummyPairSet
 
 //private lateinit var binding: ActivityShuffleTranslateBinding
 private lateinit var binding: ActivityVariantsBinding
@@ -27,7 +27,7 @@ class VariantsActivity : AppCompatActivity() , ICheckWord{
         setContentView(view)
 
 
-        pairSet = getDummyWordSet()
+        pairSet = getDummyPairSet()
         pairList = pairSet.getPairList()
 
         recyclerView = binding.varsRecycler

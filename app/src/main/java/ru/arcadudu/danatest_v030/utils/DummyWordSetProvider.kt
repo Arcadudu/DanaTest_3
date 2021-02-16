@@ -2,19 +2,19 @@ package ru.arcadudu.danatest_v030.utils
 
 import ru.arcadudu.danatest_v030.models.PairSet
 
-fun getDummyWordSet(): PairSet {
-    val wordSet = PairSet("fake WordSet", "This is a fake WordSet", false)
+fun getDummyPairSet(): PairSet {
+    val dummyPairSet = PairSet("fake WordSet", "This is a fake WordSet", false)
     for(i in 0..6){
-        wordSet.addPair("table", "стол")
-        wordSet.addPair("chair", "стул")
-        wordSet.addPair("sofa", "диван")
-        wordSet.addPair("shelf", "полка")
-        wordSet.addPair("stool", "барный стул")
-        wordSet.addPair("pillow", "подушка")
-        wordSet.addPair("lamp", "лампа")
+        dummyPairSet.addPair("table", "стол")
+        dummyPairSet.addPair("chair", "стул")
+        dummyPairSet.addPair("sofa", "диван")
+        dummyPairSet.addPair("shelf", "полка")
+        dummyPairSet.addPair("stool", "барный стул")
+        dummyPairSet.addPair("pillow", "подушка")
+        dummyPairSet.addPair("lamp", "лампа")
     }
 
-    return wordSet
+    return dummyPairSet
 }
 
 var timeRu  = listOf("январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
@@ -33,16 +33,16 @@ var gbEng = listOf("island", "islands", "average", "temperature", "above", "thou
     "Atlantic", "ocean", "area", "kilometer", "urban",
     "fog", "surface", "mountain", "mountainous", "lake", "river", "climate", "autumn")
 
-fun getTimeWordSet():PairSet{
-    val wordSet = PairSet("Time WordSet", "This is time wordSet", false)
+fun getTimePairSet():PairSet{
+    val timePairSet = PairSet("Time WordSet", "This is time wordSet", false)
     if(timeRu.count() == timeEng.count()){
             for(i in timeRu.indices){
-                wordSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())
+                timePairSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())
             }
 
 
     }
-    return wordSet
+    return timePairSet
 }
 
 //static String[] timeRu = {"январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",

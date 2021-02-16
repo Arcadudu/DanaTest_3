@@ -52,6 +52,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.quiph.ui:recyclerviewfastscroller:1.0.0'
 
+    //OverScroll Decoration
+    implementation 'me.everything:overscroll-decor-android:1.1.0'
+
     //Moxy
     apply plugin: 'kotlin-kapt'
     implementation "com.github.moxy-community:moxy:2.2.1"

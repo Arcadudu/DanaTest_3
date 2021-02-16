@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white"
-            android:elevation="4dp"
+            android:elevation="0dp"
             app:itemIconSize="28dp"
             app:itemIconTint="@color/item_navigation_colorset"
             app:itemRippleColor="@color/plt_semi_active_blue_light"

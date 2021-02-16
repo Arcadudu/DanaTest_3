@@ -51,4 +51,26 @@
     <!-- TODO: Remove or change this placeholder text -->
 
 
+    <!-- Этот код мы используем для отладки: когда какой item выбирается системой -->
+    <plurals name="plurals_1">
+        <item quantity="zero">%1$d = zero</item>
+        <item quantity="one">%1$d = one</item>
+        <item quantity="two">%1$d = two</item>
+        <item quantity="few">%1$d = few</item>
+        <item quantity="many">%1$d = many</item>
+        <item quantity="other">%1$d = other</item>
+    </plurals>
+
+    <!-- А этот код мы используем для проверки того, как выглядит реальное склонение -->
+    <plurals name="plurals_2">
+        <item quantity="zero">нет наборов</item>
+        <item quantity="one">%1$d набор</item>
+        <item quantity="two">%1$d набора</item>
+        <item quantity="few">%1$d набора</item>
+        <item quantity="many">%1$d наборов</item>
+        <item quantity="other">%1$d наборов</item>
+    </plurals>
+
+
+
 </resources>

@@ -119,7 +119,7 @@
         android:src="@drawable/icon_add_white"
         app:borderWidth="0dp"
         app:elevation="2dp"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:rippleColor="@color/white" />
 

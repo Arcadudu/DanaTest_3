@@ -1,25 +1,35 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
+import android.content.Context
+import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
+import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.utils.getTimeWordSet
+import ru.arcadudu.danatest_v030.utils.getTimePairSet
 import java.util.*
 
 @InjectViewState
 class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     private lateinit var pairSetList: MutableList<PairSet>
+    private lateinit var context: Context
 
-    init {
-        initiatePairSetList()
+
+    fun captureContext(context: Context) {
+        this.context = context
     }
 
-    fun providePairSetListCount(){
-        viewState.updateToolbarInfo("${pairSetList.count()} наборов")
+    fun providePairSetListCount() {
+        val message = context.resources.getQuantityString(
+            R.plurals.plurals_2,
+            pairSetList.count(),
+            pairSetList.count()
+        )
+        viewState.updateToolbarInfo(message)
     }
 
-    private fun initiatePairSetList() {
+    fun initiatePairSetList() {
         pairSetList = mutableListOf()
 
         //no database stub
@@ -33,7 +43,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
                 )
             )
         }
-        pairSetList.add(0, getTimeWordSet())
+        pairSetList.add(0, getTimePairSet())
     }
 
     fun providePairSetList() {
@@ -73,6 +83,10 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     }
 
     fun onAddNewPairSet() {
+        for(i in 0..30){
+            val plural = context.resources.getQuantityString(R.plurals.plurals_2, i, i)
+            Log.d("plural", "onAddNewPairSet: i = $i // plural = $plural")
+        }
         viewState.showAddNewPairSetDialog()
     }
 
