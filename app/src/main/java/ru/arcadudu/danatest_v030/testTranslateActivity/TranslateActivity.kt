@@ -35,8 +35,8 @@ private var currentSnapPosition = 0
 private var ivDoneBtnIsShownAndEnabled = false
 private var answerContainsForbiddenLetters = false
 
-@InjectPresenter
-lateinit var translatePresenter: TranslatePresenter
+//@InjectPresenter
+//lateinit var translatePresenter: TranslatePresenter
 
 
 private const val PAIR_SET_TO_TEST_TAG = "wordSetToTestTag"
@@ -60,7 +60,7 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
         val view = translateActivityBinding.root
         setContentView(view)
 
-        translatePresenter.extractIncomingPairSet(intent, PAIR_SET_TO_TEST_TAG)
+//        translatePresenter.extractIncomingPairSet(intent, PAIR_SET_TO_TEST_TAG)
 
         val incomingIntent = intent
 

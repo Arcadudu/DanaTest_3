@@ -49,16 +49,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/transparent_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/plt_transparent_background"
-        android:visibility="gone" />
+<!--    <View-->
+<!--        android:id="@+id/transparent_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@color/plt_transparent_background"-->
+<!--        android:visibility="gone" />-->
 
-    <include
-        layout="@layout/bottom_sheet_home"
-        android:visibility="gone" />
+<!--    <include-->
+<!--        layout="@layout/bottom_sheet_home"-->
+<!--        android:visibility="gone" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -27,13 +27,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/pairsBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </LinearLayout>
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress_horizontal"
@@ -65,11 +58,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
                 android:background="@color/plt_grey_light_100"
-                app:layout_constraintBottom_toTopOf="@id/et_answer" />
+                app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field" />
 
 
             <EditText
-                android:id="@+id/et_answer"
+                android:id="@+id/et_translate_fragment_answer_field"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="16dp"
@@ -85,10 +78,10 @@
                 android:textSize="22sp"
                 app:layout_constraintEnd_toStartOf="@id/iv_make_fav"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/quest_recyclerview" />
+                app:layout_constraintTop_toBottomOf="@id/translate_quest_recycler" />
 
             <ImageView
-                android:id="@+id/iv_doneBtn"
+                android:id="@+id/iv_confirm_answer"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
@@ -97,20 +90,20 @@
                 android:src="@drawable/icon_done_active_blue"
                 android:scaleType="fitCenter"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@id/et_answer"
+                app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/et_answer" />
+                app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
 
             <View
                 android:id="@+id/bottom_divider"
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
                 android:background="@color/plt_grey_light_100"
-                app:layout_constraintTop_toBottomOf="@id/et_answer" />
+                app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/quest_recyclerview"
+                android:id="@+id/translate_quest_recycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -132,9 +125,9 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_star_favorite_blue_outlined"
                 android:background="?attr/selectableItemBackground"
-                app:layout_constraintBottom_toBottomOf="@id/quest_recyclerview"
+                app:layout_constraintBottom_toBottomOf="@id/translate_quest_recycler"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/quest_recyclerview" />
+                app:layout_constraintTop_toTopOf="@id/translate_quest_recycler" />
 
 
 

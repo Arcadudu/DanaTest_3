@@ -3,7 +3,7 @@ package ru.arcadudu.danatest_v030.utils
 import ru.arcadudu.danatest_v030.models.PairSet
 
 fun getDummyPairSet(): PairSet {
-    val dummyPairSet = PairSet("fake WordSet", "This is a fake WordSet", false)
+    val dummyPairSet = PairSet("fake WordSet", "This is a fake WordSet")
     for(i in 0..6){
         dummyPairSet.addPair("table", "стол")
         dummyPairSet.addPair("chair", "стул")
@@ -34,7 +34,7 @@ var gbEng = listOf("island", "islands", "average", "temperature", "above", "thou
     "fog", "surface", "mountain", "mountainous", "lake", "river", "climate", "autumn")
 
 fun getTimePairSet():PairSet{
-    val timePairSet = PairSet("Time WordSet", "This is time wordSet", false)
+    val timePairSet = PairSet("Time WordSet", "This is time wordSet")
     if(timeRu.count() == timeEng.count()){
             for(i in timeRu.indices){
                 timePairSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())
