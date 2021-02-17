@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
+import ru.arcadudu.danatest_v030.testTranslateActivity.TranslateActivity
 import ru.arcadudu.danatest_v030.databinding.TestTranslateRowBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair

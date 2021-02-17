@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.wordSetEditorActivity
+package ru.arcadudu.danatest_v030.pairSetEditorActivity
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
@@ -7,7 +7,7 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface WordSetEditorView : MvpView {
+interface PairSetEditorView : MvpView {
 
     fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String)
 

@@ -57,7 +57,7 @@ class PairSetAdapter :
         fun bind(pairSet: PairSet) {
             binding.apply {
                 tvItemTitle.text = pairSet.name
-                tvItemDetails.text = pairSet.description
+                tvItemDetails.text = pairSet.details
             }
         }
 

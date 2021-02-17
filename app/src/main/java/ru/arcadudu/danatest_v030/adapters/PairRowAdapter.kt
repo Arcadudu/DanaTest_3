@@ -7,19 +7,19 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.wordSetEditorActivity.WordSetEditorView
+import ru.arcadudu.danatest_v030.pairSetEditorActivity.PairSetEditorView
 
 class
 PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
     private lateinit var pair: Pair
-    private lateinit var activityImplementation: WordSetEditorView
+    private lateinit var activityImplementation: PairSetEditorView
 
     fun submitPairs(list: MutableList<Pair>) {
         pairList = list
     }
 
-    fun onItemClickCallback(activityImplementation: WordSetEditorView) {
+    fun onItemClickCallback(activityImplementation: PairSetEditorView) {
         this.activityImplementation = activityImplementation
     }
 

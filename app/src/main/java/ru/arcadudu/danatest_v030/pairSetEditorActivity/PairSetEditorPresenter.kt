@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.wordSetEditorActivity
+package ru.arcadudu.danatest_v030.pairSetEditorActivity
 
 import android.content.Intent
 import android.util.Log
@@ -9,17 +9,17 @@ import ru.arcadudu.danatest_v030.models.PairSet
 import java.util.*
 
 @InjectViewState
-class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
+class PairSetEditorPresenter : MvpPresenter<PairSetEditorView>() {
 
     private lateinit var currentPairSet: PairSet
     private lateinit var currentPairList: MutableList<Pair>
-    private lateinit var wordSetTitle: String
-    private lateinit var wordSetDescription: String
+    private lateinit var pairSetTitle: String
+    private lateinit var pairSetDetails: String
 
     fun extractIncomingWordSet(incomingIntent: Intent, INTENT_TAG: String) {
         currentPairSet = incomingIntent.getSerializableExtra(INTENT_TAG) as PairSet
-        wordSetTitle = currentPairSet.name
-        wordSetDescription = currentPairSet.description
+        pairSetTitle = currentPairSet.name
+        pairSetDetails = currentPairSet.details
         currentPairList = currentPairSet.getPairList()
     }
 
@@ -28,7 +28,7 @@ class WsEditorPresenter : MvpPresenter<WordSetEditorView>() {
     }
 
     fun provideDataForToolbar() {
-        viewState.obtainDataForToolbar(wordSetTitle, wordSetDescription)
+        viewState.obtainDataForToolbar(pairSetTitle, pairSetDetails)
     }
 
     fun providePairList(){

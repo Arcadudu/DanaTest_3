@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
+import ru.arcadudu.danatest_v030.testTranslateActivity.TranslateActivity
 import ru.arcadudu.danatest_v030.databinding.FragmentHomeBinding
 
 private lateinit var binding: FragmentHomeBinding

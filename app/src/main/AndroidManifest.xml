@@ -13,11 +13,11 @@
             android:name=".activities.tests.VariantsActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.tests.TranslateActivity"
+            android:name=".testTranslateActivity.TranslateActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.tests.ShuffleActivity" />
         <activity
-            android:name=".wordSetEditorActivity.WsEditorActivity"
+            android:name=".pairSetEditorActivity.PairSetEditorActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.HomeActivity"

@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.activities.tests
+package ru.arcadudu.danatest_v030.testTranslateActivity
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
+import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairSelectorAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityShuffleTranslateBinding
@@ -22,18 +23,10 @@ import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
 import java.util.*
 
-private lateinit var translateActivityBinding: ActivityShuffleTranslateBinding
-
-private lateinit var toolbar: Toolbar
-private lateinit var progressBar: ProgressBar
-private lateinit var ivMakePairFavorite: ImageView
-private lateinit var etAnswerField: EditText
-private lateinit var ivDoneBtn: ImageView
 
 private lateinit var questRecyclerView: RecyclerView
 private lateinit var pairSelectorLayoutManager: LinearLayoutManager
 private lateinit var pagerSnapHelper: PagerSnapHelper
-private lateinit var pairSelectorAdapter: PairSelectorAdapter
 
 private lateinit var currentPairSet: PairSet
 private lateinit var currentPairList: MutableList<Pair>
@@ -42,10 +35,24 @@ private var currentSnapPosition = 0
 private var ivDoneBtnIsShownAndEnabled = false
 private var answerContainsForbiddenLetters = false
 
-private val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
+@InjectPresenter
+lateinit var translatePresenter: TranslatePresenter
 
-class TranslateActivity : AppCompatActivity(), IProgress,
+
+private const val PAIR_SET_TO_TEST_TAG = "wordSetToTestTag"
+
+
+class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
     OnSnapPositionChangeListener {
+
+    private lateinit var translateActivityBinding: ActivityShuffleTranslateBinding
+    private lateinit var toolbar: Toolbar
+    private lateinit var progressBar: ProgressBar
+    private lateinit var ivMakePairFavorite: ImageView
+    private lateinit var etAnswerField: EditText
+    private lateinit var ivDoneBtn: ImageView
+    private lateinit var pairSelectorAdapter: PairSelectorAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +60,15 @@ class TranslateActivity : AppCompatActivity(), IProgress,
         val view = translateActivityBinding.root
         setContentView(view)
 
-        //getting chosen wordSet + extracting pairList
-//        currentWordSet = getTimeWordSet()
-//        currentPairList = currentWordSet.getPairList()
+        translatePresenter.extractIncomingPairSet(intent, PAIR_SET_TO_TEST_TAG)
 
         val incomingIntent = intent
-        currentPairSet = incomingIntent.getSerializableExtra(WORDSET_TO_TEST_TAG) as PairSet
+
+
+        currentPairSet = incomingIntent.getSerializableExtra(PAIR_SET_TO_TEST_TAG) as PairSet
         currentPairList = currentPairSet.getPairList()
 
+        //ignore now
         progressBar = translateActivityBinding.progressHorizontal
 
         toolbar = translateActivityBinding.testToolbar
@@ -154,7 +162,7 @@ class TranslateActivity : AppCompatActivity(), IProgress,
     }
 
     fun showIvDoneBtn(imageView: ImageView, showAndEnable: Boolean) {
-        imageView.visibility = if(showAndEnable) View.VISIBLE else View.GONE
+        imageView.visibility = if (showAndEnable) View.VISIBLE else View.GONE
         imageView.isEnabled = showAndEnable
         ivDoneBtnIsShownAndEnabled = showAndEnable
     }

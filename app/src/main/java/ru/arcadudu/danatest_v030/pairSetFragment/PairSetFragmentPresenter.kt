@@ -39,7 +39,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             pairSetList.add(
                 PairSet(
                     name = "Набор #$pairSetCount",
-                    description = "Данный набор под номером $pairSetCount содержит какие-то слова"
+                    details = "Данный набор под номером $pairSetCount содержит какие-то слова"
                 )
             )
         }
@@ -60,7 +60,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         val chosenPairSet = pairSetList[swipePosition]
         viewState.showRemovePairSetDialog(
             chosenPairSet.name,
-            chosenPairSet.description,
+            chosenPairSet.details,
             position = swipePosition
         )
     }
@@ -74,7 +74,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         val filteredList: MutableList<PairSet> = mutableListOf()
         for (item in pairSetList) {
             if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
-                item.description.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
+                item.details.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
             }
@@ -93,7 +93,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun addNewPairSet(inputPairSetName: String, inputPairSetDetails: String) {
         pairSetList.add(
             index = 1,
-            element = PairSet(name = inputPairSetName, description = inputPairSetDetails)
+            element = PairSet(name = inputPairSetName, details = inputPairSetDetails)
         )
         viewState.updateRecyclerOnAdded(pairSetList)
     }

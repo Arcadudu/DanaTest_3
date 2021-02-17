@@ -25,7 +25,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogAddPairSetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.wordSetEditorActivity.WsEditorActivity
+import ru.arcadudu.danatest_v030.pairSetEditorActivity.PairSetEditorActivity
 import java.util.*
 
 
@@ -259,7 +259,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun putPairSetIntoIntent(chosenPairSet: PairSet) {
-        val toEditorIntent = Intent(activity, WsEditorActivity::class.java)
+        val toEditorIntent = Intent(activity, PairSetEditorActivity::class.java)
         toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
         startActivity(toEditorIntent)
     }

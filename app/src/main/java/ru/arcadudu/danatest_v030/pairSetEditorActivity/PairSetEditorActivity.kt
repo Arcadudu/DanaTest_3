@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.wordSetEditorActivity
+package ru.arcadudu.danatest_v030.pairSetEditorActivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +22,7 @@ import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.tests.ShuffleActivity
-import ru.arcadudu.danatest_v030.activities.tests.TranslateActivity
+import ru.arcadudu.danatest_v030.testTranslateActivity.TranslateActivity
 import ru.arcadudu.danatest_v030.activities.tests.VariantsActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
@@ -37,7 +36,7 @@ import java.util.*
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
 
-class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
+class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
     private lateinit var pairSetForTesting: PairSet
@@ -52,7 +51,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
     private val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
 
     @InjectPresenter
-    lateinit var wsEditorPresenter: WsEditorPresenter
+    lateinit var pairSetEditorPresenter: PairSetEditorPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +59,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         val view = activityWsEditorBinding.root
         setContentView(view)
 
-        wsEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
+        pairSetEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
@@ -81,7 +80,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
 
         fabAddPair = activityWsEditorBinding.fabAddPair
         fabAddPair.setOnClickListener {
-            wsEditorPresenter.onAddNewPair()
+            pairSetEditorPresenter.onAddNewPair()
         }
 
     }
@@ -103,7 +102,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
                 else -> null
             }
 
-        wsEditorPresenter.deliverWordSetForTest()
+        pairSetEditorPresenter.deliverWordSetForTest()
         intent?.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
         startActivity(intent)
         return super.onOptionsItemSelected(item)
@@ -131,7 +130,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             overflowIcon = drawable
 
         }
-        wsEditorPresenter.provideDataForToolbar()
+        pairSetEditorPresenter.provideDataForToolbar()
     }
 
     private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
@@ -142,7 +141,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             adapter = pairRowAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        wsEditorPresenter.providePairList()
+        pairSetEditorPresenter.providePairList()
         pairRowAdapter.onItemClickCallback(this)
     }
 
@@ -158,7 +157,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                wsEditorPresenter.onMove(
+                pairSetEditorPresenter.onMove(
                     fromPosition = viewHolder.bindingAdapterPosition,
                     toPosition = target.bindingAdapterPosition
                 )
@@ -170,7 +169,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
 //                        pairRowAdapter.notifyDataSetChanged()
-                        wsEditorPresenter.onSwipedLeft(position)
+                        pairSetEditorPresenter.onSwipedLeft(position)
                     }
                 }
 
@@ -186,7 +185,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 showBtnClearAll(s.toString().isEmpty())
-                wsEditorPresenter.filter(s.toString())
+                pairSetEditorPresenter.filter(s.toString())
             }
 
         })
@@ -220,7 +219,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         }
         //positive btn
         removeDialogBinding.btnRemovePair.setOnClickListener {
-            wsEditorPresenter.removePairAtPosition(position)
+            pairSetEditorPresenter.removePairAtPosition(position)
             removeDialog.dismiss()
         }
 
@@ -281,7 +280,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
             if (resultPairKey == pairKey && resultPairValue == pairValue) {
                 editPairDialog.dismiss()
             } else {
-                wsEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
+                pairSetEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
             }
             editPairDialog.dismiss()
 
@@ -337,7 +336,7 @@ class WsEditorActivity : MvpAppCompatActivity(), WordSetEditorView {
         addPairBinding.btnAddPair.setOnClickListener {
             if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
             if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
-            wsEditorPresenter.addNewPair(inputKey, inputValue)
+            pairSetEditorPresenter.addNewPair(inputKey, inputValue)
             addPairDialog.dismiss()
         }
 
