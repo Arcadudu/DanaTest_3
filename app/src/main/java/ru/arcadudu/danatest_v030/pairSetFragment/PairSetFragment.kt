@@ -17,11 +17,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import me.everything.android.ui.overscroll.IOverScrollDecor
-import me.everything.android.ui.overscroll.IOverScrollState
-import me.everything.android.ui.overscroll.IOverScrollStateListener
-import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
-import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
