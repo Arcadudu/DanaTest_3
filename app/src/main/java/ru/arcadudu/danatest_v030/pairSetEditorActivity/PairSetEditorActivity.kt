@@ -21,19 +21,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.activities.tests.ShuffleActivity
-import ru.arcadudu.danatest_v030.testTranslateActivity.TranslateActivity
-import ru.arcadudu.danatest_v030.activities.tests.VariantsActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairWhiteBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.test.TestActivity
 import java.util.*
 
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
+
+private const val TRANSLATE_FRAGMENT_ID = "TRANSLATE_FRAGMENT_ID"
+private const val SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
+private const val VARIANTS_FRAGMENT_ID = "VARIANTS_FRAGMENT_ID"
 
 
 class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
@@ -91,22 +93,46 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent =
-            when (item.itemId) {
-                R.id.begin_test_translate_menu_action ->
-                    Intent(this, TranslateActivity::class.java)
-                R.id.begin_test_variants_menu_action ->
-                    Intent(this, VariantsActivity::class.java)
-                R.id.begin_test_shuffle_menu_action ->
-                    Intent(this, ShuffleActivity::class.java)
-                else -> null
-            }
+        val toTestIntent = Intent(this, TestActivity::class.java)
+        Log.d("aaa", "PSEditor: onOptionsItemSelected: callback ok")
+        when (item.itemId) {
+            R.id.begin_test_translate_menu_action -> toTestIntent.putExtra(
+                "testFragmentId",
+                TRANSLATE_FRAGMENT_ID
+            )
+            R.id.begin_test_shuffle_menu_action -> toTestIntent.putExtra(
+                "testFragmentId",
+                SHUFFLE_FRAGMENT_ID
+            )
+            R.id.begin_test_variants_menu_action -> toTestIntent.putExtra(
+                "testFragmentId",
+                VARIANTS_FRAGMENT_ID
+            )
+        }
 
         pairSetEditorPresenter.deliverWordSetForTest()
-        intent?.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
-        startActivity(intent)
+        toTestIntent.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
+        startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
     }
+
+    //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        val intent =
+//            when (item.itemId) {
+//                R.id.begin_test_translate_menu_action ->
+//                    Intent(this, TranslateActivity::class.java)
+//                R.id.begin_test_variants_menu_action ->
+//                    Intent(this, VariantsActivity::class.java)
+//                R.id.begin_test_shuffle_menu_action ->
+//                    Intent(this, ShuffleActivity::class.java)
+//                else -> null
+//            }
+//
+//        pairSetEditorPresenter.deliverWordSetForTest()
+//        intent?.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
+//        startActivity(intent)
+//        return super.onOptionsItemSelected(item)
+//    }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
         val drawable = ContextCompat.getDrawable(

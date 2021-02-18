@@ -74,13 +74,13 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
         toolbar = translateActivityBinding.testToolbar
         prepareToolbar(toolbar)
 
-        questRecyclerView = translateActivityBinding.questRecyclerview
+        questRecyclerView = translateActivityBinding.translateQuestRecycler
         prepareRecyclerView(questRecyclerView, currentPairList)
 
-        etAnswerField = translateActivityBinding.etAnswer
+        etAnswerField = translateActivityBinding.etTranslateFragmentAnswerField
         addTextWatcher(etAnswerField)
 
-        ivDoneBtn = translateActivityBinding.ivDoneBtn
+        ivDoneBtn = translateActivityBinding.ivConfirmAnswer
         showIvDoneBtn(imageView = ivDoneBtn, showAndEnable = false)
         ivDoneBtn.setOnClickListener {
             if (ivDoneBtnIsShownAndEnabled) {

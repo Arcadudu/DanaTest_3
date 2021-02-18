@@ -16,7 +16,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var homeFragment: HomeFragment
     private lateinit var profileFragment: ProfileFragment
     private lateinit var wordSetFragment: PairSetFragment
-    private lateinit var statsFragment: StatsFragment
     private lateinit var settingsFragment: SettingsFragment
 
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -29,7 +28,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(view)
 
         homeFragment = HomeFragment()
-//        statsFragment = StatsFragment()
         profileFragment = ProfileFragment()
         wordSetFragment = PairSetFragment()
         settingsFragment = SettingsFragment()
@@ -40,10 +38,8 @@ class HomeActivity : AppCompatActivity() {
             setOnNavigationItemSelectedListener { item ->
                 val selectedFragment: Fragment =
                     when (item.itemId) {
-//                        R.id.home_item -> homeFragment
                         R.id.profile_item -> profileFragment
                         R.id.wordset_item -> wordSetFragment
-//                        R.id.stats_item -> statsFragment
                         R.id.settings_item -> settingsFragment
                         else -> homeFragment
                     }
