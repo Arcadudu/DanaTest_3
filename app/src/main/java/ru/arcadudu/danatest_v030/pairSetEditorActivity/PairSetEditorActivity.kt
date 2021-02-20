@@ -387,7 +387,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
 
-    override fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
+    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
         toolbar.apply {
             title = wordSetTitle
             subtitle = wordSetDescription

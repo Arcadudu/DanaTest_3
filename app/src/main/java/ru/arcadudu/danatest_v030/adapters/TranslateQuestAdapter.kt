@@ -12,7 +12,7 @@ import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 
-class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.TranslateCardViewHolder>() {
+class TranslateQuestAdapter : RecyclerView.Adapter<TranslateQuestAdapter.TranslateCardViewHolder>() {
     private lateinit var pairSet: PairSet
     private lateinit var iProgress: IProgress
     var pairs: MutableList<Pair> = mutableListOf()
@@ -33,8 +33,8 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
         )
     }
 
-    override fun onBindViewHolder(holderTranslate: TranslateCardViewHolder, position: Int) {
-        holderTranslate.bind(pairSet)
+    override fun onBindViewHolder(holder: TranslateCardViewHolder, position: Int) {
+        holder.bind(pairSet)
     }
 
     override fun getItemCount() = pairs.count()
@@ -43,11 +43,12 @@ class TranslateCardAdapter : RecyclerView.Adapter<TranslateCardAdapter.Translate
         private val binding = TestTranslateRowBinding.bind(itemView)
 
 
+
         fun bind(pairSet: PairSet) {
 
             val position = bindingAdapterPosition
             iProgress = TranslateActivity()
-            //
+
             binding.apply {
 
                 if (pairs.size != 0) {

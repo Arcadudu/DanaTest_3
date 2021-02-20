@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.test.variants_fragment
+package ru.arcadudu.danatest_v030.test.testVariants
 
 import moxy.InjectViewState
 import moxy.MvpPresenter

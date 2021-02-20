@@ -1,9 +1,9 @@
-package ru.arcadudu.danatest_v030.test.translate_fragment
+package ru.arcadudu.danatest_v030.test.testShuffle
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface TranslateFragmentView:MvpView {
+interface ShuffleFragmentView : MvpView {
 }

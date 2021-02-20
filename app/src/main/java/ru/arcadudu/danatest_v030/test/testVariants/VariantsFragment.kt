@@ -1,10 +1,8 @@
-package ru.arcadudu.danatest_v030.test.variants_fragment
+package ru.arcadudu.danatest_v030.test.testVariants
 
 import android.os.Bundle
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
-import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.test.translate_fragment.TranslateFragment
 
 class VariantsFragment: MvpAppCompatFragment(), VariantsFragmentView{
 

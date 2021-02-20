@@ -16,7 +16,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitle="Subtitle"
-        app:title="Fragment test translate" />
+        app:title="@string/translate" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/translate_test_progressbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:maxHeight="4dp"
+        android:minHeight="4dp"
+        android:progressDrawable="@drawable/progress_bar_drawable"
+        app:layout_constraintTop_toBottomOf="@id/translate_toolbar" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +55,7 @@
             android:inputType="textVisiblePassword"
             android:maxLines="1"
             android:paddingStart="24dp"
-            android:textColor="@color/plt_active_blue"
+            android:textColor="@color/plt_active_violet_lighter"
             android:textColorHint="@color/plt_subtext_grey"
             android:textSize="22sp"
             app:layout_constraintEnd_toStartOf="@id/iv_confirm_answer"
@@ -61,7 +72,7 @@
             android:padding="8dp"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_done_active_blue"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
