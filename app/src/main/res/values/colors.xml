@@ -14,9 +14,11 @@
     <color name="dt3_brand_violet_70">#B37986CB</color>
     <color name="dt3_brand_violet_100">#7986CB</color>
     <color name="dt3_highlight_violet">#337986CB</color>
+    <color name="dt3_control_normal_black_20">#33000000</color>
     <color name="dt3_on_main_almost_black">#363636</color>
     <color name="dt3_on_brand_white">#ffffff</color>
     <color name="dt3_error_red">#FF8A80</color>
+    <color name="dt3_search_field_hint_color_black_50">#80000000</color>
 
 
 
@@ -29,7 +31,7 @@
     <color name="plt_active_blue_dark">#2787f5</color>
     <color name="plt_semi_active_blue_light">#bddbfc</color>
     <color name="plt_almost_black">#363636</color>
-    <color name="plt_subtext_grey">#CC676767</color>
+    <color name="plt_subtext_grey">#B3000000</color>
     <color name="plt_search_icons">#80676767</color>
     <color name="plt_grey_light_100">#CDCDCD</color>
     <color name="plt_grey_light_80">#7A7A7A</color>
@@ -39,6 +41,7 @@
     <color name="plt_error_red">#E57373</color>
     <color name="plt_hint_grey">#B3878787</color>
     <color name="plt_drag_grey">#66878787</color>
+
 
     <color name="plt_active_violet">#7986CB</color>
     <color name="plt_active_violet_lighter">#8892CA</color>

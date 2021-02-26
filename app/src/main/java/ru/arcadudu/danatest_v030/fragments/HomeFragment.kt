@@ -48,10 +48,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
 
-    fun goToTest(target: Activity) {
-
-    }
-
     override fun onClick(v: View?) {
 
     }

@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="dt_CardViewStyle">
+    <style name="dt_CardViewStyle_listItem">
         <item name="cardCornerRadius">10dp</item>
         <item name="android:padding">2dp</item>
         <item name="android:paddingStart">12dp</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
 
+    <style name="dt_BottomNavigationStyle">
+        <item name="elevation">0dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="itemIconSize">26dp</item>
+        <item name="itemIconTint">@color/item_navigation_colorset</item>
+        <item name="itemRippleColor">@color/dt3_highlight_violet</item>
+        <item name="itemTextColor">@color/item_navigation_colorset</item>
+        <item name="labelVisibilityMode">unlabeled</item>
+    </style>
+
+    <style name="dt_EditTextStyle_searchField">
+        <item name="android:focusableInTouchMode">true</item>
+        <!--  <item name="android:background">@drawable/background_edit_text</item>  -->
+        <item name="android:drawableStart">@drawable/icon_search_grey</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColorHint">@color/dt3_search_field_hint_color_black_50</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="dt_FloatingActionButton" parent="@style/Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:src">@drawable/icon_add_white</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">2dp</item>
+        <item name="fabSize">mini</item>
+        <item name="layout_behavior">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</item>
+        <item name="rippleColor">@color/dt3_on_brand_white</item>
     </style>
 
 </resources>

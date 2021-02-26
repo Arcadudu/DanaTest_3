@@ -11,17 +11,14 @@
         android:layout_height="match_parent"
         tools:context=".activities.HomeActivity">
 
+
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/my_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white"
             android:elevation="0dp"
-            app:itemIconSize="28dp"
-            app:itemIconTint="@color/item_navigation_colorset"
-            app:itemRippleColor="@color/plt_semi_active_blue_light"
-            app:itemTextColor="@color/item_navigation_colorset"
-            app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

@@ -267,8 +267,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         editPairBinding.tvAddPairDialogTitle.text =
             getString(R.string.edit_pair_dialog_edit_button_text)
 
-        var resultPairKey = ""
-        var resultPairValue = ""
+        var resultPairKey: String
+        var resultPairValue: String
 
         var pairKeyAfterChange = ""
         var pairValueAfterChange = ""
