@@ -9,6 +9,18 @@
     <color name="white">#FFFFFFFF</color>
 
 
+    <color name="dt3_main_light_grey_70">#B3F7F7F7</color>
+    <color name="dt3_main_light_grey_100">#f7f7f7</color>
+    <color name="dt3_brand_violet_70">#B37986CB</color>
+    <color name="dt3_brand_violet_100">#7986CB</color>
+    <color name="dt3_highlight_violet">#337986CB</color>
+    <color name="dt3_on_main_almost_black">#363636</color>
+    <color name="dt3_on_brand_white">#ffffff</color>
+    <color name="dt3_error_red">#FF8A80</color>
+
+
+
+
 <!--palette-->
     <color name="plt_background_light">#f2f2f2</color>
 <!--    <color name="plt_active_blue">#529ff7</color>-->
@@ -33,6 +45,10 @@
     <color name="plt_active_violet_super_light">#F6F7FF</color>
     <color name="plt_semi_active_violet">#B37986CB</color>
     <color name="plt_transparent_background">#80000000</color>
+
+    <color name="nplt_background_light_grey">#F7F7F7</color>
+
+
 
 
 </resources>

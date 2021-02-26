@@ -9,16 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/plt_background_light"
         tools:context=".activities.HomeActivity">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@drawable/navigation_bar_upper_shadow"
-            android:elevation="7dp"
-            app:layout_constraintBottom_toTopOf="@id/my_navigation_bar" />
-
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/my_navigation_bar"

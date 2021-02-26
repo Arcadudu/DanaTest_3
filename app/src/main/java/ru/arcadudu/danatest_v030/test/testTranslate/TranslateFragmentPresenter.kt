@@ -16,7 +16,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
     private var mistakeCount = 0
     private var answeredPairCount = 0
-    private var pairListOriginalCount = 0
+    private var originalPairListCount = 0
 
 
     fun obtainTestedPairSet(incomingPairSet: PairSet) {
@@ -25,7 +25,9 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
         testedPairList = testedPairSet.getPairList()
         testedPairSetName = testedPairSet.name
-        pairListOriginalCount = testedPairList.count()
+
+        originalPairListCount = testedPairList.count()
+        viewState.setProgressMax(originalPairListCount)
     }
 
 
@@ -40,17 +42,26 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
 
     fun provideDataForToolbar() {
-        viewState.updateToolbar(testedPairSetName, answeredPairCount, pairListOriginalCount)
+        viewState.updateToolbar(testedPairSetName, answeredPairCount, originalPairListCount)
     }
 
     fun checkAnswerAndDismiss(answer: String, answerPosition: Int) {
-        val checkPair = testedPairList[answerPosition]
-        if (answer != checkPair.pairKey.toLowerCase(Locale.ROOT)) mistakeCount++
-        answeredPairCount++
-        testedPairList.removeAt(answerPosition)
-        viewState.updateToolbar(testedPairSetName, answeredPairCount, pairListOriginalCount)
-        viewState.updateRecyclerOnRemoved(testedPairList, answerPosition)
-        viewState.updateAnsweredProgress(answeredPairCount*1000)
+            val checkPair = testedPairList[answerPosition]
+            if (answer != checkPair.pairKey.toLowerCase(Locale.ROOT)) mistakeCount++
+            answeredPairCount++
+            testedPairList.removeAt(answerPosition)
+            if(testedPairList.isEmpty()){
+                viewState.toResultFragment(backUpPairSet, mistakeCount)
+            }
+            viewState.updateToolbar(testedPairSetName, answeredPairCount, originalPairListCount)
+            viewState.updateRecyclerOnRemoved(testedPairList, answerPosition)
+            viewState.updateAnsweredProgress(answeredPairCount*1000)
+
+
+    }
+
+    fun getProgressMax() {
+        viewState.setProgressMax(originalPairListCount*1000)
     }
 
 

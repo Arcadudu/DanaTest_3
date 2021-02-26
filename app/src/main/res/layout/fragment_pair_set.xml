@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:theme="@style/Theme.DanaTest031"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/plt_background_light"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +17,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:elevation="6dp"
             android:minHeight="?attr/actionBarSize"
             app:layout_collapseMode="parallax"
@@ -27,20 +27,19 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/et_ws_frag_searchBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:cardElevation="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
             app:layout_scrollFlags="noScroll|enterAlwaysCollapsed">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/ws_frag_search_icon"
@@ -51,16 +50,13 @@
                     android:src="@drawable/icon_search_light_blue"
                     app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"
                     app:layout_constraintStart_toStartOf="@id/et_ws_frag_searchfield"
-                    app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />
+                    app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield"
+                     />
 
                 <EditText
                     android:id="@+id/et_ws_frag_searchfield"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="8dp"
                     android:background="@drawable/background_edit_text"
                     android:hint="@string/pair_set_search_field_hint"
                     android:inputType="text"
@@ -91,12 +87,10 @@
                     android:elevation="1dp"
                     android:gravity="center"
                     android:text="counting"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -109,6 +103,8 @@
         android:clipToPadding="false"
         android:paddingBottom="4dp"
         android:scrollbarSize="3dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbVertical="@color/plt_search_icons"
         android:scrollbars="vertical"

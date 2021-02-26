@@ -6,6 +6,7 @@ import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.utils.getDummyPairSet
 import ru.arcadudu.danatest_v030.utils.getTimePairSet
 import java.util.*
 
@@ -44,6 +45,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             )
         }
         pairSetList.add(0, getTimePairSet())
+        pairSetList.add(0, getDummyPairSet())
     }
 
     fun providePairSetList() {

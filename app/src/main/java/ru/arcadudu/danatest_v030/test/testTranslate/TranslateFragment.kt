@@ -89,6 +89,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         }
 
         progressBar = translateBinding.translateTestProgressbar
+        translatePresenter.getProgressMax()
 
 
     }
@@ -186,8 +187,16 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     override fun updateAnsweredProgress(answeredPairCount: Int) {
         ObjectAnimator.ofInt(progressBar, "progress", answeredPairCount)
-            .setDuration(400).start()
+            .setDuration(320).start()
         progressBar.progress = answeredPairCount
+    }
+
+    override fun setProgressMax(originalPairListCount: Int) {
+        progressBar.max = originalPairListCount
+    }
+
+    override fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int) {
+        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairSet, mistakeCount)
     }
 
 

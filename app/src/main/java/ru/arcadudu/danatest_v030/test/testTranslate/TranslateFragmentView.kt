@@ -4,6 +4,7 @@ import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pair
+import ru.arcadudu.danatest_v030.models.PairSet
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface TranslateFragmentView : MvpView {
@@ -22,6 +23,8 @@ interface TranslateFragmentView : MvpView {
     )
 
     fun updateAnsweredProgress(answeredPairCount: Int)
+    fun setProgressMax(originalPairListCount: Int)
+    fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int)
 
 
 }
