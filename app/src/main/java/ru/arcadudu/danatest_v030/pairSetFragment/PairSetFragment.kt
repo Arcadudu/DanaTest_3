@@ -173,7 +173,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding = DialogAddPairSetBinding.bind(addPairSetDialogView)
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.add_pair_set_dialog_title)
-        addPairSetDialogBinding.etNewWordSetName.addTextChangedListener(object : TextWatcher {
+
+
+        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -181,7 +183,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         })
 
-        addPairSetDialogBinding.etNewPairSetDetails.addTextChangedListener(object : TextWatcher {
+        addPairSetDialogBinding.inputLayoutNewPairSetDetails.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -191,7 +193,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
-                addPairSetDialogBinding.etNewWordSetName.apply {
+                addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
                     hint = getString(R.string.add_pair_set_dialog_warning)
                     setHintTextColor(resources.getColor(R.color.plt_error_red, null))
                 }

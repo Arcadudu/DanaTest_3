@@ -26,29 +26,29 @@
         <item name="colorPrimaryVariant">@color/dt3_main_light_grey_70</item>
         <item name="colorOnPrimary">@color/dt3_on_main_almost_black</item>
         <item name="colorPrimaryDark">@color/dt3_main_light_grey_100</item>
-
         <item name="colorSecondary">@color/dt3_brand_violet_100</item>
         <item name="colorSecondaryVariant">@color/dt3_brand_violet_70</item>
         <item name="colorOnSecondary">@color/dt3_on_brand_white</item>
-
         <item name="android:colorBackground">@color/dt3_main_light_grey_100</item>
-
         <item name="colorSurface">@color/white</item>
-
         <item name="colorError">@color/dt3_error_red</item>
         <item name="colorOnError">@color/white</item>
-
         <item name="colorControlHighlight">@color/dt3_highlight_violet</item>
-
         <item name="android:windowLightStatusBar">true</item>
 
         <!--components-->
         <item name="cardViewStyle">@style/dt_CardViewStyle_listItem</item>
         <item name="bottomNavigationStyle">@style/dt_BottomNavigationStyle</item>
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
-        <item name="floatingActionButtonStyle">@style/dt_FloatingActionButton</item>
+        <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
+        <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
+        <!--  <item name="textInputStyle">@style/TextAppearance.App.TextInputLayout</item>-->
 
+    </style>
 
+    <!--DT overlays-->
+    <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
+        <item name="colorPrimary">@color/dt3_hint_color_black_30</item>
     </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
