@@ -57,4 +57,12 @@
         <item name="android:textColor">@color/dt3_on_main_almost_black</item>
     </style>
 
+    <style name="dt_TextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:textColor">@color/dt3_brand_violet_100</item>
+        <item name="textAppearanceButton">@style/TextAppearance.AppCompat.Widget.Button</item>
+    </style>
+
 </resources>

@@ -40,7 +40,6 @@
                 style="@style/dt_TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--editText NEW PAIR DETAILS-->
@@ -69,10 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:background="?attr/selectableItemBackground"
             android:text="Добавить"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairSetDetails" />
 
@@ -80,10 +76,7 @@
             android:id="@+id/btn_cancel_add_wordSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
             android:text="Отмена"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btn_add_pair_set"
             app:layout_constraintTop_toTopOf="@id/btn_add_pair_set" />
 
