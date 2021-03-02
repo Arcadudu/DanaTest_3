@@ -100,5 +100,4 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         viewState.updateRecyclerOnAdded(pairSetList)
     }
 
-
 }

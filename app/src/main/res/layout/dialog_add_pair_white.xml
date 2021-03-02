@@ -2,22 +2,17 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="16dp"
-    >
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp">
+        android:background="@color/dt3_main_light_grey_100"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_add_pair_dialog_title"
             style="@style/TextStyle_card_title"
-            android:textColor="@color/plt_almost_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -34,83 +29,68 @@
             android:background="@android:color/transparent"
             android:foreground="?attr/selectableItemBackground"
             android:src="@drawable/icon_swap_violet_light"
-            app:layout_constraintTop_toTopOf="@id/tv_add_pair_dialog_title"
             app:layout_constraintBottom_toBottomOf="@id/tv_add_pair_dialog_title"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_add_pair_dialog_title" />
 
 
-
-        <EditText
-            android:id="@+id/et_newPairKey"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/white"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_new_pair_key"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:hint="Ключ"
-            android:textColorHint="@color/plt_subtext_grey"
-            android:inputType="text"
-            android:padding="8dp"
-            android:textColor="@color/plt_almost_black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@id/tv_add_pair_dialog_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_add_pair_dialog_title" />
+            android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+            app:counterMaxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_pair_dialog_title">
 
-        <View
-            android:id="@+id/et_divider1"
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/dt_TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayout_newPairValue"
             android:layout_width="0dp"
-            android:layout_height="0.8dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
-            android:background="@color/plt_semi_active_blue_light"
-            app:layout_constraintEnd_toEndOf="@id/et_newPairKey"
-            app:layout_constraintStart_toStartOf="@id/et_newPairKey"
-            app:layout_constraintTop_toBottomOf="@id/et_newPairKey" />
-
-        <EditText
-            android:id="@+id/et_newPairValue"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:hint="Значение"
-            android:inputType="text"
-            android:padding="8dp"
-            android:textColorHint="@color/plt_subtext_grey"
-            android:textColor="@color/plt_almost_black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/et_newPairKey"
-            app:layout_constraintTop_toBottomOf="@id/et_divider1" />
+            android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+            app:counterMaxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_new_pair_key">
 
-        <View
-            android:id="@+id/et_divider2"
-            android:layout_width="0dp"
-            android:layout_height="0.8dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
-            android:background="@color/plt_semi_active_blue_light"
-            app:layout_constraintEnd_toEndOf="@id/et_newPairValue"
-            app:layout_constraintStart_toStartOf="@id/et_newPairValue"
-            app:layout_constraintTop_toBottomOf="@id/et_newPairValue" />
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/dt_TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        /
+
 
         <Button
             android:id="@+id/btn_add_pair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:background="?attr/selectableItemBackground"
             android:text="Добавить"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_divider2" />
+            app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairValue" />
 
         <Button
             android:id="@+id/btn_cancel_add_pair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
             android:text="Отмена"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btn_add_pair"
             app:layout_constraintTop_toTopOf="@id/btn_add_pair" />
 

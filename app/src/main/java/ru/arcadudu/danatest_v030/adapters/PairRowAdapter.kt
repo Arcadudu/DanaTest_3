@@ -8,6 +8,7 @@ import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.pairSetEditorActivity.PairSetEditorView
+import java.util.*
 
 class
 PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
@@ -60,8 +61,8 @@ PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
         fun bind(pair: Pair) {
 
             binding.apply {
-                tvKey.text = pair.pairKey
-                tvValue.text = pair.pairValue
+                tvKey.text = pair.pairKey.capitalize(Locale.ROOT).trim()
+                tvValue.text = pair.pairValue.capitalize(Locale.ROOT).trim()
             }
 
         }

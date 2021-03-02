@@ -273,10 +273,13 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         var pairKeyAfterChange = ""
         var pairValueAfterChange = ""
 
-        editPairBinding.etNewPairKey.setText(pairKey)
-        editPairBinding.etNewPairValue.setText(pairValue)
+        val etNewPairKey = editPairBinding.inputLayoutNewPairKey.editText
+        val etNewPairValue = editPairBinding.inputLayoutNewPairValue.editText
 
-        editPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+        etNewPairKey?.setText(pairKey)
+        etNewPairValue?.setText(pairValue)
+
+        etNewPairKey?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -285,7 +288,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         })
 
-        editPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+        etNewPairValue?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -317,7 +320,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         editPairBinding.ivSwapPairBtn.setOnClickListener {
-            swapEditTexts(editPairBinding.etNewPairKey, editPairBinding.etNewPairValue)
+            if (etNewPairKey != null && etNewPairValue != null)
+                swapEditTexts(etNewPairKey, etNewPairValue)
         }
 
         editPairDialog.show()
@@ -337,7 +341,10 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         val addPairBinding = DialogAddPairWhiteBinding.bind(addPairDialogView)
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
-        addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+        val etNewPairKey = addPairBinding.inputLayoutNewPairKey.editText
+        val etNewPairValue = addPairBinding.inputLayoutNewPairValue.editText
+
+        etNewPairKey?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -346,7 +353,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         })
 
-        addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+        etNewPairValue?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -371,7 +378,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         addPairBinding.ivSwapPairBtn.setOnClickListener {
-            swapEditTexts(addPairBinding.etNewPairKey, addPairBinding.etNewPairValue)
+            if(etNewPairKey!=null && etNewPairValue!=null)
+            swapEditTexts(etNewPairKey, etNewPairValue)
         }
 
         addPairDialog.show()

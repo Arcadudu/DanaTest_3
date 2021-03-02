@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairSelectorRowBinding
 import ru.arcadudu.danatest_v030.models.Pair
+import java.util.*
 
 class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelectorViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
@@ -50,7 +51,7 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
         private val questWordItem = binding.questPairValue
 
         fun bind(pair: Pair) {
-            questWordItem.text = pair.pairValue.trim()
+            questWordItem.text = pair.pairValue.capitalize(Locale.ROOT ).trim()
             
         }
 

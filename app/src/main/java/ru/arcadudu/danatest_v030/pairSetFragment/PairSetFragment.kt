@@ -46,9 +46,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     private lateinit var toolbar: Toolbar
 
-
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
+
 
 
     override fun onCreateView(
@@ -150,13 +150,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     }
                 }
             }
-
-
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
 
     }
 
@@ -194,8 +191,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
                 addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
-                    hint = getString(R.string.add_pair_set_dialog_warning)
-                    setHintTextColor(resources.getColor(R.color.plt_error_red, null))
+                    error = "Название набора не может быть пустым"
                 }
             } else {
                 if (inputPairSetDetails.isEmpty()) inputPairSetDetails =
