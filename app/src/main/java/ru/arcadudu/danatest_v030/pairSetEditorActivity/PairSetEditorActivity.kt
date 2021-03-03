@@ -116,24 +116,6 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         return super.onOptionsItemSelected(item)
     }
 
-    //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val intent =
-//            when (item.itemId) {
-//                R.id.begin_test_translate_menu_action ->
-//                    Intent(this, TranslateActivity::class.java)
-//                R.id.begin_test_variants_menu_action ->
-//                    Intent(this, VariantsActivity::class.java)
-//                R.id.begin_test_shuffle_menu_action ->
-//                    Intent(this, ShuffleActivity::class.java)
-//                else -> null
-//            }
-//
-//        pairSetEditorPresenter.deliverWordSetForTest()
-//        intent?.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
-//        startActivity(intent)
-//        return super.onOptionsItemSelected(item)
-//    }
-
     private fun prepareToolbar(targetToolbar: Toolbar) {
         val drawable = ContextCompat.getDrawable(
             applicationContext,
@@ -194,7 +176,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-//                        pairRowAdapter.notifyDataSetChanged()
+                        pairRowAdapter.notifyDataSetChanged()
                         pairSetEditorPresenter.onSwipedLeft(position)
                     }
                 }
@@ -276,8 +258,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         val etNewPairKey = editPairBinding.inputLayoutNewPairKey.editText
         val etNewPairValue = editPairBinding.inputLayoutNewPairValue.editText
 
-        etNewPairKey?.setText(pairKey)
-        etNewPairValue?.setText(pairValue)
+        etNewPairKey?.setText(pairKey.capitalize(Locale.ROOT))
+        etNewPairValue?.setText(pairValue.capitalize(Locale.ROOT))
 
         etNewPairKey?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -378,8 +360,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         addPairBinding.ivSwapPairBtn.setOnClickListener {
-            if(etNewPairKey!=null && etNewPairValue!=null)
-            swapEditTexts(etNewPairKey, etNewPairValue)
+            if (etNewPairKey != null && etNewPairValue != null)
+                swapEditTexts(etNewPairKey, etNewPairValue)
         }
 
         addPairDialog.show()

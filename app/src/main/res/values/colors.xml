@@ -12,13 +12,23 @@
 <!--dt3 palette-->
     <color name="dt3_main_light_grey_70">#B3F7F7F7</color>
     <color name="dt3_main_light_grey_100">#f7f7f7</color>
+
     <color name="dt3_brand_violet_70">#B37986CB</color>
     <color name="dt3_brand_violet_100">#7986CB</color>
+
     <color name="dt3_highlight_violet">#337986CB</color>
-    <color name="dt3_control_normal_black_20">#33000000</color>
     <color name="dt3_on_main_almost_black">#363636</color>
+
+    <color name="dt3_on_surface_black_100">#000000</color>
+    <color name="dt3_on_surface_black_90">#E6000000</color>
+    <color name="dt3_on_surface_black_80">#CC000000</color>
+    <color name="dt3_on_surface_black_70">#B3000000</color>
+    <color name="dt3_on_surface_black_60">#99000000</color>
+
+    <color name="dt3_control_normal_black_20">#33000000</color>
     <color name="dt3_on_brand_white">#ffffff</color>
     <color name="dt3_error_red">#FF8A80</color>
+
     <color name="dt3_hint_color_black_50">#80000000</color>
     <color name="dt3_hint_color_black_30">#4D000000</color>
 

@@ -62,7 +62,12 @@
         <item name="android:focusable">true</item>
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:textColor">@color/dt3_brand_violet_100</item>
-        <item name="textAppearanceButton">@style/TextAppearance.AppCompat.Widget.Button</item>
+        <item name="android:textAppearance">@style/TextAppearance.dt_textButtonTextStyle
+        </item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/custom_dialog_popup</item>
     </style>
 
 </resources>

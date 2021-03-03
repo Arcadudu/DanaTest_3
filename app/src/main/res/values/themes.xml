@@ -21,11 +21,12 @@
 
 
     <style name="Theme.DanaTest031" parent="Theme.MaterialComponents.Light.NoActionBar">
+
         <!--colors-->
         <item name="colorPrimary">@color/dt3_main_light_grey_100</item>
         <item name="colorPrimaryVariant">@color/dt3_main_light_grey_70</item>
-        <item name="colorOnPrimary">@color/dt3_on_main_almost_black</item>
         <item name="colorPrimaryDark">@color/dt3_main_light_grey_100</item>
+        <item name="colorOnPrimary">@color/dt3_on_main_almost_black</item>
         <item name="colorSecondary">@color/dt3_brand_violet_100</item>
         <item name="colorSecondaryVariant">@color/dt3_brand_violet_70</item>
         <item name="colorOnSecondary">@color/dt3_on_brand_white</item>
@@ -43,7 +44,6 @@
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
         <item name="materialButtonStyle">@style/dt_TextButton</item>
-        <!--  <item name="textInputStyle">@style/TextAppearance.App.TextInputLayout</item>-->
 
     </style>
 

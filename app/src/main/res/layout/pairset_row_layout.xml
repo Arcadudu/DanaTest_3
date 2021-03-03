@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/tv_item_title"
-            style="@style/TextStyle_card_title"
+            style="@style/TextAppearance.dt_itemTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -26,7 +26,6 @@
             android:layout_marginEnd="16dp"
             android:gravity="start"
             android:text="Временные константы"
-            android:textStyle="normal"
             app:layout_constraintEnd_toStartOf="@id/iv_item_drawable"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/tv_remove_dialog_title"
-            style="@style/TextStyle_card_title"
+            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

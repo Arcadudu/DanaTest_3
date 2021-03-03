@@ -4,7 +4,7 @@
         android:title="@string/menu_item_profile_title"
         android:icon="@drawable/icon_menu_item_profile"/>
     <item android:id="@+id/wordset_item"
-        android:title="@string/menu_item_word_set_title"
+        android:title="@string/menu_item_pair_set_title"
         android:icon="@drawable/icon_menu_item_home"/>
     <item android:id="@+id/settings_item"
         android:title="@string/menu_item_settings_title"

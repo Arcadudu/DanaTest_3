@@ -50,7 +50,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     lateinit var pairSetPresenter: PairSetFragmentPresenter
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -172,7 +171,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             getString(R.string.add_pair_set_dialog_title)
 
 
-        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object : TextWatcher {
+        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object :
+            TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -180,7 +180,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         })
 
-        addPairSetDialogBinding.inputLayoutNewPairSetDetails.editText?.addTextChangedListener(object : TextWatcher {
+        addPairSetDialogBinding.inputLayoutNewPairSetDetails.editText?.addTextChangedListener(object :
+            TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
