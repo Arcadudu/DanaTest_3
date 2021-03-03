@@ -2,26 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
         android:id="@+id/begin_test_translate_menu_action"
-        android:icon="@drawable/icon_drag_indicator"
+        android:icon="@drawable/icon_swap_violet_light"
         android:title="Прямой перевод"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/begin_test_variants_menu_action"
-        android:icon="@drawable/icon_drag_indicator"
+        android:icon="@drawable/icon_star_favorite_blue"
         android:title="Четыре варианта"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/begin_test_shuffle_menu_action"
-        android:icon="@drawable/icon_drag_indicator"
+        android:icon="@drawable/icon_play_button"
         android:title="Перемешать"
         app:showAsAction="never"/>
-
-
 
 
 </menu>

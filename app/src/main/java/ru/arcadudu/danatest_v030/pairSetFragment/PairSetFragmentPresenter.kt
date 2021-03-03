@@ -35,7 +35,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
         //no database stub
         var pairSetCount = 0
-        repeat(20) {
+        repeat(5) {
             pairSetCount++
             pairSetList.add(
                 PairSet(
@@ -94,7 +94,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun addNewPairSet(inputPairSetName: String, inputPairSetDetails: String) {
         pairSetList.add(
-            index = 1,
+            index = 0,
             element = PairSet(name = inputPairSetName, details = inputPairSetDetails)
         )
         viewState.updateRecyclerOnAdded(pairSetList)

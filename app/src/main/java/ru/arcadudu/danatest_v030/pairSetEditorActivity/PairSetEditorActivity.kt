@@ -11,12 +11,12 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
@@ -28,6 +28,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivity
+import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
 import java.util.*
 
 
@@ -43,7 +44,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
     private lateinit var pairSetForTesting: PairSet
 
-    private lateinit var toolbar: Toolbar
+    private lateinit var toolbar: MaterialToolbar
     private lateinit var etPairSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
     private lateinit var recyclerView: RecyclerView
@@ -88,7 +89,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.ws_editor_menu, menu)
+        menuInflater.inflate(R.menu.pairset_editor_menu, menu)
         return true
     }
 
@@ -111,15 +112,15 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         pairSetEditorPresenter.deliverWordSetForTest()
-        toTestIntent.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
+        toTestIntent.putExtra(CONST_PAIR_SET_TO_TEST_TAG, pairSetForTesting)
         startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
     }
 
-    private fun prepareToolbar(targetToolbar: Toolbar) {
-        val drawable = ContextCompat.getDrawable(
+    private fun prepareToolbar(targetToolbar: MaterialToolbar) {
+        val popUpMenuDrawable = ContextCompat.getDrawable(
             applicationContext,
-            R.drawable.icon_hamburger_menu_active_violet_light
+            R.drawable.icon_play_button
         )
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
@@ -135,7 +136,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 // TODO: save wordSet state
                 onBackPressed()
             }
-            overflowIcon = drawable
+            overflowIcon = popUpMenuDrawable
+
 
         }
         pairSetEditorPresenter.provideDataForToolbar()
@@ -396,6 +398,10 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
 
+    override fun obtainWordSetForTest(currentPairSet: PairSet) {
+        pairSetForTesting = currentPairSet
+    }
+
     override fun updateRecyclerOnSwap(
         updatedPairList: MutableList<Pair>,
         fromPosition: Int,
@@ -405,10 +411,6 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
             submitPairs(updatedPairList)
             notifyItemMoved(fromPosition, toPosition)
         }
-    }
-
-    override fun obtainWordSetForTest(currentPairSet: PairSet) {
-        pairSetForTesting = currentPairSet
     }
 
     override fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition: Int) {

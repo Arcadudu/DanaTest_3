@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:liftOnScroll="true">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,12 +20,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|snap"
-            app:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
+            app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitle="subtitle"
             app:title="WordSetTitle"
+            android:paddingEnd="18dp"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle">
 
-        </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

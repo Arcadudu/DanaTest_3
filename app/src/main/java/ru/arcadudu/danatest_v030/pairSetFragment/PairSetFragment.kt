@@ -12,10 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
@@ -44,7 +44,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
-    private lateinit var toolbar: Toolbar
+    private lateinit var toolbar: MaterialToolbar
 
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
@@ -73,7 +73,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         pairSetPresenter.initiatePairSetList()
 
         pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
-        prepareWordSetRecycler(pairSetRecyclerView)
+        preparePairsetRecycler(pairSetRecyclerView)
         initRecyclerSwiper(pairSetRecyclerView)
 
         pairSetPresenter.providePairSetListCount()
@@ -88,7 +88,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
         fabAddNewPairSet.setOnClickListener {
-            pairSetPresenter.onAddNewPairSet()
+
+           showAddNewPairSetDialog()
         }
 
     }
@@ -110,7 +111,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
 
-    private fun prepareWordSetRecycler(targetRecyclerView: RecyclerView) {
+    private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
         pairSetAdapter = PairSetAdapter()
         targetRecyclerView.apply {
             setHasFixedSize(true)

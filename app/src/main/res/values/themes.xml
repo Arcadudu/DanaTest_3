@@ -43,7 +43,8 @@
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
-        <item name="materialButtonStyle">@style/dt_TextButton</item>
+        <item name="materialButtonStyle">@style/dt_TextButtonStyle</item>
+<!--        <item name="popupTheme"></item>-->
 
     </style>
 

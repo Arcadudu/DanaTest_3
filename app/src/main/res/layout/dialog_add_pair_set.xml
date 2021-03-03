@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_add_pair_set_dialog_title">
 
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/dt_TextInputEditText"
+                style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairSetName">
 
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/dt_TextInputEditText"
+                style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
