@@ -28,7 +28,7 @@ class PairSetEditorPresenter : MvpPresenter<PairSetEditorView>() {
     }
 
     fun provideDataForToolbar() {
-        viewState.obtainDataForToolbar(pairSetTitle, pairSetDetails)
+        viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
     }
 
     fun providePairList(){

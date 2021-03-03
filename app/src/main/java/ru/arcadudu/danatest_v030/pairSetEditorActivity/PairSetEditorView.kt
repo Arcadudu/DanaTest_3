@@ -9,7 +9,7 @@ import ru.arcadudu.danatest_v030.models.PairSet
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface PairSetEditorView : MvpView {
 
-    fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String)
+    fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String)
 
     fun initPairList(currentPairList: MutableList<Pair>)
 

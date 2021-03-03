@@ -12,9 +12,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
-import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.adapters.PairSelectorAdapter
+import ru.arcadudu.danatest_v030.test.testTranslate.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityShuffleTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
@@ -35,8 +34,8 @@ private var currentSnapPosition = 0
 private var ivDoneBtnIsShownAndEnabled = false
 private var answerContainsForbiddenLetters = false
 
-@InjectPresenter
-lateinit var translatePresenter: TranslatePresenter
+//@InjectPresenter
+//lateinit var translatePresenter: TranslatePresenter
 
 
 private const val PAIR_SET_TO_TEST_TAG = "wordSetToTestTag"
@@ -51,7 +50,7 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
     private lateinit var ivMakePairFavorite: ImageView
     private lateinit var etAnswerField: EditText
     private lateinit var ivDoneBtn: ImageView
-    private lateinit var pairSelectorAdapter: PairSelectorAdapter
+    private lateinit var translateTestAdapter: TranslateTestAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,12 +59,7 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
         val view = translateActivityBinding.root
         setContentView(view)
 
-        translatePresenter.extractIncomingPairSet(intent, PAIR_SET_TO_TEST_TAG)
-
-        val incomingIntent = intent
-
-
-        currentPairSet = incomingIntent.getSerializableExtra(PAIR_SET_TO_TEST_TAG) as PairSet
+        currentPairSet = intent.getSerializableExtra(PAIR_SET_TO_TEST_TAG) as PairSet
         currentPairList = currentPairSet.getPairList()
 
         //ignore now
@@ -74,13 +68,13 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
         toolbar = translateActivityBinding.testToolbar
         prepareToolbar(toolbar)
 
-        questRecyclerView = translateActivityBinding.questRecyclerview
+        questRecyclerView = translateActivityBinding.translateQuestRecycler
         prepareRecyclerView(questRecyclerView, currentPairList)
 
-        etAnswerField = translateActivityBinding.etAnswer
+        etAnswerField = translateActivityBinding.etTranslateFragmentAnswerField
         addTextWatcher(etAnswerField)
 
-        ivDoneBtn = translateActivityBinding.ivDoneBtn
+        ivDoneBtn = translateActivityBinding.ivConfirmAnswer
         showIvDoneBtn(imageView = ivDoneBtn, showAndEnable = false)
         ivDoneBtn.setOnClickListener {
             if (ivDoneBtnIsShownAndEnabled) {
@@ -125,11 +119,11 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
     private fun prepareRecyclerView(recyclerView: RecyclerView, pairList: MutableList<Pair>) {
         pairSelectorLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         pagerSnapHelper = PagerSnapHelper()
-        pairSelectorAdapter = PairSelectorAdapter()
-        pairSelectorAdapter.submitData(pairList, this)
+        translateTestAdapter = TranslateTestAdapter()
+        translateTestAdapter.submitData(pairList)
         recyclerView.apply {
             setHasFixedSize(true)
-            adapter = pairSelectorAdapter
+            adapter = translateTestAdapter
             layoutManager = pairSelectorLayoutManager
             attachSnapHelperWithListener(
                 snapHelper = pagerSnapHelper,
@@ -212,7 +206,7 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
             .show()
 
         currentPairList.removeAt(position)
-        pairSelectorAdapter.notifyItemRemoved(position)
+        translateTestAdapter.notifyItemRemoved(position)
         etAnswerField.text = null
         return userAnswer.trim().toLowerCase(Locale.ROOT) == trueValue
     }

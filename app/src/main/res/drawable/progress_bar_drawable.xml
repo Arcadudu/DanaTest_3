@@ -3,7 +3,7 @@
     <item android:id="@android:id/background">
         <shape>
             <solid
-                android:color="@color/white" />
+                android:color="@color/plt_active_violet_super_light" />
         </shape>
     </item>
 
@@ -12,7 +12,7 @@
         <clip>
             <shape>
                 <solid
-                    android:color="@color/plt_active_blue" />
+                    android:color="@color/plt_active_violet_lighter" />
             </shape>
         </clip>
     </item>

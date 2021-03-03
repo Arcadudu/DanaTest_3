@@ -14,7 +14,6 @@
         app:title="Статистика"
         android:elevation="6dp"
         android:background="@color/white"
-        app:titleTextAppearance="@style/toolbar_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

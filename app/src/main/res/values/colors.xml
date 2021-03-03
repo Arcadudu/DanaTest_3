@@ -9,6 +9,30 @@
     <color name="white">#FFFFFFFF</color>
 
 
+<!--dt3 palette-->
+    <color name="dt3_main_light_grey_70">#B3F7F7F7</color>
+    <color name="dt3_main_light_grey_100">#f7f7f7</color>
+
+    <color name="dt3_brand_violet_70">#B37986CB</color>
+    <color name="dt3_brand_violet_100">#7986CB</color>
+
+    <color name="dt3_highlight_violet">#337986CB</color>
+    <color name="dt3_on_main_almost_black">#363636</color>
+
+    <color name="dt3_on_surface_black_100">#000000</color>
+    <color name="dt3_on_surface_black_90">#E6000000</color>
+    <color name="dt3_on_surface_black_80">#CC000000</color>
+    <color name="dt3_on_surface_black_70">#B3000000</color>
+    <color name="dt3_on_surface_black_60">#99000000</color>
+
+    <color name="dt3_control_normal_black_20">#33000000</color>
+    <color name="dt3_on_brand_white">#ffffff</color>
+    <color name="dt3_error_red">#FF8A80</color>
+
+    <color name="dt3_hint_color_black_50">#80000000</color>
+    <color name="dt3_hint_color_black_30">#4D000000</color>
+
+
 <!--palette-->
     <color name="plt_background_light">#f2f2f2</color>
 <!--    <color name="plt_active_blue">#529ff7</color>-->
@@ -17,7 +41,7 @@
     <color name="plt_active_blue_dark">#2787f5</color>
     <color name="plt_semi_active_blue_light">#bddbfc</color>
     <color name="plt_almost_black">#363636</color>
-    <color name="plt_subtext_grey">#CC676767</color>
+    <color name="plt_subtext_grey">#B3000000</color>
     <color name="plt_search_icons">#80676767</color>
     <color name="plt_grey_light_100">#CDCDCD</color>
     <color name="plt_grey_light_80">#7A7A7A</color>
@@ -28,11 +52,16 @@
     <color name="plt_hint_grey">#B3878787</color>
     <color name="plt_drag_grey">#66878787</color>
 
+
     <color name="plt_active_violet">#7986CB</color>
     <color name="plt_active_violet_lighter">#8892CA</color>
     <color name="plt_active_violet_super_light">#F6F7FF</color>
     <color name="plt_semi_active_violet">#B37986CB</color>
     <color name="plt_transparent_background">#80000000</color>
+
+    <color name="nplt_background_light_grey">#F7F7F7</color>
+
+
 
 
 </resources>

@@ -11,29 +11,32 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.activities.tests.ShuffleActivity
-import ru.arcadudu.danatest_v030.testTranslateActivity.TranslateActivity
-import ru.arcadudu.danatest_v030.activities.tests.VariantsActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairWhiteBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.test.TestActivity
+import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
 import java.util.*
 
 
 private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
+
+private const val TRANSLATE_FRAGMENT_ID = "TRANSLATE_FRAGMENT_ID"
+private const val SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
+private const val VARIANTS_FRAGMENT_ID = "VARIANTS_FRAGMENT_ID"
 
 
 class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
@@ -41,7 +44,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
     private lateinit var pairSetForTesting: PairSet
 
-    private lateinit var toolbar: Toolbar
+    private lateinit var toolbar: MaterialToolbar
     private lateinit var etPairSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
     private lateinit var recyclerView: RecyclerView
@@ -86,32 +89,38 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.ws_editor_menu, menu)
+        menuInflater.inflate(R.menu.pairset_editor_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent =
-            when (item.itemId) {
-                R.id.begin_test_translate_menu_action ->
-                    Intent(this, TranslateActivity::class.java)
-                R.id.begin_test_variants_menu_action ->
-                    Intent(this, VariantsActivity::class.java)
-                R.id.begin_test_shuffle_menu_action ->
-                    Intent(this, ShuffleActivity::class.java)
-                else -> null
-            }
+        val toTestIntent = Intent(this, TestActivity::class.java)
+        Log.d("aaa", "PSEditor: onOptionsItemSelected: callback ok")
+        when (item.itemId) {
+            R.id.begin_test_translate_menu_action -> toTestIntent.putExtra(
+                "testFragmentId",
+                TRANSLATE_FRAGMENT_ID
+            )
+            R.id.begin_test_shuffle_menu_action -> toTestIntent.putExtra(
+                "testFragmentId",
+                SHUFFLE_FRAGMENT_ID
+            )
+            R.id.begin_test_variants_menu_action -> toTestIntent.putExtra(
+                "testFragmentId",
+                VARIANTS_FRAGMENT_ID
+            )
+        }
 
         pairSetEditorPresenter.deliverWordSetForTest()
-        intent?.putExtra(WORDSET_TO_TEST_TAG, pairSetForTesting)
-        startActivity(intent)
+        toTestIntent.putExtra(CONST_PAIR_SET_TO_TEST_TAG, pairSetForTesting)
+        startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
     }
 
-    private fun prepareToolbar(targetToolbar: Toolbar) {
-        val drawable = ContextCompat.getDrawable(
+    private fun prepareToolbar(targetToolbar: MaterialToolbar) {
+        val popUpMenuDrawable = ContextCompat.getDrawable(
             applicationContext,
-            R.drawable.icon_hamburger_menu_active_violet_light
+            R.drawable.icon_play_button
         )
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
@@ -127,7 +136,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 // TODO: save wordSet state
                 onBackPressed()
             }
-            overflowIcon = drawable
+            overflowIcon = popUpMenuDrawable
+
 
         }
         pairSetEditorPresenter.provideDataForToolbar()
@@ -168,7 +178,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-//                        pairRowAdapter.notifyDataSetChanged()
+                        pairRowAdapter.notifyDataSetChanged()
                         pairSetEditorPresenter.onSwipedLeft(position)
                     }
                 }
@@ -241,16 +251,19 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         editPairBinding.tvAddPairDialogTitle.text =
             getString(R.string.edit_pair_dialog_edit_button_text)
 
-        var resultPairKey = ""
-        var resultPairValue = ""
+        var resultPairKey: String
+        var resultPairValue: String
 
         var pairKeyAfterChange = ""
         var pairValueAfterChange = ""
 
-        editPairBinding.etNewPairKey.setText(pairKey)
-        editPairBinding.etNewPairValue.setText(pairValue)
+        val etNewPairKey = editPairBinding.inputLayoutNewPairKey.editText
+        val etNewPairValue = editPairBinding.inputLayoutNewPairValue.editText
 
-        editPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+        etNewPairKey?.setText(pairKey.capitalize(Locale.ROOT))
+        etNewPairValue?.setText(pairValue.capitalize(Locale.ROOT))
+
+        etNewPairKey?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -259,7 +272,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         })
 
-        editPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+        etNewPairValue?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -291,7 +304,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         editPairBinding.ivSwapPairBtn.setOnClickListener {
-            swapEditTexts(editPairBinding.etNewPairKey, editPairBinding.etNewPairValue)
+            if (etNewPairKey != null && etNewPairValue != null)
+                swapEditTexts(etNewPairKey, etNewPairValue)
         }
 
         editPairDialog.show()
@@ -311,7 +325,10 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         val addPairBinding = DialogAddPairWhiteBinding.bind(addPairDialogView)
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
-        addPairBinding.etNewPairKey.addTextChangedListener(object : TextWatcher {
+        val etNewPairKey = addPairBinding.inputLayoutNewPairKey.editText
+        val etNewPairValue = addPairBinding.inputLayoutNewPairValue.editText
+
+        etNewPairKey?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -320,7 +337,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         })
 
-        addPairBinding.etNewPairValue.addTextChangedListener(object : TextWatcher {
+        etNewPairValue?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -345,7 +362,8 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         addPairBinding.ivSwapPairBtn.setOnClickListener {
-            swapEditTexts(addPairBinding.etNewPairKey, addPairBinding.etNewPairValue)
+            if (etNewPairKey != null && etNewPairValue != null)
+                swapEditTexts(etNewPairKey, etNewPairValue)
         }
 
         addPairDialog.show()
@@ -361,7 +379,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
 
-    override fun obtainDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
+    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
         toolbar.apply {
             title = wordSetTitle
             subtitle = wordSetDescription
@@ -380,6 +398,10 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     }
 
 
+    override fun obtainWordSetForTest(currentPairSet: PairSet) {
+        pairSetForTesting = currentPairSet
+    }
+
     override fun updateRecyclerOnSwap(
         updatedPairList: MutableList<Pair>,
         fromPosition: Int,
@@ -389,10 +411,6 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
             submitPairs(updatedPairList)
             notifyItemMoved(fromPosition, toPosition)
         }
-    }
-
-    override fun obtainWordSetForTest(currentPairSet: PairSet) {
-        pairSetForTesting = currentPairSet
     }
 
     override fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, removePosition: Int) {

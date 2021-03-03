@@ -1,6 +1,5 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
-import android.content.Context
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
@@ -10,7 +9,8 @@ import ru.arcadudu.danatest_v030.models.PairSet
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface PairSetFragmentView : MvpView {
 
-    fun updateToolbarInfo(pairSetCounter:String)
+
+    fun updateToolbarInfo(pairSetCounter: String)
 
     fun retrievePairSetList(pairSetList: MutableList<PairSet>)
 

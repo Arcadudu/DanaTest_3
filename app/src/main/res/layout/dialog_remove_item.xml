@@ -2,21 +2,17 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    app:cardCornerRadius="16dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp">
+        android:background="@color/dt3_main_light_grey_100"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_remove_dialog_title"
-            style="@style/TextStyle_card_title"
+            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -31,33 +27,28 @@
             style="@style/TextStyle_bs_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:text="@string/remove_dialog_message"
             android:textColor="@color/plt_subtext_grey"
             app:layout_constraintStart_toStartOf="@id/tv_remove_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_title" />
 
+        <!--positive button-->
         <Button
             android:id="@+id/btn_remove_pair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:background="?attr/selectableItemBackground"
             android:text="Удалить"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_message" />
 
+        <!--negative button-->
         <Button
             android:id="@+id/btn_cancel_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="?attr/selectableItemBackground"
             android:text="Отмена"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btn_remove_pair"
             app:layout_constraintTop_toTopOf="@id/btn_remove_pair" />
 

@@ -8,16 +8,16 @@
     >
 
     <TextView
-        android:id="@+id/questWord_item"
+        android:id="@+id/quest_pair_value"
         style="@style/TextStyle_quest_word"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
         android:paddingStart="16dp"
-        android:text="QuestWord"
+        android:textColor="@color/plt_active_violet"
+        android:text="Here's shown pair value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -12,10 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
@@ -44,8 +44,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
-    private lateinit var toolbar: Toolbar
-
+    private lateinit var toolbar: MaterialToolbar
 
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
@@ -74,7 +73,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         pairSetPresenter.initiatePairSetList()
 
         pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
-        prepareWordSetRecycler(pairSetRecyclerView)
+        preparePairsetRecycler(pairSetRecyclerView)
         initRecyclerSwiper(pairSetRecyclerView)
 
         pairSetPresenter.providePairSetListCount()
@@ -89,7 +88,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
         fabAddNewPairSet.setOnClickListener {
-            pairSetPresenter.onAddNewPairSet()
+
+           showAddNewPairSetDialog()
         }
 
     }
@@ -111,7 +111,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
 
-    private fun prepareWordSetRecycler(targetRecyclerView: RecyclerView) {
+    private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
         pairSetAdapter = PairSetAdapter()
         targetRecyclerView.apply {
             setHasFixedSize(true)
@@ -150,13 +150,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     }
                 }
             }
-
-
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
 
     }
 
@@ -173,7 +170,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding = DialogAddPairSetBinding.bind(addPairSetDialogView)
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.add_pair_set_dialog_title)
-        addPairSetDialogBinding.etNewWordSetName.addTextChangedListener(object : TextWatcher {
+
+
+        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object :
+            TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -181,7 +181,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         })
 
-        addPairSetDialogBinding.etNewPairSetDetails.addTextChangedListener(object : TextWatcher {
+        addPairSetDialogBinding.inputLayoutNewPairSetDetails.editText?.addTextChangedListener(object :
+            TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -191,9 +192,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
-                addPairSetDialogBinding.etNewWordSetName.apply {
-                    hint = getString(R.string.add_pair_set_dialog_warning)
-                    setHintTextColor(resources.getColor(R.color.plt_error_red, null))
+                addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+                    error = "Название набора не может быть пустым"
                 }
             } else {
                 if (inputPairSetDetails.isEmpty()) inputPairSetDetails =

@@ -19,6 +19,40 @@
 
     </style>
 
+
+    <style name="Theme.DanaTest031" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+        <!--colors-->
+        <item name="colorPrimary">@color/dt3_main_light_grey_100</item>
+        <item name="colorPrimaryVariant">@color/dt3_main_light_grey_70</item>
+        <item name="colorPrimaryDark">@color/dt3_main_light_grey_100</item>
+        <item name="colorOnPrimary">@color/dt3_on_main_almost_black</item>
+        <item name="colorSecondary">@color/dt3_brand_violet_100</item>
+        <item name="colorSecondaryVariant">@color/dt3_brand_violet_70</item>
+        <item name="colorOnSecondary">@color/dt3_on_brand_white</item>
+        <item name="android:colorBackground">@color/dt3_main_light_grey_100</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorError">@color/dt3_error_red</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorControlHighlight">@color/dt3_highlight_violet</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!--components-->
+        <item name="cardViewStyle">@style/dt_CardViewStyle_listItem</item>
+        <item name="bottomNavigationStyle">@style/dt_BottomNavigationStyle</item>
+        <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
+        <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
+        <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
+        <item name="materialButtonStyle">@style/dt_TextButtonStyle</item>
+<!--        <item name="popupTheme"></item>-->
+
+    </style>
+
+    <!--DT overlays-->
+    <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
+        <item name="colorPrimary">@color/dt3_hint_color_black_30</item>
+    </style>
+
     <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@color/black</item>
     </style>
@@ -33,7 +67,7 @@
     <style name="TextStyle_card_title">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/plt_almost_black</item>
+        <item name="android:textColor">@color/dt3_on_main_almost_black</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -98,7 +132,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/plt_almost_black</item>
     </style>
-    
 
 
 </resources>
