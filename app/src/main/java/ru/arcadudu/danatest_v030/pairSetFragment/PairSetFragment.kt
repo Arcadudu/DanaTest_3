@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -14,6 +17,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +53,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
+    private lateinit var vibrator:Vibrator
+
     private lateinit var toolbar: MaterialToolbar
 
     @InjectPresenter
@@ -62,9 +69,13 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         return inflater.inflate(R.layout.fragment_pair_set, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
+
+
+
         fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
 
         toolbar = fragmentWordSetBinding.toolbar
@@ -92,10 +103,16 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
         fabAddNewPairSet.setOnClickListener {
-
+//            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
             showAddNewPairSetDialog()
         }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun vibrate(milliSeconds:Int){
+
+        vibrator.vibrate(VibrationEffect.createOneShot(milliSeconds.toLong(), VibrationEffect.DEFAULT_AMPLITUDE))
     }
 
     private fun showBtnClear(isStringEmpty: Boolean) {
@@ -157,7 +174,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
 
             override fun onChildDraw(
-                c: Canvas,
+                canvas: Canvas,
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 dX: Float,
@@ -167,17 +184,18 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             ) {
 
                 val itemView = viewHolder.itemView
-                val height = (itemView.bottom - itemView.top).toFloat()
-                val width = height / 3
+                val itemViewHeight = (itemView.bottom - itemView.top).toFloat()
+                val itemViewWidth = itemViewHeight / 3
 
-                val p = Paint().apply {
+                val paint = Paint().apply {
                     isAntiAlias = true
                     color = Color.WHITE
                     style = Paint.Style.FILL
                 }
 
+                // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    p.color =
+                    paint.color =
                         ResourcesCompat.getColor(resources, R.color.dt3_main_light_grey_100, null)
                     val background = RectF(
                         itemView.right.toFloat() + dX,
@@ -186,27 +204,27 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                         itemView.bottom.toFloat()
                     )
 
-                    c.drawRect(background, p)
+                    canvas.drawRect(background, paint)
                     val icon: Drawable? =
                         ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_blue, null)
                     val iconBitmap = drawableToBitmap(icon as Drawable)
 
 
                     val icon_dest = RectF(
-                        itemView.right.toFloat() - 2 * width, itemView.top.toFloat() + width,
-                        itemView.right.toFloat() - width,
-                        itemView.bottom.toFloat() - width
+                        itemView.right.toFloat() - 2 * itemViewWidth,
+                        itemView.top.toFloat() + itemViewWidth,
+                        itemView.right.toFloat() - itemViewWidth,
+                        itemView.bottom.toFloat() - itemViewWidth
                     )
 
-
                     if (iconBitmap != null) {
-                        c.drawBitmap(iconBitmap, null, icon_dest, p)
+                        canvas.drawBitmap(iconBitmap, null, icon_dest, paint)
                     }
 
                 }
 
                 super.onChildDraw(
-                    c,
+                    canvas,
                     recyclerView,
                     viewHolder,
                     dX / 7.0f,
@@ -292,13 +310,15 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
+        removeDialog.setOnDismissListener{
+            pairSetAdapter.notifyDataSetChanged()
+        }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
         removeDialogBinding.tvRemoveDialogTitle.text = name
         removeDialogBinding.tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
 
         removeDialogBinding.btnCancelRemove.setOnClickListener {
-            pairSetAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
 

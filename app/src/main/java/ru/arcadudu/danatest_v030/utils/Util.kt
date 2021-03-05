@@ -2,6 +2,7 @@ package ru.arcadudu.danatest_v030.utils
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.RectF
 
 import android.graphics.drawable.BitmapDrawable
 
@@ -19,3 +20,4 @@ fun drawableToBitmap(drawable: Drawable): Bitmap? {
     drawable.draw(canvas)
     return bitmap
 }
+

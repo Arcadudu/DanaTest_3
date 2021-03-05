@@ -1,5 +1,9 @@
 package ru.arcadudu.danatest_v030.utils
 
+import android.app.AlertDialog
+import android.graphics.RectF
+import android.view.MotionEvent
+import androidx.core.graphics.toRect
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -34,3 +38,17 @@ fun RecyclerView.smoothScrollToPosition(
     smoothScroller.targetPosition = position
     layoutManager?.startSmoothScroll(smoothScroller)
 }
+
+//@Override
+//public boolean onTouchEvent(MotionEvent event) {
+//    // If we've received a touch notification that the user has touched
+//    // outside the app, finish the activity.
+//    if (MotionEvent.ACTION_OUTSIDE == event.getAction()) {
+//    // Do Something or not...
+//        return true;
+//    }
+//    return false;
+//}
+
+
+

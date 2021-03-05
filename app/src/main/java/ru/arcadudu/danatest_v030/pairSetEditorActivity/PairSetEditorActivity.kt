@@ -1,6 +1,11 @@
 package ru.arcadudu.danatest_v030.pairSetEditorActivity
 
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,6 +34,7 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
+import ru.arcadudu.danatest_v030.utils.drawableToBitmap
 import java.util.*
 
 
@@ -51,7 +57,6 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     private lateinit var pairRowAdapter: PairRowAdapter
     private lateinit var fabAddPair: FloatingActionButton
 
-    private val WORDSET_TO_TEST_TAG = "wordSetToTestTag"
 
     @InjectPresenter
     lateinit var pairSetEditorPresenter: PairSetEditorPresenter
@@ -178,11 +183,71 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        pairRowAdapter.notifyDataSetChanged()
                         pairSetEditorPresenter.onSwipedLeft(position)
                     }
                 }
 
+            }
+
+            override fun onChildDraw(
+                canvas: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+
+                val itemView = viewHolder.itemView
+                val itemViewHeight = (itemView.bottom - itemView.top).toFloat()
+                val itemViewWidth = itemViewHeight / 3
+
+                val paint = Paint().apply {
+                    isAntiAlias = true
+                    color = Color.WHITE
+                    style = Paint.Style.FILL
+                }
+
+                // swiping left
+                if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    paint.color =
+                        ResourcesCompat.getColor(resources, R.color.dt3_main_light_grey_100, null)
+                    val background = RectF(
+                        itemView.right.toFloat() + dX,
+                        itemView.top.toFloat(),
+                        itemView.right.toFloat(),
+                        itemView.bottom.toFloat()
+                    )
+
+                    canvas.drawRect(background, paint)
+                    val icon: Drawable? =
+                        ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_blue, null)
+                    val iconBitmap = drawableToBitmap(icon as Drawable)
+
+
+                    val icon_dest = RectF(
+                        itemView.right.toFloat() - 2 * itemViewWidth,
+                        itemView.top.toFloat() + itemViewWidth,
+                        itemView.right.toFloat() - itemViewWidth,
+                        itemView.bottom.toFloat() - itemViewWidth
+                    )
+
+                    if (iconBitmap != null) {
+                        canvas.drawBitmap(iconBitmap, null, icon_dest, paint)
+                    }
+
+                }
+
+                super.onChildDraw(
+                    canvas,
+                    recyclerView,
+                    viewHolder,
+                    dX / 8.0f,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
@@ -216,6 +281,9 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
+        removeDialog.setOnDismissListener{
+            pairRowAdapter.notifyDataSetChanged()
+        }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
         removeDialogBinding.tvRemoveDialogTitle.text = "$chosenPairKey - $chosenPairValue"
@@ -224,7 +292,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         //negative btn
         removeDialogBinding.btnCancelRemove.setOnClickListener {
-            pairRowAdapter.notifyDataSetChanged()
+//            pairRowAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
         //positive btn
