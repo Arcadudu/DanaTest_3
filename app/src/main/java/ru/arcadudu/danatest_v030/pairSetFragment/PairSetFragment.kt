@@ -3,6 +3,8 @@ package ru.arcadudu.danatest_v030.pairSetFragment
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +29,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairSetEditorActivity.PairSetEditorActivity
+import ru.arcadudu.danatest_v030.utils.drawableToBitmap
 import java.util.*
 
 
@@ -89,7 +93,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
         fabAddNewPairSet.setOnClickListener {
 
-           showAddNewPairSetDialog()
+            showAddNewPairSetDialog()
         }
 
     }
@@ -145,10 +149,71 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        pairSetAdapter.notifyDataSetChanged()
+//                        pairSetAdapter.notifyDataSetChanged()
                         pairSetPresenter.onSwipedLeft(position)
                     }
                 }
+            }
+
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+
+                val itemView = viewHolder.itemView
+                val height = (itemView.bottom - itemView.top).toFloat()
+                val width = height / 3
+
+                val p = Paint().apply {
+                    isAntiAlias = true
+                    color = Color.WHITE
+                    style = Paint.Style.FILL
+                }
+
+                if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    p.color =
+                        ResourcesCompat.getColor(resources, R.color.dt3_main_light_grey_100, null)
+                    val background = RectF(
+                        itemView.right.toFloat() + dX,
+                        itemView.top.toFloat(),
+                        itemView.right.toFloat(),
+                        itemView.bottom.toFloat()
+                    )
+
+                    c.drawRect(background, p)
+                    val icon: Drawable? =
+                        ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_blue, null)
+                    val iconBitmap = drawableToBitmap(icon as Drawable)
+
+
+                    val icon_dest = RectF(
+                        itemView.right.toFloat() - 2 * width, itemView.top.toFloat() + width,
+                        itemView.right.toFloat() - width,
+                        itemView.bottom.toFloat() - width
+                    )
+
+
+                    if (iconBitmap != null) {
+                        c.drawBitmap(iconBitmap, null, icon_dest, p)
+                    }
+
+                }
+
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX / 7.0f,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
         }
 

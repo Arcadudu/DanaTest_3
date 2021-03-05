@@ -40,7 +40,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             pairSetList.add(
                 PairSet(
                     name = "Набор #$pairSetCount",
-                    details = "Данный набор под номером $pairSetCount содержит какие-то слова"
+                    details = "Набор под номером $pairSetCount "
                 )
             )
         }
