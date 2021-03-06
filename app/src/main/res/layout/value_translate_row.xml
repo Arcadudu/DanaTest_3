@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="18dp"
+    android:layout_marginEnd="18dp"
+    android:background="@color/dt3_brand_violet_70">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/quest_pair_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dt3_brand_violet_70"
+        android:paddingStart="18dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingEnd="14dp"
+        android:text="Here's shown pair value"
+        android:textSize="28sp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/dt3_on_brand_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+
+</com.google.android.material.card.MaterialCardView>

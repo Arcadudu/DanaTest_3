@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.databinding.PairSelectorRowBinding
+import ru.arcadudu.danatest_v030.databinding.ValueTranslateRowBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import java.util.*
 
@@ -26,14 +26,11 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PairSelectorViewHolder {
         return PairSelectorViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.pair_selector_row, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.value_translate_row, parent, false)
         )
     }
 
-//    override fun onBindViewHolder(holder: MyHolder, position: Int) {
-//        // - get element from your dataset at this position
-//        val item = myDataset.get(holder.absoluteAdapterPosition)
-//    }
+
 
     override fun onBindViewHolder(holder: PairSelectorViewHolder, position: Int) {
         pair = pairList[position]
@@ -47,7 +44,7 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
 
     inner class PairSelectorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = PairSelectorRowBinding.bind(itemView)
+        private val binding = ValueTranslateRowBinding.bind(itemView)
         private val questWordItem = binding.questPairValue
 
         fun bind(pair: Pair) {

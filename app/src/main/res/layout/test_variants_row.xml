@@ -149,7 +149,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:src="@drawable/icon_done_active_blue"
+                android:src="@drawable/icon_done_active_brand_violet"
                 app:layout_constraintBottom_toBottomOf="@id/btn_add_to_fav"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

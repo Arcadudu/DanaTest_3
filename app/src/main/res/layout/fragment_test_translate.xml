@@ -1,118 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:theme="@style/Theme.DanaTest031">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/translate_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="0dp"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:subtitle="Subtitle"
-        app:title="@string/translate" />
+        app:title="@string/translate"
+        app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/translate_test_progressbar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:indeterminate="false"
         android:maxHeight="4dp"
         android:minHeight="4dp"
-        android:progressDrawable="@drawable/progress_bar_drawable"
-        app:layout_constraintTop_toBottomOf="@id/translate_toolbar" />
+        android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
+        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintStart_toStartOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"/>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_translate_fragment_answer_field"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:hint="Введите слово"
+        app:counterEnabled="false"
+        android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <View
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/dt_TextInputEditTextStyle"
             android:layout_width="match_parent"
-            android:layout_height="0.4dp"
-            android:background="@color/plt_grey_light_100"
-            app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field" />
-
-
-        <EditText
-            android:id="@+id/et_translate_fragment_answer_field"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/white"
-            android:gravity="start|center_vertical"
-            android:hint="@string/test_answer_field_hint"
-            android:inputType="textVisiblePassword"
-            android:maxLines="1"
-            android:paddingStart="24dp"
-            android:textColor="@color/plt_active_violet_lighter"
-            android:textColorHint="@color/plt_subtext_grey"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toStartOf="@id/iv_confirm_answer"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/translate_quest_recycler"
-            tools:ignore="RtlSymmetry" />
-
-        <ImageView
-            android:id="@+id/iv_confirm_answer"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/icon_done_active_blue"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
-
-        <View
-            android:id="@+id/bottom_divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.4dp"
-            android:background="@color/plt_grey_light_100"
-            app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/translate_quest_recycler"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bottom_divider"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/iv_make_fav"-->
-        <!--            android:layout_width="40dp"-->
-        <!--            android:layout_height="40dp"-->
-        <!--            android:layout_marginEnd="8dp"-->
-        <!--            android:background="?attr/selectableItemBackground"-->
-        <!--            android:padding="8dp"-->
-        <!--            android:scaleType="fitCenter"-->
-        <!--            android:src="@drawable/icon_star_favorite_blue_outlined"-->
-        <!--            app:layout_constraintBottom_toBottomOf="@id/quest_recyclerview"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@id/quest_recyclerview" />-->
+            android:textSize="22sp"
+            android:inputType="textVisiblePassword"/>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <ImageView
+        android:id="@+id/iv_confirm_answer"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_done_active_brand_violet"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/translate_quest_recycler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

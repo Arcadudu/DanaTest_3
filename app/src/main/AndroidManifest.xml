@@ -12,13 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DanaTest031"
         >
-        <activity android:name=".test.TestActivity"></activity>
+        <activity
+            android:name=".test.TestActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".activities.tests.VariantsActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".testTranslateActivity.TranslateActivity"
-            android:windowSoftInputMode="adjustPan" />
+            />
         <activity android:name=".activities.tests.ShuffleActivity" />
         <activity
             android:name=".pairSetEditorActivity.PairSetEditorActivity"

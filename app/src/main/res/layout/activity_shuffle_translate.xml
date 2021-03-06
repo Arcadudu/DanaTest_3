@@ -37,7 +37,7 @@
             android:indeterminate="false"
             android:maxHeight="4dp"
             android:minHeight="4dp"
-            android:progressDrawable="@drawable/progress_bar_drawable" />
+            android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -87,7 +87,7 @@
                 android:layout_marginEnd="8dp"
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackground"
-                android:src="@drawable/icon_done_active_blue"
+                android:src="@drawable/icon_done_active_brand_violet"
                 android:scaleType="fitCenter"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"

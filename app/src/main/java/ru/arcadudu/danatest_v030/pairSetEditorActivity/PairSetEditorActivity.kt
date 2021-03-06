@@ -28,13 +28,14 @@ import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairWhiteBinding
+import ru.arcadudu.danatest_v030.databinding.DialogAddPairLightBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
 import ru.arcadudu.danatest_v030.utils.drawableToBitmap
+import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
 
@@ -76,7 +77,6 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         preparePairRecycler(recyclerView)
         initRecyclerSwiper(recyclerView)
 
-        /*поле поиска "пары" по названию*/
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
         addTextWatcher(etPairSearchField)
 
@@ -183,6 +183,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
+                        vibratePhone(80)
                         pairSetEditorPresenter.onSwipedLeft(position)
                     }
                 }
@@ -239,6 +240,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
                 }
 
+                /* method called again with dx restriction for left swipe */
                 super.onChildDraw(
                     canvas,
                     recyclerView,
@@ -281,8 +283,10 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
-        removeDialog.setOnDismissListener{
-            pairRowAdapter.notifyDataSetChanged()
+        var dismissedWithAction = false
+        removeDialog.setOnDismissListener {
+            if (!dismissedWithAction)
+                pairRowAdapter.notifyDataSetChanged()
         }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
@@ -292,12 +296,12 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         //negative btn
         removeDialogBinding.btnCancelRemove.setOnClickListener {
-//            pairRowAdapter.notifyDataSetChanged()
             removeDialog.dismiss()
         }
         //positive btn
         removeDialogBinding.btnRemovePair.setOnClickListener {
             pairSetEditorPresenter.removePairAtPosition(position)
+            dismissedWithAction = true
             removeDialog.dismiss()
         }
 
@@ -311,11 +315,11 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     ) {
         val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val editPairDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_add_pair_white, null, false)
+            this.layoutInflater.inflate(R.layout.dialog_add_pair_light, null, false)
         editPairDialogBuilder.setView(editPairDialogView)
         val editPairDialog = editPairDialogBuilder.create()
 
-        val editPairBinding = DialogAddPairWhiteBinding.bind(editPairDialogView)
+        val editPairBinding = DialogAddPairLightBinding.bind(editPairDialogView)
         editPairBinding.tvAddPairDialogTitle.text =
             getString(R.string.edit_pair_dialog_edit_button_text)
 
@@ -383,14 +387,14 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
     override fun showAddNewPairDialog() {
         val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
         val addPairDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_add_pair_white, null, false)
+            this.layoutInflater.inflate(R.layout.dialog_add_pair_light, null, false)
         addPairDialogBuilder.setView(addPairDialogView)
         val addPairDialog = addPairDialogBuilder.create()
 
         var inputKey = ""
         var inputValue = ""
 
-        val addPairBinding = DialogAddPairWhiteBinding.bind(addPairDialogView)
+        val addPairBinding = DialogAddPairLightBinding.bind(addPairDialogView)
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
         val etNewPairKey = addPairBinding.inputLayoutNewPairKey.editText
@@ -449,7 +453,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
     override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
         toolbar.apply {
-            title = wordSetTitle
+            title = wordSetTitle.capitalize(Locale.ROOT).trim()
             subtitle = wordSetDescription
         }
     }

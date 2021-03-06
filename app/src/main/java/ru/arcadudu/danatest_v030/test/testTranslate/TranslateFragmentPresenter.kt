@@ -32,6 +32,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
 
     fun providePairSetList() {
+        testedPairList.shuffle()
         viewState.initPairList(testedPairList)
     }
 

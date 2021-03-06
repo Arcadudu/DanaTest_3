@@ -13,12 +13,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.test.testTranslate.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityShuffleTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.test.testTranslate.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
 import java.util.*
 
@@ -168,7 +168,7 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
     }
 
     private fun loggingSnapPairs(position: Int) {
-        Log.d("snap", "loggingSnapPairs: ${currentPairList[position].toString()} ")
+        Log.d("snap", "loggingSnapPairs: ${currentPairList[position]} ")
     }
 
     fun setHint(editText: EditText, position: Int) {
@@ -213,7 +213,7 @@ class TranslateActivity : AppCompatActivity(), TranslateActivityView, IProgress,
 
     fun setIvDoneBtnAppearance(answerContainsForbiddenLetters: Boolean) {
         val drawableId =
-            if (answerContainsForbiddenLetters) R.drawable.icon_done_error_red else R.drawable.icon_done_active_blue
+            if (answerContainsForbiddenLetters) R.drawable.icon_done_error_red else R.drawable.icon_done_active_brand_violet
         ivDoneBtn.setImageDrawable(ResourcesCompat.getDrawable(resources, drawableId, theme))
     }
 

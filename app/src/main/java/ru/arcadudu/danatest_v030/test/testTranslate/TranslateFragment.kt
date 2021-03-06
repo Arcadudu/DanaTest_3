@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
@@ -15,6 +14,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.textfield.TextInputEditText
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -24,6 +25,7 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
+import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
 private const val PAIR_SET_TO_TEST_TAG = "wordSetToTestTag"
@@ -41,12 +43,12 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     private lateinit var translateBinding: FragmentTestTranslateBinding
 
-    private lateinit var toolbar: Toolbar
+    private lateinit var toolbar: MaterialToolbar
     private lateinit var questRecycler: RecyclerView
     private lateinit var translateAdapter: TranslateTestAdapter
-    private lateinit var etAnswerField: EditText
+    private lateinit var etAnswerField: TextInputEditText
     private lateinit var btnConfirmAnswer: ImageView
-    private lateinit var progressBar:ProgressBar
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var incomingPairSet: PairSet
 
@@ -74,13 +76,23 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         questRecycler = translateBinding.translateQuestRecycler
         prepareRecycler(targetRecycler = questRecycler)
 
-        etAnswerField = translateBinding.etTranslateFragmentAnswerField
+        etAnswerField =
+            translateBinding.etTranslateFragmentAnswerField.editText as TextInputEditText
         btnConfirmAnswer = translateBinding.ivConfirmAnswer
-        addTextWatcher(etAnswerField)
+
+        etAnswerField.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                showConfirmButton(s.toString().isNotEmpty())
+            }
+        })
+
         btnConfirmAnswer.setOnClickListener {
             val answer = etAnswerField.text.toString().trim().toLowerCase(Locale.ROOT)
             val answerPosition = currentSnapPosition
             etAnswerField.text = null
+            vibratePhone(80)
             translatePresenter.checkAnswerAndDismiss(
                 answer = answer,
                 answerPosition = answerPosition
@@ -94,13 +106,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     }
 
-    //override fun setTestProgress(done: Int) {
-    //        ObjectAnimator.ofInt(progressBar, "progress", done)
-    //            .setDuration(400).start()
-    //        progressBar.progress = done
-    //        Log.d("progress", "setTestProgress: done = $done")
-    //    }
-
 
     private fun showConfirmButton(answerIsNotEmpty: Boolean) {
         btnConfirmAnswer.visibility = if (answerIsNotEmpty) View.VISIBLE else View.GONE
@@ -110,7 +115,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         targetToolbar.apply {
             navigationIcon = ResourcesCompat.getDrawable(
                 resources,
-                R.drawable.icon_arrow_back_violet_light,
+                R.drawable.icon_close_brand_violet,
                 null
             )
             this.setNavigationOnClickListener {
@@ -141,15 +146,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         translatePresenter.providePairSetList()
     }
 
-    private fun addTextWatcher(targetEditText: EditText) {
-        targetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                showConfirmButton(s.toString().isNotEmpty())
-            }
-        })
-    }
 
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
@@ -162,10 +158,12 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     override fun updateToolbar(
         testedPairSetName: String,
-        answeredCount: Int,
+        pairListCount: Int,
         pairListOriginalCount: Int
     ) {
-        toolbar.subtitle = "$testedPairSetName  $answeredCount/$pairListOriginalCount"
+        toolbar.subtitle = "${
+            testedPairSetName.capitalize(Locale.ROOT).trim()
+        }  $pairListCount/$pairListOriginalCount"
     }
 
     override fun initPairList(testedPairList: MutableList<Pair>) {
@@ -174,7 +172,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             notifyDataSetChanged()
         }
     }
-
 
 
     override fun updateRecyclerOnRemoved(

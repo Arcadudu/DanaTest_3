@@ -8,6 +8,7 @@ import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragmentView
+import java.util.*
 
 class PairSetAdapter :
     RecyclerView.Adapter<PairSetAdapter.PairSetViewHolder>() {
@@ -56,8 +57,8 @@ class PairSetAdapter :
 
         fun bind(pairSet: PairSet) {
             binding.apply {
-                tvItemTitle.text = pairSet.name
-                tvItemDetails.text = pairSet.details
+                tvItemTitle.text = pairSet.name.capitalize(Locale.ROOT).trim()
+                tvItemDetails.text = pairSet.details.capitalize(Locale.ROOT).trim()
             }
         }
 

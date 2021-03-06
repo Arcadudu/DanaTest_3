@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
+            android:paddingEnd="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +24,6 @@
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitle="subtitle"
             app:title="WordSetTitle"
-            android:paddingEnd="18dp"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle">
 
         </com.google.android.material.appbar.MaterialToolbar>

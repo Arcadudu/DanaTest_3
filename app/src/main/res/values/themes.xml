@@ -38,7 +38,7 @@
         <item name="android:windowLightStatusBar">true</item>
 
         <!--components-->
-        <item name="cardViewStyle">@style/dt_CardViewStyle_listItem</item>
+        <item name="materialCardViewStyle">@style/dt_CardViewStyle_listItem</item>
         <item name="bottomNavigationStyle">@style/dt_BottomNavigationStyle</item>
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
