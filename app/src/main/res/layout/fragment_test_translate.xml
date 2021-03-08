@@ -14,6 +14,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/translate"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
     <androidx.core.widget.ContentLoadingProgressBar

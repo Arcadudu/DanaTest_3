@@ -1,12 +1,12 @@
 package ru.arcadudu.danatest_v030.test.testTranslate
 
 import android.animation.ObjectAnimator
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
@@ -19,19 +19,20 @@ import com.google.android.material.textfield.TextInputEditText
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentTestTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
-import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
 private const val PAIR_SET_TO_TEST_TAG = "wordSetToTestTag"
 
 class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     OnSnapPositionChangeListener {
+
 
     companion object {
         fun getTranslateFragmentInstance(args: Bundle?): TranslateFragment =
@@ -92,9 +93,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             val answer = etAnswerField.text.toString().trim().toLowerCase(Locale.ROOT)
             val answerPosition = currentSnapPosition
             etAnswerField.text = null
-            vibratePhone(80)
             translatePresenter.checkAnswerAndDismiss(
-                answer = answer,
+                inputAnswer = answer,
                 answerPosition = answerPosition
             )
             //todo presenter onProgressChange()
@@ -112,14 +112,24 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
-        targetToolbar.apply {
-            navigationIcon = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.icon_close_brand_violet,
-                null
-            )
-            this.setNavigationOnClickListener {
-                (activity as? TestActivityView)?.onFragmentBackPressed()
+        toolbar.apply {
+            inflateMenu(R.menu.test_menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.exit_test -> {
+                        Log.d("toolbar", "onOptionsItemSelected: exit pressed ")
+                        (activity as? TestActivityView)?.onFragmentBackPressed()
+                        true
+                    }
+
+                    R.id.refresh_test -> {
+//                        Log.d("toolbar", "onOptionsItemSelected: refresh pressed ")
+//                        Toast.makeText(activity, "refresh pushed", Toast.LENGTH_SHORT).show()
+                        translatePresenter.onRestartButton()
+                        true
+                    }
+                    else -> false
+                }
             }
         }
         translatePresenter.provideDataForToolbar()
@@ -152,8 +162,39 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     }
 
 
-    override fun getPairSetName(pairSetName: String) {
 
+    override fun showOnRestartDialog(pairSetName: String) {
+        val restartDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val restartDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
+        restartDialogBuilder.setView(restartDialogView)
+        val restartDialog = restartDialogBuilder.create()
+
+        val restartDialogBinding = DialogRemoveItemBinding.bind(restartDialogView)
+        restartDialogBinding.tvRemoveDialogTitle.text = pairSetName
+        restartDialogBinding.tvRemoveDialogMessage.text =
+            "Вы действительно хотите начать тест заново?"
+
+        val btnCancelRestart = restartDialogBinding.btnCancelRemove
+        val btnRestartTest = restartDialogBinding.btnRemovePair
+        btnRestartTest.text = "Рестарт"
+        btnRestartTest.setTextColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.dt3_brand_violet_100,
+                activity?.theme
+            )
+        )
+
+        btnCancelRestart.setOnClickListener {
+            restartDialog.dismiss()
+        }
+
+        btnRestartTest.setOnClickListener {
+            translatePresenter.restartTranslateTest()
+            restartDialog.dismiss()
+        }
+
+        restartDialog.show()
     }
 
     override fun updateToolbar(
@@ -178,8 +219,11 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         updatedPairList: MutableList<Pair>,
         answerPosition: Int
     ) {
-        translateAdapter.submitData(updatedPairList)
-        translateAdapter.notifyItemRemoved(answerPosition)
+        translateAdapter.apply {
+            submitData(updatedPairList)
+            notifyItemRemoved(answerPosition)
+        }
+
     }
 
     override fun updateAnsweredProgress(answeredPairCount: Int) {
@@ -194,6 +238,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     override fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int) {
         (activity as? TestActivityView)?.onTestReadyForResult(backUpPairSet, mistakeCount)
+    }
+
+    override fun updateRecyclerOnRestart(testedPairList: MutableList<Pair>) {
+        translateAdapter.apply {
+            submitData(testedPairList)
+            notifyDataSetChanged()
+        }
     }
 
 

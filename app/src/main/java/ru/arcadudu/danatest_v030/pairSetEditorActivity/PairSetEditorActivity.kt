@@ -183,7 +183,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        vibratePhone(80)
+                        vibratePhone(50)
                         pairSetEditorPresenter.onSwipedLeft(position)
                     }
                 }

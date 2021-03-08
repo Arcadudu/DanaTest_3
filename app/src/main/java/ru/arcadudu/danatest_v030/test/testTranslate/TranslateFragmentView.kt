@@ -2,6 +2,7 @@ package ru.arcadudu.danatest_v030.test.testTranslate
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
@@ -10,7 +11,8 @@ import ru.arcadudu.danatest_v030.models.PairSet
 interface TranslateFragmentView : MvpView {
 
 
-    fun getPairSetName(pairSetName: String)
+    @StateStrategyType(value = SkipStrategy::class)
+    fun showOnRestartDialog(pairSetName: String)
 
     fun updateToolbar(
         testedPairSetName: String, pairListCount: Int, pairListOriginalCount: Int
@@ -23,8 +25,14 @@ interface TranslateFragmentView : MvpView {
     )
 
     fun updateAnsweredProgress(answeredPairCount: Int)
+
+
     fun setProgressMax(originalPairListCount: Int)
+
     fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int)
+
+    @StateStrategyType(value = SkipStrategy::class)
+    fun updateRecyclerOnRestart(testedPairList: MutableList<Pair>)
 
 
 }

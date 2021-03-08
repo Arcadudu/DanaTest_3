@@ -158,7 +158,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
 //                        pairSetAdapter.notifyDataSetChanged()
-                        vibratePhone(80)
+                        vibratePhone(50)
                         pairSetPresenter.onSwipedLeft(position)
                     }
                 }
@@ -290,10 +290,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     override fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>) {
         pairSetAdapter.apply {
             submitList(pairSetList)
-            notifyItemInserted(1)
+            notifyItemInserted(0)
         }
         pairSetPresenter.providePairSetListCount()
-        pairSetRecyclerView.scrollToPosition(1)
+        pairSetRecyclerView.scrollToPosition(0)
     }
 
 

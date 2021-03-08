@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/refresh_test"
+        android:icon="@drawable/icon_refresh_blue"
+        android:title="Начать заново"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/exit_test"
+        android:icon="@drawable/icon_exit_test_red"
+        android:title="Завершить тест"
+        app:showAsAction="always">
+
+    </item>
+
+</menu>
