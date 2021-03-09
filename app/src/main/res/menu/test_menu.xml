@@ -4,13 +4,13 @@
     <item
         android:id="@+id/refresh_test"
         android:icon="@drawable/icon_refresh_blue"
-        android:title="Начать заново"
-        app:showAsAction="always"/>
+        android:title="@string/dt_test_translate_fragment_toolbar_action_restart_test"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/exit_test"
         android:icon="@drawable/icon_exit_test_red"
-        android:title="Завершить тест"
-        app:showAsAction="always">
+        android:title="@string/dt_test_translate_fragment_toolbar_action_end_test"
+        app:showAsAction="ifRoom">
 
     </item>
 

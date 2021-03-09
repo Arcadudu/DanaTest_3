@@ -22,8 +22,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-            app:subtitle="subtitle"
-            app:title="WordSetTitle"
+            app:subtitle="@string/dt_pairset_editor_toolbar_subtitle_stub"
+            app:title="@string/dt_pairset_editor_toolbar_title_stub"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle">
 
         </com.google.android.material.appbar.MaterialToolbar>

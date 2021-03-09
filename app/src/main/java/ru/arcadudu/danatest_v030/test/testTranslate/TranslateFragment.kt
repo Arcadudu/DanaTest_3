@@ -112,7 +112,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
-        toolbar.apply {
+        targetToolbar.apply {
             inflateMenu(R.menu.test_menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -123,8 +123,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
                     }
 
                     R.id.refresh_test -> {
-//                        Log.d("toolbar", "onOptionsItemSelected: refresh pressed ")
-//                        Toast.makeText(activity, "refresh pushed", Toast.LENGTH_SHORT).show()
+
                         translatePresenter.onRestartButton()
                         true
                     }
@@ -160,7 +159,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
     }
-
 
 
     override fun showOnRestartDialog(pairSetName: String) {
@@ -202,9 +200,12 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         pairListCount: Int,
         pairListOriginalCount: Int
     ) {
-        toolbar.subtitle = "${
-            testedPairSetName.capitalize(Locale.ROOT).trim()
-        }  $pairListCount/$pairListOriginalCount"
+        toolbar.subtitle = getString(
+            R.string.dt_test_translate_fragment_toolbar_subtitle,
+            testedPairSetName.capitalize(Locale.ROOT).trim(),
+            pairListCount,
+            pairListOriginalCount
+        )
     }
 
     override fun initPairList(testedPairList: MutableList<Pair>) {

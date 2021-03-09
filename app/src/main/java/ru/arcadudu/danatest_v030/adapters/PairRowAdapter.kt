@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.pairSetEditorActivity.PairSetEditorView
+import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorView
 import java.util.*
 
 class
 PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
     private lateinit var pair: Pair
-    private lateinit var activityImplementation: PairSetEditorView
+    private lateinit var activityImplementation: PairsetEditorView
 
     fun submitPairs(list: MutableList<Pair>) {
         pairList = list
     }
 
-    fun onItemClickCallback(activityImplementation: PairSetEditorView) {
+    fun onItemClickCallback(activityImplementation: PairsetEditorView) {
         this.activityImplementation = activityImplementation
     }
 

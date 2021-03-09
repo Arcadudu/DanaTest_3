@@ -31,7 +31,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogAddPairSetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.pairSetEditorActivity.PairSetEditorActivity
+import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.utils.drawableToBitmap
 import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
@@ -245,7 +245,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         addPairSetDialogBinding = DialogAddPairSetBinding.bind(addPairSetDialogView)
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
-            getString(R.string.add_pair_set_dialog_title)
+            getString(R.string.dt_add_pairset_dialog_title)
 
 
         addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object :
@@ -269,7 +269,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
                 addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
-                    error = "Название набора не может быть пустым"
+                    error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
                 }
             } else {
                 if (inputPairSetDetails.isEmpty()) inputPairSetDetails =
@@ -340,7 +340,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun putPairSetIntoIntent(chosenPairSet: PairSet) {
-        val toEditorIntent = Intent(activity, PairSetEditorActivity::class.java)
+        val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java)
         toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
         startActivity(toEditorIntent)
     }

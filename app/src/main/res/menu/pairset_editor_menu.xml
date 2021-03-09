@@ -5,19 +5,19 @@
     <item
         android:id="@+id/begin_test_translate_menu_action"
         android:icon="@drawable/icon_swap_violet_light"
-        android:title="Прямой перевод"
+        android:title="@string/dt_pairset_editor_toolbar_action_translate"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/begin_test_variants_menu_action"
         android:icon="@drawable/icon_star_favorite_blue"
-        android:title="Четыре варианта"
+        android:title="@string/dt_pairset_editor_toolbar_action_variants"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/begin_test_shuffle_menu_action"
         android:icon="@drawable/icon_play_button"
-        android:title="Перемешать"
+        android:title="@string/dt_pairset_editor_toolbar_action_shuffle"
         app:showAsAction="never"/>
 
 

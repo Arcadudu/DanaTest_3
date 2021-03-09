@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.pairSetEditorActivity
+package ru.arcadudu.danatest_v030.pairsetEditorActivity
 
 import android.content.Intent
 import android.graphics.Canvas
@@ -27,7 +27,7 @@ import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
-import ru.arcadudu.danatest_v030.databinding.ActivityWsEditorBinding
+import ru.arcadudu.danatest_v030.databinding.ActivityPairsetEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairLightBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
@@ -46,8 +46,8 @@ private const val SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
 private const val VARIANTS_FRAGMENT_ID = "VARIANTS_FRAGMENT_ID"
 
 
-class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
-    private lateinit var activityWsEditorBinding: ActivityWsEditorBinding
+class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
+    private lateinit var activityWsEditorBinding: ActivityPairsetEditorBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
     private lateinit var pairSetForTesting: PairSet
 
@@ -60,15 +60,15 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
 
     @InjectPresenter
-    lateinit var pairSetEditorPresenter: PairSetEditorPresenter
+    lateinit var pairsetEditorPresenter: PairsetEditorPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityWsEditorBinding = ActivityWsEditorBinding.inflate(layoutInflater)
+        activityWsEditorBinding = ActivityPairsetEditorBinding.inflate(layoutInflater)
         val view = activityWsEditorBinding.root
         setContentView(view)
 
-        pairSetEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
+        pairsetEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
@@ -88,7 +88,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
         fabAddPair = activityWsEditorBinding.fabAddPair
         fabAddPair.setOnClickListener {
-            pairSetEditorPresenter.onAddNewPair()
+            pairsetEditorPresenter.onAddNewPair()
         }
 
     }
@@ -116,7 +116,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
             )
         }
 
-        pairSetEditorPresenter.deliverWordSetForTest()
+        pairsetEditorPresenter.deliverWordSetForTest()
         toTestIntent.putExtra(CONST_PAIR_SET_TO_TEST_TAG, pairSetForTesting)
         startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
@@ -145,7 +145,14 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
 
 
         }
-        pairSetEditorPresenter.provideDataForToolbar()
+        pairsetEditorPresenter.provideDataForToolbar()
+    }
+
+    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
+        toolbar.apply {
+            title = wordSetTitle.capitalize(Locale.ROOT).trim()
+            subtitle = wordSetDescription
+        }
     }
 
     private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
@@ -156,7 +163,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
             adapter = pairRowAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        pairSetEditorPresenter.providePairList()
+        pairsetEditorPresenter.providePairList()
         pairRowAdapter.onItemClickCallback(this)
     }
 
@@ -172,7 +179,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 target: RecyclerView.ViewHolder
             ): Boolean {
 
-                pairSetEditorPresenter.onMove(
+                pairsetEditorPresenter.onMove(
                     fromPosition = viewHolder.bindingAdapterPosition,
                     toPosition = target.bindingAdapterPosition
                 )
@@ -184,7 +191,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         vibratePhone(50)
-                        pairSetEditorPresenter.onSwipedLeft(position)
+                        pairsetEditorPresenter.onSwipedLeft(position)
                     }
                 }
 
@@ -262,7 +269,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 showBtnClearAll(s.toString().isEmpty())
-                pairSetEditorPresenter.filter(s.toString())
+                pairsetEditorPresenter.filter(s.toString())
             }
 
         })
@@ -290,9 +297,14 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
-        removeDialogBinding.tvRemoveDialogTitle.text = "$chosenPairKey - $chosenPairValue"
+
+        removeDialogBinding.tvRemoveDialogTitle.text = getString(
+            R.string.dt_remove_pair_dialog_title,
+            chosenPairKey.capitalize(Locale.ROOT).trim(),
+            chosenPairValue.capitalize(Locale.ROOT).trim()
+        )
         removeDialogBinding.tvRemoveDialogMessage.text =
-            getString(R.string.remove_dialog_message)
+            getString(R.string.dt_remove_pair_dialog_message)
 
         //negative btn
         removeDialogBinding.btnCancelRemove.setOnClickListener {
@@ -300,7 +312,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         }
         //positive btn
         removeDialogBinding.btnRemovePair.setOnClickListener {
-            pairSetEditorPresenter.removePairAtPosition(position)
+            pairsetEditorPresenter.removePairAtPosition(position)
             dismissedWithAction = true
             removeDialog.dismiss()
         }
@@ -365,7 +377,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
             if (resultPairKey == pairKey && resultPairValue == pairValue) {
                 editPairDialog.dismiss()
             } else {
-                pairSetEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
+                pairsetEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
             }
             editPairDialog.dismiss()
 
@@ -425,7 +437,7 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         addPairBinding.btnAddPair.setOnClickListener {
             if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
             if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
-            pairSetEditorPresenter.addNewPair(inputKey, inputValue)
+            pairsetEditorPresenter.addNewPair(inputKey, inputValue)
             addPairDialog.dismiss()
         }
 
@@ -450,13 +462,6 @@ class PairSetEditorActivity : MvpAppCompatActivity(), PairSetEditorView {
         et2.text = newEt2
     }
 
-
-    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
-        toolbar.apply {
-            title = wordSetTitle.capitalize(Locale.ROOT).trim()
-            subtitle = wordSetDescription
-        }
-    }
 
     override fun initPairList(currentPairList: MutableList<Pair>) {
         pairRowAdapter.apply {

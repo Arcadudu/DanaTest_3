@@ -19,8 +19,8 @@
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
             app:layout_scrollFlags="scroll|snap"
-            app:subtitle="@string/pair_set_fragment_title"
-            app:title="@string/menu_item_pair_set_title"
+            app:subtitle="@string/dt_pairset_fragment_toolbar_subtitle"
+            app:title="@string/dt_pairset_fragment_toolbar_title"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
                 android:id="@+id/et_ws_frag_searchfield"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:hint="@string/pair_set_search_field_hint"
+                android:hint="@string/dt_pairset_fragment_searchfield_hint"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

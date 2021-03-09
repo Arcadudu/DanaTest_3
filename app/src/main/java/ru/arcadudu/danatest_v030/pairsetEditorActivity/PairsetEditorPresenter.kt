@@ -1,4 +1,4 @@
-package ru.arcadudu.danatest_v030.pairSetEditorActivity
+package ru.arcadudu.danatest_v030.pairsetEditorActivity
 
 import android.content.Intent
 import android.util.Log
@@ -9,7 +9,7 @@ import ru.arcadudu.danatest_v030.models.PairSet
 import java.util.*
 
 @InjectViewState
-class PairSetEditorPresenter : MvpPresenter<PairSetEditorView>() {
+class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     private lateinit var currentPairSet: PairSet
     private lateinit var currentPairList: MutableList<Pair>

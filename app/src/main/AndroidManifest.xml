@@ -23,7 +23,7 @@
             />
         <activity android:name=".activities.tests.ShuffleActivity" />
         <activity
-            android:name=".pairSetEditorActivity.PairSetEditorActivity"
+            android:name=".pairsetEditorActivity.PairsetEditorActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.HomeActivity"

@@ -44,14 +44,22 @@
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
         <item name="materialButtonStyle">@style/dt_TextButtonStyle</item>
-<!--        <item name="toolbarStyle">@style/dt_ToolbarStyle</item>-->
-<!--        <item name="popupTheme"></item>-->
+        <!--        <item name="toolbarStyle">@style/dt_ToolbarStyle</item>-->
+        <!--        <item name="popupTheme"></item>-->
 
     </style>
 
     <!--DT overlays-->
     <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
         <item name="colorPrimary">@color/dt3_hint_color_black_30</item>
+    </style>
+
+    <style name="ThemeOverlay.DanaTest031.VioletControlHighlight" parent="">
+        <item name="colorControlHighlight">@color/dt3_highlight_violet</item>
+    </style>
+
+    <style name="ThemeOverlay.DanaTest031.TestMaterialCardViewElevation" parent="">
+        <item name="cardElevation">3.4dp</item>
     </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">

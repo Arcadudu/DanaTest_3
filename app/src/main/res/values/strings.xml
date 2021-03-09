@@ -1,6 +1,54 @@
 <resources>
     <string name="app_name">DanaTest_v.0.3.0</string>
 
+    <!--pairsetFragment-->
+    <string name="dt_pairset_fragment_toolbar_title">Наборы</string>
+    <string name="dt_pairset_fragment_toolbar_subtitle">Здесь хранятся Ваши наборы</string>
+    <string name="dt_pairset_fragment_searchfield_hint">Поиск набора</string>
+    <!--addPairsetDialog-->
+    <string name="dt_add_pairset_dialog_title">Новый набор</string>
+    <string name="dt_add_pairset_dialog_new_pairset_name_hint">Название</string>
+    <string name="dt_add_pairset_dialog_new_pairset_details_hint">Описание</string>
+    <string name="dt_add_pairset_dialog_negative_btn">Отмена</string>
+    <string name="dt_add_pairset_dialog_positive_btn">Добавить</string>
+    <string name="dt_add_pairset_dialog_on_empty_title_error">Название набора не может быть пусты</string>
+    <!--removePairsetDialog-->
+    <string name="dt_remove_pairset_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
+    <string name="dt_remove_pairset_dialog_negative_btn">Отмена</string>
+    <string name="dt_remove_pairset_dialog_positive_btn">Удалить</string>
+    <!--/pairsetFragment-->
+
+
+    <!--pairsetEditorActivity-->
+    <string name="dt_pairset_editor_toolbar_title_stub">PairsetTitle</string>
+    <string name="dt_pairset_editor_toolbar_subtitle_stub">PairsetSubtitle</string>
+    <string name="dt_pairset_editor_toolbar_action_translate">Прямой перевод</string>
+    <string name="dt_pairset_editor_toolbar_action_variants">Четыре варианта</string>
+    <string name="dt_pairset_editor_toolbar_action_shuffle">Перемешать</string>
+    <string name="dt_pairset_editor_searchfield_hint">Поиск слова</string>
+    <!--addPairDialog-->
+    <string name="dt_add_pair_dialog_title">Новая пара</string>
+    <string name="dt_add_pair_dialog_new_pair_key_hint">Ключ</string>
+    <string name="dt_add_pair_dialog_new_pair_value_hint">Значение</string>
+    <string name="dt_add_pair_dialog_negative_btn">Отмена</string>
+    <string name="dt_add_pair_dialog_positive_btn">Добавить</string>
+    <!--removePairDialog-->
+    <string name="dt_remove_pair_dialog_title">%1$s - %2$s</string>
+    <string name="dt_remove_pair_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
+    <string name="dt_remove_pair_dialog_negative_btn">Отмена</string>
+    <string name="dt_remove_pair_dialog_positive_btn">Удалить</string>
+    <!--/pairsetEditorActivity-->
+
+    <!--testTranslateFragment-->
+    <string name="dt_test_translate_fragment_toolbar_title">Прямой перевод</string>
+    <string name="dt_test_translate_fragment_toolbar_subtitle">%1$s %2$d/%3$d</string>
+    <string name="dt_test_translate_fragment_toolbar_action_restart_test">Начать заново</string>
+    <string name="dt_test_translate_fragment_toolbar_action_end_test">Завершить тест</string>
+    <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>
+    <!--/testTranslateFragment-->
+
+
+
     <!--activity_titles-->
     <string name="main_activity_title">Доступные тесты</string>
     <!--test_titles-->

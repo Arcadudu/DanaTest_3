@@ -18,7 +18,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:gravity="start"
-            android:text="Новая пара"
+            android:text="@string/dt_add_pair_dialog_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:hint="Ключ"
+            android:hint="@string/dt_add_pair_dialog_new_pair_key_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
             app:counterMaxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:hint="Значение"
+            android:hint="@string/dt_add_pair_dialog_new_pair_value_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
             app:counterMaxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="Добавить"
+            android:text="@string/dt_add_pair_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairValue" />
 
@@ -90,7 +90,7 @@
             android:id="@+id/btn_cancel_add_pair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Отмена"
+            android:text="@string/dt_add_pair_dialog_negative_btn"
             app:layout_constraintEnd_toStartOf="@id/btn_add_pair"
             app:layout_constraintTop_toTopOf="@id/btn_add_pair" />
 
