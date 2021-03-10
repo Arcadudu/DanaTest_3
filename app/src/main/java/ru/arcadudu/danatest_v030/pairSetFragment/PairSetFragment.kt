@@ -33,6 +33,7 @@ import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.utils.drawableToBitmap
+import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
 import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
@@ -123,6 +124,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
 
+
     private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
         pairSetAdapter = PairSetAdapter()
         targetRecyclerView.apply {
@@ -157,7 +159,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-//                        pairSetAdapter.notifyDataSetChanged()
                         vibratePhone(50)
                         pairSetPresenter.onSwipedLeft(position)
                     }
@@ -337,6 +338,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun obtainFilteredList(filteredList: MutableList<PairSet>) {
         pairSetAdapter.filterList(filteredList)
+        pairSetAdapter.notifyDataSetChanged()
+        recyclerLayoutAnimation(pairSetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
     override fun putPairSetIntoIntent(chosenPairSet: PairSet) {
@@ -360,7 +363,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun onResume() {
         super.onResume()
-
         Log.d(TAG, "onResume: ")
     }
 

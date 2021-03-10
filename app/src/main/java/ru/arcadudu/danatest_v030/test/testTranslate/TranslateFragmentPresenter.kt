@@ -1,6 +1,5 @@
 package ru.arcadudu.danatest_v030.test.testTranslate
 
-import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
@@ -15,10 +14,18 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     private lateinit var testedPairList: MutableList<Pair>
     private lateinit var testedPairSetName: String
 
-    private var mistakeCount = 0
-    private var answeredPairCount = 0
-    private var originPairListCount = 0
+
     private var backUpPairList: MutableList<Pair> = mutableListOf()
+
+
+    companion object {
+        const val progressMultiplier = 1000
+        const val positiveProgressDuration = 320
+        const val restartProgressDuration = 640
+        private var mistakeCount = 0
+        private var answeredPairCount = 0
+        private var originPairListCount = 0
+    }
 
 
     fun obtainTestedPairSet(incomingPairSet: PairSet) {
@@ -26,16 +33,6 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         backUpPairSet = testedPairSet
         testedPairList = testedPairSet.getPairList()
         backUpPairList.addAll(testedPairList)
-        Log.d(
-            "restart",
-            "Presenter: obtainTestedPairSet: backupList count = ${backUpPairList.count()}"
-        )
-        Log.d(
-            "restart",
-            "Presenter: obtainTestedPairSet: backupPairSet list within count = ${
-                backUpPairSet.getPairList().count()
-            }"
-        )
         testedPairSetName = testedPairSet.name
         originPairListCount = testedPairList.count()
         viewState.setProgressMax(originPairListCount)
@@ -68,13 +65,16 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.apply {
             updateToolbar(testedPairSetName, answeredPairCount, originPairListCount)
             updateRecyclerOnRemoved(testedPairList, answerPosition)
-            updateAnsweredProgress(answeredPairCount * 1000)
+            updateAnsweredProgress(
+                answeredPairCount * Companion.progressMultiplier,
+                positiveProgressDuration.toLong()
+            )
         }
 
     }
 
     fun getProgressMax() {
-        viewState.setProgressMax(originPairListCount * 1000)
+        viewState.setProgressMax(originPairListCount * Companion.progressMultiplier)
     }
 
     fun restartTranslateTest() {
@@ -88,7 +88,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.apply {
             updateToolbar(testedPairSetName, answeredPairCount, testedPairList.count())
             initPairList(testedPairList)
-            updateAnsweredProgress(answeredPairCount)
+            updateAnsweredProgress(answeredPairCount, restartProgressDuration.toLong())
         }
 
     }

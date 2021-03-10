@@ -39,7 +39,6 @@ PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
 
     fun filterList(filteredList: MutableList<Pair>) {
         pairList = filteredList
-        notifyDataSetChanged()
     }
 
     inner class PairRowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

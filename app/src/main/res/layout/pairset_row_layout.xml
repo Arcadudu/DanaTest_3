@@ -26,7 +26,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:gravity="start"
-            android:text="Временные константы"
             app:layout_constraintEnd_toStartOf="@id/iv_item_drawable"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,8 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="08dp"
-            android:maxLines="2"
-            android:text="@string/dummy_text"
+            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_item_title"
             app:layout_constraintStart_toStartOf="@id/tv_item_title"

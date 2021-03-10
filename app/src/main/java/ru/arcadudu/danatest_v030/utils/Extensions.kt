@@ -69,4 +69,14 @@ fun MvpAppCompatActivity.vibratePhone(milliSeconds: Long) {
     }
 }
 
+//private fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView){
+//        val context = targetRecyclerView.context
+//        val animationController:LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down_anim)
+//        targetRecyclerView.layoutAnimation = animationController
+//        targetRecyclerView.adapter?.notifyDataSetChanged()
+//        targetRecyclerView.scheduleLayoutAnimation()
+//
+//    }
+
+
 

@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">DanaTest_v.0.3.0</string>
 
+    <!--bottomNavigation-->
+    <string name="dt_bottom_navigation_main_title">Главная</string>
+    <string name="dt_bottom_navigation_settings">Настройки</string>
+    <string name="dt_bottom_navigation_profile">Профиль</string>
+
     <!--pairsetFragment-->
     <string name="dt_pairset_fragment_toolbar_title">Наборы</string>
     <string name="dt_pairset_fragment_toolbar_subtitle">Здесь хранятся Ваши наборы</string>
@@ -45,8 +50,33 @@
     <string name="dt_test_translate_fragment_toolbar_action_restart_test">Начать заново</string>
     <string name="dt_test_translate_fragment_toolbar_action_end_test">Завершить тест</string>
     <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>
+    <!--restartTestDialog-->
+    <string name="dt_restart_test_dialog_title">%1$s</string>
+    <string name="dt_restart_test_dialog_message">Вы действительно хотите начать тест заново?</string>
+    <string name="dt_restart_test_dialog_negative_btn">Отмена</string>
+    <string name="dt_restart_test_dialog_positive_btn">Рестарт</string>
     <!--/testTranslateFragment-->
 
+    <!--pairsetCountPlurals-->
+    <!-- Этот код мы используем для отладки: когда какой item выбирается системой -->
+    <plurals name="plurals_1">
+        <item quantity="zero">%1$d = zero</item>
+        <item quantity="one">%1$d = one</item>
+        <item quantity="two">%1$d = two</item>
+        <item quantity="few">%1$d = few</item>
+        <item quantity="many">%1$d = many</item>
+        <item quantity="other">%1$d = other</item>
+    </plurals>
+
+    <!-- А этот код мы используем для проверки того, как выглядит реальное склонение -->
+    <plurals name="plurals_2">
+        <item quantity="zero">нет наборов</item>
+        <item quantity="one">%1$d набор</item>
+        <item quantity="two">%1$d набора</item>
+        <item quantity="few">%1$d набора</item>
+        <item quantity="many">%1$d наборов</item>
+        <item quantity="other">%1$d наборов</item>
+    </plurals>
 
 
     <!--activity_titles-->
@@ -98,27 +128,6 @@
     <string name="pair_set_fragment_title">Здесь хранятся доступные Вам наборы</string>
     <string name="dummy2">DummyDetails</string>
     <!-- TODO: Remove or change this placeholder text -->
-
-
-    <!-- Этот код мы используем для отладки: когда какой item выбирается системой -->
-    <plurals name="plurals_1">
-        <item quantity="zero">%1$d = zero</item>
-        <item quantity="one">%1$d = one</item>
-        <item quantity="two">%1$d = two</item>
-        <item quantity="few">%1$d = few</item>
-        <item quantity="many">%1$d = many</item>
-        <item quantity="other">%1$d = other</item>
-    </plurals>
-
-    <!-- А этот код мы используем для проверки того, как выглядит реальное склонение -->
-    <plurals name="plurals_2">
-        <item quantity="zero">нет наборов</item>
-        <item quantity="one">%1$d набор</item>
-        <item quantity="two">%1$d набора</item>
-        <item quantity="few">%1$d набора</item>
-        <item quantity="many">%1$d наборов</item>
-        <item quantity="other">%1$d наборов</item>
-    </plurals>
 
 
 </resources>

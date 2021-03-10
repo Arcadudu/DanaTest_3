@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -71,6 +72,7 @@
         android:clipToPadding="false"
         android:paddingBottom="4dp"
         android:scrollbarSize="3dp"
+        android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbVertical="@color/dt3_hint_color_black_50"
         android:scrollbars="vertical"

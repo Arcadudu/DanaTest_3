@@ -24,7 +24,7 @@ interface TranslateFragmentView : MvpView {
         updatedPairList: MutableList<Pair>, answerPosition: Int
     )
 
-    fun updateAnsweredProgress(answeredPairCount: Int)
+    fun updateAnsweredProgress(answeredPairCount: Int, duration: Long)
 
 
     fun setProgressMax(originalPairListCount: Int)
@@ -33,6 +33,9 @@ interface TranslateFragmentView : MvpView {
 
     @StateStrategyType(value = SkipStrategy::class)
     fun updateRecyclerOnRestart(testedPairList: MutableList<Pair>)
+
+    @StateStrategyType(value = SkipStrategy::class)
+    fun detachSnapHelperFromRecyclerView()
 
 
 }

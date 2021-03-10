@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -47,13 +48,17 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     private lateinit var toolbar: MaterialToolbar
     private lateinit var questRecycler: RecyclerView
     private lateinit var translateAdapter: TranslateTestAdapter
+    private lateinit var etAnswerInputLayout: TextInputLayout
     private lateinit var etAnswerField: TextInputEditText
     private lateinit var btnConfirmAnswer: ImageView
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var translateSnapHelper: PagerSnapHelper
+
     private lateinit var incomingPairSet: PairSet
 
     private var currentSnapPosition = 0
+    private var snapHelperAttached = false
 
 
     override fun onCreateView(
@@ -77,8 +82,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         questRecycler = translateBinding.translateQuestRecycler
         prepareRecycler(targetRecycler = questRecycler)
 
-        etAnswerField =
-            translateBinding.etTranslateFragmentAnswerField.editText as TextInputEditText
+        etAnswerInputLayout = translateBinding.etTranslateFragmentAnswerField
+        etAnswerField = etAnswerInputLayout.editText as TextInputEditText
         btnConfirmAnswer = translateBinding.ivConfirmAnswer
 
         etAnswerField.addTextChangedListener(object : TextWatcher {
@@ -138,6 +143,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
         translateAdapter.translateAdapterCallback(this)
+        translateSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
             adapter = translateAdapter
@@ -147,11 +153,12 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
                 false
             )
             attachSnapHelperWithListener(
-                snapHelper = PagerSnapHelper(),
+                snapHelper = translateSnapHelper,
                 onSnapPositionChangeListener = this@TranslateFragment
             )
+            scrollBarSize = 5
         }
-
+        snapHelperAttached = true
         translatePresenter.providePairSetList()
     }
 
@@ -168,13 +175,16 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         val restartDialog = restartDialogBuilder.create()
 
         val restartDialogBinding = DialogRemoveItemBinding.bind(restartDialogView)
-        restartDialogBinding.tvRemoveDialogTitle.text = pairSetName
+        restartDialogBinding.tvRemoveDialogTitle.text =
+            getString(R.string.dt_restart_test_dialog_title, pairSetName)
         restartDialogBinding.tvRemoveDialogMessage.text =
-            "Вы действительно хотите начать тест заново?"
+            getString(R.string.dt_restart_test_dialog_message)
 
         val btnCancelRestart = restartDialogBinding.btnCancelRemove
+        btnCancelRestart.text = getString(R.string.dt_restart_test_dialog_negative_btn)
+
         val btnRestartTest = restartDialogBinding.btnRemovePair
-        btnRestartTest.text = "Рестарт"
+        btnRestartTest.text = getString(R.string.dt_restart_test_dialog_positive_btn)
         btnRestartTest.setTextColor(
             ResourcesCompat.getColor(
                 resources,
@@ -227,9 +237,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     }
 
-    override fun updateAnsweredProgress(answeredPairCount: Int) {
-        ObjectAnimator.ofInt(progressBar, "progress", answeredPairCount)
-            .setDuration(320).start()
+    override fun updateAnsweredProgress(answeredPairCount: Int, duration: Long) {
+        ObjectAnimator.ofInt(progressBar, "progress", answeredPairCount).setDuration(duration)
+            .start()
         progressBar.progress = answeredPairCount
     }
 
@@ -246,6 +256,23 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             submitData(testedPairList)
             notifyDataSetChanged()
         }
+    }
+
+    override fun detachSnapHelperFromRecyclerView() {
+        if (snapHelperAttached) {
+            translateSnapHelper.attachToRecyclerView(null)
+            etAnswerInputLayout.visibility = View.GONE
+
+        } else {
+            questRecycler.attachSnapHelperWithListener(
+                snapHelper = translateSnapHelper,
+                onSnapPositionChangeListener = this@TranslateFragment
+            )
+            etAnswerInputLayout.visibility = View.VISIBLE
+        }
+        snapHelperAttached = !snapHelperAttached
+
+
     }
 
 

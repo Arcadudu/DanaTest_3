@@ -39,7 +39,6 @@ class PairSetAdapter :
 
     fun filterList(filteredList: MutableList<PairSet>) {
         itemList = filteredList
-        notifyDataSetChanged()
     }
 
 

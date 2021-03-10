@@ -35,6 +35,8 @@ import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
 import ru.arcadudu.danatest_v030.utils.drawableToBitmap
+import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
+//import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
 import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
@@ -54,7 +56,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var etPairSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var pairRecyclerView: RecyclerView
     private lateinit var pairRowAdapter: PairRowAdapter
     private lateinit var fabAddPair: FloatingActionButton
 
@@ -73,9 +75,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
 
-        recyclerView = activityWsEditorBinding.pairsRecycler
-        preparePairRecycler(recyclerView)
-        initRecyclerSwiper(recyclerView)
+        pairRecyclerView = activityWsEditorBinding.pairsRecycler
+        preparePairRecycler(pairRecyclerView)
+        initRecyclerSwiper(pairRecyclerView)
 
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
         addTextWatcher(etPairSearchField)
@@ -165,6 +167,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         pairsetEditorPresenter.providePairList()
         pairRowAdapter.onItemClickCallback(this)
+//        recyclerLayoutAnimation(targetRecyclerView)
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -472,6 +475,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     override fun obtainFilteredList(filteredList: MutableList<Pair>) {
         pairRowAdapter.filterList(filteredList)
+        pairRowAdapter.notifyDataSetChanged()
+        recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
     }
 
 
@@ -502,7 +507,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             submitPairs(updatedPairList)
             notifyItemInserted(0)
         }
-        recyclerView.scrollToPosition(0)
+        pairRecyclerView.scrollToPosition(0)
     }
 
     override fun updateRecyclerOnEditedPair(updatedPairList: MutableList<Pair>, position: Int) {

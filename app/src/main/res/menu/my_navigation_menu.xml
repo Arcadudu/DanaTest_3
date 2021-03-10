@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/profile_item"
-        android:title="@string/menu_item_profile_title"
+        android:title="@string/dt_bottom_navigation_profile"
         android:icon="@drawable/icon_menu_item_profile"/>
     <item android:id="@+id/wordset_item"
-        android:title="@string/menu_item_pair_set_title"
+        android:title="@string/dt_bottom_navigation_main_title"
         android:icon="@drawable/icon_menu_item_home"/>
     <item android:id="@+id/settings_item"
-        android:title="@string/menu_item_settings_title"
+        android:title="@string/dt_bottom_navigation_settings"
         android:icon="@drawable/icon_menu_item_settings" />
 
 </menu>

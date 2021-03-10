@@ -19,6 +19,7 @@
             android:layout_height="45dp"
             android:background="@color/white"
             android:elevation="0dp"
+            app:itemIconSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

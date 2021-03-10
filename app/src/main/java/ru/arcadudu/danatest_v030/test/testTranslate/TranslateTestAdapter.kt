@@ -24,6 +24,7 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PairSelectorViewHolder {
         return PairSelectorViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.value_translate_row, parent, false)
@@ -46,11 +47,22 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
     inner class PairSelectorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ValueTranslateRowBinding.bind(itemView)
         private val questWordItem = binding.questPairValue
+//        private val scrollCounter = binding.tvOnScrollCounter
+
+        init {
+            itemView.setOnLongClickListener{
+//                scrollCounter.visibility = View.VISIBLE
+                translateFragmentImpl.detachSnapHelperFromRecyclerView()
+                true
+            }
+        }
 
         fun bind(pair: Pair) {
             questWordItem.text = pair.pairValue.capitalize(Locale.ROOT ).trim()
-            
+//            scrollCounter.text = bindingAdapterPosition.toString()
         }
+
+
 
 
     }
