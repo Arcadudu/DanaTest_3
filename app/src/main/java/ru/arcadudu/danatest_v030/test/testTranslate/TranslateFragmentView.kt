@@ -35,7 +35,7 @@ interface TranslateFragmentView : MvpView {
     fun updateRecyclerOnRestart(testedPairList: MutableList<Pair>)
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun detachSnapHelperFromRecyclerView()
+    fun onAdapterLongClick()
 
 
 }

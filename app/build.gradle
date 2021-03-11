@@ -61,6 +61,7 @@ dependencies {
     kapt "com.github.moxy-community:moxy-compiler:2.2.1"
     implementation "com.github.moxy-community:moxy-app-compat:2.2.1"
 
-
+    //FastScroll
+    implementation 'me.zhanghai.android.fastscroll:library:1.1.4'
 
 }

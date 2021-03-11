@@ -24,17 +24,18 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-<!--    <com.google.android.material.textview.MaterialTextView-->
-<!--        android:id="@+id/tv_on_scroll_counter"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="1"-->
-<!--        android:textSize="24sp"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:layout_gravity="end|top"-->
-<!--        android:paddingEnd="4dp"-->
-<!--        android:paddingTop="4dp"-->
-<!--        android:visibility="gone"/>-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_on_scroll_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_gravity="end|top"
+        android:paddingEnd="14dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:visibility="gone"/>
 
 <!--    <com.google.android.material.textview.MaterialTextView-->
 <!--        android:id="@+id/quest_pair_value"-->

@@ -36,6 +36,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/et_translate_fragment_answer_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxBackgroundColor="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -55,9 +59,18 @@
             android:textSize="22sp"
             android:inputType="textVisiblePassword"/>
 
-
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_counterLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="0/12"
+        android:paddingEnd="18dp"
+        android:paddingTop="4dp"/>
 
 
     <ImageView
@@ -80,6 +93,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:scrollbars="horizontal"
+        android:scrollbarSize="0dp"
+        android:scrollbarThumbHorizontal="@color/dt3_brand_violet_70"
         android:layoutAnimation="@anim/layout_fade_in_anim"
         app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintEnd_toEndOf="parent"
