@@ -68,9 +68,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="0/12"
-        android:paddingEnd="18dp"
-        android:paddingTop="4dp"/>
+        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        android:paddingEnd="20dp"
+        android:paddingTop="6dp"/>
 
 
     <ImageView

@@ -50,6 +50,7 @@
     <string name="dt_test_translate_fragment_toolbar_action_restart_test">Начать заново</string>
     <string name="dt_test_translate_fragment_toolbar_action_end_test">Завершить тест</string>
     <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>
+    <string name="dt_test_translate_fragment_counter_line">Решено</string>
     <!--restartTestDialog-->
     <string name="dt_restart_test_dialog_title">%1$s</string>
     <string name="dt_restart_test_dialog_message">Вы действительно хотите начать тест заново?</string>

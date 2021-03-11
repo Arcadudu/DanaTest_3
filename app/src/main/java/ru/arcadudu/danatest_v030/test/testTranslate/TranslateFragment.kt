@@ -218,7 +218,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     ) {
         tvCounterLine.text = getString(
             R.string.dt_test_translate_fragment_toolbar_subtitle,
-            testedPairSetName.capitalize(Locale.ROOT).trim(),
+            getString(R.string.dt_test_translate_fragment_counter_line).capitalize(Locale.ROOT)
+                .trim(),
             pairListCount,
             pairListOriginalCount
         )
@@ -281,14 +282,14 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     override fun onAdapterLongClick() {
         if (snapHelperAttached) {
-            onDetachSnapHelperFromRecyclerView(questRecycler)
+            detachSnapHelperFromRecyclerView(questRecycler)
         } else {
-            onAttachSnapHelperToRecyclerView(questRecycler)
+            attachSnapHelperToRecyclerView(questRecycler)
         }
     }
 
 
-    private fun onAttachSnapHelperToRecyclerView(targetRecyclerView: RecyclerView) {
+    private fun attachSnapHelperToRecyclerView(targetRecyclerView: RecyclerView) {
         targetRecyclerView.apply {
             attachSnapHelperWithListener(
                 translateSnapHelper,
@@ -299,17 +300,32 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         }
         etAnswerInputLayout.visibility = View.VISIBLE
         etAnswerInputLayout.editText?.text = null
+        tvCounterLine.setTextColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.dt3_hint_color_black_50,
+                activity?.theme
+            )
+        )
+        progressBar.visibility = View.VISIBLE
 
     }
 
-    private fun onDetachSnapHelperFromRecyclerView(targetRecyclerView: RecyclerView) {
+    private fun detachSnapHelperFromRecyclerView(targetRecyclerView: RecyclerView) {
         translateSnapHelper.attachToRecyclerView(null)
         questRecycler.scrollBarSize = 8
         snapHelperAttached = false
         showConfirmButton(true)
         etAnswerInputLayout.visibility = View.GONE
         btnConfirmAnswer.visibility = View.GONE
-
+        tvCounterLine.setTextColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.dt3_brand_violet_100,
+                activity?.theme
+            )
+        )
+        progressBar.visibility = View.GONE
     }
 
 
