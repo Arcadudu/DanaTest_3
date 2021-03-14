@@ -19,9 +19,9 @@
             android:minHeight="?attr/actionBarSize"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
+            app:layout_scrollFlags="scroll|snapMargins"
             app:menu="@menu/pairset_fragment_menu"
-            app:layout_scrollFlags="scroll|snap"
-            app:subtitle="@string/dt_pairset_fragment_toolbar_subtitle"
+            app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             app:title="@string/dt_pairset_fragment_toolbar_title"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_scrollFlags="noScroll|enterAlwaysCollapsed">
+            app:layout_scrollFlags="noScroll|enterAlwaysCollapsed|snapMargins">
 
 
             <EditText
@@ -72,9 +72,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
+        android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
         android:paddingBottom="4dp"
         android:scrollbarSize="3dp"
-        android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbVertical="@color/dt3_hint_color_black_50"
         android:scrollbars="vertical"

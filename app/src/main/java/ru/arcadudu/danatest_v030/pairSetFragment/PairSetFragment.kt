@@ -113,7 +113,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
         val popUpMenuDrawable = ResourcesCompat.getDrawable(
             resources,
-            R.drawable.icon_menu_item_settings,
+            R.drawable.icon_hamgburger_menu_brand,
             activity?.theme
         )
         targetToolbar.overflowIcon = popUpMenuDrawable
@@ -343,7 +343,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             dismissedWithAction = true
             removeDialog.dismiss()
         }
-
         removeDialog.show()
 
     }

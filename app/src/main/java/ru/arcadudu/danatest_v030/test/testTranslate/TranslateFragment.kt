@@ -144,7 +144,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         translatePresenter.provideDataForToolbar()
     }
 
-
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
         translateAdapter.translateAdapterCallback(this)
@@ -162,7 +161,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
                 snapHelper = translateSnapHelper,
                 onSnapPositionChangeListener = this@TranslateFragment
             )
-
         }
         snapHelperAttached = true
         translatePresenter.provideShuffledPairList()
@@ -182,16 +180,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         val restartDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         restartDialogBuilder.setView(restartDialogView)
         val restartDialog = restartDialogBuilder.create()
-
         val restartDialogBinding = DialogRemoveItemBinding.bind(restartDialogView)
         restartDialogBinding.tvRemoveDialogTitle.text =
             getString(R.string.dt_restart_test_dialog_title, pairSetName)
         restartDialogBinding.tvRemoveDialogMessage.text =
             getString(R.string.dt_restart_test_dialog_message)
-
         val btnCancelRestart = restartDialogBinding.btnCancelRemove
         btnCancelRestart.text = getString(R.string.dt_restart_test_dialog_negative_btn)
-
         val btnRestartTest = restartDialogBinding.btnRemovePair
         btnRestartTest.text = getString(R.string.dt_restart_test_dialog_positive_btn)
         btnRestartTest.setTextColor(
@@ -201,16 +196,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
                 activity?.theme
             )
         )
-
         btnCancelRestart.setOnClickListener {
             restartDialog.dismiss()
         }
-
         btnRestartTest.setOnClickListener {
             translatePresenter.restartTranslateTest()
             restartDialog.dismiss()
         }
-
         restartDialog.show()
     }
 
