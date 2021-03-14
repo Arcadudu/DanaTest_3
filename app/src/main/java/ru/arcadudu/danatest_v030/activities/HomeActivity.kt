@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.ActivityMainBinding
-import ru.arcadudu.danatest_v030.fragments.*
+import ru.arcadudu.danatest_v030.fragments.HomeFragment
+import ru.arcadudu.danatest_v030.fragments.ProfileFragment
+import ru.arcadudu.danatest_v030.fragments.SettingsFragment
 import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragment
 
 class HomeActivity : AppCompatActivity() {
@@ -33,20 +35,20 @@ class HomeActivity : AppCompatActivity() {
         settingsFragment = SettingsFragment()
         setFragment(wordSetFragment)
 
-        bottomNavigationView = binding.myNavigationBar.apply {
-            selectedItemId = R.id.wordset_item
-            setOnNavigationItemSelectedListener { item ->
-                val selectedFragment: Fragment =
-                    when (item.itemId) {
-                        R.id.profile_item -> profileFragment
-                        R.id.wordset_item -> wordSetFragment
-                        R.id.settings_item -> settingsFragment
-                        else -> homeFragment
-                    }
-                setFragment(selectedFragment)
-                true
-            }
-        }
+//        bottomNavigationView = binding.myNavigationBar.apply {
+//            selectedItemId = R.id.wordset_item
+//            setOnNavigationItemSelectedListener { item ->
+//                val selectedFragment: Fragment =
+//                    when (item.itemId) {
+//                        R.id.profile_item -> profileFragment
+//                        R.id.wordset_item -> wordSetFragment
+//                        R.id.settings_item -> settingsFragment
+//                        else -> homeFragment
+//                    }
+//                setFragment(selectedFragment)
+//                true
+//            }
+//        }
     }
 
     private fun setFragment(fragment: Fragment) {

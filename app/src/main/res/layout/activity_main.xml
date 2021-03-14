@@ -13,25 +13,25 @@
 
 
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/my_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:elevation="0dp"
-            app:itemIconSize="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/my_navigation_menu" />
+<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--            android:id="@+id/my_navigation_bar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:background="@color/white"-->
+<!--            android:elevation="0dp"-->
+<!--            app:itemIconSize="24dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:menu="@menu/my_navigation_menu" />-->
 
         <FrameLayout
             android:id="@+id/fl_fragment_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:elevation="6dp"
-            app:layout_constraintBottom_toTopOf="@id/my_navigation_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
