@@ -3,11 +3,13 @@ package ru.arcadudu.danatest_v030.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorView
+import ru.arcadudu.danatest_v030.utils.PairDiffUtil
 import java.util.*
 
 class
@@ -16,8 +18,12 @@ PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
     private lateinit var pair: Pair
     private lateinit var activityImplementation: PairsetEditorView
 
-    fun submitPairs(list: MutableList<Pair>) {
-        pairList = list
+
+    fun submitPairs(newList: MutableList<Pair>) {
+        val pairDiffUtil = PairDiffUtil(pairList, newList)
+        val diffResult = DiffUtil.calculateDiff(pairDiffUtil)
+        pairList = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun onItemClickCallback(activityImplementation: PairsetEditorView) {

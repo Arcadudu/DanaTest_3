@@ -279,6 +279,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         } else {
             toTestMode(questRecycler)
         }
+        Log.d("aaa", "onAdapterItemClick: snapHelperAttached = $snapHelperAttached ")
     }
 
 
