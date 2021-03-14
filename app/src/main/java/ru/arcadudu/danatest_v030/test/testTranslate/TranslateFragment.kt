@@ -18,6 +18,8 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
+import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator
+import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import moxy.MvpAppCompatActivity
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
@@ -164,6 +166,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         }
         snapHelperAttached = true
         translatePresenter.provideShuffledPairList()
+        HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
+        //RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        //new HorizontalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
     }
 
 

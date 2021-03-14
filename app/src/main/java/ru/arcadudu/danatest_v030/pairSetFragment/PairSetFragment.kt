@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
+import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -238,8 +240,17 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         }
 
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        VerticalOverScrollBounceEffectDecorator(
+            RecyclerViewOverScrollDecorAdapter(
+                recyclerView,
+                itemTouchHelperCallback
+            )
+        )
+
+        /* In case of overScroll decoration is not needed -
+        * uncomment the following: */
+//        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+//        itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
 
