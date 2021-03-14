@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/dt_test_translate_fragment_toolbar_title"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
+        app:title="@string/dt_test_translate_fragment_toolbar_title"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -29,24 +29,24 @@
         android:maxHeight="4dp"
         android:minHeight="4dp"
         android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
-        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintStart_toStartOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"/>
+        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/et_translate_fragment_answer_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxBackgroundColor="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:hint="@string/dt_test_translate_fragment_answerfield_hint"
-        app:counterEnabled="false"
         android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:counterEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +56,8 @@
             style="@style/dt_TextInputEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:inputType="textVisiblePassword"/>
+            android:inputType="textVisiblePassword"
+            android:textSize="22sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,11 +66,12 @@
         android:id="@+id/tv_counterLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        android:paddingTop="6dp"
         android:paddingEnd="20dp"
-        android:paddingTop="6dp"/>
+        android:paddingStart="20dp"
+        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
 
 
     <ImageView
@@ -90,17 +91,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/translate_quest_recycler"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/layout_fall_down_anim"
         android:orientation="horizontal"
+        android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
         android:scrollbars="horizontal"
-        android:scrollbarSize="0dp"
-        android:scrollbarThumbHorizontal="@color/dt3_brand_violet_70"
-        android:layoutAnimation="@anim/layout_fade_in_anim"
-        app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
+        android:fadeScrollbars="true"
+        app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

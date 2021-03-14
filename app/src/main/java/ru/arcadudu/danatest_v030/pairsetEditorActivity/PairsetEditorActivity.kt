@@ -33,10 +33,9 @@ import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
+import ru.arcadudu.danatest_v030.utils.CONST_PAIRSET_TO_TEST_TAG
 import ru.arcadudu.danatest_v030.utils.drawableToBitmap
 import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
-//import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
 import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
@@ -119,7 +118,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
 
         pairsetEditorPresenter.deliverWordSetForTest()
-        toTestIntent.putExtra(CONST_PAIR_SET_TO_TEST_TAG, pairSetForTesting)
+        toTestIntent.putExtra(CONST_PAIRSET_TO_TEST_TAG, pairSetForTesting)
         startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
     }
@@ -167,7 +166,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         pairsetEditorPresenter.providePairList()
         pairRowAdapter.onItemClickCallback(this)
-//        recyclerLayoutAnimation(targetRecyclerView)
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -237,7 +235,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     val iconBitmap = drawableToBitmap(icon as Drawable)
 
 
-                    val icon_dest = RectF(
+                    val iconNest = RectF(
                         itemView.right.toFloat() - 2 * itemViewWidth,
                         itemView.top.toFloat() + itemViewWidth,
                         itemView.right.toFloat() - itemViewWidth,
@@ -245,7 +243,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     )
 
                     if (iconBitmap != null) {
-                        canvas.drawBitmap(iconBitmap, null, icon_dest, paint)
+                        canvas.drawBitmap(iconBitmap, null, iconNest, paint)
                     }
 
                 }

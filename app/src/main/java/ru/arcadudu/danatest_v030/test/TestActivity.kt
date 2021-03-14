@@ -14,7 +14,7 @@ import ru.arcadudu.danatest_v030.test.resultFragment.ResultFragment
 import ru.arcadudu.danatest_v030.test.testShuffle.ShuffleFragment
 import ru.arcadudu.danatest_v030.test.testTranslate.TranslateFragment
 import ru.arcadudu.danatest_v030.test.testVariants.VariantsFragment
-import ru.arcadudu.danatest_v030.utils.CONST_PAIR_SET_TO_TEST_TAG
+import ru.arcadudu.danatest_v030.utils.CONST_PAIRSET_TO_TEST_TAG
 
 private const val CONST_TRANSLATE_FRAGMENT_ID = "TRANSLATE_FRAGMENT_ID"
 private const val CONST_SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
@@ -35,7 +35,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         setContentView(view)
 
         val incomingIntent = intent
-        incomingPairSet = incomingIntent.getSerializableExtra(CONST_PAIR_SET_TO_TEST_TAG) as PairSet
+        incomingPairSet = incomingIntent.getSerializableExtra(CONST_PAIRSET_TO_TEST_TAG) as PairSet
         requestedTestFragmentId = incomingIntent.getStringExtra("testFragmentId") as String
 
         val bundle = Bundle()

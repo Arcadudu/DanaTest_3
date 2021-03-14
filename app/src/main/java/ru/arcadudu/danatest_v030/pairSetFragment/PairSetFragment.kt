@@ -78,6 +78,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
 
         toolbar = fragmentWordSetBinding.toolbar
+        prepareToolbar(toolbar)
 
         val context = context
         if (context != null) {
@@ -107,6 +108,15 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     }
 
+    private fun prepareToolbar(targetToolbar: MaterialToolbar) {
+        val popUpMenuDrawable = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.icon_menu_item_settings,
+            activity?.theme
+        )
+        targetToolbar.overflowIcon = popUpMenuDrawable
+    }
+
     private fun showBtnClear(isStringEmpty: Boolean) {
         btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
@@ -122,7 +132,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         })
     }
-
 
 
     private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {

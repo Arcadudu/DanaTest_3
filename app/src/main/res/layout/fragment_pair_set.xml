@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -19,8 +19,10 @@
             android:minHeight="?attr/actionBarSize"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
+            app:menu="@menu/pairset_fragment_menu"
             app:layout_scrollFlags="scroll|snap"
             app:subtitle="@string/dt_pairset_fragment_toolbar_subtitle"
+            app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             app:title="@string/dt_pairset_fragment_toolbar_title"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
@@ -78,7 +80,6 @@
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

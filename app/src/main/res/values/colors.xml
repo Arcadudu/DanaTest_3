@@ -29,6 +29,7 @@
     <color name="dt3_on_brand_white">#ffffff</color>
     <color name="dt3_error_red">#FF8A80</color>
 
+    <color name="dt3_hint_color_black_70">#B3000000</color>
     <color name="dt3_hint_color_black_50">#80000000</color>
     <color name="dt3_hint_color_black_30">#4D000000</color>
 

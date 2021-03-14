@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -69,14 +71,11 @@ fun MvpAppCompatActivity.vibratePhone(milliSeconds: Long) {
     }
 }
 
-//private fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView){
-//        val context = targetRecyclerView.context
-//        val animationController:LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down_anim)
-//        targetRecyclerView.layoutAnimation = animationController
-//        targetRecyclerView.adapter?.notifyDataSetChanged()
-//        targetRecyclerView.scheduleLayoutAnimation()
-//
-//    }
+fun MvpAppCompatActivity.forceHideKeyboard(view: View) {
+    val inputMethodManager =
+        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
 
 
 

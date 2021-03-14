@@ -39,10 +39,11 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     }
 
 
-    fun providePairSetList() {
+    fun provideShuffledPairList() {
         testedPairList.shuffle()
         viewState.initPairList(testedPairList)
     }
+
 
     fun onRestartButton() {
         viewState.showOnRestartDialog(pairSetName = testedPairSetName)
@@ -50,7 +51,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
 
     fun provideDataForToolbar() {
-        viewState.updateToolbar(testedPairSetName, answeredPairCount, originPairListCount)
+        viewState.updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
     }
 
     fun checkAnswerAndDismiss(inputAnswer: String, answerPosition: Int) {
@@ -63,7 +64,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         }
 
         viewState.apply {
-            updateToolbar(testedPairSetName, answeredPairCount, originPairListCount)
+            updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
             updateRecyclerOnRemoved(testedPairList, answerPosition)
             updateAnsweredProgress(
                 answeredPairCount * Companion.progressMultiplier,
@@ -86,7 +87,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
             shuffle()
         }
         viewState.apply {
-            updateToolbar(testedPairSetName, answeredPairCount, testedPairList.count())
+            updateCounterLine(testedPairSetName, answeredPairCount, testedPairList.count())
             initPairList(testedPairList)
             updateAnsweredProgress(answeredPairCount, restartProgressDuration.toLong())
         }

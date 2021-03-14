@@ -14,7 +14,7 @@ interface TranslateFragmentView : MvpView {
     @StateStrategyType(value = SkipStrategy::class)
     fun showOnRestartDialog(pairSetName: String)
 
-    fun updateToolbar(
+    fun updateCounterLine(
         testedPairSetName: String, pairListCount: Int, pairListOriginalCount: Int
     )
 
@@ -34,8 +34,9 @@ interface TranslateFragmentView : MvpView {
     @StateStrategyType(value = SkipStrategy::class)
     fun updateRecyclerOnRestart(testedPairList: MutableList<Pair>)
 
-    @StateStrategyType(value = SkipStrategy::class)
-    fun onAdapterLongClick()
+    fun getLayoutPosition(layoutPosition: Int)
+
+    fun onAdapterItemClick()
 
 
 }

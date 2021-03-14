@@ -18,7 +18,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
-import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import moxy.MvpAppCompatActivity
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -29,9 +29,9 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
+import ru.arcadudu.danatest_v030.utils.forceHideKeyboard
 import java.util.*
 
-private const val PAIR_SET_TO_TEST_TAG = "wordSetToTestTag"
 
 class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     OnSnapPositionChangeListener {
@@ -112,8 +112,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
         progressBar = translateBinding.translateTestProgressbar
         translatePresenter.getProgressMax()
-
-
     }
 
 
@@ -151,6 +149,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         translateSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
+            isHorizontalScrollBarEnabled = false
             adapter = translateAdapter
             layoutManager = LinearLayoutManager(
                 activity,
@@ -163,9 +162,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             )
 
         }
-        FastScrollerBuilder(targetRecycler).build()
         snapHelperAttached = true
-        translatePresenter.providePairSetList()
+        translatePresenter.provideShuffledPairList()
     }
 
 
@@ -211,32 +209,21 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         restartDialog.show()
     }
 
-    override fun updateToolbar(
+    override fun updateCounterLine(
         testedPairSetName: String,
         pairListCount: Int,
         pairListOriginalCount: Int
     ) {
         tvCounterLine.text = getString(
-            R.string.dt_test_translate_fragment_toolbar_subtitle,
-            getString(R.string.dt_test_translate_fragment_counter_line).capitalize(Locale.ROOT)
-                .trim(),
+            R.string.dt_test_translate_fragment_counter_body,
             pairListCount,
             pairListOriginalCount
-        )
+        ).capitalize(Locale.ROOT)
+            .trim()
+
+
     }
 
-    //    override fun updateToolbar(
-//        testedPairSetName: String,
-//        pairListCount: Int,
-//        pairListOriginalCount: Int
-//    ) {
-//        toolbar.subtitle = getString(
-//            R.string.dt_test_translate_fragment_toolbar_subtitle,
-//            testedPairSetName.capitalize(Locale.ROOT).trim(),
-//            pairListCount,
-//            pairListOriginalCount
-//        )
-//    }
 
     override fun initPairList(testedPairList: MutableList<Pair>) {
         translateAdapter.apply {
@@ -275,57 +262,53 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         translateAdapter.apply {
             submitData(testedPairList)
             notifyDataSetChanged()
-            onAdapterLongClick()
+            onAdapterItemClick()
 
         }
     }
 
-    override fun onAdapterLongClick() {
+    override fun getLayoutPosition(layoutPosition: Int) {
+        if (!snapHelperAttached) {
+            tvCounterLine.text = layoutPosition.toString()
+        }
+    }
+
+    override fun onAdapterItemClick() {
         if (snapHelperAttached) {
-            detachSnapHelperFromRecyclerView(questRecycler)
+            toScrollMode(questRecycler)
         } else {
-            attachSnapHelperToRecyclerView(questRecycler)
+            toTestMode(questRecycler)
         }
     }
 
 
-    private fun attachSnapHelperToRecyclerView(targetRecyclerView: RecyclerView) {
+    private fun toTestMode(targetRecyclerView: RecyclerView) {
+        snapHelperAttached = true
         targetRecyclerView.apply {
             attachSnapHelperWithListener(
                 translateSnapHelper,
                 onSnapPositionChangeListener = this@TranslateFragment
             )
-            scrollBarSize = 0
-            snapHelperAttached = true
+            isHorizontalScrollBarEnabled = false
         }
         etAnswerInputLayout.visibility = View.VISIBLE
         etAnswerInputLayout.editText?.text = null
-        tvCounterLine.setTextColor(
-            ResourcesCompat.getColor(
-                resources,
-                R.color.dt3_hint_color_black_50,
-                activity?.theme
-            )
-        )
+        tvCounterLine.visibility = View.VISIBLE
         progressBar.visibility = View.VISIBLE
-
     }
 
-    private fun detachSnapHelperFromRecyclerView(targetRecyclerView: RecyclerView) {
-        translateSnapHelper.attachToRecyclerView(null)
-        questRecycler.scrollBarSize = 8
+
+    /**/
+    private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
+        (activity as? MvpAppCompatActivity)?.forceHideKeyboard(etAnswerInputLayout)
+        translateSnapHelper.attachToRecyclerView(null)
         showConfirmButton(true)
         etAnswerInputLayout.visibility = View.GONE
         btnConfirmAnswer.visibility = View.GONE
-        tvCounterLine.setTextColor(
-            ResourcesCompat.getColor(
-                resources,
-                R.color.dt3_brand_violet_100,
-                activity?.theme
-            )
-        )
         progressBar.visibility = View.GONE
+        tvCounterLine.visibility = View.GONE
+        targetRecyclerView.isHorizontalScrollBarEnabled = true
     }
 
 
