@@ -3,17 +3,19 @@ package ru.arcadudu.danatest_v030.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragmentView
+import ru.arcadudu.danatest_v030.utils.PairsetDiffUtil
 import java.util.*
 
 class PairSetAdapter :
     RecyclerView.Adapter<PairSetAdapter.PairSetViewHolder>() {
 
-    private var itemList: MutableList<PairSet> = mutableListOf()
+    private var pairsetList: MutableList<PairSet> = mutableListOf()
     private lateinit var pairSetFragmentImplementation: PairSetFragmentView
 
 
@@ -28,17 +30,27 @@ class PairSetAdapter :
     }
 
     override fun onBindViewHolder(holder: PairSetViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        holder.bind(pairsetList[position])
     }
 
-    override fun getItemCount() = itemList.count()
+    override fun getItemCount() = pairsetList.count()
 
-    fun submitList(list: MutableList<PairSet>) {
-        itemList = list
+    //fun submitPairs(newList: MutableList<Pair>) {
+    //        val pairDiffUtil = PairDiffUtil(pairList, newList)
+    //        val diffResult = DiffUtil.calculateDiff(pairDiffUtil)
+    //        pairList = newList
+    //        diffResult.dispatchUpdatesTo(this)
+    //    }
+
+    fun submitList(newPairsetList: MutableList<PairSet>) {
+        val pairsetDiffUtil = PairsetDiffUtil(pairsetList, newPairsetList)
+        val diffResult = DiffUtil.calculateDiff(pairsetDiffUtil)
+        pairsetList = newPairsetList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun filterList(filteredList: MutableList<PairSet>) {
-        itemList = filteredList
+        pairsetList = filteredList
     }
 
 
@@ -49,7 +61,7 @@ class PairSetAdapter :
 
         init {
             itemView.setOnClickListener {
-                val chosenPairSet = itemList[bindingAdapterPosition]
+                val chosenPairSet = pairsetList[bindingAdapterPosition]
                 pairSetFragmentImplementation.putPairSetIntoIntent(chosenPairSet)
                            }
         }
