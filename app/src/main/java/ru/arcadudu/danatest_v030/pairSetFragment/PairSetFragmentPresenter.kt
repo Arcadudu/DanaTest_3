@@ -67,6 +67,12 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         )
     }
 
+    fun onSwipedRight(swipePosition: Int) {
+        val chosenPairset = pairSetList[swipePosition]
+        viewState.showStartTestDialog(chosenPairset)
+
+    }
+
     fun removePairSetAtPosition(position: Int) {
         pairSetList.removeAt(position)
         viewState.updateRecyclerOnRemoved(pairSetList, position)
@@ -99,5 +105,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         )
         viewState.updateRecyclerOnAdded(pairSetList)
     }
+
+
 
 }

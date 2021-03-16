@@ -63,6 +63,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     private lateinit var incomingPairSet: PairSet
 
     private var currentSnapPosition = 0
+    private var shufflePairset = false
     private var snapHelperAttached = false
 
 
@@ -79,6 +80,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         translateBinding = FragmentTestTranslateBinding.bind(view)
 
         incomingPairSet = arguments?.getSerializable("pairSet") as PairSet
+        shufflePairset = arguments?.getBoolean("shuffle", false)!!
         translatePresenter.obtainTestedPairSet(incomingPairSet)
 
         toolbar = translateBinding.translateToolbar
@@ -98,36 +100,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
                 showConfirmButton(s.toString().isNotEmpty())
             }
         })
-
-        //editText.setOnFocusChangeListener { view, hasFocus ->
-        //    if(!hasFocus) {
-        //
-        //    }
-        //}
-
-
-        
-        // @Override
-        //  public boolean dispatchTouchEvent(MotionEvent event) {
-        //    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        //      View v = getCurrentFocus();
-        //      if (v instanceof EditText) {
-        //        Rect outRect = new Rect();
-        //        v.getGlobalVisibleRect(outRect);
-        //        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-        //          v.clearFocus();
-        //          InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        //          imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        //        }
-        //      }
-        //    }
-        //    return super.dispatchTouchEvent( event );
-        //  }
-        //}
-
-
-
-
 
         tvCounterLine = translateBinding.tvCounterLine
 
@@ -193,7 +165,12 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             )
         }
         snapHelperAttached = true
-        translatePresenter.provideShuffledPairList()
+        if (shufflePairset) {
+            translatePresenter.provideShuffledPairList()
+        } else {
+            translatePresenter.provideOrderedPairList()
+        }
+
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
         //RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         //new HorizontalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
@@ -230,7 +207,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             restartDialog.dismiss()
         }
         btnRestartTest.setOnClickListener {
-            translatePresenter.restartTranslateTest()
+            translatePresenter.restartTranslateTest(shufflePairset)
             restartDialog.dismiss()
         }
         restartDialog.show()
@@ -309,7 +286,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         Log.d("aaa", "onAdapterItemClick: snapHelperAttached = $snapHelperAttached ")
     }
 
-
+    /* Enables snap scrolling behavior
+     and makes visible answer field editText with
+     according test elements */
     private fun toTestMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = true
         targetRecyclerView.apply {
@@ -326,7 +305,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     }
 
 
-    /**/
+    /* Disables snap and hides most of interactive elements,
+     leaving only itemList, restart and endTest buttons.*/
     private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
         (activity as? MvpAppCompatActivity)?.forceHideKeyboard(etAnswerInputLayout)

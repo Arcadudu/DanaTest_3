@@ -17,7 +17,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:gravity="start"
-            android:text="@string/dt_start_test_dialog_title"
             android:textAppearance="@style/TextAppearance.dt_widgetTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:hint="Тест:"
+            android:hint="@string/dt_start_test_dialog_input_layout_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
             app:boxBackgroundColor="@color/dt3_on_brand_white"
             app:counterEnabled="false"
@@ -49,7 +48,7 @@
             android:id="@+id/shuffle_pairSet_checkBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Перемешать набор"
+            android:text="@string/dt_start_test_dialog_shuffle_checkbox"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@id/inputLayout_autoCompleteTestCase"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_autoCompleteTestCase"
@@ -63,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="Начать"
+            android:text="@string/dt_start_test_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/shuffle_pairSet_checkBox" />
 
@@ -72,7 +71,7 @@
             android:id="@+id/btn_cancel_start_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Отмена"
+            android:text="@string/dt_start_test_dialog_negative_btn"
             app:layout_constraintEnd_toStartOf="@id/btn_start_test"
             app:layout_constraintTop_toTopOf="@id/btn_start_test" />
 

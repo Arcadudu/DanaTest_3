@@ -18,7 +18,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +36,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogStartTestBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
+import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.drawableToBitmap
 import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
 import ru.arcadudu.danatest_v030.utils.vibratePhone
@@ -178,7 +178,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     }
 
                     ItemTouchHelper.RIGHT -> {
-                        showStartTestDialog()
+                        vibratePhone(50)
+                        pairSetPresenter.onSwipedRight(position)
+
                     }
                 }
             }
@@ -261,46 +263,51 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     }
 
-    override fun showStartTestDialog() {
+    override fun showStartTestDialog(chosenPairSet: PairSet) {
         val startTestDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
         val startTestDialogView =
             this.layoutInflater.inflate(R.layout.dialog_start_test, null, false)
         startTestDialogBuilder.setView(startTestDialogView)
         val startTestDialog = startTestDialogBuilder.create()
         var dismissedWithAction = false
-        startTestDialog.setOnDismissListener{
-            if(!dismissedWithAction){
+        startTestDialog.setOnDismissListener {
+            if (!dismissedWithAction) {
                 pairSetAdapter.notifyDataSetChanged()
             }
         }
-        //removeDialog.setOnDismissListener {
-        //            if (!dismissedWithAction)
-        //                pairSetAdapter.notifyDataSetChanged()
-        //        }
 
         val startTestDialogBinding = DialogStartTestBinding.bind(startTestDialogView)
 
         startTestDialogBinding.tvStartTestDialogTitle.text =
             getString(R.string.dt_start_test_dialog_title)
-
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
         startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
 
+        //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {
             dismissedWithAction = true
-            Toast.makeText(activity, "positive btn pushed", Toast.LENGTH_SHORT).show()
-            startTestDialog.dismiss()
+            val shufflePairset = startTestDialogBinding.shufflePairSetCheckBox.isChecked
+            val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
+            val toTestIntent = Intent(this.activity, TestActivity::class.java)
+            toTestIntent.apply {
+                putExtra("shuffle", shufflePairset)
+                putExtra("test", chosenTest)
+                putExtra("pairset", chosenPairSet)
+            }
+
+            startActivity(toTestIntent)
+//            startTestDialog.dismiss()
         }
 
+        //negative btn
         startTestDialogBinding.btnCancelStartTest.setOnClickListener {
             Toast.makeText(activity, "negative btn pushed", Toast.LENGTH_SHORT).show()
             startTestDialog.dismiss()
         }
 
         startTestDialog.show()
-
     }
 
 
@@ -317,7 +324,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding = DialogAddPairSetBinding.bind(addPairSetDialogView)
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.dt_add_pairset_dialog_title)
-
 
         addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object :
             TextWatcher {
@@ -336,7 +342,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 inputPairSetDetails = s.toString().capitalize(Locale.ROOT).trim()
             }
         })
-
+        // positive btn
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
                 addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
@@ -351,6 +357,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         }
 
+        //negative btn
         addPairSetDialogBinding.btnCancelAddWordSet.setOnClickListener {
             addPairSetDialog.dismiss()
         }
@@ -370,7 +377,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
 
     override fun showRemovePairSetDialog(name: String, description: String, position: Int) {
-        Log.d("swipe", "showAddWordSetAlertDialog: method called")
         val removeDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)

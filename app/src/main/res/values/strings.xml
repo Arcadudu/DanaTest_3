@@ -23,11 +23,15 @@
     <string name="dt_remove_pairset_dialog_positive_btn">Удалить</string>
     <!--startTestDialog-->
     <string name="dt_start_test_dialog_title">Начать тест</string>
+    <string name="dt_start_test_dialog_input_layout_hint">Тест:</string>
     <string-array name="dt_test_names_array">
         <item>Прямой перевод</item>
         <item>Четыре варианта</item>
         <item>Перемешать</item>
     </string-array>
+    <string name="dt_start_test_dialog_shuffle_checkbox">Перемешать набор</string>
+    <string name="dt_start_test_dialog_negative_btn">Отмена</string>
+    <string name="dt_start_test_dialog_positive_btn">Начать</string>
     <!--/pairsetFragment-->
 
 

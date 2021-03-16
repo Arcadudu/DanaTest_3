@@ -14,19 +14,20 @@ import ru.arcadudu.danatest_v030.test.resultFragment.ResultFragment
 import ru.arcadudu.danatest_v030.test.testShuffle.ShuffleFragment
 import ru.arcadudu.danatest_v030.test.testTranslate.TranslateFragment
 import ru.arcadudu.danatest_v030.test.testVariants.VariantsFragment
-import ru.arcadudu.danatest_v030.utils.CONST_PAIRSET_TO_TEST_TAG
 
 private const val CONST_TRANSLATE_FRAGMENT_ID = "TRANSLATE_FRAGMENT_ID"
 private const val CONST_SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
 private const val CONST_VARIANTS_FRAGMENT_ID = "VARIANTS_FRAGMENT_ID"
 
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class TestActivity : MvpAppCompatActivity(), TestActivityView {
 
     private lateinit var binding: ActivityTestBinding
 
     private lateinit var incomingPairSet: PairSet
     private lateinit var requestedTestFragmentId: String
+    private var shufflePairSet = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +35,26 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         val view = binding.root
         setContentView(view)
 
+        /*entering from Pairset fragment*/
         val incomingIntent = intent
-        incomingPairSet = incomingIntent.getSerializableExtra(CONST_PAIRSET_TO_TEST_TAG) as PairSet
-        requestedTestFragmentId = incomingIntent.getStringExtra("testFragmentId") as String
+        incomingPairSet = incomingIntent.getSerializableExtra("pairset") as PairSet
+        requestedTestFragmentId = when (incomingIntent.getStringExtra("test")) {
+            getString(R.string.translate) -> CONST_TRANSLATE_FRAGMENT_ID
+            getString(R.string.variants) -> CONST_VARIANTS_FRAGMENT_ID
+            else -> CONST_SHUFFLE_FRAGMENT_ID
+        }
+        shufflePairSet = incomingIntent.getBooleanExtra("shuffle", false)
 
-        val bundle = Bundle()
-        bundle.putSerializable("pairSet", incomingPairSet)
 
-        setActiveTestFragment(requestedTestFragmentId, bundle)
+        val testFragmentBundle = Bundle()
+        testFragmentBundle.putSerializable("pairSet", incomingPairSet)
+        testFragmentBundle.putBoolean("shuffle", shufflePairSet)
+        setActiveTestFragment(requestedTestFragmentId, testFragmentBundle)
     }
 
-    private fun replaceFragment(targetFragment: Fragment) {
+    private fun replaceActiveTestFragment(targetFragment: Fragment) {
         Log.d("replace", "TestActivity: replaceFragment: callback ")
         supportFragmentManager.beginTransaction()
-
             .setCustomAnimations(
                 R.anim.frag_transition_enter_from_right_to_left,
                 R.anim.frag_transition_exit_from_right_to_left
@@ -67,7 +74,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
                 else -> onBackPressed()
             }
 
-        replaceFragment(targetFragment = testFragment as Fragment)
+        replaceActiveTestFragment(targetFragment = testFragment as Fragment)
     }
 
     override fun toolbarSupport(toolbar: MaterialToolbar) {
@@ -89,7 +96,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
             putInt("mistakes", mistakes)
         }
         val resultFragment = ResultFragment.getResultFragmentInstance(resultBundle)
-        replaceFragment(resultFragment)
+        replaceActiveTestFragment(resultFragment)
 
     }
 }
