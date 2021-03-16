@@ -21,6 +21,13 @@
     <string name="dt_remove_pairset_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="dt_remove_pairset_dialog_negative_btn">Отмена</string>
     <string name="dt_remove_pairset_dialog_positive_btn">Удалить</string>
+    <!--startTestDialog-->
+    <string name="dt_start_test_dialog_title">Начать тест</string>
+    <string-array name="dt_test_names_array">
+        <item>Прямой перевод</item>
+        <item>Четыре варианта</item>
+        <item>Перемешать</item>
+    </string-array>
     <!--/pairsetFragment-->
 
 

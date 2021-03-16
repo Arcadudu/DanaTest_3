@@ -22,6 +22,9 @@ interface PairSetFragmentView : MvpView {
     @StateStrategyType(value = SkipStrategy::class)
     fun showAddNewPairSetDialog()
 
+    @StateStrategyType(value = SkipStrategy::class)
+    fun showStartTestDialog()
+
     fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int)
 
     fun obtainFilteredList(filteredList: MutableList<PairSet>)
