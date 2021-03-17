@@ -448,10 +448,18 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         })
 
         addPairBinding.btnAddPair.setOnClickListener {
-            if (inputKey.isBlank()) inputKey = getString(R.string.emptyInputKey)
-            if (inputValue.isBlank()) inputValue = getString(R.string.emptyInputValue)
-            pairsetEditorPresenter.addNewPair(inputKey, inputValue)
-            addPairDialog.dismiss()
+            if(inputKey.isBlank() || inputValue.isBlank()){
+                if (inputKey.isBlank()) {
+                    etNewPairKey?.error = "Ключ не может быть пустым"
+                }
+                if (inputValue.isBlank()) {
+                    etNewPairValue?.error = "Значение не может быть пустым"
+                }
+            }else{
+                pairsetEditorPresenter.addNewPair(inputKey, inputValue)
+                addPairDialog.dismiss()
+            }
+
         }
 
         addPairBinding.btnCancelAddPair.setOnClickListener {

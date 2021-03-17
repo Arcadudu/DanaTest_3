@@ -296,20 +296,17 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 putExtra("test", chosenTest)
                 putExtra("pairset", chosenPairSet)
             }
-
             startActivity(toTestIntent)
 //            startTestDialog.dismiss()
         }
 
         //negative btn
         startTestDialogBinding.btnCancelStartTest.setOnClickListener {
-            Toast.makeText(activity, "negative btn pushed", Toast.LENGTH_SHORT).show()
             startTestDialog.dismiss()
         }
 
         startTestDialog.show()
     }
-
 
     override fun showAddNewPairSetDialog() {
         val addPairSetDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
@@ -353,7 +350,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     getString(R.string.add_pair_set_dialog_no_details)
                 pairSetPresenter.addNewPairSet(inputPairSetName, inputPairSetDetails)
                 addPairSetDialog.dismiss()
-
             }
         }
 
@@ -361,7 +357,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding.btnCancelAddWordSet.setOnClickListener {
             addPairSetDialog.dismiss()
         }
-
         addPairSetDialog.show()
     }
 
