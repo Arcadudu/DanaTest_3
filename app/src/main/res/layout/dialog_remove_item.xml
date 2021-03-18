@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="@string/dt_remove_pairset_dialog_positive_btn"
-            android:textColor="@color/dt3_error_red"
+            android:textColor="@color/dt3_error_red_100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_message" />
 

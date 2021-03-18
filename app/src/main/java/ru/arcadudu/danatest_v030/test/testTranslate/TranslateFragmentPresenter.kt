@@ -44,6 +44,10 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.initPairList(testedPairList)
     }
 
+    fun provideOrderedPairList() {
+        viewState.initPairList(testedPairList)
+    }
+
 
     fun onRestartButton() {
         viewState.showOnRestartDialog(pairSetName = testedPairSetName)
@@ -78,13 +82,14 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.setProgressMax(originPairListCount * Companion.progressMultiplier)
     }
 
-    fun restartTranslateTest() {
+    fun restartTranslateTest(shufflePairset: Boolean) {
         mistakeCount = 0
         answeredPairCount = 0
         testedPairList.apply {
             clear()
             addAll(backUpPairList)
-            shuffle()
+            if (shufflePairset)
+                shuffle()
         }
         viewState.apply {
             updateCounterLine(testedPairSetName, answeredPairCount, testedPairList.count())

@@ -21,6 +21,17 @@
     <string name="dt_remove_pairset_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="dt_remove_pairset_dialog_negative_btn">Отмена</string>
     <string name="dt_remove_pairset_dialog_positive_btn">Удалить</string>
+    <!--startTestDialog-->
+    <string name="dt_start_test_dialog_title">Начать тест</string>
+    <string name="dt_start_test_dialog_input_layout_hint">Тест:</string>
+    <string-array name="dt_test_names_array">
+        <item>Прямой перевод</item>
+        <item>Четыре варианта</item>
+        <item>Перемешать</item>
+    </string-array>
+    <string name="dt_start_test_dialog_shuffle_checkbox">Перемешать набор</string>
+    <string name="dt_start_test_dialog_negative_btn">Отмена</string>
+    <string name="dt_start_test_dialog_positive_btn">Начать</string>
     <!--/pairsetFragment-->
 
 
@@ -130,6 +141,7 @@
     <string name="edit_pair_dialog_edit_button_text">Редактировать пару</string>
     <string name="pair_set_fragment_title">Здесь хранятся доступные Вам наборы</string>
     <string name="dummy2">DummyDetails</string>
+    <string name="onEmptyPairsetMessage">Невозможно начать тест с пустым набором.</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 
