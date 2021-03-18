@@ -23,15 +23,14 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
         }
     }
 
-    fun getRedPaint(): Paint {
+    /*LEFT SWIPE*/
+    fun getLeftSwipePaint(): Paint {
         paint.color =
-            ResourcesCompat.getColor(context.resources, R.color.dt3_error_red_70, context.theme)
-        return paint
-    }
-
-    fun getVioletPaint(): Paint {
-        paint.color =
-            ResourcesCompat.getColor(context.resources, R.color.dt3_brand_violet_70, context.theme)
+            ResourcesCompat.getColor(
+                context.resources,
+                R.color.dt3_error_red_70,
+                context.theme
+            )
         return paint
     }
 
@@ -41,15 +40,6 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
             itemView.top.toFloat(),
             itemView.right.toFloat(),
             itemView.bottom.toFloat()
-        )
-    }
-
-    fun getLeftSwipeBackground(): RectF {
-        return RectF(
-            itemView.right.toFloat() - 2 * width,
-            itemView.top.toFloat() + width,
-            itemView.right.toFloat() - width,
-            itemView.bottom.toFloat() - width
         )
     }
 
@@ -63,6 +53,22 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
         return drawableToBitmap(iconDeleteDrawable as Drawable)
     }
 
+    fun getLeftSwipeIconDestination(): RectF {
+        return RectF(
+            itemView.right.toFloat() - 2 * width,
+            itemView.top.toFloat() + width,
+            itemView.right.toFloat() - width,
+            itemView.bottom.toFloat() - width
+        )
+    }
+
+
+    /*RIGHT SWIPE*/
+    fun getRightSwipePaint(): Paint {
+        paint.color =
+            ResourcesCompat.getColor(context.resources, R.color.dt3_brand_violet_70, context.theme)
+        return paint
+    }
 
     fun getRightSwipeBackground(horizontalOffset: Float): RectF {
         return RectF(
@@ -73,6 +79,13 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
         )
     }
 
+    fun getRightSwipeIcon(): Bitmap? {
+        val iconPlayTestDrawable: Drawable? =
+            ResourcesCompat.getDrawable(context.resources, R.drawable.icon_play_white, null)
+
+        return drawableToBitmap(iconPlayTestDrawable as Drawable)
+    }
+
     fun getRightSwipeIconDestination(): RectF {
         return RectF(
             itemView.left.toFloat() + width,
@@ -80,13 +93,6 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
             itemView.left.toFloat() + 2 * width,
             itemView.bottom.toFloat() - width
         )
-    }
-
-    fun getRightSwipeIcon(): Bitmap? {
-        val iconPlayTestDrawable: Drawable? =
-            ResourcesCompat.getDrawable(context.resources, R.drawable.icon_play_white, null)
-
-        return drawableToBitmap(iconPlayTestDrawable as Drawable)
     }
 
 
