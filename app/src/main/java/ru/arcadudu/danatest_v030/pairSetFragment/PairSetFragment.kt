@@ -193,7 +193,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 isCurrentlyActive: Boolean
             ) {
 
-               val dtSwipeDecorator = DtSwipeDecorator(viewHolder = viewHolder, context = requireContext())
+                val dtSwipeDecorator =
+                    DtSwipeDecorator(viewHolder = viewHolder, context = requireContext())
 
 
                 // swiping left
@@ -221,7 +222,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
 
-                    if (iconPlayTestBitmap != null){
+                    if (iconPlayTestBitmap != null) {
                         canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
                     }
                 }
@@ -231,7 +232,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     canvas,
                     recyclerView,
                     viewHolder,
-                    dX /7.0f,
+                    dX / 7.0f,
                     dY,
                     actionState,
                     isCurrentlyActive
