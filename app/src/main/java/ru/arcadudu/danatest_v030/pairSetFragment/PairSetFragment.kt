@@ -4,9 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -37,7 +34,7 @@ import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.drawableToBitmap
+import ru.arcadudu.danatest_v030.utils.DtSwipeDecorator
 import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
 import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
@@ -196,49 +193,18 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 isCurrentlyActive: Boolean
             ) {
 
-                val itemView = viewHolder.itemView
-                val height = (itemView.bottom - itemView.top).toFloat()
-                val width = height / 3.0f
+               val dtSwipeDecorator = DtSwipeDecorator(viewHolder = viewHolder, context = requireContext())
 
 
                 // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
-                    val paint = Paint().apply {
-                        isAntiAlias = true
-                        color = ResourcesCompat.getColor(
-                            resources,
-                            R.color.dt3_error_red_70, null
-                        )
+                    val background = dtSwipeDecorator.getLeftSwipeBackground(dX)
+                    val iconDeleteBitmap = dtSwipeDecorator.getLeftSwipeIcon()
+                    val paint = dtSwipeDecorator.getLeftSwipePaint()
+                    val iconDestination = dtSwipeDecorator.getLeftSwipeIconDestination()
 
-                        style = Paint.Style.FILL
-                    }
-
-                    val background = RectF(
-                        itemView.right.toFloat() + dX,
-                        itemView.top.toFloat(),
-                        itemView.right.toFloat(),
-                        itemView.bottom.toFloat()
-                    )
-
-                    /*Drawing canvas rectangle with rounded corners*/
                     canvas.drawRoundRect(background, 24f, 24f, paint)
-
-                    val iconDeleteDrawable: Drawable? =
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.icon_delete_error_white,
-                            null
-                        )
-                    val iconDeleteBitmap = drawableToBitmap(iconDeleteDrawable as Drawable)
-
-                    val iconDestination = RectF(
-                        itemView.right.toFloat() - 2 * width,
-                        itemView.top.toFloat() + width,
-                        itemView.right.toFloat() - width,
-                        itemView.bottom.toFloat() - width
-                    )
-
                     if (iconDeleteBitmap != null) {
                         canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
                     }
@@ -247,35 +213,13 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                 // swipe right
                 if (dX > 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    val paint = Paint().apply {
-                        isAntiAlias = true
-                        style = Paint.Style.FILL
-                        color = ResourcesCompat.getColor(
-                            resources,
-                            R.color.dt3_brand_violet_70, activity?.theme
-                        )
-                    }
 
-                    val background = RectF(
-                        itemView.left.toFloat(),
-                        itemView.top.toFloat(),
-                        itemView.left.toFloat() + dX,
-                        itemView.bottom.toFloat()
-                    )
+                    val background = dtSwipeDecorator.getRightSwipeBackground(dX)
+                    val iconPlayTestBitmap = dtSwipeDecorator.getRightSwipeIcon()
+                    val paint = dtSwipeDecorator.getRightSwipePaint()
+                    val iconDestination = dtSwipeDecorator.getRightSwipeIconDestination()
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
-
-                    val iconPlayTestDrawable: Drawable? =
-                        ResourcesCompat.getDrawable(resources, R.drawable.icon_play_white, null)
-
-                    val iconPlayTestBitmap = drawableToBitmap(iconPlayTestDrawable as Drawable)
-
-                    val iconDestination = RectF(
-                        itemView.left.toFloat() + width,
-                        itemView.top.toFloat() + width,
-                        itemView.left.toFloat() + 2 * width,
-                        itemView.bottom.toFloat() - width
-                    )
 
                     if (iconPlayTestBitmap != null){
                         canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
