@@ -141,6 +141,7 @@
     <string name="edit_pair_dialog_edit_button_text">Редактировать пару</string>
     <string name="pair_set_fragment_title">Здесь хранятся доступные Вам наборы</string>
     <string name="dummy2">DummyDetails</string>
+    <string name="onEmptyPairsetMessage">Невозможно начать тест с пустым набором.</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 

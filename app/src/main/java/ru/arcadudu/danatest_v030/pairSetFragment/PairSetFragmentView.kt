@@ -33,4 +33,6 @@ interface PairSetFragmentView : MvpView {
 
     fun putPairSetIntoIntent(chosenPairSet: PairSet)
 
+    fun onEmptyPairset()
+
 }

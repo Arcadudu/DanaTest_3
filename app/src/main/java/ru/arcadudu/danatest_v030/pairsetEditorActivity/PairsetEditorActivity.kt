@@ -233,7 +233,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
                     canvas.drawRect(background, paint)
                     val icon: Drawable? =
-                        ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_blue, null)
+                        ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_error_red, null)
                     val iconBitmap = drawableToBitmap(icon as Drawable)
 
 

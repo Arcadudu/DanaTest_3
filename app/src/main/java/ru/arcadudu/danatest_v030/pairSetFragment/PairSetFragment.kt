@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
@@ -18,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -197,19 +197,23 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             ) {
 
                 val itemView = viewHolder.itemView
-                val itemViewHeight = (itemView.bottom - itemView.top).toFloat()
-                val itemViewWidth = itemViewHeight / 3
+                val height = (itemView.bottom - itemView.top).toFloat()
+                val width = height / 3.0f
 
-                val paint = Paint().apply {
-                    isAntiAlias = true
-                    color = Color.WHITE
-                    style = Paint.Style.FILL
-                }
 
                 // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    paint.color =
-                        ResourcesCompat.getColor(resources, R.color.dt3_main_light_grey_100, null)
+
+                    val paint = Paint().apply {
+                        isAntiAlias = true
+                        color = ResourcesCompat.getColor(
+                            resources,
+                            R.color.dt3_error_red_70, null
+                        )
+
+                        style = Paint.Style.FILL
+                    }
+
                     val background = RectF(
                         itemView.right.toFloat() + dX,
                         itemView.top.toFloat(),
@@ -217,17 +221,22 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                         itemView.bottom.toFloat()
                     )
 
-                    canvas.drawRect(background, paint)
+                    /*Drawing canvas rectangle with rounded corners*/
+                    canvas.drawRoundRect(background, 24f, 24f, paint)
+
                     val iconDeleteDrawable: Drawable? =
-                        ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_blue, null)
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.icon_delete_error_white,
+                            null
+                        )
                     val iconDeleteBitmap = drawableToBitmap(iconDeleteDrawable as Drawable)
 
-
                     val iconDestination = RectF(
-                        itemView.right.toFloat() - 2 * itemViewWidth,
-                        itemView.top.toFloat() + itemViewWidth,
-                        itemView.right.toFloat() - itemViewWidth,
-                        itemView.bottom.toFloat() - itemViewWidth
+                        itemView.right.toFloat() - 2 * width,
+                        itemView.top.toFloat() + width,
+                        itemView.right.toFloat() - width,
+                        itemView.bottom.toFloat() - width
                     )
 
                     if (iconDeleteBitmap != null) {
@@ -236,12 +245,49 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                 }
 
+                // swipe right
+                if (dX > 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    val paint = Paint().apply {
+                        isAntiAlias = true
+                        style = Paint.Style.FILL
+                        color = ResourcesCompat.getColor(
+                            resources,
+                            R.color.dt3_brand_violet_70, activity?.theme
+                        )
+                    }
+
+                    val background = RectF(
+                        itemView.left.toFloat(),
+                        itemView.top.toFloat(),
+                        itemView.left.toFloat() + dX,
+                        itemView.bottom.toFloat()
+                    )
+
+                    canvas.drawRoundRect(background, 24f, 24f, paint)
+
+                    val iconPlayTestDrawable: Drawable? =
+                        ResourcesCompat.getDrawable(resources, R.drawable.icon_play_white, null)
+
+                    val iconPlayTestBitmap = drawableToBitmap(iconPlayTestDrawable as Drawable)
+
+                    val iconDestination = RectF(
+                        itemView.left.toFloat() + width,
+                        itemView.top.toFloat() + width,
+                        itemView.left.toFloat() + 2 * width,
+                        itemView.bottom.toFloat() - width
+                    )
+
+                    if (iconPlayTestBitmap != null){
+                        canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
+                    }
+                }
+
                 /* method called again with dx restriction for left swipe */
                 super.onChildDraw(
                     canvas,
                     recyclerView,
                     viewHolder,
-                    dX / 7.0f,
+                    dX /7.0f,
                     dY,
                     actionState,
                     isCurrentlyActive
@@ -396,7 +442,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             removeDialog.dismiss()
         }
         removeDialog.show()
-
     }
 
     override fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int) {
@@ -417,6 +462,12 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java)
         toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
         startActivity(toEditorIntent)
+    }
+
+    override fun onEmptyPairset() {
+        val message = R.string.onEmptyPairsetMessage
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        pairSetAdapter.notifyDataSetChanged()
     }
 
 

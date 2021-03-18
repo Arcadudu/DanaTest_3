@@ -69,7 +69,11 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun onSwipedRight(swipePosition: Int) {
         val chosenPairset = pairSetList[swipePosition]
-        viewState.showStartTestDialog(chosenPairset)
+        if(chosenPairset.getPairList().count() != 0){
+            viewState.showStartTestDialog(chosenPairset)
+        }else{
+            viewState.onEmptyPairset()
+        }
 
     }
 
