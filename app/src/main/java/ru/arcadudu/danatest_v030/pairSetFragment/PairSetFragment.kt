@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
@@ -271,10 +272,32 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         startTestDialogBinding.tvStartTestDialogTitle.text =
             getString(R.string.dt_start_test_dialog_title)
+
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
         startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
+
+        val shufflePairsetCheckBox: MaterialCheckBox = startTestDialogBinding.shufflePairSetCheckBox
+        shufflePairsetCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                shufflePairsetCheckBox.setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.dt3_brand_violet_100,
+                        activity?.theme
+                    )
+                )
+            } else {
+                shufflePairsetCheckBox.setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.dt3_hint_color_black_70,
+                        activity?.theme
+                    )
+                )
+            }
+        }
 
         //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {

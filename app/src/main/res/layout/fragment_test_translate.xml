@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:theme="@style/Theme.DanaTest031">
+    android:theme="@style/Theme.DanaTest031"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/translate_toolbar"

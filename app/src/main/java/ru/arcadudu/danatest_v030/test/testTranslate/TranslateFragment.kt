@@ -90,7 +90,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         prepareRecycler(targetRecycler = questRecycler)
 
         etAnswerInputLayout = translateBinding.etTranslateFragmentAnswerField
+
         etAnswerField = etAnswerInputLayout.editText as TextInputEditText
+        etAnswerField.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus)
+                (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
+
+        }
         btnConfirmAnswer = translateBinding.ivConfirmAnswer
 
         etAnswerField.addTextChangedListener(object : TextWatcher {
