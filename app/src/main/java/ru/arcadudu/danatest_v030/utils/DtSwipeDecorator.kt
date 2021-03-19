@@ -5,95 +5,59 @@ import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import ru.arcadudu.danatest_v030.R
 
 class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context: Context) {
 
     private val itemView = viewHolder.itemView
     private val height = (itemView.bottom - itemView.top).toFloat()
     private val width = height / 3.0f
-    private val paint = Paint()
 
-    init {
-        paint.apply {
+
+    fun getSwipeBitmap(@DrawableRes iconId: Int): Bitmap? {
+        val iconDrawable: Drawable? =
+            ResourcesCompat.getDrawable(context.resources, iconId, context.theme)
+        return drawableToBitmap(iconDrawable as Drawable)
+    }
+
+    fun getSwipePaint(@ColorRes colorResourceId: Int): Paint {
+        return Paint().apply {
             isAntiAlias = true
             style = Paint.Style.FILL
+            color = ResourcesCompat.getColor(context.resources, colorResourceId, context.theme)
         }
     }
 
-    /*LEFT SWIPE*/
-    fun getLeftSwipePaint(): Paint {
-        paint.color =
-            ResourcesCompat.getColor(
-                context.resources,
-                R.color.dt3_error_red_70,
-                context.theme
-            )
-        return paint
-    }
+    fun getSwipeBackgroundRectF(horizontalOffset: Float): RectF {
+        val rectLeft =
+            if (horizontalOffset < 0) itemView.right.toFloat() + horizontalOffset else itemView.left.toFloat()
+        val rectRight =
+            if (horizontalOffset < 0) itemView.right.toFloat() else itemView.left.toFloat() + horizontalOffset
 
-    fun getLeftSwipeBackground(horizontalOffset: Float): RectF {
         return RectF(
-            itemView.right.toFloat() + horizontalOffset,
+            rectLeft,
             itemView.top.toFloat(),
-            itemView.right.toFloat(),
+            rectRight,
             itemView.bottom.toFloat()
         )
     }
 
-    fun getLeftSwipeIcon(): Bitmap? {
-        val iconDeleteDrawable: Drawable? =
-            ResourcesCompat.getDrawable(
-                context.resources,
-                R.drawable.icon_delete_error_white,
-                null
-            )
-        return drawableToBitmap(iconDeleteDrawable as Drawable)
-    }
-
-    fun getLeftSwipeIconDestination(): RectF {
+    fun getSwipeIconDestinationRectF(horizontalOffset: Float): RectF {
+        val rectLeft =
+            if (horizontalOffset < 0) itemView.right.toFloat() - 2 * width else itemView.left.toFloat() + width
+        val rectRight =
+            if (horizontalOffset < 0) itemView.right.toFloat() - width else itemView.left.toFloat() + 2 * width
         return RectF(
-            itemView.right.toFloat() - 2 * width,
+            rectLeft,
             itemView.top.toFloat() + width,
-            itemView.right.toFloat() - width,
+            rectRight,
             itemView.bottom.toFloat() - width
         )
     }
 
-
-    /*RIGHT SWIPE*/
-    fun getRightSwipePaint(): Paint {
-        paint.color =
-            ResourcesCompat.getColor(context.resources, R.color.dt3_brand_violet_70, context.theme)
-        return paint
-    }
-
-    fun getRightSwipeBackground(horizontalOffset: Float): RectF {
-        return RectF(
-            itemView.left.toFloat(),
-            itemView.top.toFloat(),
-            itemView.left.toFloat() + horizontalOffset,
-            itemView.bottom.toFloat()
-        )
-    }
-
-    fun getRightSwipeIcon(): Bitmap? {
-        val iconPlayTestDrawable: Drawable? =
-            ResourcesCompat.getDrawable(context.resources, R.drawable.icon_play_white, null)
-
-        return drawableToBitmap(iconPlayTestDrawable as Drawable)
-    }
-
-    fun getRightSwipeIconDestination(): RectF {
-        return RectF(
-            itemView.left.toFloat() + width,
-            itemView.top.toFloat() + width,
-            itemView.left.toFloat() + 2 * width,
-            itemView.bottom.toFloat() - width
-        )
-    }
 
 
 }

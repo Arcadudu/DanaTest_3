@@ -49,14 +49,13 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
     private lateinit var addPairSetDialogBinding: DialogAddPairSetBinding
 
+    private lateinit var toolbar: MaterialToolbar
     private lateinit var etPairSetSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
     private lateinit var pairSetRecyclerView: RecyclerView
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
-
-    private lateinit var toolbar: MaterialToolbar
 
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
@@ -197,31 +196,32 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     DtSwipeDecorator(viewHolder = viewHolder, context = requireContext())
 
 
-                // swiping left
+                // swiping left -> remove item
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
-                    val background = dtSwipeDecorator.getLeftSwipeBackground(dX)
-                    val iconDeleteBitmap = dtSwipeDecorator.getLeftSwipeIcon()
-                    val paint = dtSwipeDecorator.getLeftSwipePaint()
-                    val iconDestination = dtSwipeDecorator.getLeftSwipeIconDestination()
+                    val backgroundRectF = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
+                    val iconDeleteBitmap =
+                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_delete_error_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_red_70)
+                    val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
-                    canvas.drawRoundRect(background, 24f, 24f, paint)
+                    canvas.drawRoundRect(backgroundRectF, 24f, 24f, paint)
                     if (iconDeleteBitmap != null) {
                         canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
                     }
 
                 }
 
-                // swipe right
+                // swiping right -> play test
                 if (dX > 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
-                    val background = dtSwipeDecorator.getRightSwipeBackground(dX)
-                    val iconPlayTestBitmap = dtSwipeDecorator.getRightSwipeIcon()
-                    val paint = dtSwipeDecorator.getRightSwipePaint()
-                    val iconDestination = dtSwipeDecorator.getRightSwipeIconDestination()
+                    val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
+                    val iconPlayTestBitmap =
+                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_play_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_violet_70)
+                    val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
-
                     if (iconPlayTestBitmap != null) {
                         canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
                     }

@@ -205,20 +205,18 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
                 val dtSwipeDecorator = DtSwipeDecorator(viewHolder = viewHolder, context = this@PairsetEditorActivity)
 
-
                 // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
-                    val background = dtSwipeDecorator.getLeftSwipeBackground(dX)
-                    val iconDeleteBitmap = dtSwipeDecorator.getLeftSwipeIcon()
-                    val paint = dtSwipeDecorator.getLeftSwipePaint()
-                    val iconDestination = dtSwipeDecorator.getLeftSwipeIconDestination()
+                    val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
+                    val iconDeleteBitmap = dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_delete_error_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_red_70)
+                    val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
                     if (iconDeleteBitmap != null) {
                         canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
                     }
-
                 }
 
                 /* method called again with dx restriction for left swipe */
