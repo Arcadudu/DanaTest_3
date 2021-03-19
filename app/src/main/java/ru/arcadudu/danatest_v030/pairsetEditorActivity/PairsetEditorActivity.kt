@@ -2,10 +2,6 @@ package ru.arcadudu.danatest_v030.pairsetEditorActivity
 
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,10 +31,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.CONST_PAIRSET_TO_TEST_TAG
-import ru.arcadudu.danatest_v030.utils.drawableToBitmap
-import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
-import ru.arcadudu.danatest_v030.utils.vibratePhone
+import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
 
@@ -210,44 +203,20 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 isCurrentlyActive: Boolean
             ) {
 
-                val itemView = viewHolder.itemView
-                val itemViewHeight = (itemView.bottom - itemView.top).toFloat()
-                val itemViewWidth = itemViewHeight / 3
-
-                val paint = Paint().apply {
-                    isAntiAlias = true
-                    color = Color.WHITE
-                    style = Paint.Style.FILL
-                }
+                val dtSwipeDecorator = DtSwipeDecorator(viewHolder = viewHolder, context = this@PairsetEditorActivity)
 
                 // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    paint.color =
-                        ResourcesCompat.getColor(resources, R.color.dt3_main_light_grey_100, null)
-                    val background = RectF(
-                        itemView.right.toFloat() + dX,
-                        itemView.top.toFloat(),
-                        itemView.right.toFloat(),
-                        itemView.bottom.toFloat()
-                    )
 
-                    canvas.drawRect(background, paint)
-                    val icon: Drawable? =
-                        ResourcesCompat.getDrawable(resources, R.drawable.icon_delete_error_red, null)
-                    val iconBitmap = drawableToBitmap(icon as Drawable)
+                    val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
+                    val iconDeleteBitmap = dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_delete_error_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_red_70)
+                    val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
-
-                    val iconNest = RectF(
-                        itemView.right.toFloat() - 2 * itemViewWidth,
-                        itemView.top.toFloat() + itemViewWidth,
-                        itemView.right.toFloat() - itemViewWidth,
-                        itemView.bottom.toFloat() - itemViewWidth
-                    )
-
-                    if (iconBitmap != null) {
-                        canvas.drawBitmap(iconBitmap, null, iconNest, paint)
+                    canvas.drawRoundRect(background, 24f, 24f, paint)
+                    if (iconDeleteBitmap != null) {
+                        canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
                     }
-
                 }
 
                 /* method called again with dx restriction for left swipe */
