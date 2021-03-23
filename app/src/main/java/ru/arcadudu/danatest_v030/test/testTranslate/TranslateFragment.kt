@@ -27,15 +27,17 @@ import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentTestTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
+import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivityView
+import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
 import ru.arcadudu.danatest_v030.utils.forceHideKeyboard
 import java.util.*
 
 
-class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
+class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAdapterCallback,
     OnSnapPositionChangeListener {
 
 
@@ -50,7 +52,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
     private lateinit var translateBinding: FragmentTestTranslateBinding
 
     private lateinit var toolbar: MaterialToolbar
-    private lateinit var questRecycler: RecyclerView
+    private lateinit var questTranslateRecycler: RecyclerView
     private lateinit var translateAdapter: TranslateTestAdapter
     private lateinit var etAnswerInputLayout: TextInputLayout
     private lateinit var etAnswerField: TextInputEditText
@@ -75,6 +77,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         return inflater.inflate(R.layout.fragment_test_translate, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         translateBinding = FragmentTestTranslateBinding.bind(view)
@@ -86,8 +89,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         toolbar = translateBinding.translateToolbar
         prepareToolbar(targetToolbar = toolbar)
 
-        questRecycler = translateBinding.translateQuestRecycler
-        prepareRecycler(targetRecycler = questRecycler)
+        questTranslateRecycler = translateBinding.translateQuestRecycler
+        prepareRecycler(targetRecycler = questTranslateRecycler)
 
         etAnswerInputLayout = translateBinding.etTranslateFragmentAnswerField
 
@@ -107,7 +110,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
             }
         })
 
-        tvCounterLine = translateBinding.tvCounterLine
+        tvCounterLine = translateBinding.tvTranslateCounterLine
 
         btnConfirmAnswer.setOnClickListener {
             val answer = etAnswerField.text.toString().trim().toLowerCase(Locale.ROOT)
@@ -152,9 +155,10 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         translatePresenter.provideDataForToolbar()
     }
 
+
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
-        translateAdapter.translateAdapterCallback(this)
+        translateAdapter.adapterCallback(this)
         translateSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
@@ -176,6 +180,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         } else {
             translatePresenter.provideOrderedPairList()
         }
+
+        Log.d("rrr", "prepareRecycler: keySet = ${incomingPairSet.getPairListKeySet()}")
+        Log.d("rrr", "prepareRecycler: valueSet = ${incomingPairSet.getPairListValueSet()} ")
 
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
         //RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -205,7 +212,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
         btnRestartTest.setTextColor(
             ResourcesCompat.getColor(
                 resources,
-                R.color.dt3_brand_violet_100,
+                R.color.dt3_brand_100,
                 activity?.theme
             )
         )
@@ -285,9 +292,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView,
 
     override fun onAdapterItemClick() {
         if (snapHelperAttached) {
-            toScrollMode(questRecycler)
+            toScrollMode(questTranslateRecycler)
         } else {
-            toTestMode(questRecycler)
+            toTestMode(questTranslateRecycler)
         }
         Log.d("aaa", "onAdapterItemClick: snapHelperAttached = $snapHelperAttached ")
     }

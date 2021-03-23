@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dt3_main_light_grey_100"
+        android:background="@color/dt3_main_light_100"
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="@string/dt_remove_pairset_dialog_positive_btn"
-            android:textColor="@color/dt3_error_red_100"
+            android:textColor="@color/dt3_error_100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_message" />
 

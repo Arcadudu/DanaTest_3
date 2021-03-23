@@ -14,21 +14,17 @@
         android:id="@+id/quest_pair_value"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dt3_brand_violet_70"
+        android:background="@color/dt3_brand_70"
         android:fontFamily="@font/roboto_medium"
         android:paddingStart="18dp"
         android:paddingTop="14dp"
         android:paddingEnd="14dp"
         android:paddingBottom="14dp"
-        android:text="Here's shown pair value"
-        android:textColor="@color/dt3_on_brand_white"
+        android:textColor="@color/dt3_on_brand_100"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-
-
-
 
 </com.google.android.material.card.MaterialCardView>

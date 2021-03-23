@@ -8,7 +8,7 @@ import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface TranslateFragmentView : MvpView {
+interface   TranslateFragmentView : MvpView {
 
 
     @StateStrategyType(value = SkipStrategy::class)

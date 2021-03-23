@@ -1,45 +1,25 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.DanaTest_v030" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/plt_active_blue</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/white</item>
-
-        <item name="android:windowLightStatusBar">true</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
-        <!-- Customize your theme here. -->
-        <!--        <item name="android:windowTranslucentStatus">true</item>-->
-        <!--        <item name="android:windowTranslucentNavigation">true</item>-->
-
-    </style>
-
-
     <style name="Theme.DanaTest031" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!--colors-->
-        <item name="colorPrimary">@color/dt3_main_light_grey_100</item>
-        <item name="colorPrimaryVariant">@color/dt3_main_light_grey_70</item>
-        <item name="colorPrimaryDark">@color/dt3_main_light_grey_100</item>
-        <item name="colorOnPrimary">@color/dt3_on_main_almost_black</item>
-        <item name="colorSecondary">@color/dt3_brand_violet_100</item>
-        <item name="colorSecondaryVariant">@color/dt3_brand_violet_70</item>
-        <item name="colorOnSecondary">@color/dt3_on_brand_white</item>
-        <item name="android:colorBackground">@color/dt3_main_light_grey_100</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="colorError">@color/dt3_error_red_100</item>
-        <item name="colorOnError">@color/white</item>
-        <item name="colorControlHighlight">@color/dt3_highlight_violet</item>
+        <item name="colorPrimary">@color/dt3_main_light_100</item>
+        <item name="colorPrimaryVariant">@color/dt3_main_light_70</item>
+        <item name="colorPrimaryDark">@color/dt3_main_light_100</item>
+        <item name="colorOnPrimary">@color/dt3_on_main</item>
+        <item name="colorSecondary">@color/dt3_brand_100</item>
+        <item name="colorSecondaryVariant">@color/dt3_brand_70</item>
+        <item name="colorOnSecondary">@color/dt3_on_brand_100</item>
+        <item name="android:colorBackground">@color/dt3_main_light_100</item>
+        <item name="colorSurface">@color/dt3_surface_100</item>
+        <item name="colorError">@color/dt3_error_100</item>
+        <item name="colorOnError">@color/dt_on_error_100</item>
+        <item name="colorControlHighlight">@color/dt3_highlight_20</item>
         <item name="android:windowLightStatusBar">true</item>
 
         <!--components-->
         <item name="materialCardViewStyle">@style/dt_CardViewStyle_listItem</item>
-        <item name="bottomNavigationStyle">@style/dt_BottomNavigationStyle</item>
+<!--        <item name="bottomNavigationStyle">@style/dt_BottomNavigationStyle</item>-->
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
@@ -51,11 +31,11 @@
 
     <!--DT overlays-->
     <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
-        <item name="colorPrimary">@color/dt3_hint_color_black_30</item>
+        <item name="colorPrimary">@color/dt3_hint_color_30</item>
     </style>
 
     <style name="ThemeOverlay.DanaTest031.VioletControlHighlight" parent="">
-        <item name="colorControlHighlight">@color/dt3_highlight_violet</item>
+        <item name="colorControlHighlight">@color/dt3_highlight_20</item>
     </style>
 
     <style name="ThemeOverlay.DanaTest031.TestMaterialCardViewElevation" parent="">
@@ -76,7 +56,7 @@
     <style name="TextStyle_card_title">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/dt3_on_main_almost_black</item>
+        <item name="android:textColor">@color/dt3_on_main</item>
         <item name="android:textStyle">bold</item>
     </style>
 

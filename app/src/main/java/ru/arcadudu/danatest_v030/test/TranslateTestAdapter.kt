@@ -1,32 +1,34 @@
-package ru.arcadudu.danatest_v030.test.testTranslate
+package ru.arcadudu.danatest_v030.test
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import moxy.MvpView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.databinding.ValueTranslateRowBinding
+import ru.arcadudu.danatest_v030.databinding.ValueTestRowBinding
+import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
 import java.util.*
 
 
 class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelectorViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
-    private lateinit var translateFragmentImpl: TranslateFragmentView
+    private lateinit var translateFragmentImpl: TestAdapterCallback
+
 
     fun submitData(list: MutableList<Pair>) {
         pairList = list
     }
 
-    fun translateAdapterCallback(fragmentCallback: TranslateFragmentView) {
-        this.translateFragmentImpl = fragmentCallback
+    fun adapterCallback(fragmentCallback: MvpView) {
+        this.translateFragmentImpl = fragmentCallback as TestAdapterCallback
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PairSelectorViewHolder {
         return PairSelectorViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.value_translate_row, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.value_test_row, parent, false)
         )
     }
 
@@ -41,13 +43,12 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
 
     inner class PairSelectorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ValueTranslateRowBinding.bind(itemView)
+        private val binding = ValueTestRowBinding.bind(itemView)
         private val questWordItem = binding.questPairValue
 
 
         init {
             itemView.setOnClickListener {
-                Log.d("aaa", " itemClick callback: ")
                 translateFragmentImpl.onAdapterItemClick()
             }
         }

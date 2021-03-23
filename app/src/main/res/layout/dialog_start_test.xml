@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dt3_main_light_grey_100"
+        android:background="@color/dt3_main_light_100"
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
@@ -29,7 +29,7 @@
             android:layout_marginTop="24dp"
             android:hint="@string/dt_start_test_dialog_input_layout_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
-            app:boxBackgroundColor="@color/dt3_on_brand_white"
+            app:boxBackgroundColor="@color/dt3_on_brand_100"
             app:counterEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +40,9 @@
                 style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/translate"
                 android:inputType="none"
-                android:text="@string/dt_test_translate_fragment_toolbar_title" />
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.checkbox.MaterialCheckBox

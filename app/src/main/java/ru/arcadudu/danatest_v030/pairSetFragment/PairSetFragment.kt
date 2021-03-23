@@ -202,8 +202,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                     val backgroundRectF = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconDeleteBitmap =
-                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_delete_error_white)
-                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_red_70)
+                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_close_onbrand_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(backgroundRectF, 24f, 24f, paint)
@@ -218,8 +218,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconPlayTestBitmap =
-                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_play_white)
-                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_violet_70)
+                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_play_onbrand_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
@@ -276,7 +276,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
-        startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
+        val autoCompleteEditText = startTestDialogBinding.autoCompleteTestCase
+//        startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
+        autoCompleteEditText.setAdapter(testArrayAdapter)
 
         val shufflePairsetCheckBox: MaterialCheckBox = startTestDialogBinding.shufflePairSetCheckBox
         shufflePairsetCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -284,7 +286,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 shufflePairsetCheckBox.setTextColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.dt3_brand_violet_100,
+                        R.color.dt3_brand_100,
                         activity?.theme
                     )
                 )
@@ -292,7 +294,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 shufflePairsetCheckBox.setTextColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.dt3_hint_color_black_70,
+                        R.color.dt3_hint_color_70,
                         activity?.theme
                     )
                 )
@@ -301,17 +303,20 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {
-            dismissedWithAction = true
-            val shufflePairset = startTestDialogBinding.shufflePairSetCheckBox.isChecked
-            val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
-            val toTestIntent = Intent(this.activity, TestActivity::class.java)
-            toTestIntent.apply {
-                putExtra("shuffle", shufflePairset)
-                putExtra("test", chosenTest)
-                putExtra("pairset", chosenPairSet)
-            }
-            startActivity(toTestIntent)
-//            startTestDialog.dismiss()
+
+                val shufflePairset = startTestDialogBinding.shufflePairSetCheckBox.isChecked
+                val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
+                val toTestIntent = Intent(this.activity, TestActivity::class.java)
+
+                dismissedWithAction = true
+                toTestIntent.apply {
+                    putExtra("shuffle", shufflePairset)
+                    putExtra("test", chosenTest)
+                    putExtra("pairset", chosenPairSet)
+                }
+                startActivity(toTestIntent)
+                startTestDialog.dismiss()
+
         }
 
         //negative btn
@@ -453,7 +458,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume: ")
+        pairSetAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroy() {

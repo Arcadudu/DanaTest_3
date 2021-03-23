@@ -1,21 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:theme="@style/Theme.DanaTest031">
 
-    <TextView
-        android:id="@+id/tv_variants_fragment_greeting"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/variants_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
+        app:title="@string/dt_variants"
+        app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_variants_fragment_answer_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:hint="@string/dt_test_variants_fragment_answerfield_hint"
+        android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:counterEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            style="@style/dt_TextInputEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:textSize="22sp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/variants_test_progressbar"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:maxHeight="4dp"
+        android:minHeight="4dp"
+        android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
+        app:layout_constraintEnd_toEndOf="@id/et_variants_fragment_answer_field"
+        app:layout_constraintStart_toStartOf="@id/et_variants_fragment_answer_field"
+        app:layout_constraintTop_toBottomOf="@id/et_variants_fragment_answer_field" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_variants_counter_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is Translate Fragment!"
-        android:textColor="@color/plt_almost_black"
-        android:textSize="30sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:paddingStart="20dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="20dp"
+        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_variants_fragment_answer_field" />
 
+    <ImageView
+        android:id="@+id/btn_confirm_variant"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_done_active_brand_violet"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/et_variants_fragment_answer_field"
+        app:layout_constraintEnd_toEndOf="@id/et_variants_fragment_answer_field"
+        app:layout_constraintTop_toTopOf="@id/et_variants_fragment_answer_field" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/variants_quest_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:fadeScrollbars="true"
+        android:layoutAnimation="@anim/layout_fall_down_anim"
+        android:orientation="horizontal"
+        android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/et_variants_fragment_answer_field" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

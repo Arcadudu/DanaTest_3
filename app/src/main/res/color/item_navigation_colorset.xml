@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/dt3_brand_violet_100"
+    <item android:color="@color/dt3_brand_100"
         android:state_checked="true"/>
-    <item android:color="@color/dt3_hint_color_black_50"
+    <item android:color="@color/dt3_hint_color_50"
         android:state_checked="false"/>
 
 </selector>

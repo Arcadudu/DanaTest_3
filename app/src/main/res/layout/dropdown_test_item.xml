@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/translate"
-    android:padding="18dp"
+    android:padding="14dp"
+    android:textAppearance="@style/TextAppearance.dt_widgetTitle"
     android:textSize="18sp"
-    android:textColor="@color/dt3_on_surface_black_70"
     android:textStyle="normal"/>
