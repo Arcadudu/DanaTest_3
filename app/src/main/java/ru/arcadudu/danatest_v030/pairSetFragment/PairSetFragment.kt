@@ -75,8 +75,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
 
-
-
         fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
 
         toolbar = fragmentWordSetBinding.toolbar

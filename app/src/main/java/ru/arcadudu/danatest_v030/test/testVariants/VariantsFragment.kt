@@ -7,9 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -57,14 +57,14 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
     private lateinit var etAnswerInputLayout: TextInputLayout
-    private lateinit var etAnswerField:MaterialAutoCompleteTextView
-    private lateinit var btnConfirmAnswer:ImageView
+    private lateinit var autoCompleteAnswerField: MaterialAutoCompleteTextView
 
     private lateinit var variantsSnapHelper: PagerSnapHelper
 
     private var currentSnapPosition = 0
     private var shufflePairset = false
     private var snapHelperAttached = false
+    private var variantList: MutableList<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,18 +88,26 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         questVariantsRecycler = variantsBinding.variantsQuestRecycler
         prepareRecycler(targetRecycler = questVariantsRecycler)
 
+        tvCounterLine = variantsBinding.tvVariantsCounterLine
+
         etAnswerInputLayout = variantsBinding.etVariantsFragmentAnswerField
 
-        etAnswerField = etAnswerInputLayout.editText as MaterialAutoCompleteTextView
-        etAnswerField.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus)
+
+        autoCompleteAnswerField = etAnswerInputLayout.editText as MaterialAutoCompleteTextView
+        autoCompleteAnswerField.threshold = 0
+        autoCompleteAnswerField.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus)
                 (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
+
         }
-
-        btnConfirmAnswer = variantsBinding.btnConfirmVariant
-
-
-
+        autoCompleteAnswerField.doOnTextChanged { text, _, _, _ ->
+            if (!text.isNullOrEmpty()) {
+                variantsPresenter.checkAnswerAndDismiss(
+                    chosenVariantKey = text,
+                    answerPosition = currentSnapPosition
+                )
+            }
+        }
 
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
@@ -131,8 +139,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
 
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
-
-
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
@@ -180,7 +186,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
 
         btnRestartTest.setOnClickListener {
-            variantsPresenter.restartTranslateTest(shufflePairset)
+            variantsPresenter.restartVariantsTest(shufflePairset)
+            variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
             restartDialog.dismiss()
         }
         restartDialog.show()
@@ -213,12 +220,66 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     }
 
     override fun onAdapterItemClick() {
-        TODO("Not yet implemented")
+        if (snapHelperAttached) {
+            toScrollMode(questVariantsRecycler)
+        } else {
+            toTestMode(questVariantsRecycler)
+        }
+    }
+
+    override fun showVariants(keySetCut: MutableList<String>) {
+        variantList.clear()
+        variantList = keySetCut
+        val testArrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.dropdown_test_item_centered, variantList)
+        autoCompleteAnswerField.apply {
+            setAdapter(testArrayAdapter)
+            showDropDown()
+            text = null
+        }
+
+
+    }
+
+    override fun updateRecyclerOnRemoved(
+        updatedPairList: MutableList<Pair>,
+        answerPosition: Int
+    ) {
+
+        testAdapter.apply {
+            submitData(updatedPairList)
+            notifyItemRemoved(answerPosition)
+            variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
+        }
     }
 
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
         Log.d("rrr", "onSnapPositionChange: currentSnapPosition = $currentSnapPosition ")
         variantsPresenter.getVariantsForCurrentPosition(position)
+    }
+
+    private fun toTestMode(targetRecyclerView: RecyclerView) {
+        snapHelperAttached = true
+        targetRecyclerView.apply {
+            attachSnapHelperWithListener(
+                variantsSnapHelper,
+                onSnapPositionChangeListener = this@VariantsFragment
+            )
+            isHorizontalScrollBarEnabled = false
+        }
+        etAnswerInputLayout.visibility = View.VISIBLE
+        autoCompleteAnswerField.text = null
+        tvCounterLine.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun toScrollMode(targetRecyclerView: RecyclerView) {
+        snapHelperAttached = false
+        variantsSnapHelper.attachToRecyclerView(null)
+        etAnswerInputLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        tvCounterLine.visibility = View.GONE
+        targetRecyclerView.isHorizontalScrollBarEnabled = true
     }
 }

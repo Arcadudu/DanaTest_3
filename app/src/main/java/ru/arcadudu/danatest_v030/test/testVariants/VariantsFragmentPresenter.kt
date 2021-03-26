@@ -31,6 +31,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         backUpPairSet = testedPairSet
         testedPairList = testedPairSet.getPairList()
         backUpPairList.addAll(testedPairList)
+        testedPairSetName = testedPairSet.name
         originPairListCount = testedPairList.count()
         viewState.setProgressMax(originPairListCount)
     }
@@ -43,7 +44,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         viewState.showOnRestartDialog(pairsetName = testedPairSetName)
     }
 
-    fun restartTranslateTest(shufflePairset: Boolean) {
+    fun restartVariantsTest(shufflePairset: Boolean) {
         mistakeCount = 0
         answeredPairCount = 0
         testedPairList.apply {
@@ -67,16 +68,33 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         viewState.initPairList(testedPairList)
     }
 
-    fun getVariantsForCurrentPosition(position: Int): MutableList<String> {
+    fun getVariantsForCurrentPosition(position: Int) {
         val trueKey = testedPairList[position].pairKey
         Log.d("rrr", "getVariantsForCurrentPosition: trueKey = $trueKey ")
         val keySet = testedPairSet.getPairListKeySet().filter { it != trueKey }.shuffled()
-        val keySetCut = keySet.subList(0,3) as MutableList<String>
+        val keySetCut = keySet.subList(0, 3) as MutableList<String>
         keySetCut.apply {
             add(0, trueKey)
             shuffle()
         }
         Log.d("rrr", "getVariantsForCurrentPosition: keySetCut = $keySetCut ")
-        return keySetCut
+        viewState.showVariants(keySetCut)
+    }
+
+    fun checkAnswerAndDismiss(chosenVariantKey: CharSequence, answerPosition: Int) {
+        val checkPair = testedPairList[answerPosition]
+        if (chosenVariantKey.toString() != checkPair.pairKey)
+            mistakeCount++
+        answeredPairCount++
+        testedPairList.removeAt(answerPosition)
+        if(testedPairList.isEmpty()){
+
+        }else{
+            viewState.apply {
+                updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
+                updateRecyclerOnRemoved(testedPairList, answerPosition)
+                updateAnsweredProgress(answeredPairCount*Companion.progressMultiplier, positiveProgressDuration.toLong())
+            }
+        }
     }
 }

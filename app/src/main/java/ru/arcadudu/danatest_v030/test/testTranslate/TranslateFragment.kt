@@ -181,12 +181,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
             translatePresenter.provideOrderedPairList()
         }
 
-        Log.d("rrr", "prepareRecycler: keySet = ${incomingPairSet.getPairListKeySet()}")
-        Log.d("rrr", "prepareRecycler: valueSet = ${incomingPairSet.getPairListValueSet()} ")
-
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
-        //RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        //new HorizontalOverScrollBounceEffectDecorator(new RecyclerViewOverScrollDecorAdapter(recyclerView));
     }
 
 

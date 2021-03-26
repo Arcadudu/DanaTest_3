@@ -14,7 +14,9 @@
     <color name="dt3_main_light_70">#B3F7F7F7</color>
     <color name="dt3_on_main">#363636</color>
 
-    <color name="dt3_brand_100">#7986CB</color>
+    <color name="dt3_brand_100">#8896E1</color>
+<!--    <color name="dt3_brand_100">#7986CB</color>-->
+    <color name="dt3_brand_100_lighter">#8896E1</color>
     <color name="dt3_brand_70">#B37986CB</color>
     <color name="dt3_brand_50">#807986CB</color>
     <color name="dt3_on_brand_100">#ffffff</color>
