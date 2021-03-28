@@ -1,6 +1,5 @@
 package ru.arcadudu.danatest_v030.test.testVariants
 
-import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
@@ -13,6 +12,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     private lateinit var backUpPairSet: PairSet
     private lateinit var testedPairList: MutableList<Pair>
     private lateinit var testedPairSetName: String
+
 
     private var backUpPairList: MutableList<Pair> = mutableListOf()
 
@@ -70,16 +70,20 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun getVariantsForCurrentPosition(position: Int) {
         val trueKey = testedPairList[position].pairKey
-        Log.d("rrr", "getVariantsForCurrentPosition: trueKey = $trueKey ")
-        val keySet = testedPairSet.getPairListKeySet().filter { it != trueKey }.shuffled()
-        val keySetCut = keySet.subList(0, 3) as MutableList<String>
+        val keySet : MutableList<String> = mutableListOf()
+        for(pair in backUpPairList){
+            if(pair.pairKey != trueKey){
+                keySet.add(pair.pairKey)
+            }
+        }
+        val keySetCut = keySet.subList(0, 3)
         keySetCut.apply {
             add(0, trueKey)
             shuffle()
         }
-        Log.d("rrr", "getVariantsForCurrentPosition: keySetCut = $keySetCut ")
         viewState.showVariants(keySetCut)
     }
+
 
     fun checkAnswerAndDismiss(chosenVariantKey: CharSequence, answerPosition: Int) {
         val checkPair = testedPairList[answerPosition]
@@ -87,13 +91,16 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
             mistakeCount++
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
-        if(testedPairList.isEmpty()){
+        if (testedPairList.isEmpty()) {
 
-        }else{
+        } else {
             viewState.apply {
                 updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
                 updateRecyclerOnRemoved(testedPairList, answerPosition)
-                updateAnsweredProgress(answeredPairCount*Companion.progressMultiplier, positiveProgressDuration.toLong())
+                updateAnsweredProgress(
+                    answeredPairCount * Companion.progressMultiplier,
+                    positiveProgressDuration.toLong()
+                )
             }
         }
     }

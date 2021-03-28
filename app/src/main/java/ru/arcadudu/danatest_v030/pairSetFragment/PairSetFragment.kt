@@ -57,7 +57,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
-
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
 
@@ -121,7 +120,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
 
-
     private fun addTextWatcher(targetEditText: EditText) {
         targetEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -133,7 +131,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         })
     }
 
-
     private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
         pairSetAdapter = PairSetAdapter()
         targetRecyclerView.apply {
@@ -144,7 +141,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         pairSetPresenter.providePairSetList()
         pairSetAdapter.onItemClickCallback(this)
     }
-
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
@@ -196,13 +192,16 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
 
                 // swiping left -> remove item
-                if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+//                if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE)
+                if (dX < 0) {
 
                     val backgroundRectF = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconDeleteBitmap =
                         dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_close_onbrand_white)
+
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
+
 
                     canvas.drawRoundRect(backgroundRectF, 24f, 24f, paint)
                     if (iconDeleteBitmap != null) {
@@ -217,7 +216,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconPlayTestBitmap =
                         dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_play_onbrand_white)
-                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_100)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_70)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
@@ -302,18 +301,18 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {
 
-                val shufflePairset = startTestDialogBinding.shufflePairSetCheckBox.isChecked
-                val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
-                val toTestIntent = Intent(this.activity, TestActivity::class.java)
+            val shufflePairset = startTestDialogBinding.shufflePairSetCheckBox.isChecked
+            val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
+            val toTestIntent = Intent(this.activity, TestActivity::class.java)
 
-                dismissedWithAction = true
-                toTestIntent.apply {
-                    putExtra("shuffle", shufflePairset)
-                    putExtra("test", chosenTest)
-                    putExtra("pairset", chosenPairSet)
-                }
-                startActivity(toTestIntent)
-                startTestDialog.dismiss()
+            dismissedWithAction = true
+            toTestIntent.apply {
+                putExtra("shuffle", shufflePairset)
+                putExtra("test", chosenTest)
+                putExtra("pairset", chosenPairSet)
+            }
+            startActivity(toTestIntent)
+            startTestDialog.dismiss()
 
         }
 
