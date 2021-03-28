@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">DanaTest_v.0.3.0</string>
 
+    <!--tests-->
+    <string name="dt_translate">Прямой перевод</string>
+    <string name="dt_shuffle">Перемешать</string>
+    <string name="dt_variants">Четыре варианта</string>
+    <string name="dt_test_restart_test">Начать заново</string>
+    <string name="dt_test_end_test">Завершить тест</string>
+    <string name="dt_test_counter_with_message">%1$s %2$d/%3$d</string>
+
     <!--bottomNavigation-->
     <string name="dt_bottom_navigation_main_title">Главная</string>
     <string name="dt_bottom_navigation_settings">Настройки</string>
@@ -24,6 +32,7 @@
     <!--startTestDialog-->
     <string name="dt_start_test_dialog_title">Начать тест</string>
     <string name="dt_start_test_dialog_input_layout_hint">Тест:</string>
+    <string name="dt_start_test_dialog_on_empty_chosen_test_error">Выберите тест</string>
     <string-array name="dt_test_names_array">
         <item>Прямой перевод</item>
         <item>Четыре варианта</item>
@@ -56,12 +65,11 @@
     <!--/pairsetEditorActivity-->
 
     <!--testTranslateFragment-->
-    <string name="dt_test_translate_fragment_toolbar_title">Прямой перевод</string>
-    <string name="dt_test_translate_fragment_toolbar_action_restart_test">Начать заново</string>
-    <string name="dt_test_translate_fragment_toolbar_action_end_test">Завершить тест</string>
+    <string name="dt_test_translate_fragment_toolbar_title">@string/dt_translate</string>
+    <string name="dt_test_translate_fragment_toolbar_action_restart_test">@string/dt_test_restart_test</string>
+    <string name="dt_test_translate_fragment_toolbar_action_end_test">@string/dt_test_end_test</string>
     <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>
-
-    <string name="dt_test_translate_fragment_counter_body_with_message">%1$s %2$d/%3$d</string>
+    <string name="dt_test_translate_fragment_counter_body_with_message">@string/dt_test_counter_with_message</string>
     <string name="dt_test_translate_fragment_counter_body">%1$d/%2$d</string>
     <string name="dt_test_translate_fragment_counter_line">Решено</string>
     <!--restartTestDialog-->
@@ -71,6 +79,13 @@
     <string name="dt_restart_test_dialog_positive_btn">Рестарт</string>
     <!--/testTranslateFragment-->
 
+    <!--testVariantsFragment-->
+    <string name="dt_test_variants_fragment_toolbar_title">@string/dt_variants</string>
+    <string name="dt_test_variants_fragment_toolbar_action_restart_test">@string/dt_test_restart_test</string>
+    <string name="dt_test_variants_fragment_toolbar_action_end_test">@string/dt_test_end_test</string>
+    <string name="dt_test_variants_fragment_answerfield_hint">Выберите ответ</string>
+    <string name="dt_test_variants_fragment_counter_body_with_message">@string/dt_test_counter_with_message</string>
+    <string name="dt_test_variants_fragment_counter_body">%1$d/%2$d</string>
     <!--pairsetCountPlurals-->
     <!-- Этот код мы используем для отладки: когда какой item выбирается системой -->
     <plurals name="plurals_1">

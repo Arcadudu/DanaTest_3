@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:theme="@style/Theme.DanaTest031"
-    android:focusableInTouchMode="true"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:theme="@style/Theme.DanaTest031">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/translate_toolbar"
@@ -20,12 +20,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-        app:title="@string/dt_test_translate_fragment_toolbar_title"
+        app:title="@string/dt_translate"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/translate_test_progressbar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:indeterminate="false"
@@ -66,7 +66,7 @@
 
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_counterLine"
+        android:id="@+id/tv_translate_counter_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"

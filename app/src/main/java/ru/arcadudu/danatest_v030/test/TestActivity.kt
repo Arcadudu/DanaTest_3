@@ -38,11 +38,13 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         /*entering from Pairset fragment*/
         val incomingIntent = intent
         incomingPairSet = incomingIntent.getSerializableExtra("pairset") as PairSet
+        Log.d("ddd", "onCreate: testString = ${incomingIntent.getStringExtra("test")} ")
         requestedTestFragmentId = when (incomingIntent.getStringExtra("test")) {
             getString(R.string.translate) -> CONST_TRANSLATE_FRAGMENT_ID
             getString(R.string.variants) -> CONST_VARIANTS_FRAGMENT_ID
             else -> CONST_SHUFFLE_FRAGMENT_ID
         }
+        Log.d("ddd", "onCreate: fragmentId = $requestedTestFragmentId")
         shufflePairSet = incomingIntent.getBooleanExtra("shuffle", false)
 
 

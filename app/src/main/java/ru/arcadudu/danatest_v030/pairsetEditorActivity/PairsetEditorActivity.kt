@@ -209,8 +209,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
-                    val iconDeleteBitmap = dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_delete_error_white)
-                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_red_70)
+                    val iconDeleteBitmap = dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_close_onbrand_white)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)

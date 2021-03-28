@@ -18,7 +18,7 @@ import ru.arcadudu.danatest_v030.interfaces.IProgress
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.test.testTranslate.TranslateTestAdapter
+import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
 import java.util.*
 

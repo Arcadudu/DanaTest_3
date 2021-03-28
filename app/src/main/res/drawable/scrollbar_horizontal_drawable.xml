@@ -7,7 +7,7 @@
         android:top="18dp"
         android:bottom="18dp"/>
     <corners android:radius="10dp"/>
-    <solid android:color="@color/dt3_brand_violet_70"/>
+    <solid android:color="@color/dt3_brand_70"/>
     <size android:width="25dp"
         android:height="2dp"/>
 
