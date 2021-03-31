@@ -1,10 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-
-
-
-
-    <style name="Theme.DanaTest031" parent="Theme.MaterialComponents.Light.NoActionBar">
+`    <style name="Theme.DanaTest031" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!--colors-->
         <item name="colorPrimary">@color/dt3_main_light_100</item>
@@ -26,12 +22,29 @@
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
 
     </style>
 
     <!--DT overlays-->
     <style name="ThemeOverlay.DanaTest031.BrandOpaqueControlHighlight" parent="">
         <item name="colorControlHighlight">@color/dt3_highlight_20</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="ThemeOverlay.Widget.MaterialComponents.Button.TextButton" parent="">
+        <item name="colorPrimary">@color/dt3_brand_100</item>
+        <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/dt3_on_surface_100</item>
+    </style>
+
+    <style name="ThemeOverlay.Widget.MaterialComponents.Button.OutlinedButton" parent="">
+        <item name="colorPrimary">@color/dt3_brand_100</item>
     </style>
 
     <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">

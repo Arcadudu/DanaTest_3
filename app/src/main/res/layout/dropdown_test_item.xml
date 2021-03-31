@@ -11,4 +11,4 @@
     android:textAppearance="@style/TextAppearance.dt_itemTitle"
     android:textSize="20sp"
     android:textColor="@color/dt3_on_surface_100"
-    app:fontFamily="@font/roboto_light" />
+    app:fontFamily="@font/roboto" />

@@ -57,11 +57,7 @@
         <item name="android:textAppearance">@style/TextAppearance.dt_textButtonTextStyle
         </item>
     </style>
-    
-    <style name="dt_MaterialButtonStyle" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textSize">22sp</item>
-        <item name="android:background">@drawable/colorset_answer_button</item>
-    </style>
+
 
     <style name="dt_ToolbarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="elevation">0dp</item>
@@ -69,7 +65,7 @@
     </style>
 
 
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="dt_CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/custom_dialog_popup</item>
     </style>
 

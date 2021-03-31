@@ -28,6 +28,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/dt_remove_pairset_dialog_message"
             android:textColor="@color/plt_subtext_grey"
+            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             app:layout_constraintStart_toStartOf="@id/tv_remove_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_title" />
 

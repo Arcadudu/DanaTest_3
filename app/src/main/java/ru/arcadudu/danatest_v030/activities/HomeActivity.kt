@@ -29,27 +29,14 @@ class HomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        
+
         profileFragment = ProfileFragment()
         wordSetFragment = PairSetFragment()
         settingsFragment = SettingsFragment()
         setFragment(wordSetFragment)
 
-//        bottomNavigationView = binding.myNavigationBar.apply {
-//            selectedItemId = R.id.wordset_item
-//            setOnNavigationItemSelectedListener { item ->
-//                val selectedFragment: Fragment =
-//                    when (item.itemId) {
-//                        R.id.profile_item -> profileFragment
-//                        R.id.wordset_item -> wordSetFragment
-//                        R.id.settings_item -> settingsFragment
-//                        else -> homeFragment
-//                    }
-//                setFragment(selectedFragment)
-//                true
-//            }
-//        }
     }
+
 
     private fun setFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

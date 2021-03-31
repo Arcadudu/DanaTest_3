@@ -164,12 +164,12 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 val position = viewHolder.bindingAdapterPosition
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        vibratePhone(50)
+                        vibratePhone(24)
                         pairSetPresenter.onSwipedLeft(position)
                     }
 
                     ItemTouchHelper.RIGHT -> {
-                        vibratePhone(50)
+                        vibratePhone(24)
                         pairSetPresenter.onSwipedRight(position)
 
                     }
@@ -190,7 +190,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 val dtSwipeDecorator =
                     DtSwipeDecorator(viewHolder = viewHolder, context = requireContext())
                 val itemViewWidth = viewHolder.itemView.right - viewHolder.itemView.left
-                val alphaOffset = dX.toInt()/(itemViewWidth/dX)
+                val alphaOffset = dX.toInt() / (itemViewWidth / dX)
 
                 // swiping left -> remove item
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
@@ -202,9 +202,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
-                    if(-alphaOffset > -255){
+                    if (-alphaOffset > -255)
                         paint.alpha = alphaOffset.toInt()
-                    }
 
                     canvas.drawRoundRect(backgroundRectF, 24f, 24f, paint)
 
@@ -226,13 +225,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
-                    if(alphaOffset < 255){
+                    if (alphaOffset < 255)
                         paint.alpha = alphaOffset.toInt()
-                    }
-
-                    Log.d("dx", "onChildDraw: paint.alpha = ${paint.alpha} ")
-
-
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
                     if (dX > 220) {
@@ -264,13 +258,14 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         /* In case of overScroll decoration is not needed -
         * uncomment the following: */
+
 //        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
 //        itemTouchHelper.attachToRecyclerView(recyclerView)
 
     }
 
     override fun showStartTestDialog(chosenPairSet: PairSet) {
-        val startTestDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val startTestDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val startTestDialogView =
             this.layoutInflater.inflate(R.layout.dialog_start_test, null, false)
         startTestDialogBuilder.setView(startTestDialogView)
@@ -290,9 +285,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
-        val autoCompleteEditText = startTestDialogBinding.autoCompleteTestCase
-//        startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
-        autoCompleteEditText.setAdapter(testArrayAdapter)
+        startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
+
 
         val shufflePairsetCheckBox: MaterialCheckBox = startTestDialogBinding.shufflePairSetCheckBox
         shufflePairsetCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -342,7 +336,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun showAddNewPairSetDialog() {
-        val addPairSetDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val addPairSetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val addPairSetDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pair_set, null, false)
         addPairSetDialogBuilder.setView(addPairSetDialogView)
@@ -405,7 +399,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
 
     override fun showRemovePairSetDialog(name: String, description: String, position: Int) {
-        val removeDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val removeDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()

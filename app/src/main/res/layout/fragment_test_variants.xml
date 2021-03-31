@@ -23,53 +23,94 @@
         app:title="@string/dt_variants"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/variants_quest_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:fadeScrollbars="true"
+        android:layoutAnimation="@anim/layout_fall_down_anim"
+        android:orientation="horizontal"
+        android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/variants_test_center_line" />
+
+    <View
+        android:id="@+id/variants_test_center_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@color/dt3_surface_100"
         android:orientation="vertical"
-        android:padding="18dp"
-        android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
-        android:backgroundTint="@color/dt3_main_light_100"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:singleSelection="true">
+        app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
+        app:selectionRequired="true"
+        app:singleSelection="true"
+        app:strokeWidth="2dp">
 
 
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="60dp"
+            android:text="answer1"
+            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
+            app:strokeWidth="2dp" />
 
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="60dp"
+            android:text="answer1"
+            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="60dp"
+            android:text="answer1"
+            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minHeight="60dp"
+            android:text="answer1"
+            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
+            app:strokeWidth="2dp" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-
-
-    <!--    <com.google.android.material.textfield.TextInputLayout-->
-    <!--        android:id="@+id/et_variants_fragment_answer_field"-->
-    <!--        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="18dp"-->
-    <!--        android:layout_marginEnd="18dp"-->
-    <!--        android:hint="@string/dt_test_variants_fragment_answerfield_hint"-->
-    <!--        android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"-->
-    <!--        app:boxBackgroundColor="@color/white"-->
-    <!--        app:boxCornerRadiusTopEnd="10dp"-->
-    <!--        app:boxCornerRadiusTopStart="10dp"-->
-    <!--        app:counterEnabled="false"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-    <!--            android:id="@+id/autoCompleteVariants"-->
-    <!--            style="@style/dt_TextInputEditTextStyle"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:inputType="none"-->
-    <!--            android:textSize="22sp"-->
-    <!--            />-->
-    <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/variants_test_progressbar"
@@ -95,17 +136,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_layout" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/variants_quest_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:fadeScrollbars="true"
-        android:layoutAnimation="@anim/layout_fall_down_anim"
-        android:orientation="horizontal"
-        android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
-        android:scrollbars="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/button_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

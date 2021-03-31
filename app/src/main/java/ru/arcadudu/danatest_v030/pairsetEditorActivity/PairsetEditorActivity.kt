@@ -204,6 +204,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             ) {
 
                 val dtSwipeDecorator = DtSwipeDecorator(viewHolder = viewHolder, context = this@PairsetEditorActivity)
+                val itemViewWidth = viewHolder.itemView.right - viewHolder.itemView.left
+                val alphaOffset = dX.toInt()/(itemViewWidth/dX)
 
                 // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
@@ -213,6 +215,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
 
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
+
+                    if(-alphaOffset > -255){
+                        paint.alpha = alphaOffset.toInt()
+                    }
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
                     if(dX < -220) {
@@ -271,7 +277,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         position: Int
     ) {
 
-        val removeDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val removeDialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         removeDialogBuilder.setView(removeDialogView)
         val removeDialog = removeDialogBuilder.create()
@@ -310,7 +316,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         pairKey: String,
         pairValue: String
     ) {
-        val editPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val editPairDialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
         val editPairDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pair_light, null, false)
         editPairDialogBuilder.setView(editPairDialogView)
@@ -382,7 +388,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
 
     override fun showAddNewPairDialog() {
-        val addPairDialogBuilder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        val addPairDialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
         val addPairDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pair_light, null, false)
         addPairDialogBuilder.setView(addPairDialogView)
