@@ -189,11 +189,11 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                 val dtSwipeDecorator =
                     DtSwipeDecorator(viewHolder = viewHolder, context = requireContext())
-
+                val itemViewWidth = viewHolder.itemView.right - viewHolder.itemView.left
+                val alphaOffset = dX.toInt()/(itemViewWidth/dX)
 
                 // swiping left -> remove item
-//                if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE)
-                if (dX < 0) {
+                if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
                     val backgroundRectF = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconDeleteBitmap =
@@ -202,11 +202,18 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
+                    if(-alphaOffset > -255){
+                        paint.alpha = alphaOffset.toInt()
+                    }
 
                     canvas.drawRoundRect(backgroundRectF, 24f, 24f, paint)
-                    if (iconDeleteBitmap != null) {
-                        canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
+
+                    if (dX < -220) {
+                        if (iconDeleteBitmap != null) {
+                            canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
+                        }
                     }
+
 
                 }
 
@@ -216,21 +223,31 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconPlayTestBitmap =
                         dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_play_onbrand_white)
-                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_70)
+                    val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_brand_100)
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
-                    canvas.drawRoundRect(background, 24f, 24f, paint)
-                    if (iconPlayTestBitmap != null) {
-                        canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
+                    if(alphaOffset < 255){
+                        paint.alpha = alphaOffset.toInt()
                     }
+
+                    Log.d("dx", "onChildDraw: paint.alpha = ${paint.alpha} ")
+
+
+
+                    canvas.drawRoundRect(background, 24f, 24f, paint)
+                    if (dX > 220) {
+                        if (iconPlayTestBitmap != null) {
+                            canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
+                        }
+                    }
+
                 }
 
-                /* method called again with dx restriction for left swipe */
                 super.onChildDraw(
                     canvas,
                     recyclerView,
                     viewHolder,
-                    dX / 7.0f,
+                    dX,
                     dY,
                     actionState,
                     isCurrentlyActive

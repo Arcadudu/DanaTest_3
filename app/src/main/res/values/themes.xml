@@ -1,5 +1,9 @@
 <resources>
     <!-- Base application theme. -->
+
+
+
+
     <style name="Theme.DanaTest031" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!--colors-->
@@ -19,23 +23,19 @@
 
         <!--components-->
         <item name="materialCardViewStyle">@style/dt_CardViewStyle_listItem</item>
-<!--        <item name="bottomNavigationStyle">@style/dt_BottomNavigationStyle</item>-->
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
-        <item name="materialButtonStyle">@style/dt_TextButtonStyle</item>
-        <!--        <item name="toolbarStyle">@style/dt_ToolbarStyle</item>-->
-        <!--        <item name="popupTheme"></item>-->
 
     </style>
 
     <!--DT overlays-->
-    <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
-        <item name="colorPrimary">@color/dt3_hint_color_30</item>
+    <style name="ThemeOverlay.DanaTest031.BrandOpaqueControlHighlight" parent="">
+        <item name="colorControlHighlight">@color/dt3_highlight_20</item>
     </style>
 
-    <style name="ThemeOverlay.DanaTest031.VioletControlHighlight" parent="">
-        <item name="colorControlHighlight">@color/dt3_highlight_20</item>
+    <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
+        <item name="colorPrimary">@color/dt3_hint_color_30</item>
     </style>
 
     <style name="ThemeOverlay.DanaTest031.TestMaterialCardViewElevation" parent="">
@@ -45,82 +45,5 @@
     <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@color/black</item>
     </style>
-
-
-    <style name="TextStyle_title_expanded">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">32sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="TextStyle_card_title">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/dt3_on_main</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextStyle_card_subtext">
-        <item name="fontFamily">@font/raleway</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/plt_subtext_grey</item>
-    </style>
-
-    <style name="TextStyle_header">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/plt_almost_black</item>
-    </style>
-
-    <style name="TextStyle_bs_subtext">
-        <item name="fontFamily">@font/raleway</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/plt_subtext_grey</item>
-    </style>
-
-    <style name="TextStyle_bs_subtitle">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/plt_almost_black</item>
-    </style>
-
-    <style name="TextStyle_wordSet_length">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="TextStyle_quest_word">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textSize">26sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Variants_text">
-        <item name="fontFamily">@font/roboto_light</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/plt_subtext_grey</item>
-
-    </style>
-
-    <style name="card_variant">
-        <item name="cardCornerRadius">10dp</item>
-        <item name="cardElevation">2dp</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-
-
-    </style>
-
-    <style name="PairRow">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/plt_almost_black</item>
-    </style>
-
 
 </resources>

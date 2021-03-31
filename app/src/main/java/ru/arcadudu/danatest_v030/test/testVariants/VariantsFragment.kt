@@ -9,17 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
-import moxy.MvpAppCompatActivity
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -32,7 +28,6 @@ import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
-import ru.arcadudu.danatest_v030.utils.forceHideKeyboard
 import java.util.*
 
 class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapterCallback,
@@ -56,8 +51,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var tvCounterLine: MaterialTextView
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
-    private lateinit var etAnswerInputLayout: TextInputLayout
-    private lateinit var autoCompleteAnswerField: MaterialAutoCompleteTextView
+//    private lateinit var etAnswerInputLayout: TextInputLayout
+//    private lateinit var autoCompleteAnswerField: MaterialAutoCompleteTextView
 
     private lateinit var variantsSnapHelper: PagerSnapHelper
 
@@ -90,24 +85,24 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         tvCounterLine = variantsBinding.tvVariantsCounterLine
 
-        etAnswerInputLayout = variantsBinding.etVariantsFragmentAnswerField
+//        etAnswerInputLayout = variantsBinding.etVariantsFragmentAnswerField
 
 
-        autoCompleteAnswerField = etAnswerInputLayout.editText as MaterialAutoCompleteTextView
-        autoCompleteAnswerField.threshold = 0
-        autoCompleteAnswerField.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-                (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
-
-        }
-        autoCompleteAnswerField.doOnTextChanged { text, _, _, _ ->
-            if (!text.isNullOrEmpty()) {
-                variantsPresenter.checkAnswerAndDismiss(
-                    chosenVariantKey = text,
-                    answerPosition = currentSnapPosition
-                )
-            }
-        }
+//        autoCompleteAnswerField = etAnswerInputLayout.editText as MaterialAutoCompleteTextView
+//        autoCompleteAnswerField.threshold = 0
+//        autoCompleteAnswerField.setOnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus)
+//                (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
+//
+//        }
+//        autoCompleteAnswerField.doOnTextChanged { text, _, _, _ ->
+//            if (!text.isNullOrEmpty()) {
+//                variantsPresenter.checkAnswerAndDismiss(
+//                    chosenVariantKey = text,
+//                    answerPosition = currentSnapPosition
+//                )
+//            }
+//        }
 
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
@@ -232,11 +227,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         variantList = keySetCut
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item_centered, variantList)
-        autoCompleteAnswerField.apply {
-            setAdapter(testArrayAdapter)
-            showDropDown()
-            text = null
-        }
+//        autoCompleteAnswerField.apply {
+//            setAdapter(testArrayAdapter)
+//            showDropDown()
+//            text = null
+//        }
 
 
     }
@@ -268,8 +263,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             )
             isHorizontalScrollBarEnabled = false
         }
-        etAnswerInputLayout.visibility = View.VISIBLE
-        autoCompleteAnswerField.text = null
+//        etAnswerInputLayout.visibility = View.VISIBLE
+//        autoCompleteAnswerField.text = null
         tvCounterLine.visibility = View.VISIBLE
         progressBar.visibility = View.VISIBLE
     }
@@ -277,7 +272,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
         variantsSnapHelper.attachToRecyclerView(null)
-        etAnswerInputLayout.visibility = View.GONE
+//        etAnswerInputLayout.visibility = View.GONE
         progressBar.visibility = View.GONE
         tvCounterLine.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true

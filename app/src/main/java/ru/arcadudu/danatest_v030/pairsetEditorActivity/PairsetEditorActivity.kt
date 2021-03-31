@@ -211,11 +211,14 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
                     val iconDeleteBitmap = dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_close_onbrand_white)
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
+
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
-                    if (iconDeleteBitmap != null) {
-                        canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
+                    if(dX < -220) {
+                        if (iconDeleteBitmap != null) {
+                            canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
+                        }
                     }
                 }
 
@@ -224,7 +227,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     canvas,
                     recyclerView,
                     viewHolder,
-                    dX / 8.0f,
+                    dX,
                     dY,
                     actionState,
                     isCurrentlyActive

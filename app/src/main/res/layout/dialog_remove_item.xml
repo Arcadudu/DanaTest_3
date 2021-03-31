@@ -12,18 +12,17 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_remove_dialog_title"
-            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:gravity="start"
+            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_remove_dialog_message"
-            style="@style/TextStyle_bs_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -35,6 +34,7 @@
         <!--positive button-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_remove_pair"
+            style="@style/dt_DialogButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -46,6 +46,7 @@
         <!--negative button-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel_remove"
+            style="@style/dt_DialogButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dt_remove_pairset_dialog_negative_btn"
