@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
@@ -51,6 +52,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var tvCounterLine: MaterialTextView
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
+    private lateinit var answerToggleGroup: MaterialButtonToggleGroup
 //    private lateinit var etAnswerInputLayout: TextInputLayout
 //    private lateinit var autoCompleteAnswerField: MaterialAutoCompleteTextView
 
@@ -85,6 +87,24 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         tvCounterLine = variantsBinding.tvVariantsCounterLine
 
+        answerToggleGroup = variantsBinding.answerButtonToggleGroup
+        answerToggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+                if (isChecked){
+                    when (checkedId) {
+                        R.id.answer_button1 -> showToast("bnt1")
+                        R.id.answer_button2 -> showToast("btn2")
+                        R.id.answer_button3 -> showToast("btn3")
+                        else -> showToast("btn4")
+                    }
+                } else{
+                   if(group.checkedButtonId == View.NO_ID){
+                       showToast("none")
+                   }
+                }
+
+
+        }
+
 //        etAnswerInputLayout = variantsBinding.etVariantsFragmentAnswerField
 
 
@@ -106,6 +126,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
+    }
+
+    private fun showToast(string:String){
+        Toast.makeText(activity, string, Toast.LENGTH_SHORT).show()
     }
 
     private fun prepareRecycler(targetRecycler: RecyclerView) {

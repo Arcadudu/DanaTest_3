@@ -22,7 +22,7 @@
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
         <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+
 
     </style>
 
@@ -37,10 +37,11 @@
     </style>
 
     <style name="ThemeOverlay.Widget.MaterialComponents.Button.TextButton" parent="">
-        <item name="colorPrimary">@color/dt3_brand_100</item>
+        <item name="colorPrimary">@color/dt3_brand_70</item>
         <item name="android:textSize">22sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">@color/dt3_on_surface_100</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="ThemeOverlay.Widget.MaterialComponents.Button.OutlinedButton" parent="">
