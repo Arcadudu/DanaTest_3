@@ -53,8 +53,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
     private lateinit var answerToggleGroup: MaterialButtonToggleGroup
-//    private lateinit var etAnswerInputLayout: TextInputLayout
-//    private lateinit var autoCompleteAnswerField: MaterialAutoCompleteTextView
 
     private lateinit var variantsSnapHelper: PagerSnapHelper
 

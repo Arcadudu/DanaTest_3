@@ -21,7 +21,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
         app:title="@string/dt_variants"
-        app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
+        app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/variants_quest_recycler"
@@ -44,83 +45,90 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/answer_button_toggle_group"
-        android:layout_width="match_parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/toggle_group_parent_nest"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
-        app:selectionRequired="true"
-        app:singleSelection="true"
-        >
+        style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation">
 
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/answer_button1"
-            style="@style/dt_variantCardButtonStyle"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/answer_button_toggle_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|start"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="60dp"
-            android:textSize="20sp"
-            android:text="answer1"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/dt3_hint_color_50"
-             />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
+            app:selectionRequired="true"
+            app:singleSelection="true"
+            >
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/answer_button2"
-            style="@style/dt_variantCardButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|start"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="60dp"
-            android:textSize="20sp"
-            android:text="answer1"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/dt3_hint_color_50"
-            />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/answer_button3"
-            style="@style/dt_variantCardButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|start"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="60dp"
-            android:textSize="20sp"
-            android:text="answer1"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/dt3_hint_color_50"
-            />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/answer_button1"
+                style="@style/dt_variantCardButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="60dp"
+                android:text="Answer1"
+                android:textColor="@color/answer_card_text_color_state"
+                />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/answer_button4"
-            style="@style/dt_variantCardButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|start"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="60dp"
-            android:textSize="20sp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="answer1"
-            android:textColor="@color/dt3_hint_color_50"
-            />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/answer_button2"
+                style="@style/dt_variantCardButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="60dp"
+                android:text="Answer2"
+                android:textColor="@color/answer_card_text_color_state"
+                />
 
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/answer_button3"
+                style="@style/dt_variantCardButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="60dp"
+                android:text="Answer3"
+                android:textColor="@color/answer_card_text_color_state"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/answer_button4"
+                style="@style/dt_variantCardButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="60dp"
+                android:text="Answer4"
+                android:textColor="@color/answer_card_text_color_state"
+                />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
 
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -132,9 +140,9 @@
         android:maxHeight="4dp"
         android:minHeight="4dp"
         android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
-        app:layout_constraintEnd_toEndOf="@id/answer_button_toggle_group"
-        app:layout_constraintStart_toStartOf="@id/answer_button_toggle_group"
-        app:layout_constraintTop_toBottomOf="@id/answer_button_toggle_group" />
+        app:layout_constraintEnd_toEndOf="@id/toggle_group_parent_nest"
+        app:layout_constraintStart_toStartOf="@id/toggle_group_parent_nest"
+        app:layout_constraintTop_toBottomOf="@id/toggle_group_parent_nest" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_variants_counter_line"
@@ -145,7 +153,7 @@
         android:paddingEnd="20dp"
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/answer_button_toggle_group" />
+        app:layout_constraintTop_toBottomOf="@id/toggle_group_parent_nest" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

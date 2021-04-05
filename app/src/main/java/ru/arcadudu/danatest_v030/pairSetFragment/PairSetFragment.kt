@@ -176,7 +176,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 }
             }
 
-
             override fun onChildDraw(
                 canvas: Canvas,
                 recyclerView: RecyclerView,
