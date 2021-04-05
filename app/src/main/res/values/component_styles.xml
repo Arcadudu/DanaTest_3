@@ -59,6 +59,20 @@
     </style>
 
 
+    <!--?attr/materialButtonStyle => @style/Widget.MaterialComponents.Button-->
+    <style name="dt_variantCardButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/answer_card_color_state</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="rippleColor">@color/dt3_brand_50</item>
+
+
+    </style>
+
+
     <style name="dt_ToolbarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="elevation">0dp</item>
         <item name="android:titleTextAppearance">@style/TextAppearance.dt_widgetTitle</item>

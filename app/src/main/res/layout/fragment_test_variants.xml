@@ -51,67 +51,74 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        android:background="@color/dt3_surface_100"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
         app:selectionRequired="true"
         app:singleSelection="true"
-        app:strokeWidth="2dp">
+        >
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/answer_button1"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/dt_variantCardButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:minHeight="60dp"
+            android:textSize="20sp"
             android:text="answer1"
-            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
-            app:strokeWidth="2dp" />
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/dt3_hint_color_50"
+             />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/answer_button2"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/dt_variantCardButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:minHeight="60dp"
+            android:textSize="20sp"
             android:text="answer1"
-            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
-            app:strokeWidth="2dp" />
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/dt3_hint_color_50"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/answer_button3"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/dt_variantCardButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:minHeight="60dp"
+            android:textSize="20sp"
             android:text="answer1"
-            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
-            app:strokeWidth="2dp" />
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/dt3_hint_color_50"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/answer_button4"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/dt_variantCardButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:minHeight="60dp"
+            android:textSize="20sp"
+            android:fontFamily="@font/roboto_medium"
             android:text="answer1"
-            app:materialThemeOverlay="@style/ThemeOverlay.Widget.MaterialComponents.Button.TextButton"
-            app:strokeWidth="2dp" />
+            android:textColor="@color/dt3_hint_color_50"
+            />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

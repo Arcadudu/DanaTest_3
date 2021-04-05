@@ -128,7 +128,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         variantsPresenter.getProgressMax()
     }
 
-    private fun showToast(string:String){
+    private fun showToast(string: String) {
         Toast.makeText(activity, string, Toast.LENGTH_SHORT).show()
     }
 
