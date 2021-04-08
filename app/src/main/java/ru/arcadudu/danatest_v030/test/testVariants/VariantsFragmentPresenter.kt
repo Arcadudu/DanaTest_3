@@ -1,5 +1,6 @@
 package ru.arcadudu.danatest_v030.test.testVariants
 
+import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
@@ -87,8 +88,10 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun checkAnswerAndDismiss(chosenVariantKey: CharSequence, answerPosition: Int) {
         val checkPair = testedPairList[answerPosition]
-        if (chosenVariantKey.toString() != checkPair.pairKey)
-            mistakeCount++
+        if (chosenVariantKey.toString() != checkPair.pairKey){
+            Log.d("check", "checkAnswerAndDismiss: mistake!")
+            mistakeCount++}else{
+            Log.d("check", "checkAnswerAndDismiss: correct!")}
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
         if (testedPairList.isEmpty()) {

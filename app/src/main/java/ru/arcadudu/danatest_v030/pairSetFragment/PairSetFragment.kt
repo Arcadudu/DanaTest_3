@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -285,6 +286,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
         startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
+        startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
+            startTestDialogBinding.allPairSetVariantsCheckBox.visibility =
+            if(text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
+        }
 
 
         val shufflePairsetCheckBox: MaterialCheckBox = startTestDialogBinding.shufflePairSetCheckBox

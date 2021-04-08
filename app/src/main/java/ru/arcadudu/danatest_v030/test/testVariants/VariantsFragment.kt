@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator
@@ -53,6 +54,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
     private lateinit var answerToggleGroup: MaterialButtonToggleGroup
+    private lateinit var btnAnswer1: MaterialButton
+    private lateinit var btnAnswer2: MaterialButton
+    private lateinit var btnAnswer3: MaterialButton
+    private lateinit var btnAnswer4: MaterialButton
+    private lateinit var checkedButton: MaterialButton
 
     private lateinit var variantsSnapHelper: PagerSnapHelper
 
@@ -86,41 +92,30 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         tvCounterLine = variantsBinding.tvVariantsCounterLine
 
         answerToggleGroup = variantsBinding.answerButtonToggleGroup
-        answerToggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-                if (isChecked){
+        btnAnswer1 = variantsBinding.answerButton1
+        btnAnswer2 = variantsBinding.answerButton2
+        btnAnswer3 = variantsBinding.answerButton3
+        btnAnswer4 = variantsBinding.answerButton4
+        answerToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                checkedButton =
                     when (checkedId) {
-                        R.id.answer_button1 -> showToast("bnt1")
-                        R.id.answer_button2 -> showToast("btn2")
-                        R.id.answer_button3 -> showToast("btn3")
-                        else -> showToast("btn4")
+                        R.id.answer_button1 -> btnAnswer1
+                        R.id.answer_button2 -> btnAnswer2
+                        R.id.answer_button3 -> btnAnswer3
+                        else -> btnAnswer4
                     }
-                } else{
-                   if(group.checkedButtonId == View.NO_ID){
-                       showToast("none")
-                   }
-                }
+
+                checkedButton.isChecked = false
+                variantsPresenter.checkAnswerAndDismiss(
+                    checkedButton.text.toString(),
+                    currentSnapPosition
+                )
 
 
+            }
         }
 
-//        etAnswerInputLayout = variantsBinding.etVariantsFragmentAnswerField
-
-
-//        autoCompleteAnswerField = etAnswerInputLayout.editText as MaterialAutoCompleteTextView
-//        autoCompleteAnswerField.threshold = 0
-//        autoCompleteAnswerField.setOnFocusChangeListener { v, hasFocus ->
-//            if (!hasFocus)
-//                (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
-//
-//        }
-//        autoCompleteAnswerField.doOnTextChanged { text, _, _, _ ->
-//            if (!text.isNullOrEmpty()) {
-//                variantsPresenter.checkAnswerAndDismiss(
-//                    chosenVariantKey = text,
-//                    answerPosition = currentSnapPosition
-//                )
-//            }
-//        }
 
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
@@ -175,6 +170,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        variantsPresenter.restartVariantsTest(shufflePairset)
     }
 
     override fun setProgressMax(originPairListCount: Int) {
@@ -247,15 +247,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     override fun showVariants(keySetCut: MutableList<String>) {
         variantList.clear()
         variantList = keySetCut
-        val testArrayAdapter =
-            ArrayAdapter(requireContext(), R.layout.dropdown_test_item_centered, variantList)
-//        autoCompleteAnswerField.apply {
-//            setAdapter(testArrayAdapter)
-//            showDropDown()
-//            text = null
-//        }
-
-
+        variantList.shuffle()
+        btnAnswer1.text = variantList[0].capitalize(Locale.ROOT)
+        btnAnswer2.text = variantList[1].capitalize(Locale.ROOT)
+        btnAnswer3.text = variantList[2].capitalize(Locale.ROOT)
+        btnAnswer4.text = variantList[3].capitalize(Locale.ROOT)
     }
 
     override fun updateRecyclerOnRemoved(
@@ -274,6 +270,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         currentSnapPosition = position
         Log.d("rrr", "onSnapPositionChange: currentSnapPosition = $currentSnapPosition ")
         variantsPresenter.getVariantsForCurrentPosition(position)
+
     }
 
     private fun toTestMode(targetRecyclerView: RecyclerView) {

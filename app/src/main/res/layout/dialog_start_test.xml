@@ -54,6 +54,16 @@
             app:layout_constraintStart_toStartOf="@id/inputLayout_autoCompleteTestCase"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_autoCompleteTestCase" />
 
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/all_pairSet_variants_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ответы из всех наборов"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/shuffle_pairSet_checkBox"
+            app:layout_constraintTop_toBottomOf="@id/shuffle_pairSet_checkBox" />
+
 
         <!--positive btn-->
         <com.google.android.material.button.MaterialButton
@@ -64,7 +74,7 @@
             android:layout_marginTop="18dp"
             android:text="@string/dt_start_test_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/shuffle_pairSet_checkBox" />
+            app:layout_constraintTop_toBottomOf="@id/all_pairSet_variants_checkBox" />
 
         <!--negative btn-->
         <com.google.android.material.button.MaterialButton
