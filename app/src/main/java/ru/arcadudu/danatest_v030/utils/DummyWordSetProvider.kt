@@ -3,7 +3,7 @@ package ru.arcadudu.danatest_v030.utils
 import ru.arcadudu.danatest_v030.models.PairSet
 
 fun getDummyPairSet(): PairSet {
-    val dummyPairSet = PairSet("fake WordSet", "This is a fake WordSet")
+    val dummyPairSet = PairSet("fake WordSet", "")
 
     dummyPairSet.addPair("table", "стол")
     dummyPairSet.addPair("chair", "стул")
