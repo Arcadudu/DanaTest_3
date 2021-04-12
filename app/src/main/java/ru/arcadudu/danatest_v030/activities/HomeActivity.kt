@@ -29,12 +29,10 @@ class HomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
         profileFragment = ProfileFragment()
         wordSetFragment = PairSetFragment()
         settingsFragment = SettingsFragment()
         setFragment(wordSetFragment)
-
     }
 
 

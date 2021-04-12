@@ -40,7 +40,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             VariantsFragment().apply { arguments = args }
     }
 
-
     @InjectPresenter
     lateinit var variantsPresenter: VariantsFragmentPresenter
 
@@ -111,8 +110,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                     checkedButton.text.toString(),
                     currentSnapPosition
                 )
-
-
             }
         }
 
@@ -121,9 +118,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         variantsPresenter.getProgressMax()
     }
 
-    private fun showToast(string: String) {
-        Toast.makeText(activity, string, Toast.LENGTH_SHORT).show()
-    }
 
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         testAdapter = TranslateTestAdapter()
@@ -264,6 +258,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             notifyItemRemoved(answerPosition)
             variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
         }
+    }
+
+    override fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int) {
+        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairSet, mistakeCount)
     }
 
     override fun onSnapPositionChange(position: Int) {

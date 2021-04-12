@@ -14,9 +14,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     private lateinit var testedPairList: MutableList<Pair>
     private lateinit var testedPairSetName: String
 
-
     private var backUpPairList: MutableList<Pair> = mutableListOf()
-
 
     companion object {
         const val progressMultiplier = 1000
@@ -26,7 +24,6 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         private var answeredPairCount = 0
         private var originPairListCount = 0
     }
-
 
     fun obtainTestedPairSet(incomingPairSet: PairSet) {
         testedPairSet = incomingPairSet
@@ -38,7 +35,6 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.setProgressMax(originPairListCount)
     }
 
-
     fun provideShuffledPairList() {
         testedPairList.shuffle()
         viewState.initPairList(testedPairList)
@@ -48,11 +44,9 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.initPairList(testedPairList)
     }
 
-
     fun onRestartButton() {
         viewState.showOnRestartDialog(pairSetName = testedPairSetName)
     }
-
 
     fun provideDataForToolbar() {
         viewState.updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
@@ -75,7 +69,6 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
                 positiveProgressDuration.toLong()
             )
         }
-
     }
 
     fun getProgressMax() {

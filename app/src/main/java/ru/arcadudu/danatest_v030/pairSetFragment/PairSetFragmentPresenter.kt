@@ -72,7 +72,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         if(chosenPairset.getPairList().count() != 0){
             viewState.showStartTestDialog(chosenPairset)
         }else{
-            viewState.onEmptyPairset()
+            viewState.showOnEmptyPairSetDialog(chosenPairset)
         }
 
     }

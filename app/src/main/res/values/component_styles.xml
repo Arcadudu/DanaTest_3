@@ -8,7 +8,7 @@
         <item name="android:paddingStart">12dp</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="rippleColor">@color/dt3_highlight_20</item>
     </style>
 
     <style name="dt_EditTextStyle_searchField">
@@ -52,14 +52,14 @@
         <item name="android:focusable">true</item>
         <item name="textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="backgroundTint">@color/dt3_main_light_100</item>
+        <item name="rippleColor">@color/dt3_highlight_20</item>
         <item name="android:textColor">@color/dt3_brand_100</item>
         <item name="android:textAppearance">@style/TextAppearance.dt_textButtonTextStyle
         </item>
     </style>
 
 
-    <!--?attr/materialButtonStyle => @style/Widget.MaterialComponents.Button-->
     <style name="dt_variantCardButtonStyle" parent="@style/Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/answer_card_color_state</item>
         <item name="cornerRadius">10dp</item>

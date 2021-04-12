@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -29,10 +28,7 @@ import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairSetAdapter
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairSetBinding
-import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
-import ru.arcadudu.danatest_v030.databinding.DialogStartTestBinding
-import ru.arcadudu.danatest_v030.databinding.FragmentPairSetBinding
+import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
@@ -70,7 +66,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         return inflater.inflate(R.layout.fragment_pair_set, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
@@ -105,7 +100,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         fabAddNewPairSet.setOnClickListener {
             showAddNewPairSetDialog()
         }
-
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
@@ -212,8 +206,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                             canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
                         }
                     }
-
-
                 }
 
                 // swiping right -> play test
@@ -234,7 +226,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                             canvas.drawBitmap(iconPlayTestBitmap, null, iconDestination, paint)
                         }
                     }
-
                 }
 
                 super.onChildDraw(
@@ -264,6 +255,25 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     }
 
+    override fun showOnEmptyPairSetDialog(chosenPairset: PairSet) {
+        val emptyPairsetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
+        val emptyPairsetDialogView = this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
+        emptyPairsetDialogBuilder.setView(emptyPairsetDialogView)
+        val emptyPairsetDialog = emptyPairsetDialogBuilder.create()
+
+        val emptyPairsetDialogBinding = DialogOnEmptyPairsetBinding.bind(emptyPairsetDialogView)
+        emptyPairsetDialogBinding.tvOnEmptyPairsetDialogTitle.text = getString(R.string.dt_on_empty_pairset_dialog_title, chosenPairset.name)
+
+        //dismiss button
+        emptyPairsetDialogBinding.btnDismissDialog.setOnClickListener{
+            pairSetAdapter.notifyDataSetChanged()
+            emptyPairsetDialog.dismiss()
+        }
+
+        emptyPairsetDialog.show()
+
+    }
+
     override fun showStartTestDialog(chosenPairSet: PairSet) {
         val startTestDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val startTestDialogView =
@@ -285,12 +295,16 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
-        startTestDialogBinding.autoCompleteTestCase.setAdapter(testArrayAdapter)
-        startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
-            startTestDialogBinding.allPairSetVariantsCheckBox.visibility =
-            if(text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
-        }
 
+        startTestDialogBinding.autoCompleteTestCase.apply {
+            setAdapter(testArrayAdapter)
+            setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
+            startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
+                startTestDialogBinding.allPairSetVariantsCheckBox.visibility =
+                    if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
+            }
+
+        }
 
         val shufflePairsetCheckBox: MaterialCheckBox = startTestDialogBinding.shufflePairSetCheckBox
         shufflePairsetCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -448,13 +462,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
         startActivity(toEditorIntent)
     }
-
-    override fun onEmptyPairset() {
-        val message = R.string.onEmptyPairsetMessage
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-        pairSetAdapter.notifyDataSetChanged()
-    }
-
 
     //lifecycle
     override fun onPause() {

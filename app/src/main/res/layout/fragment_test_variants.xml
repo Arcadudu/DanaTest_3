@@ -127,10 +127,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
-
-
-
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/variants_test_progressbar"
         style="@style/Widget.MaterialComponents.LinearProgressIndicator"

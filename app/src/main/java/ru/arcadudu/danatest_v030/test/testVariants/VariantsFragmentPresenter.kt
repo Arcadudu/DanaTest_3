@@ -14,9 +14,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     private lateinit var testedPairList: MutableList<Pair>
     private lateinit var testedPairSetName: String
 
-
     private var backUpPairList: MutableList<Pair> = mutableListOf()
-
 
     companion object {
         const val progressMultiplier = 1000
@@ -85,7 +83,6 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         viewState.showVariants(keySetCut)
     }
 
-
     fun checkAnswerAndDismiss(chosenVariantKey: CharSequence, answerPosition: Int) {
         val checkPair = testedPairList[answerPosition]
         if (chosenVariantKey.toString() != checkPair.pairKey){
@@ -95,7 +92,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
         if (testedPairList.isEmpty()) {
-
+            viewState.toResultFragment(backUpPairSet, mistakeCount)
         } else {
             viewState.apply {
                 updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
