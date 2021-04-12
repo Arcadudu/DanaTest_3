@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import ru.arcadudu.danatest_v030.R
 
 class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context: Context) {
 
@@ -32,10 +33,20 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
     }
 
     fun getSwipeBackgroundRectF(horizontalOffset: Float): RectF {
-        val rectLeft =
-            if (horizontalOffset < 0) itemView.right.toFloat() + horizontalOffset else itemView.left.toFloat()
-        val rectRight =
-            if (horizontalOffset < 0) itemView.right.toFloat() else itemView.left.toFloat() + horizontalOffset
+        val basicMargin = context.resources.getDimension(R.dimen.dt_cardView_margin_startOrEnd)
+        val magicNumber = 2.3f
+
+        val rectLeft = when {
+            horizontalOffset < -magicNumber * basicMargin -> itemView.right.toFloat() + horizontalOffset + basicMargin * magicNumber
+            horizontalOffset > magicNumber * basicMargin -> itemView.left.toFloat()
+            else -> 0f
+        }
+        val rectRight = when {
+            horizontalOffset < -magicNumber * basicMargin -> itemView.right.toFloat()
+            horizontalOffset > magicNumber * basicMargin -> itemView.left.toFloat() + horizontalOffset - basicMargin * magicNumber
+            else -> 0f
+        }
+
 
         return RectF(
             rectLeft,
@@ -57,7 +68,6 @@ class DtSwipeDecorator(viewHolder: RecyclerView.ViewHolder, private val context:
             itemView.bottom.toFloat() - width
         )
     }
-
 
 
 }

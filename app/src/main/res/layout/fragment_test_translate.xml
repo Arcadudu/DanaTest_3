@@ -23,11 +23,26 @@
         app:title="@string/dt_translate"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/translate_quest_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:fadeScrollbars="true"
+        android:layoutAnimation="@anim/layout_fall_down_anim"
+        android:orientation="horizontal"
+        android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/translate_test_center_line" />
+
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/translate_test_progressbar"
         style="@style/Widget.MaterialComponents.LinearProgressIndicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
         android:indeterminate="false"
         android:maxHeight="4dp"
         android:minHeight="4dp"
@@ -35,6 +50,16 @@
         app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintStart_toStartOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
+
+
+    <View
+        android:id="@+id/translate_test_center_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -50,10 +75,10 @@
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:counterEnabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/translate_test_center_line">
+
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/dt_TextInputEditTextStyle"
@@ -91,18 +116,6 @@
         app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/translate_quest_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:fadeScrollbars="true"
-        android:layoutAnimation="@anim/layout_fall_down_anim"
-        android:orientation="horizontal"
-        android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
-        android:scrollbars="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/et_translate_fragment_answer_field" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

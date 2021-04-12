@@ -9,17 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
-import moxy.MvpAppCompatActivity
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -32,7 +30,6 @@ import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
-import ru.arcadudu.danatest_v030.utils.forceHideKeyboard
 import java.util.*
 
 class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapterCallback,
@@ -42,7 +39,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         fun getVariantsFragmentInstance(args: Bundle?): VariantsFragment =
             VariantsFragment().apply { arguments = args }
     }
-
 
     @InjectPresenter
     lateinit var variantsPresenter: VariantsFragmentPresenter
@@ -56,8 +52,12 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var tvCounterLine: MaterialTextView
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
-    private lateinit var etAnswerInputLayout: TextInputLayout
-    private lateinit var autoCompleteAnswerField: MaterialAutoCompleteTextView
+    private lateinit var answerToggleGroup: MaterialButtonToggleGroup
+    private lateinit var btnAnswer1: MaterialButton
+    private lateinit var btnAnswer2: MaterialButton
+    private lateinit var btnAnswer3: MaterialButton
+    private lateinit var btnAnswer4: MaterialButton
+    private lateinit var checkedButton: MaterialButton
 
     private lateinit var variantsSnapHelper: PagerSnapHelper
 
@@ -90,28 +90,34 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         tvCounterLine = variantsBinding.tvVariantsCounterLine
 
-        etAnswerInputLayout = variantsBinding.etVariantsFragmentAnswerField
+        answerToggleGroup = variantsBinding.answerButtonToggleGroup
+        btnAnswer1 = variantsBinding.answerButton1
+        btnAnswer2 = variantsBinding.answerButton2
+        btnAnswer3 = variantsBinding.answerButton3
+        btnAnswer4 = variantsBinding.answerButton4
+        answerToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                checkedButton =
+                    when (checkedId) {
+                        R.id.answer_button1 -> btnAnswer1
+                        R.id.answer_button2 -> btnAnswer2
+                        R.id.answer_button3 -> btnAnswer3
+                        else -> btnAnswer4
+                    }
 
-
-        autoCompleteAnswerField = etAnswerInputLayout.editText as MaterialAutoCompleteTextView
-        autoCompleteAnswerField.threshold = 0
-        autoCompleteAnswerField.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-                (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
-
-        }
-        autoCompleteAnswerField.doOnTextChanged { text, _, _, _ ->
-            if (!text.isNullOrEmpty()) {
+                checkedButton.isChecked = false
                 variantsPresenter.checkAnswerAndDismiss(
-                    chosenVariantKey = text,
-                    answerPosition = currentSnapPosition
+                    checkedButton.text.toString(),
+                    currentSnapPosition
                 )
             }
         }
 
+
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
     }
+
 
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         testAdapter = TranslateTestAdapter()
@@ -160,12 +166,17 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        variantsPresenter.restartVariantsTest(shufflePairset)
+    }
+
     override fun setProgressMax(originPairListCount: Int) {
         progressBar.max = originPairListCount
     }
 
     override fun showOnRestartDialog(pairsetName: String) {
-        val restartDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val restartDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val restartDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         restartDialogBuilder.setView(restartDialogView)
         val restartDialog = restartDialogBuilder.create()
@@ -230,15 +241,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     override fun showVariants(keySetCut: MutableList<String>) {
         variantList.clear()
         variantList = keySetCut
-        val testArrayAdapter =
-            ArrayAdapter(requireContext(), R.layout.dropdown_test_item_centered, variantList)
-        autoCompleteAnswerField.apply {
-            setAdapter(testArrayAdapter)
-            showDropDown()
-            text = null
-        }
-
-
+        variantList.shuffle()
+        btnAnswer1.text = variantList[0].capitalize(Locale.ROOT)
+        btnAnswer2.text = variantList[1].capitalize(Locale.ROOT)
+        btnAnswer3.text = variantList[2].capitalize(Locale.ROOT)
+        btnAnswer4.text = variantList[3].capitalize(Locale.ROOT)
     }
 
     override fun updateRecyclerOnRemoved(
@@ -253,10 +260,15 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
     }
 
+    override fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int) {
+        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairSet, mistakeCount)
+    }
+
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
         Log.d("rrr", "onSnapPositionChange: currentSnapPosition = $currentSnapPosition ")
         variantsPresenter.getVariantsForCurrentPosition(position)
+
     }
 
     private fun toTestMode(targetRecyclerView: RecyclerView) {
@@ -268,8 +280,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             )
             isHorizontalScrollBarEnabled = false
         }
-        etAnswerInputLayout.visibility = View.VISIBLE
-        autoCompleteAnswerField.text = null
+//        etAnswerInputLayout.visibility = View.VISIBLE
+//        autoCompleteAnswerField.text = null
         tvCounterLine.visibility = View.VISIBLE
         progressBar.visibility = View.VISIBLE
     }
@@ -277,7 +289,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
         variantsSnapHelper.attachToRecyclerView(null)
-        etAnswerInputLayout.visibility = View.GONE
+//        etAnswerInputLayout.visibility = View.GONE
         progressBar.visibility = View.GONE
         tvCounterLine.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true

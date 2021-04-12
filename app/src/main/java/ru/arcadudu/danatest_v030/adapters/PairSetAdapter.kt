@@ -70,6 +70,7 @@ class PairSetAdapter :
             binding.apply {
                 tvItemTitle.text = pairSet.name.capitalize(Locale.ROOT).trim()
                 tvItemDetails.text = pairSet.details.capitalize(Locale.ROOT).trim()
+                tvItemDetails.visibility = if(pairSet.details.isEmpty()) View.GONE else View.VISIBLE
             }
         }
 

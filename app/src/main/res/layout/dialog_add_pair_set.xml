@@ -14,8 +14,8 @@
             android:id="@+id/tv_add_pair_set_dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:gravity="start"
             android:text="@string/dt_add_pairset_dialog_title"
             android:textAppearance="@style/TextAppearance.dt_widgetTitle"
@@ -39,7 +39,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLength="20"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--editText NEW PAIR DETAILS-->
@@ -58,7 +59,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLength="25"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,16 +68,18 @@
         <!--positive button-->
         <Button
             android:id="@+id/btn_add_pair_set"
+            style="@style/dt_DialogButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="Добавить"
+            android:text="@string/dt_add_pairset_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="@id/inputLayout_newPairSetDetails"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairSetDetails" />
 
         <!--negative button-->
         <Button
             android:id="@+id/btn_cancel_add_wordSet"
+            style="@style/dt_DialogButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dt_add_pairset_dialog_negative_btn"

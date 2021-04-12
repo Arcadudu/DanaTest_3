@@ -191,7 +191,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
 
     override fun showOnRestartDialog(pairSetName: String) {
-        val restartDialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
+        val restartDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val restartDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
         restartDialogBuilder.setView(restartDialogView)
         val restartDialog = restartDialogBuilder.create()
