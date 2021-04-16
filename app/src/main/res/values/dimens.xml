@@ -3,6 +3,8 @@
     <dimen name="dialog_button_text_size">16sp</dimen>
 
 
+    <dimen name="dialog_top_element_marginTop">12dp</dimen>
+
     <dimen name="dt_cardView_margin_startOrEnd">16dp</dimen>
     
 </resources>

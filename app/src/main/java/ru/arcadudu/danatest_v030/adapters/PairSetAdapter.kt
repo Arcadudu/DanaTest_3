@@ -10,6 +10,7 @@ import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragmentView
 import ru.arcadudu.danatest_v030.utils.PairsetDiffUtil
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PairSetAdapter :
@@ -58,19 +59,22 @@ class PairSetAdapter :
     inner class PairSetViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
         private val binding = PairsetRowLayoutBinding.bind(view)
+        val simpleDateFormatExact = SimpleDateFormat("dd MMMM", Locale.getDefault())
 
         init {
             itemView.setOnClickListener {
                 val chosenPairSet = pairsetList[bindingAdapterPosition]
                 pairSetFragmentImplementation.putPairSetIntoIntent(chosenPairSet)
-                           }
+            }
         }
 
         fun bind(pairSet: PairSet) {
             binding.apply {
                 tvItemTitle.text = pairSet.name.capitalize(Locale.ROOT).trim()
-                tvItemDetails.text = pairSet.details.capitalize(Locale.ROOT).trim()
-                tvItemDetails.visibility = if(pairSet.details.isEmpty()) View.GONE else View.VISIBLE
+                val date = simpleDateFormatExact.parse(pairSet.date)
+                tvItemDetails.text = simpleDateFormatExact.format(date!!)
+//                tvItemDetails.text = pairSet.date.capitalize(Locale.ROOT).trim()
+//                tvItemDetails.visibility = if (pairSet.date.isEmpty()) View.GONE else View.VISIBLE
             }
         }
 

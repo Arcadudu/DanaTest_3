@@ -8,6 +8,7 @@ import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.utils.getDummyPairSet
 import ru.arcadudu.danatest_v030.utils.getTimePairSet
+import java.text.SimpleDateFormat
 import java.util.*
 
 @InjectViewState
@@ -35,12 +36,11 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
         //no database stub
         var pairSetCount = 0
-        repeat(5) {
+        repeat(3) {
             pairSetCount++
             pairSetList.add(
                 PairSet(
-                    name = "Набор #$pairSetCount",
-                    details = "Набор под номером $pairSetCount "
+                    name = "Набор #$pairSetCount"
                 )
             )
         }
@@ -62,16 +62,16 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         val chosenPairSet = pairSetList[swipePosition]
         viewState.showRemovePairSetDialog(
             chosenPairSet.name,
-            chosenPairSet.details,
+            chosenPairSet.date,
             position = swipePosition
         )
     }
 
     fun onSwipedRight(swipePosition: Int) {
         val chosenPairset = pairSetList[swipePosition]
-        if(chosenPairset.getPairList().count() != 0){
+        if (chosenPairset.getPairList().count() != 0) {
             viewState.showStartTestDialog(chosenPairset)
-        }else{
+        } else {
             viewState.showOnEmptyPairSetDialog(chosenPairset)
         }
 
@@ -86,7 +86,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         val filteredList: MutableList<PairSet> = mutableListOf()
         for (item in pairSetList) {
             if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
-                item.details.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
+                item.date.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
             }
@@ -95,21 +95,23 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     }
 
     fun onAddNewPairSet() {
-        for(i in 0..30){
+        for (i in 0..30) {
             val plural = context.resources.getQuantityString(R.plurals.plurals_2, i, i)
             Log.d("plural", "onAddNewPairSet: i = $i // plural = $plural")
         }
         viewState.showAddNewPairSetDialog()
     }
 
-    fun addNewPairSet(inputPairSetName: String, inputPairSetDetails: String) {
+    fun addNewPairSet(inputPairSetName: String) {
+        val dateOfAdding =
+            SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault()).format(Date()).toString()
+
         pairSetList.add(
             index = 0,
-            element = PairSet(name = inputPairSetName, details = inputPairSetDetails)
+            element = PairSet(name = inputPairSetName, date = dateOfAdding)
         )
         viewState.updateRecyclerOnAdded(pairSetList)
     }
-
 
 
 }

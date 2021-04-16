@@ -45,7 +45,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     private lateinit var fragmentWordSetBinding: FragmentPairSetBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
-    private lateinit var addPairSetDialogBinding: DialogAddPairSetBinding
+    private lateinit var addPairSetDialogBinding: DialogAddPairsetBinding
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var etPairSetSearchField: EditText
@@ -74,10 +74,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         toolbar = fragmentWordSetBinding.toolbar
         prepareToolbar(toolbar)
-
-//        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.ROOT)
-//        val currentDate = sdf.format(Date())
-
 
         val context = context
         if (context != null) {
@@ -261,15 +257,17 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun showOnEmptyPairSetDialog(chosenPairset: PairSet) {
         val emptyPairsetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-        val emptyPairsetDialogView = this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
+        val emptyPairsetDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
         emptyPairsetDialogBuilder.setView(emptyPairsetDialogView)
         val emptyPairsetDialog = emptyPairsetDialogBuilder.create()
 
         val emptyPairsetDialogBinding = DialogOnEmptyPairsetBinding.bind(emptyPairsetDialogView)
-        emptyPairsetDialogBinding.tvOnEmptyPairsetDialogTitle.text = getString(R.string.dt_on_empty_pairset_dialog_title, chosenPairset.name)
+        emptyPairsetDialogBinding.tvOnEmptyPairsetDialogTitle.text =
+            getString(R.string.dt_on_empty_pairset_dialog_title, chosenPairset.name)
 
         //dismiss button
-        emptyPairsetDialogBinding.btnDismissDialog.setOnClickListener{
+        emptyPairsetDialogBinding.btnDismissDialog.setOnClickListener {
             pairSetAdapter.notifyDataSetChanged()
             emptyPairsetDialog.dismiss()
         }
@@ -360,14 +358,14 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     override fun showAddNewPairSetDialog() {
         val addPairSetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val addPairSetDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_add_pair_set, null, false)
+            this.layoutInflater.inflate(R.layout.dialog_add_pairset, null, false)
         addPairSetDialogBuilder.setView(addPairSetDialogView)
         val addPairSetDialog = addPairSetDialogBuilder.create()
 
         var inputPairSetName = ""
-        var inputPairSetDetails = ""
 
-        addPairSetDialogBinding = DialogAddPairSetBinding.bind(addPairSetDialogView)
+
+        addPairSetDialogBinding = DialogAddPairsetBinding.bind(addPairSetDialogView)
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.dt_add_pairset_dialog_title)
 
@@ -380,14 +378,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         })
 
-        addPairSetDialogBinding.inputLayoutNewPairSetDetails.editText?.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                inputPairSetDetails = s.toString().capitalize(Locale.ROOT).trim()
-            }
-        })
+
         // positive btn
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
@@ -395,9 +386,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
                 }
             } else {
-                if (inputPairSetDetails.isEmpty()) inputPairSetDetails =
-                    getString(R.string.add_pair_set_dialog_no_details)
-                pairSetPresenter.addNewPairSet(inputPairSetName, inputPairSetDetails)
+//todo
+                pairSetPresenter.addNewPairSet(inputPairSetName)
                 addPairSetDialog.dismiss()
             }
         }
