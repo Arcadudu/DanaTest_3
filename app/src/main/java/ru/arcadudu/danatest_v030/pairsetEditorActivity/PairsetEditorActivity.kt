@@ -144,10 +144,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         pairsetEditorPresenter.provideDataForToolbar()
     }
 
-    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
+    override fun getDataForToolbar(wordSetTitle: String, pairsetUpdateExactDate: String) {
         toolbar.apply {
             title = wordSetTitle.capitalize(Locale.ROOT).trim()
-            subtitle = wordSetDescription
+            subtitle = pairsetUpdateExactDate
         }
     }
 

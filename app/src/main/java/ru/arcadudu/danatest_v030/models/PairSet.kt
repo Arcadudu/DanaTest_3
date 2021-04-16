@@ -1,11 +1,25 @@
 package ru.arcadudu.danatest_v030.models
 
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
-open class PairSet(var name: String, var details: String = "") : Serializable {
+var simpleDateFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
+val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
+
+var creationDate = simpleDateFormatExact.format(Date()).toString()
+
+open class PairSet(var name: String, val date: String = creationDate) : Serializable {
     private var pairList: MutableList<Pair> = mutableListOf()
+    private val simpleDateFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
+
 
     fun getPairList() = pairList
+
+    fun addPair(key: String, value: String) {
+        val newPair = Pair(key, value)
+        pairList.add(newPair)
+    }
 
     fun getPairListKeySet(): MutableList<String> {
         val keySet: MutableList<String> = mutableListOf()
@@ -13,16 +27,11 @@ open class PairSet(var name: String, var details: String = "") : Serializable {
         return keySet
     }
 
+
     fun getPairListValueSet(): MutableList<String> {
         val valueSet: MutableList<String> = mutableListOf()
         for (pair in pairList) valueSet.add(pair.pairValue)
         return valueSet
-    }
-
-
-    fun addPair(key: String, details: String) {
-        val newPair = Pair(key, details)
-        pairList.add(newPair)
     }
 
 

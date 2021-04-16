@@ -19,7 +19,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     fun extractIncomingWordSet(incomingIntent: Intent, INTENT_TAG: String) {
         currentPairSet = incomingIntent.getSerializableExtra(INTENT_TAG) as PairSet
         pairSetTitle = currentPairSet.name
-        pairSetDetails = currentPairSet.details
+        pairSetDetails = currentPairSet.date
         currentPairList = currentPairSet.getPairList()
     }
 
@@ -28,6 +28,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun provideDataForToolbar() {
+        val pairsetUpdateExactDateString =
         viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
     }
 

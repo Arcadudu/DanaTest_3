@@ -3,7 +3,7 @@ package ru.arcadudu.danatest_v030.utils
 import ru.arcadudu.danatest_v030.models.PairSet
 
 fun getDummyPairSet(): PairSet {
-    val dummyPairSet = PairSet("fake WordSet", "")
+    val dummyPairSet = PairSet("fake WordSet")
 
     dummyPairSet.addPair("table", "стол")
     dummyPairSet.addPair("chair", "стул")
@@ -96,7 +96,7 @@ var gbEng = listOf(
 )
 
 fun getTimePairSet(): PairSet {
-    val timePairSet = PairSet("Time WordSet", "This is time wordSet")
+    val timePairSet = PairSet("Time WordSet")
     if (timeRu.count() == timeEng.count()) {
         for (i in timeRu.indices) {
             timePairSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())

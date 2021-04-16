@@ -43,28 +43,6 @@
                 android:maxLength="20"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--editText NEW PAIR DETAILS-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayout_newPairSetDetails"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:hint="@string/dt_add_pairset_dialog_new_pairset_details_hint"
-            android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
-            app:counterMaxLength="25"
-            app:layout_constraintEnd_toEndOf="@id/inputLayout_newPairSetName"
-            app:layout_constraintStart_toStartOf="@id/inputLayout_newPairSetName"
-            app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairSetName">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/dt_TextInputEditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="25"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
         <!--positive button-->
         <Button
             android:id="@+id/btn_add_pair_set"
@@ -73,8 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="@string/dt_add_pairset_dialog_positive_btn"
-            app:layout_constraintEnd_toEndOf="@id/inputLayout_newPairSetDetails"
-            app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairSetDetails" />
+            app:layout_constraintEnd_toEndOf="@id/inputLayout_newPairSetName"
+            app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairSetName" />
 
         <!--negative button-->
         <Button
