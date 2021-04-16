@@ -75,10 +75,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         toolbar = fragmentWordSetBinding.toolbar
         prepareToolbar(toolbar)
 
-//        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.ROOT)
-//        val currentDate = sdf.format(Date())
-
-
         val context = context
         if (context != null) {
             pairSetPresenter.captureContext(context)

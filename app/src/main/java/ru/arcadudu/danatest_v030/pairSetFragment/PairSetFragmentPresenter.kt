@@ -69,9 +69,9 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun onSwipedRight(swipePosition: Int) {
         val chosenPairset = pairSetList[swipePosition]
-        if(chosenPairset.getPairList().count() != 0){
+        if (chosenPairset.getPairList().count() != 0) {
             viewState.showStartTestDialog(chosenPairset)
-        }else{
+        } else {
             viewState.showOnEmptyPairSetDialog(chosenPairset)
         }
 
@@ -95,7 +95,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     }
 
     fun onAddNewPairSet() {
-        for(i in 0..30){
+        for (i in 0..30) {
             val plural = context.resources.getQuantityString(R.plurals.plurals_2, i, i)
             Log.d("plural", "onAddNewPairSet: i = $i // plural = $plural")
         }
@@ -103,8 +103,8 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     }
 
     fun addNewPairSet(inputPairSetName: String) {
-        val dateOfAdding = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault()).format(Date()).toString()
-
+        val dateOfAdding =
+            SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault()).format(Date()).toString()
 
         pairSetList.add(
             index = 0,
@@ -112,7 +112,6 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         )
         viewState.updateRecyclerOnAdded(pairSetList)
     }
-
 
 
 }

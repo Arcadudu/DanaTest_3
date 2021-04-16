@@ -14,6 +14,7 @@
 
     <style name="TextAppearance.dt_widgetTitle" parent="TextAppearance.dt_itemTitle">
         <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.dt_textButtonTextStyle" parent="TextAppearance.MaterialComponents.Button">
