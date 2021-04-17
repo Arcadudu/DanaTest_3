@@ -42,8 +42,8 @@
     <string name="dt_start_test_dialog_negative_btn">Нет</string>
     <string name="dt_start_test_dialog_positive_btn">Начать</string>
     <!--onEmptyPairsetDialog-->
-    <string name="dt_on_empty_pairset_dialog_title">%1$s является пустым</string>
-    <string name="dt_on_empty_pairset_dialog_message">Невозможно начать тест с пустым набором</string>
+    <string name="dt_on_empty_pairset_dialog_title">%1$s пуст</string>
+    <string name="dt_on_empty_pairset_dialog_message">Невозможно начать тестирование\nс пустым набором</string>
     <string name="dt_on_empty_pairset_dismiss_button">Ок</string>
     <!--/pairsetFragment-->
 

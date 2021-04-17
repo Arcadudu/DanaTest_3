@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
@@ -94,7 +91,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         pairSetPresenter.providePairSetListCount()
 
         etPairSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
-        addTextWatcher(etPairSetSearchField)
+        etPairSetSearchField.doOnTextChanged { text, _, _, _ ->
+            showBtnClear(text.toString().isEmpty())
+            pairSetPresenter.filter(text.toString())
+        }
 
         btnClearSearchField = fragmentWordSetBinding.btnSearchClose
         btnClearSearchField.setOnClickListener {
@@ -118,17 +118,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     private fun showBtnClear(isStringEmpty: Boolean) {
         btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
-    }
-
-    private fun addTextWatcher(targetEditText: EditText) {
-        targetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                showBtnClear(s.toString().isEmpty())
-                pairSetPresenter.filter(s.toString())
-            }
-        })
     }
 
     private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
@@ -297,40 +286,45 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         }
 
-        val startTestDialogBinding = DialogStartTestBinding.bind(startTestDialogView)
-
-        startTestDialogBinding.tvStartTestDialogTitle.text =
-            getString(R.string.dt_start_test_dialog_title)
-
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
 
-        startTestDialogBinding.autoCompleteTestCase.apply {
-            setAdapter(testArrayAdapter)
-            setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
-            startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
-                startTestDialogBinding.allPairSetVariantsCheckBox.visibility =
-                    if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
+        val startTestDialogBinding = DialogStartTestBinding.bind(startTestDialogView)
+
+        startTestDialogBinding.apply {
+            tvStartTestDialogTitle.text =
+                getString(R.string.dt_start_test_dialog_title)
+            autoCompleteTestCase.apply {
+                setAdapter(testArrayAdapter)
+                setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
+                startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
+                    startTestDialogBinding.allPairSetVariantsCheckBox.visibility =
+                        if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
+                }
+
             }
 
-        }
-
-        val shufflePairsetCheckBox: MaterialCheckBox = startTestDialogBinding.shufflePairSetCheckBox
-        shufflePairsetCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                shufflePairsetCheckBox.setTextColor(
+            //todo : make a style for checkboxes with textColor colorset
+            shufflePairSetCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
+                val checkBoxTextColor =
+                    if (isChecked) R.color.dt3_brand_100 else R.color.dt3_hint_color_70
+                checkBox.setTextColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.dt3_brand_100,
+                        checkBoxTextColor,
                         activity?.theme
                     )
                 )
-            } else {
-                shufflePairsetCheckBox.setTextColor(
+            }
+
+            allPairSetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
+                val checkBoxTextColor =
+                    if (isChecked) R.color.dt3_error_100 else R.color.dt3_brand_100
+                checkBox.setTextColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.dt3_hint_color_70,
+                        checkBoxTextColor,
                         activity?.theme
                     )
                 )
@@ -374,15 +368,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.dt_add_pairset_dialog_title)
 
-        /*addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.doon*/
-        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                inputPairSetName = s.toString().capitalize(Locale.ROOT).trim()
-            }
-        })
+        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.doOnTextChanged { text, _, _, _ ->
+            inputPairSetName = text.toString().capitalize(Locale.getDefault()).trim()
+        }
 
         // positive btn
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {

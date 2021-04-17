@@ -3,8 +3,6 @@ package ru.arcadudu.danatest_v030.pairsetEditorActivity
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +12,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,7 +54,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var fabAddPair: FloatingActionButton
 
 
-    private lateinit var dialogBuilder:AlertDialog.Builder
+    private lateinit var dialogBuilder: AlertDialog.Builder
 
 
     @InjectPresenter
@@ -79,7 +78,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         initRecyclerSwiper(pairRecyclerView)
 
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
-        addTextWatcher(etPairSearchField)
+        etPairSearchField.doOnTextChanged { text, _, _, _ ->
+            showBtnClearAll(text.toString().isEmpty())
+            pairsetEditorPresenter.filter(text.toString())
+        }
 
         btnClearSearchField = activityWsEditorBinding.btnSearchClose
         showBtnClearAll(true)
@@ -208,25 +210,27 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 isCurrentlyActive: Boolean
             ) {
 
-                val dtSwipeDecorator = DtSwipeDecorator(viewHolder = viewHolder, context = this@PairsetEditorActivity)
+                val dtSwipeDecorator =
+                    DtSwipeDecorator(viewHolder = viewHolder, context = this@PairsetEditorActivity)
                 val itemViewWidth = viewHolder.itemView.right - viewHolder.itemView.left
-                val alphaOffset = dX.toInt()/(itemViewWidth/dX)
+                val alphaOffset = dX.toInt() / (itemViewWidth / dX)
 
                 // swiping left
                 if (dX < 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)
-                    val iconDeleteBitmap = dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_close_onbrand_white)
+                    val iconDeleteBitmap =
+                        dtSwipeDecorator.getSwipeBitmap(R.drawable.icon_close_onbrand_white)
                     val paint = dtSwipeDecorator.getSwipePaint(R.color.dt3_error_100)
 
                     val iconDestination = dtSwipeDecorator.getSwipeIconDestinationRectF(dX)
 
-                    if(-alphaOffset > -255){
+                    if (-alphaOffset > -255) {
                         paint.alpha = alphaOffset.toInt()
                     }
 
                     canvas.drawRoundRect(background, 24f, 24f, paint)
-                    if(dX < -220) {
+                    if (dX < -220) {
                         if (iconDeleteBitmap != null) {
                             canvas.drawBitmap(iconDeleteBitmap, null, iconDestination, paint)
                         }
@@ -257,18 +261,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         * uncomment the following: */
 //        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
 //        itemTouchHelper.attachToRecyclerView(recyclerView)
-    }
-
-    private fun addTextWatcher(targetEditText: EditText) {
-        targetEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                showBtnClearAll(s.toString().isEmpty())
-                pairsetEditorPresenter.filter(s.toString())
-            }
-
-        })
     }
 
     override fun showBtnClearAll(isStringEmpty: Boolean) {
@@ -342,23 +334,13 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         etNewPairKey?.setText(pairKey.capitalize(Locale.ROOT))
         etNewPairValue?.setText(pairValue.capitalize(Locale.ROOT))
 
-        etNewPairKey?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                pairKeyAfterChange = s.toString().capitalize(Locale.ROOT).trim()
-            }
+        etNewPairKey?.doOnTextChanged { text, _, _, _ ->
+            pairKeyAfterChange = text.toString().capitalize(Locale.getDefault()).trim()
+        }
 
-        })
-
-        etNewPairValue?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                pairValueAfterChange = s.toString().capitalize(Locale.ROOT).trim()
-            }
-
-        })
+        etNewPairValue?.doOnTextChanged { text, _, _, _ ->
+            pairValueAfterChange = text.toString().capitalize(Locale.getDefault()).trim()
+        }
 
         editPairBinding.btnAddPair.text = getString(R.string.edit_pair_dialog_save_button_text)
         editPairBinding.btnAddPair.setOnClickListener {
@@ -406,41 +388,26 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         val etNewPairKey = addPairBinding.inputLayoutNewPairKey.editText
         val etNewPairValue = addPairBinding.inputLayoutNewPairValue.editText
 
-        etNewPairKey?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                inputKey = s.toString().capitalize(Locale.ROOT).trim()
-            }
+        etNewPairKey?.doOnTextChanged { text, _, _, _ ->
+            inputKey = text.toString().capitalize(Locale.getDefault()).trim()
+        }
 
-        })
-
-        etNewPairValue?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                inputValue = s.toString().capitalize(Locale.ROOT).trim()
-            }
-
-        })
+        etNewPairValue?.doOnTextChanged { text, _, _, _ ->
+            inputValue = text.toString().capitalize(Locale.getDefault()).trim()
+        }
 
         addPairBinding.btnAddPair.setOnClickListener {
-            if(inputKey.isBlank() || inputValue.isBlank()){
+            if (inputKey.isBlank() || inputValue.isBlank()) {
                 if (inputKey.isBlank()) {
                     etNewPairKey?.error = getString(R.string.dt_add_pair_dialog_empty_key_error)
                 }
                 if (inputValue.isBlank()) {
                     etNewPairValue?.error = getString(R.string.dt_add_pair_dialog_empty_value_error)
                 }
-            }else{
+            } else {
                 pairsetEditorPresenter.addNewPair(inputKey, inputValue)
                 addPairDialog.dismiss()
             }
-
         }
 
         addPairBinding.btnCancelAddPair.setOnClickListener {
