@@ -14,14 +14,18 @@ fun drawableToBitmap(drawable: Drawable): Bitmap? {
         return drawable.bitmap
     }
     val bitmap =
-        Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
     val canvas = Canvas(bitmap)
     drawable.setBounds(0, 0, canvas.width, canvas.height)
     drawable.draw(canvas)
     return bitmap
 }
 
-fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView, animationId:Int) {
+fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView, animationId: Int) {
     val context = targetRecyclerView.context
     val animationController: LayoutAnimationController =
         AnimationUtils.loadLayoutAnimation(context, animationId)
@@ -29,6 +33,13 @@ fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView, animationId:Int) {
     targetRecyclerView.adapter?.notifyDataSetChanged()
     targetRecyclerView.scheduleLayoutAnimation()
 }
+
+
+//val emptyPairsetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
+//        val emptyPairsetDialogView =
+//            this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
+//        emptyPairsetDialogBuilder.setView(emptyPairsetDialogView)
+//        val emptyPairsetDialog = emptyPairsetDialogBuilder.create()
 
 
 

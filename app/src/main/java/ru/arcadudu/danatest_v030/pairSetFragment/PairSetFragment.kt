@@ -1,6 +1,5 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
@@ -32,6 +31,7 @@ import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
+import ru.arcadudu.danatest_v030.utils.DtDialogFactory
 import ru.arcadudu.danatest_v030.utils.DtSwipeDecorator
 import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
 import ru.arcadudu.danatest_v030.utils.vibratePhone
@@ -54,6 +54,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
+    private lateinit var dtDialogFactory :DtDialogFactory
+
+
+
     @InjectPresenter
     lateinit var pairSetPresenter: PairSetFragmentPresenter
 
@@ -71,6 +75,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         Log.d(TAG, "onViewCreated: ")
 
         fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
+        dtDialogFactory = DtDialogFactory(requireActivity(), R.style.dt_CustomAlertDialog)
 
         toolbar = fragmentWordSetBinding.toolbar
         prepareToolbar(toolbar)
@@ -255,12 +260,17 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     }
 
+
     override fun showOnEmptyPairSetDialog(chosenPairset: PairSet) {
-        val emptyPairsetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-        val emptyPairsetDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
-        emptyPairsetDialogBuilder.setView(emptyPairsetDialogView)
-        val emptyPairsetDialog = emptyPairsetDialogBuilder.create()
+        val emptyPairsetDialogView = dtDialogFactory.getDialogViewForBinding(R.layout.dialog_on_empty_pairset)
+        val emptyPairsetDialog = dtDialogFactory.getDialogInstance(emptyPairsetDialogView)
+
+        val dismissedWithAction = false
+        emptyPairsetDialog.setOnDismissListener {
+            if (!dismissedWithAction) {
+                pairSetAdapter.notifyDataSetChanged()
+            }
+        }
 
         val emptyPairsetDialogBinding = DialogOnEmptyPairsetBinding.bind(emptyPairsetDialogView)
         emptyPairsetDialogBinding.tvOnEmptyPairsetDialogTitle.text =
@@ -273,15 +283,12 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
 
         emptyPairsetDialog.show()
-
     }
 
     override fun showStartTestDialog(chosenPairSet: PairSet) {
-        val startTestDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-        val startTestDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_start_test, null, false)
-        startTestDialogBuilder.setView(startTestDialogView)
-        val startTestDialog = startTestDialogBuilder.create()
+        val startTestDialogView = dtDialogFactory.getDialogViewForBinding(R.layout.dialog_start_test)
+        val startTestDialog = dtDialogFactory.getDialogInstance(startTestDialogView)
+
         var dismissedWithAction = false
         startTestDialog.setOnDismissListener {
             if (!dismissedWithAction) {
@@ -356,14 +363,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun showAddNewPairSetDialog() {
-        val addPairSetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-        val addPairSetDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_add_pairset, null, false)
-        addPairSetDialogBuilder.setView(addPairSetDialogView)
-        val addPairSetDialog = addPairSetDialogBuilder.create()
+        val addPairSetDialogView = dtDialogFactory.getDialogViewForBinding(R.layout.dialog_add_pairset)
+        val addPairSetDialog = dtDialogFactory.getDialogInstance(addPairSetDialogView)
 
         var inputPairSetName = ""
-
 
         addPairSetDialogBinding = DialogAddPairsetBinding.bind(addPairSetDialogView)
         addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
@@ -378,7 +381,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
         })
 
-
         // positive btn
         addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
@@ -386,9 +388,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
                 }
             } else {
-//todo
                 pairSetPresenter.addNewPairSet(inputPairSetName)
                 addPairSetDialog.dismiss()
+                //todo presenter checks database for pairsets with same names
             }
         }
 
@@ -400,21 +402,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
 
-    override fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>) {
-        pairSetAdapter.apply {
-            submitList(pairSetList)
-            notifyItemInserted(0)
-        }
-        pairSetPresenter.providePairSetListCount()
-        pairSetRecyclerView.scrollToPosition(0)
-    }
-
-
     override fun showRemovePairSetDialog(name: String, description: String, position: Int) {
-        val removeDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-        val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
-        removeDialogBuilder.setView(removeDialogView)
-        val removeDialog = removeDialogBuilder.create()
+        val removeDialogView = dtDialogFactory.getDialogViewForBinding(R.layout.dialog_remove_item)
+        val removeDialog = dtDialogFactory.getDialogInstance(removeDialogView)
+
         var dismissedWithAction = false
         removeDialog.setOnDismissListener {
             if (!dismissedWithAction)
@@ -435,6 +426,16 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             removeDialog.dismiss()
         }
         removeDialog.show()
+    }
+
+
+    override fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>) {
+        pairSetAdapter.apply {
+            submitList(pairSetList)
+            notifyItemInserted(0)
+        }
+        pairSetPresenter.providePairSetListCount()
+        pairSetRecyclerView.scrollToPosition(0)
     }
 
     override fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int) {
@@ -505,6 +506,5 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
         pairSetPresenter.providePairSetListCount()
     }
-
 
 }
