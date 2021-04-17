@@ -24,7 +24,7 @@
     <string name="dt_add_pairset_dialog_new_pairset_details_hint">Описание</string>
     <string name="dt_add_pairset_dialog_negative_btn">Нет</string>
     <string name="dt_add_pairset_dialog_positive_btn">Добавить</string>
-    <string name="dt_add_pairset_dialog_on_empty_title_error">Название набора не может быть пусты</string>
+    <string name="dt_add_pairset_dialog_on_empty_title_error">укажите имя набора</string>
     <!--removePairsetDialog-->
     <string name="dt_remove_pairset_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="dt_remove_pairset_dialog_negative_btn">нет</string>
@@ -66,6 +66,9 @@
     <string name="dt_remove_pair_dialog_message">Вы действительно хотите удалить\nвыбранный элемент?</string>
     <string name="dt_remove_pair_dialog_negative_btn">Нет</string>
     <string name="dt_remove_pair_dialog_positive_btn">Удалить</string>
+    <!--addPairDialog-->
+    <string name="dt_add_pair_dialog_empty_key_error">Укажите ключ пары</string>
+    <string name="dt_add_pair_dialog_empty_value_error">Укажите значение пары</string>
     <!--/pairsetEditorActivity-->
 
     <!--testTranslateFragment-->

@@ -26,7 +26,7 @@ import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityPairsetEditorBinding
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairLightBinding
+import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
@@ -55,6 +55,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var fabAddPair: FloatingActionButton
 
 
+    private lateinit var dialogBuilder:AlertDialog.Builder
+
+
     @InjectPresenter
     lateinit var pairsetEditorPresenter: PairsetEditorPresenter
 
@@ -63,6 +66,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         activityWsEditorBinding = ActivityPairsetEditorBinding.inflate(layoutInflater)
         val view = activityWsEditorBinding.root
         setContentView(view)
+
+        dialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
 
         pairsetEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
 
@@ -144,10 +149,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         pairsetEditorPresenter.provideDataForToolbar()
     }
 
-    override fun getDataForToolbar(wordSetTitle: String, pairsetUpdateExactDate: String) {
+    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
         toolbar.apply {
             title = wordSetTitle.capitalize(Locale.ROOT).trim()
-            subtitle = pairsetUpdateExactDate
+            subtitle = wordSetDescription
         }
     }
 
@@ -277,10 +282,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         position: Int
     ) {
 
-        val removeDialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
-        val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null)
-        removeDialogBuilder.setView(removeDialogView)
-        val removeDialog = removeDialogBuilder.create()
+        val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null, false)
+        val removeDialog = dialogBuilder.setView(removeDialogView).create()
+
         var dismissedWithAction = false
         removeDialog.setOnDismissListener {
             if (!dismissedWithAction)
@@ -303,6 +307,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         //positive btn
         removeDialogBinding.btnRemovePair.setOnClickListener {
+            //first remove searchfield text, so filters are not applied
+            etPairSearchField.text = null
             pairsetEditorPresenter.removePairAtPosition(position)
             dismissedWithAction = true
             removeDialog.dismiss()
@@ -316,13 +322,11 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         pairKey: String,
         pairValue: String
     ) {
-        val editPairDialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
-        val editPairDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_add_pair_light, null, false)
-        editPairDialogBuilder.setView(editPairDialogView)
-        val editPairDialog = editPairDialogBuilder.create()
 
-        val editPairBinding = DialogAddPairLightBinding.bind(editPairDialogView)
+        val editPairDialogView = this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        val editPairDialog = dialogBuilder.setView(editPairDialogView).create()
+
+        val editPairBinding = DialogAddPairBinding.bind(editPairDialogView)
         editPairBinding.tvAddPairDialogTitle.text =
             getString(R.string.edit_pair_dialog_edit_button_text)
 
@@ -388,16 +392,15 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
 
     override fun showAddNewPairDialog() {
-        val addPairDialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
+
         val addPairDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_add_pair_light, null, false)
-        addPairDialogBuilder.setView(addPairDialogView)
-        val addPairDialog = addPairDialogBuilder.create()
+            this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
+        val addPairDialog = dialogBuilder.setView(addPairDialogView).show()
 
         var inputKey = ""
         var inputValue = ""
 
-        val addPairBinding = DialogAddPairLightBinding.bind(addPairDialogView)
+        val addPairBinding = DialogAddPairBinding.bind(addPairDialogView)
         addPairBinding.tvAddPairDialogTitle.text = getString(R.string.add_pair_dialog_title)
 
         val etNewPairKey = addPairBinding.inputLayoutNewPairKey.editText
@@ -428,10 +431,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         addPairBinding.btnAddPair.setOnClickListener {
             if(inputKey.isBlank() || inputValue.isBlank()){
                 if (inputKey.isBlank()) {
-                    etNewPairKey?.error = "Ключ не может быть пустым"
+                    etNewPairKey?.error = getString(R.string.dt_add_pair_dialog_empty_key_error)
                 }
                 if (inputValue.isBlank()) {
-                    etNewPairValue?.error = "Значение не может быть пустым"
+                    etNewPairValue?.error = getString(R.string.dt_add_pair_dialog_empty_value_error)
                 }
             }else{
                 pairsetEditorPresenter.addNewPair(inputKey, inputValue)
