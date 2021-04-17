@@ -1,8 +1,10 @@
 package ru.arcadudu.danatest_v030.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
@@ -18,6 +20,12 @@ class PairSetAdapter :
 
     private var pairsetList: MutableList<PairSet> = mutableListOf()
     private lateinit var pairSetFragmentImplementation: PairSetFragmentView
+
+    private lateinit var pairSetFragmentContext: Context
+
+    fun captureContext(context: Context) {
+        this.pairSetFragmentContext = context
+    }
 
 
     fun onItemClickCallback(pairSetFragmentImplementation: PairSetFragmentView) {
@@ -36,12 +44,6 @@ class PairSetAdapter :
 
     override fun getItemCount() = pairsetList.count()
 
-    //fun submitPairs(newList: MutableList<Pair>) {
-    //        val pairDiffUtil = PairDiffUtil(pairList, newList)
-    //        val diffResult = DiffUtil.calculateDiff(pairDiffUtil)
-    //        pairList = newList
-    //        diffResult.dispatchUpdatesTo(this)
-    //    }
 
     fun submitList(newPairsetList: MutableList<PairSet>) {
         val pairsetDiffUtil = PairsetDiffUtil(pairsetList, newPairsetList)
@@ -59,7 +61,12 @@ class PairSetAdapter :
     inner class PairSetViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
         private val binding = PairsetRowLayoutBinding.bind(view)
-        val simpleDateFormatExact = SimpleDateFormat("dd MMMM", Locale.getDefault())
+        private val simpleDateFormatExact = SimpleDateFormat("dd MMMM", Locale.getDefault())
+        private val background = {drawableResource : Int ->
+            ResourcesCompat.getDrawable(pairSetFragmentContext.resources, drawableResource, pairSetFragmentContext.theme)
+        }
+
+
 
         init {
             itemView.setOnClickListener {
@@ -73,8 +80,13 @@ class PairSetAdapter :
                 tvItemTitle.text = pairSet.name.capitalize(Locale.ROOT).trim()
                 val date = simpleDateFormatExact.parse(pairSet.date)
                 tvItemDetails.text = simpleDateFormatExact.format(date!!)
-//                tvItemDetails.text = pairSet.date.capitalize(Locale.ROOT).trim()
-//                tvItemDetails.visibility = if (pairSet.date.isEmpty()) View.GONE else View.VISIBLE
+                tvPairCounterBody.apply {
+                    text = pairSet.getPairList().count().toString()
+                    background = if (pairSet.getPairList()
+                            .count() == 0
+                    ) background(R.drawable.pair_counter_container_has_no_pairs) else background(R.drawable.pair_counter_container_pairs)
+
+                }
             }
         }
 
