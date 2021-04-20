@@ -299,13 +299,12 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         //positive btn
         removeDialogBinding.btnRemovePair.setOnClickListener {
-            //first remove searchfield text, so filters are not applied
-            etPairSearchField.text = null
+            if (etPairSearchField.text.isNotEmpty())
+                etPairSearchField.text = null
             pairsetEditorPresenter.removePairAtPosition(position)
             dismissedWithAction = true
             removeDialog.dismiss()
         }
-
         removeDialog.show()
     }
 

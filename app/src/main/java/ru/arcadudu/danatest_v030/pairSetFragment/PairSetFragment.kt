@@ -51,6 +51,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
 
+
     private lateinit var dialogBuilder: AlertDialog.Builder
 
 
@@ -122,6 +123,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
         pairSetAdapter = PairSetAdapter()
+        pairSetAdapter.captureContext(requireContext())
         targetRecyclerView.apply {
             setHasFixedSize(true)
             adapter = pairSetAdapter
