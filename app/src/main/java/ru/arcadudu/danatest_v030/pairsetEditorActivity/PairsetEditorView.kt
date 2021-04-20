@@ -34,5 +34,7 @@ interface PairsetEditorView : MvpView {
 
     fun obtainWordSetForTest(currentPairSet: PairSet)
 
+    fun setOnEmptyStub(count: Int)
+
 
 }

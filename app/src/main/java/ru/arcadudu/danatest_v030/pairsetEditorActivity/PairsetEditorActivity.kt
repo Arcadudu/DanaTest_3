@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import moxy.MvpAppCompatActivity
@@ -53,6 +54,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var pairRowAdapter: PairRowAdapter
     private lateinit var fabAddPair: FloatingActionButton
 
+    private lateinit var emptyPairsetStub:MaterialTextView
+
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
@@ -82,6 +85,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             showBtnClearAll(text.toString().isEmpty())
             pairsetEditorPresenter.filter(text.toString())
         }
+
+        emptyPairsetStub = activityWsEditorBinding.tvNoPairInPairsetStub
+        pairsetEditorPresenter.checkIfPairsetIsEmpty()
 
         btnClearSearchField = activityWsEditorBinding.btnSearchClose
         showBtnClearAll(true)
@@ -447,6 +453,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     override fun obtainWordSetForTest(currentPairSet: PairSet) {
         pairSetForTesting = currentPairSet
+    }
+
+    override fun setOnEmptyStub(count: Int) {
+        emptyPairsetStub.visibility = if(count==0) View.VISIBLE else View.GONE
     }
 
     override fun updateRecyclerOnSwap(

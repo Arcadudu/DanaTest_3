@@ -23,6 +23,10 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         currentPairList = currentPairSet.getPairList()
     }
 
+    fun checkIfPairsetIsEmpty(){
+        viewState.setOnEmptyStub(currentPairList.count())
+    }
+
     fun deliverWordSetForTest(){
         viewState.obtainWordSetForTest(currentPairSet)
     }
@@ -55,6 +59,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     fun addNewPair(inputKey: String, inputValue: String) {
         currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
         viewState.updateRecyclerOnAdded(currentPairList)
+        viewState.setOnEmptyStub(currentPairList.count())
     }
 
     fun filter(text: String) {
@@ -83,6 +88,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     fun removePairAtPosition(removePosition: Int) {
         currentPairList.removeAt(removePosition)
         viewState.updateRecyclerOnRemoved(currentPairList, removePosition)
+        viewState.setOnEmptyStub(currentPairList.count())
     }
 
 
