@@ -64,12 +64,10 @@ PairRowAdapter : RecyclerView.Adapter<PairRowAdapter.PairRowViewHolder>() {
         }
 
         fun bind(pair: Pair) {
-
             binding.apply {
                 tvKey.text = pair.pairKey.capitalize(Locale.ROOT).trim()
                 tvValue.text = pair.pairValue.capitalize(Locale.ROOT).trim()
             }
-
         }
     }
 }
