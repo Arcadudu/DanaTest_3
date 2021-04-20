@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import moxy.MvpAppCompatFragment
@@ -50,6 +51,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetRecyclerView: RecyclerView
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
+    private lateinit var noPairsetStub: MaterialTextView
 
 
     private lateinit var dialogBuilder: AlertDialog.Builder
@@ -96,6 +98,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             showBtnClear(text.toString().isEmpty())
             pairSetPresenter.filter(text.toString())
         }
+
+        noPairsetStub = fragmentWordSetBinding.tvNoPairsetStub
+        pairSetPresenter.checkIfThereAnyPairsets()
 
         btnClearSearchField = fragmentWordSetBinding.btnSearchClose
         btnClearSearchField.setOnClickListener {
@@ -447,6 +452,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java)
         toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
         startActivity(toEditorIntent)
+    }
+
+    override fun setOnEmptyStub(count: Int) {
+        noPairsetStub.visibility = if(count ==0) View.VISIBLE else View.GONE
     }
 
     //lifecycle

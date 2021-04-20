@@ -55,6 +55,7 @@
     <string name="dt_pairset_editor_toolbar_action_variants">Четыре варианта</string>
     <string name="dt_pairset_editor_toolbar_action_shuffle">Перемешать</string>
     <string name="dt_pairset_editor_searchfield_hint">Поиск слова</string>
+    <string name="dt_pairset_editor_on_empty_pairset_stub">Здесь пока ничего нет</string>
     <!--addPairDialog-->
     <string name="dt_add_pair_dialog_title">Новая пара</string>
     <string name="dt_add_pair_dialog_new_pair_key_hint">Ключ</string>

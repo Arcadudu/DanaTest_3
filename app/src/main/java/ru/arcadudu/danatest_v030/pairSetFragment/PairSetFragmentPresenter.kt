@@ -80,6 +80,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun removePairSetAtPosition(position: Int) {
         pairSetList.removeAt(position)
         viewState.updateRecyclerOnRemoved(pairSetList, position)
+        viewState.setOnEmptyStub(pairSetList.count())
     }
 
     fun filter(text: String) {
@@ -111,6 +112,11 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             element = PairSet(name = inputPairSetName, date = dateOfAdding)
         )
         viewState.updateRecyclerOnAdded(pairSetList)
+        viewState.setOnEmptyStub(pairSetList.count())
+    }
+
+    fun checkIfThereAnyPairsets() {
+        viewState.setOnEmptyStub(pairSetList.count())
     }
 
 
