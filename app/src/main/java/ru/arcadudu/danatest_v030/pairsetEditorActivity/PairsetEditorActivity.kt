@@ -67,12 +67,14 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         dialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
 
-        pairsetEditorPresenter.captureContext(applicationContext)
-        pairsetEditorPresenter.extractIncomingPairset(
-            intent,
-            SELECTED_PAIRSET_TO_EDITOR_TAG,
-            SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
-        )
+        pairsetEditorPresenter.apply {
+            captureContext(applicationContext)
+            extractIncomingPairset(
+                intent,
+                SELECTED_PAIRSET_TO_EDITOR_TAG,
+                SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
+            )
+        }
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
@@ -291,25 +293,27 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
 
-        removeDialogBinding.tvRemoveDialogTitle.text = getString(
-            R.string.dt_remove_pair_dialog_title,
-            chosenPairKey.capitalize(Locale.ROOT).trim(),
-            chosenPairValue.capitalize(Locale.ROOT).trim()
-        )
-        removeDialogBinding.tvRemoveDialogMessage.text =
-            getString(R.string.dt_remove_pair_dialog_message)
+        removeDialogBinding.apply {
+            tvRemoveDialogTitle.text = getString(
+                R.string.dt_remove_pair_dialog_title,
+                chosenPairKey.capitalize(Locale.ROOT).trim(),
+                chosenPairValue.capitalize(Locale.ROOT).trim()
+            )
+            tvRemoveDialogMessage.text =
+                getString(R.string.dt_remove_pair_dialog_message)
 
-        //negative btn
-        removeDialogBinding.btnCancelRemove.setOnClickListener {
-            removeDialog.dismiss()
-        }
-        //positive btn
-        removeDialogBinding.btnRemovePair.setOnClickListener {
-            if (etPairSearchField.text.isNotEmpty())
-                etPairSearchField.text = null
-            pairsetEditorPresenter.removePairAtPosition(position)
-            dismissedWithAction = true
-            removeDialog.dismiss()
+            //negative btn
+            btnCancelRemove.setOnClickListener {
+                removeDialog.dismiss()
+            }
+            //positive btn
+            btnRemovePair.setOnClickListener {
+                if (etPairSearchField.text.isNotEmpty())
+                    etPairSearchField.text = null
+                pairsetEditorPresenter.removePairAtPosition(position)
+                dismissedWithAction = true
+                removeDialog.dismiss()
+            }
         }
         removeDialog.show()
     }
@@ -347,39 +351,39 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             pairValueAfterChange = text.toString().capitalize(Locale.getDefault()).trim()
         }
 
-        editPairBinding.btnAddPair.text = getString(R.string.edit_pair_dialog_save_button_text)
-        editPairBinding.btnAddPair.setOnClickListener {
+        editPairBinding.apply {
+            // positive button
+            btnAddPair.text = getString(R.string.edit_pair_dialog_save_button_text)
+            btnAddPair.setOnClickListener {
+                resultPairKey =
+                    if (pairKeyAfterChange.isEmpty()) pairKey.capitalize(Locale.ROOT).trim()
+                    else pairKeyAfterChange
+                resultPairValue =
+                    if (pairValueAfterChange.isEmpty()) pairValue.capitalize(Locale.ROOT).trim()
+                    else pairValueAfterChange.capitalize(Locale.ROOT).trim()
 
-            resultPairKey = if (pairKeyAfterChange.isEmpty()) pairKey.capitalize(Locale.ROOT).trim()
-            else pairKeyAfterChange
-            resultPairValue =
-                if (pairValueAfterChange.isEmpty()) pairValue.capitalize(Locale.ROOT).trim()
-                else pairValueAfterChange.capitalize(Locale.ROOT).trim()
-
-            if (resultPairKey == pairKey && resultPairValue == pairValue) {
+                if (resultPairKey == pairKey && resultPairValue == pairValue) {
+                    editPairDialog.dismiss()
+                } else {
+                    pairsetEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
+                }
                 editPairDialog.dismiss()
-            } else {
-                pairsetEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
             }
-            editPairDialog.dismiss()
-
+            // negative button
+            btnCancelAddPair.setOnClickListener {
+                editPairDialog.dismiss()
+            }
+            // swap key and value button
+            ivSwapPairBtn.setOnClickListener {
+                if (etNewPairKey != null && etNewPairValue != null)
+                    swapEditTexts(etNewPairKey, etNewPairValue)
+            }
         }
-
-        editPairBinding.btnCancelAddPair.setOnClickListener {
-            editPairDialog.dismiss()
-        }
-
-        editPairBinding.ivSwapPairBtn.setOnClickListener {
-            if (etNewPairKey != null && etNewPairValue != null)
-                swapEditTexts(etNewPairKey, etNewPairValue)
-        }
-
         editPairDialog.show()
     }
 
 
     override fun showAddNewPairDialog() {
-
         val addPairDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pair, null, false)
         val addPairDialog = dialogBuilder.setView(addPairDialogView).show()
@@ -401,29 +405,33 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             inputValue = text.toString().capitalize(Locale.getDefault()).trim()
         }
 
-        addPairBinding.btnAddPair.setOnClickListener {
-            if (inputKey.isBlank() || inputValue.isBlank()) {
-                if (inputKey.isBlank()) {
-                    etNewPairKey?.error = getString(R.string.dt_add_pair_dialog_empty_key_error)
+        addPairBinding.apply {
+            // positive button
+            btnAddPair.setOnClickListener {
+                if (inputKey.isBlank() || inputValue.isBlank()) {
+                    if (inputKey.isBlank()) {
+                        etNewPairKey?.error = getString(R.string.dt_add_pair_dialog_empty_key_error)
+                    }
+                    if (inputValue.isBlank()) {
+                        etNewPairValue?.error =
+                            getString(R.string.dt_add_pair_dialog_empty_value_error)
+                    }
+                } else {
+                    pairsetEditorPresenter.addNewPair(inputKey, inputValue)
+                    addPairDialog.dismiss()
                 }
-                if (inputValue.isBlank()) {
-                    etNewPairValue?.error = getString(R.string.dt_add_pair_dialog_empty_value_error)
-                }
-            } else {
-                pairsetEditorPresenter.addNewPair(inputKey, inputValue)
+            }
+            // positive button
+            btnCancelAddPair.setOnClickListener {
                 addPairDialog.dismiss()
             }
-        }
+            // swap pair key and value button
+            ivSwapPairBtn.setOnClickListener {
+                if (etNewPairKey != null && etNewPairValue != null)
+                    swapEditTexts(etNewPairKey, etNewPairValue)
+            }
 
-        addPairBinding.btnCancelAddPair.setOnClickListener {
-            addPairDialog.dismiss()
         }
-
-        addPairBinding.ivSwapPairBtn.setOnClickListener {
-            if (etNewPairKey != null && etNewPairValue != null)
-                swapEditTexts(etNewPairKey, etNewPairValue)
-        }
-
         addPairDialog.show()
     }
 
@@ -444,8 +452,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
     override fun obtainFilteredList(filteredList: MutableList<Pair>) {
-        pairRowAdapter.filterList(filteredList)
-        pairRowAdapter.notifyDataSetChanged()
+        pairRowAdapter.apply {
+            filterList(filteredList)
+            notifyDataSetChanged()
+        }
         recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
     }
 

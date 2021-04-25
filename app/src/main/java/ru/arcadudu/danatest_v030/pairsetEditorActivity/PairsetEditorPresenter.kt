@@ -31,9 +31,10 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         val pairsetListToEdit = spHandler.loadSpPairsetList()
         val pairsetToEdit = pairsetListToEdit[currentPairsetIndex]
         pairsetToEdit.setNewPairList(editedPairList)
-
-        pairsetListToEdit.removeAt(currentPairsetIndex)
-        pairsetListToEdit.add(currentPairsetIndex, pairsetToEdit)
+        pairsetListToEdit.apply {
+            removeAt(currentPairsetIndex)
+            add(currentPairsetIndex, pairsetToEdit)
+        }
         spHandler.saveSpPairsetList(pairsetListToEdit)
     }
 
@@ -89,8 +90,10 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     fun addNewPair(inputKey: String, inputValue: String) {
         currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
         applyPairsetChangesIntoPairsetList(currentPairList)
-        viewState.updateRecyclerOnAdded(currentPairList)
-        viewState.setOnEmptyStub(currentPairList.count())
+        viewState.apply {
+            updateRecyclerOnAdded(currentPairList)
+            setOnEmptyStub(currentPairList.count())
+        }
     }
 
     fun filter(text: String) {
@@ -118,8 +121,10 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     fun removePairAtPosition(removePosition: Int) {
         currentPairList.removeAt(removePosition)
         applyPairsetChangesIntoPairsetList(currentPairList)
-        viewState.updateRecyclerOnRemoved(currentPairList, removePosition)
-        viewState.setOnEmptyStub(currentPairList.count())
+        viewState.apply {
+            updateRecyclerOnRemoved(currentPairList, removePosition)
+            setOnEmptyStub(currentPairList.count())
+        }
     }
 
 

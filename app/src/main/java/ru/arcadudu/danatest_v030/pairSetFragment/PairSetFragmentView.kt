@@ -39,4 +39,5 @@ interface PairSetFragmentView : MvpView {
     fun setOnEmptyStub(count: Int)
 
 
+
 }

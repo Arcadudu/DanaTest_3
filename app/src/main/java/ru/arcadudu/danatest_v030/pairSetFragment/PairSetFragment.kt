@@ -76,9 +76,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         toolbar = fragmentWordSetBinding.toolbar
         prepareToolbar(toolbar)
 
-        pairSetPresenter.captureContext(requireContext())
-
-        pairSetPresenter.initiatePairSetList()
+        pairSetPresenter.apply {
+            captureContext(requireContext())
+            initiatePairSetList()
+        }
 
         pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
         preparePairsetRecycler(pairSetRecyclerView)
@@ -346,7 +347,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
             startActivity(toTestIntent)
             startTestDialog.dismiss()
-
         }
 
         //negative btn
@@ -403,17 +403,17 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
-        removeDialogBinding.tvRemoveDialogTitle.text = name
-        removeDialogBinding.tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
-
-        removeDialogBinding.btnCancelRemove.setOnClickListener {
-            removeDialog.dismiss()
-        }
-
-        removeDialogBinding.btnRemovePair.setOnClickListener {
-            pairSetPresenter.removePairSetAtPosition(position)
-            dismissedWithAction = true
-            removeDialog.dismiss()
+        removeDialogBinding.apply {
+            tvRemoveDialogTitle.text = name
+            tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
+            btnCancelRemove.setOnClickListener {
+                removeDialog.dismiss()
+            }
+            btnRemovePair.setOnClickListener {
+                pairSetPresenter.removePairSetAtPosition(position)
+                dismissedWithAction = true
+                removeDialog.dismiss()
+            }
         }
         removeDialog.show()
     }
@@ -436,15 +436,18 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun obtainFilteredList(filteredList: MutableList<PairSet>) {
-        pairSetAdapter.filterList(filteredList)
-        pairSetAdapter.notifyDataSetChanged()
+        pairSetAdapter.apply {
+            filterList(filteredList)
+            notifyDataSetChanged()
+        }
         recyclerLayoutAnimation(pairSetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
     override fun putPairSetIntoIntent(chosenPairSet: PairSet, bindingAdapterPosition: Int) {
-        val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java)
-        toEditorIntent.putExtra(SELECTED_PAIRSET_TO_EDITOR_TAG, chosenPairSet)
-        toEditorIntent.putExtra(SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG, bindingAdapterPosition)
+        val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java).apply {
+            putExtra(SELECTED_PAIRSET_TO_EDITOR_TAG, chosenPairSet)
+            putExtra(SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG, bindingAdapterPosition)
+        }
         startActivity(toEditorIntent)
     }
 
@@ -471,8 +474,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun onDestroy() {
-        pairSetPresenter.detachView(this)
         super.onDestroy()
+        pairSetPresenter.detachView(this)
         Log.d(TAG, "onDestroy: ")
     }
 
@@ -501,5 +504,4 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
         pairSetPresenter.providePairSetListCount()
     }
-
 }

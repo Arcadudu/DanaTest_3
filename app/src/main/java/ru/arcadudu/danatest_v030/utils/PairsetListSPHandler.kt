@@ -9,41 +9,47 @@ import java.lang.reflect.Type
 
 class PairsetListSPHandler(private var context: Context) {
 
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var gson: Gson
+    private var sharedPreferences: SharedPreferences
+    private var gson: Gson
+    private var type: Type
 
-    fun loadSpPairsetList(): MutableList<PairSet> {
+
+    init {
         sharedPreferences =
             context.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
         gson = Gson()
+        type = object : TypeToken<ArrayList<PairSet?>?>() {}.type
+    }
+
+    fun loadSpPairsetList(): MutableList<PairSet> {
         val json = sharedPreferences.getString(SHARED_PREFERENCES_PAIRSET_LIST, null)
-        val type :Type = object :TypeToken<ArrayList<PairSet?>?>() {}.type
         val firstVisit = sharedPreferences.getBoolean("firstVisit", true)
 
-        return if(firstVisit){
-            val psEditor = sharedPreferences.edit()
-            psEditor.putBoolean("firstVisit", false)
-            psEditor.apply()
+        return if (firstVisit) {
+            sharedPreferences.edit().apply {
+                putBoolean("firstVisit", false)
+                apply()
+            }
             getFirstVisitDefaultPairsetList()
-        }else{
+        } else {
             gson.fromJson<Any>(json, type) as MutableList<PairSet>
         }
     }
 
     fun saveSpPairsetList(targetPairsetList: MutableList<PairSet>) {
-        sharedPreferences =
-            context.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        val spEditor = sharedPreferences.edit()
-        gson = Gson()
         val json = gson.toJson(targetPairsetList)
-        spEditor.putString(SHARED_PREFERENCES_PAIRSET_LIST, json)
-        spEditor.apply()
+        sharedPreferences.edit().apply {
+            putString(SHARED_PREFERENCES_PAIRSET_LIST, json)
+            apply()
+        }
     }
 
     fun deleteSpPairsetList() {
-        sharedPreferences = context.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        val stEditor = sharedPreferences.edit()
-        stEditor.remove(SHARED_PREFERENCES_PAIRSET_LIST)
-        stEditor.apply()
+        sharedPreferences =
+            context.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        sharedPreferences.edit().apply {
+            remove(SHARED_PREFERENCES_PAIRSET_LIST)
+            apply()
+        }
     }
 }
