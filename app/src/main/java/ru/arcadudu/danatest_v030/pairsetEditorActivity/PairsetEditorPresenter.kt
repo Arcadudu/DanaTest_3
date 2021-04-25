@@ -13,30 +13,40 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     private lateinit var currentPairSet: PairSet
     private lateinit var currentPairList: MutableList<Pair>
+    private var currentPairsetIndex = 0
     private lateinit var pairSetTitle: String
     private lateinit var pairSetDetails: String
 
-    fun extractIncomingWordSet(incomingIntent: Intent, INTENT_TAG: String) {
-        currentPairSet = incomingIntent.getSerializableExtra(INTENT_TAG) as PairSet
+    fun extractIncomingPairset(
+        incomingIntent: Intent,
+        pairset_tag: String,
+        pairset_index_tag: String
+    ) {
+        currentPairSet = incomingIntent.getSerializableExtra(pairset_tag) as PairSet
+        currentPairsetIndex = incomingIntent.getIntExtra(pairset_index_tag, 0)
+        Log.d(
+            "intent",
+            "extractIncomingPairset: pairset = $currentPairSet index = $currentPairsetIndex"
+        )
         pairSetTitle = currentPairSet.name
         pairSetDetails = currentPairSet.date
         currentPairList = currentPairSet.getPairList()
     }
 
-    fun checkIfPairsetIsEmpty(){
+    fun checkIfPairsetIsEmpty() {
         viewState.setOnEmptyStub(currentPairList.count())
     }
 
-    fun deliverWordSetForTest(){
+    fun deliverWordSetForTest() {
         viewState.obtainWordSetForTest(currentPairSet)
     }
 
     fun provideDataForToolbar() {
         val pairsetUpdateExactDateString =
-        viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
+            viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
     }
 
-    fun providePairList(){
+    fun providePairList() {
         viewState.initPairList(currentPairList)
     }
 
@@ -45,7 +55,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         viewState.updateRecyclerOnSwap(currentPairList, fromPosition, toPosition)
     }
 
-    fun saveEditedPair(newPairKey:String, newPairValue:String, position:Int){
+    fun saveEditedPair(newPairKey: String, newPairValue: String, position: Int) {
         currentPairList.removeAt(position)
         viewState.updateRecyclerOnRemoved(currentPairList, removePosition = position)
         currentPairList.add(position, Pair(newPairKey, newPairValue))

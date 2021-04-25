@@ -71,7 +71,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         dialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
 
-        pairsetEditorPresenter.extractIncomingWordSet(intent, TO_EDITOR_SELECTED_WORD_SET)
+        pairsetEditorPresenter.extractIncomingPairset(intent, SELECTED_PAIRSET_TO_EDITOR_TAG, SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG)
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)

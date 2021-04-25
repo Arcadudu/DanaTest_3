@@ -30,14 +30,11 @@ import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.DtSwipeDecorator
-import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
-import ru.arcadudu.danatest_v030.utils.vibratePhone
+import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
 
 private const val TAG = "cycle"
-private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
 class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
@@ -445,9 +442,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         recyclerLayoutAnimation(pairSetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
-    override fun putPairSetIntoIntent(chosenPairSet: PairSet) {
+    override fun putPairSetIntoIntent(chosenPairSet: PairSet, bindingAdapterPosition: Int) {
         val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java)
-        toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
+        toEditorIntent.putExtra(SELECTED_PAIRSET_TO_EDITOR_TAG, chosenPairSet)
+        toEditorIntent.putExtra(SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG, bindingAdapterPosition)
         startActivity(toEditorIntent)
     }
 

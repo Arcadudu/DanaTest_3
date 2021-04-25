@@ -71,7 +71,7 @@ class PairSetAdapter :
         init {
             itemView.setOnClickListener {
                 val chosenPairSet = pairsetList[bindingAdapterPosition]
-                pairSetFragmentImplementation.putPairSetIntoIntent(chosenPairSet)
+                pairSetFragmentImplementation.putPairSetIntoIntent(chosenPairSet, bindingAdapterPosition)
             }
         }
 
