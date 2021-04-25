@@ -24,7 +24,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var gson: Gson
 
-    private val pairsetListSPHandler = PairsetListSPHandler(context)
+    private lateinit var pairsetListSPHandler :PairsetListSPHandler
 
 
     private fun saveData() {
@@ -56,6 +56,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun captureContext(context: Context) {
         this.context = context
+        pairsetListSPHandler = PairsetListSPHandler(context)
     }
 
     fun providePairSetListCount() {
@@ -95,7 +96,9 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(pairSetList, fromPosition, toPosition)
         viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
-        saveData()
+
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+//        saveData()
     }
 
     fun onSwipedLeft(swipePosition: Int) {
@@ -120,7 +123,9 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         pairSetList.removeAt(position)
         viewState.updateRecyclerOnRemoved(pairSetList, position)
         viewState.setOnEmptyStub(pairSetList.count())
-        saveData()
+
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+       // saveData()
 
     }
 
@@ -153,7 +158,8 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             element = PairSet(name = inputPairSetName, date = dateOfAdding)
         )
 
-        saveData()
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+       // saveData()
         viewState.updateRecyclerOnAdded(pairSetList)
         viewState.setOnEmptyStub(pairSetList.count())
 
@@ -164,7 +170,9 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     }
 
     fun onFragmentStop() {
-       saveData()
+
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+      // saveData()
     }
 
 
