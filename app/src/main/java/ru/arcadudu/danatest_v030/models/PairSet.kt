@@ -4,14 +4,17 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-var simpleDateFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
 val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
-
 var creationDate = simpleDateFormatExact.format(Date()).toString()
 
 open class PairSet(var name: String, val date: String = creationDate) : Serializable {
     private var pairList: MutableList<Pair> = mutableListOf()
-    private val simpleDateFormat = SimpleDateFormat("dd MMMM", Locale.getDefault())
+
+
+    companion object {
+        @JvmStatic
+        private val serialVersionUID: Long = 239
+    }
 
 
     fun getPairList() = pairList

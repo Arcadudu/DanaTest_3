@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun drawableToBitmap(drawable: Drawable): Bitmap? {
@@ -32,6 +34,12 @@ fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView, animationId: Int) 
     targetRecyclerView.layoutAnimation = animationController
     targetRecyclerView.adapter?.notifyDataSetChanged()
     targetRecyclerView.scheduleLayoutAnimation()
+}
+
+fun getCreationDate():String{
+    val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
+    return simpleDateFormatExact.format(Date()).toString()
+
 }
 
 

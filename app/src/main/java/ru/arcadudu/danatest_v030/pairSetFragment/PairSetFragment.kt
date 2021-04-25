@@ -80,10 +80,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         toolbar = fragmentWordSetBinding.toolbar
         prepareToolbar(toolbar)
 
-        val context = context
-        if (context != null) {
-            pairSetPresenter.captureContext(context)
-        }
+        pairSetPresenter.captureContext(requireContext())
 
         pairSetPresenter.initiatePairSetList()
 
@@ -455,7 +452,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun setOnEmptyStub(count: Int) {
-        noPairsetStub.visibility = if(count ==0) View.VISIBLE else View.GONE
+        noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
     //lifecycle
@@ -472,6 +469,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun onResume() {
         super.onResume()
+        pairSetPresenter.onFragmentStop()
         pairSetAdapter.notifyDataSetChanged()
     }
 

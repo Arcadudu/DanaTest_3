@@ -1,22 +1,59 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.utils.APP_SHARED_PREFERENCES_NAME
+import ru.arcadudu.danatest_v030.utils.SHARED_PREFERENCES_PAIRSET_LIST
 import ru.arcadudu.danatest_v030.utils.getDummyPairSet
 import ru.arcadudu.danatest_v030.utils.getTimePairSet
+import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 @InjectViewState
 class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     private lateinit var pairSetList: MutableList<PairSet>
     private lateinit var context: Context
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var gson: Gson
 
+
+    private fun saveData() {
+        sharedPreferences =
+            context.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        gson = Gson()
+        val json = gson.toJson(pairSetList)
+        editor.putString(SHARED_PREFERENCES_PAIRSET_LIST, json)
+        editor.apply()
+    }
+
+    private fun loadData() {
+        sharedPreferences =
+            context.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, MODE_PRIVATE)
+        gson = Gson()
+        val json = sharedPreferences.getString(SHARED_PREFERENCES_PAIRSET_LIST, null)
+        val type: Type = object : TypeToken<ArrayList<PairSet?>?>() {}.type
+
+        // if user visits app for the first time
+        if (gson.fromJson<Any>(json, type) == null) {
+            getDefaultPairsetList()
+
+        // if user already has visited app before
+        } else {
+            pairSetList = gson.fromJson<Any>(json, type) as MutableList<PairSet>
+        }
+    }
 
     fun captureContext(context: Context) {
         this.context = context
@@ -31,10 +68,8 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         viewState.updateToolbarInfo(message)
     }
 
-    fun initiatePairSetList() {
-        pairSetList = mutableListOf()
-
-        //no database stub
+    private fun getDefaultPairsetList() {
+        pairSetList.clear()
         var pairSetCount = 0
         repeat(3) {
             pairSetCount++
@@ -48,6 +83,12 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         pairSetList.add(0, getDummyPairSet())
     }
 
+
+    fun initiatePairSetList() {
+        pairSetList = mutableListOf()
+        loadData()
+    }
+
     fun providePairSetList() {
         viewState.retrievePairSetList(pairSetList)
     }
@@ -55,7 +96,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(pairSetList, fromPosition, toPosition)
         viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
-
+        saveData()
     }
 
     fun onSwipedLeft(swipePosition: Int) {
@@ -74,13 +115,14 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         } else {
             viewState.showOnEmptyPairSetDialog(chosenPairset)
         }
-
     }
 
     fun removePairSetAtPosition(position: Int) {
         pairSetList.removeAt(position)
         viewState.updateRecyclerOnRemoved(pairSetList, position)
         viewState.setOnEmptyStub(pairSetList.count())
+        saveData()
+
     }
 
     fun filter(text: String) {
@@ -111,12 +153,19 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             index = 0,
             element = PairSet(name = inputPairSetName, date = dateOfAdding)
         )
+
+        saveData()
         viewState.updateRecyclerOnAdded(pairSetList)
         viewState.setOnEmptyStub(pairSetList.count())
+
     }
 
     fun checkIfThereAnyPairsets() {
         viewState.setOnEmptyStub(pairSetList.count())
+    }
+
+    fun onFragmentStop() {
+       saveData()
     }
 
 
