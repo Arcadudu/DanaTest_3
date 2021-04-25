@@ -86,7 +86,11 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun initiatePairSetList() {
         pairSetList = mutableListOf()
-        loadData()
+        pairSetList.apply {
+            clear()
+            addAll(pairsetListSPHandler.loadSpPairsetList())
+        }
+       // loadData()
     }
 
     fun providePairSetList() {
