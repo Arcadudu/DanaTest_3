@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.RecyclerView
+import ru.arcadudu.danatest_v030.models.PairSet
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +41,22 @@ fun getCreationDate():String{
     val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
     return simpleDateFormatExact.format(Date()).toString()
 
+}
+
+fun getFirstVisitDefaultPairsetList():MutableList<PairSet>{
+    val defaultPairsetList:MutableList<PairSet> = mutableListOf()
+    var pairSetCount = 0
+    repeat(3) {
+        pairSetCount++
+        defaultPairsetList.add(
+            PairSet(
+                name = "Набор #$pairSetCount"
+            )
+        )
+    }
+    defaultPairsetList.add(0, getTimePairSet())
+    defaultPairsetList.add(0, getDummyPairSet())
+    return defaultPairsetList
 }
 
 

@@ -10,10 +10,7 @@ import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.utils.APP_SHARED_PREFERENCES_NAME
-import ru.arcadudu.danatest_v030.utils.SHARED_PREFERENCES_PAIRSET_LIST
-import ru.arcadudu.danatest_v030.utils.getDummyPairSet
-import ru.arcadudu.danatest_v030.utils.getTimePairSet
+import ru.arcadudu.danatest_v030.utils.*
 import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,6 +23,8 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     private lateinit var context: Context
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var gson: Gson
+
+    private val pairsetListSPHandler = PairsetListSPHandler(context)
 
 
     private fun saveData() {
