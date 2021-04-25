@@ -1,11 +1,13 @@
 package ru.arcadudu.danatest_v030.pairsetEditorActivity
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.utils.PairsetListSPHandler
 import java.util.*
 
 @InjectViewState
@@ -17,6 +19,24 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     private lateinit var pairSetTitle: String
     private lateinit var pairSetDetails: String
 
+    private lateinit var context: Context
+    private lateinit var spHandler: PairsetListSPHandler
+
+    fun captureContext(context: Context) {
+        this.context = context
+    }
+
+    private fun applyPairsetChangesIntoPairsetList(editedPairList: MutableList<Pair>) {
+        spHandler = PairsetListSPHandler(context)
+        val pairsetListToEdit = spHandler.loadSpPairsetList()
+        val pairsetToEdit = pairsetListToEdit[currentPairsetIndex]
+        pairsetToEdit.setNewPairList(editedPairList)
+
+        pairsetListToEdit.removeAt(currentPairsetIndex)
+        pairsetListToEdit.add(currentPairsetIndex, pairsetToEdit)
+        spHandler.saveSpPairsetList(pairsetListToEdit)
+    }
+
     fun extractIncomingPairset(
         incomingIntent: Intent,
         pairset_tag: String,
@@ -24,21 +44,19 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     ) {
         currentPairSet = incomingIntent.getSerializableExtra(pairset_tag) as PairSet
         currentPairsetIndex = incomingIntent.getIntExtra(pairset_index_tag, 0)
-        Log.d(
-            "intent",
-            "extractIncomingPairset: pairset = $currentPairSet index = $currentPairsetIndex"
-        )
+
         pairSetTitle = currentPairSet.name
         pairSetDetails = currentPairSet.date
         currentPairList = currentPairSet.getPairList()
     }
 
+
     fun checkIfPairsetIsEmpty() {
         viewState.setOnEmptyStub(currentPairList.count())
     }
 
-    fun deliverWordSetForTest() {
-        viewState.obtainWordSetForTest(currentPairSet)
+    fun deliverPairsetForTest() {
+        viewState.obtainPairsetForTest(currentPairSet)
     }
 
     fun provideDataForToolbar() {
@@ -52,6 +70,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(currentPairList, fromPosition, toPosition)
+        applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateRecyclerOnSwap(currentPairList, fromPosition, toPosition)
     }
 
@@ -59,6 +78,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         currentPairList.removeAt(position)
         viewState.updateRecyclerOnRemoved(currentPairList, removePosition = position)
         currentPairList.add(position, Pair(newPairKey, newPairValue))
+        applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateRecyclerOnEditedPair(currentPairList, position)
     }
 
@@ -68,6 +88,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     fun addNewPair(inputKey: String, inputValue: String) {
         currentPairList.add(index = 0, element = Pair(inputKey, inputValue))
+        applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateRecyclerOnAdded(currentPairList)
         viewState.setOnEmptyStub(currentPairList.count())
     }
@@ -92,11 +113,11 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
             chosenPair.pairValue,
             position = swipePosition
         )
-
     }
 
     fun removePairAtPosition(removePosition: Int) {
         currentPairList.removeAt(removePosition)
+        applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateRecyclerOnRemoved(currentPairList, removePosition)
         viewState.setOnEmptyStub(currentPairList.count())
     }

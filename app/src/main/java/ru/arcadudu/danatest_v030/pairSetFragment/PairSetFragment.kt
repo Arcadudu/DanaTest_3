@@ -50,7 +50,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var fabAddNewPairSet: FloatingActionButton
     private lateinit var noPairsetStub: MaterialTextView
 
-
     private lateinit var dialogBuilder: AlertDialog.Builder
 
 
@@ -453,11 +452,11 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
+
     //lifecycle
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause:")
-
     }
 
     override fun onStop() {
@@ -467,7 +466,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun onResume() {
         super.onResume()
-        pairSetPresenter.onFragmentStop()
+        Log.d(TAG, "onResume: ")
         pairSetAdapter.notifyDataSetChanged()
     }
 

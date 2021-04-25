@@ -19,6 +19,14 @@ open class PairSet(var name: String, val date: String = creationDate) : Serializ
 
     fun getPairList() = pairList
 
+
+    fun setNewPairList(newPairList: MutableList<Pair>) {
+        this.pairList.apply {
+            clear()
+            addAll(newPairList)
+        }
+    }
+
     fun addPair(key: String, value: String) {
         val newPair = Pair(key, value)
         pairList.add(newPair)

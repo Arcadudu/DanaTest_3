@@ -32,7 +32,7 @@ interface PairsetEditorView : MvpView {
 
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
 
-    fun obtainWordSetForTest(currentPairSet: PairSet)
+    fun obtainPairsetForTest(currentPairSet: PairSet)
 
     fun setOnEmptyStub(count: Int)
 

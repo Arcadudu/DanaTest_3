@@ -24,7 +24,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var gson: Gson
 
-    private lateinit var pairsetListSPHandler :PairsetListSPHandler
+    private lateinit var pairsetListSPHandler: PairsetListSPHandler
 
 
     private fun saveData() {
@@ -48,7 +48,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         if (gson.fromJson<Any>(json, type) == null) {
             getDefaultPairsetList()
 
-        // if user already has visited app before
+            // if user already has visited app before
         } else {
             pairSetList = gson.fromJson<Any>(json, type) as MutableList<PairSet>
         }
@@ -90,7 +90,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             clear()
             addAll(pairsetListSPHandler.loadSpPairsetList())
         }
-       // loadData()
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
     }
 
     fun providePairSetList() {
@@ -102,7 +102,6 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
 
         pairsetListSPHandler.saveSpPairsetList(pairSetList)
-//        saveData()
     }
 
     fun onSwipedLeft(swipePosition: Int) {
@@ -129,8 +128,6 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         viewState.setOnEmptyStub(pairSetList.count())
 
         pairsetListSPHandler.saveSpPairsetList(pairSetList)
-       // saveData()
-
     }
 
     fun filter(text: String) {
@@ -163,7 +160,6 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         )
 
         pairsetListSPHandler.saveSpPairsetList(pairSetList)
-       // saveData()
         viewState.updateRecyclerOnAdded(pairSetList)
         viewState.setOnEmptyStub(pairSetList.count())
 
@@ -172,12 +168,5 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun checkIfThereAnyPairsets() {
         viewState.setOnEmptyStub(pairSetList.count())
     }
-
-    fun onFragmentStop() {
-
-        pairsetListSPHandler.saveSpPairsetList(pairSetList)
-      // saveData()
-    }
-
 
 }

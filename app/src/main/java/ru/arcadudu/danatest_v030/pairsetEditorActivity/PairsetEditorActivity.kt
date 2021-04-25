@@ -3,7 +3,6 @@ package ru.arcadudu.danatest_v030.pairsetEditorActivity
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +23,7 @@ import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorA
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
+import ru.arcadudu.danatest_v030.activities.HomeActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityPairsetEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
@@ -34,8 +34,6 @@ import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
-
-private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
 private const val TRANSLATE_FRAGMENT_ID = "TRANSLATE_FRAGMENT_ID"
 private const val SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
@@ -53,9 +51,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var pairRecyclerView: RecyclerView
     private lateinit var pairRowAdapter: PairRowAdapter
     private lateinit var fabAddPair: FloatingActionButton
-
-    private lateinit var emptyPairsetStub:MaterialTextView
-
+    private lateinit var emptyPairsetStub: MaterialTextView
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
@@ -71,7 +67,12 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         dialogBuilder = AlertDialog.Builder(this, R.style.dt_CustomAlertDialog)
 
-        pairsetEditorPresenter.extractIncomingPairset(intent, SELECTED_PAIRSET_TO_EDITOR_TAG, SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG)
+        pairsetEditorPresenter.captureContext(applicationContext)
+        pairsetEditorPresenter.extractIncomingPairset(
+            intent,
+            SELECTED_PAIRSET_TO_EDITOR_TAG,
+            SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
+        )
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
@@ -109,7 +110,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val toTestIntent = Intent(this, TestActivity::class.java)
-        Log.d("aaa", "PSEditor: onOptionsItemSelected: callback ok")
         when (item.itemId) {
             R.id.begin_test_translate_menu_action -> toTestIntent.putExtra(
                 "testFragmentId",
@@ -125,7 +125,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             )
         }
 
-        pairsetEditorPresenter.deliverWordSetForTest()
+        pairsetEditorPresenter.deliverPairsetForTest()
         toTestIntent.putExtra(CONST_PAIRSET_TO_TEST_TAG, pairSetForTesting)
         startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
@@ -147,14 +147,16 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     theme
                 )
             this.setNavigationOnClickListener {
-                // TODO: save wordSet state
-                onBackPressed()
+                startActivity(Intent(this@PairsetEditorActivity, HomeActivity::class.java))
             }
             overflowIcon = popUpMenuDrawable
-
-
         }
         pairsetEditorPresenter.provideDataForToolbar()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this@PairsetEditorActivity, HomeActivity::class.java))
     }
 
     override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
@@ -203,7 +205,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                         pairsetEditorPresenter.onSwipedLeft(position)
                     }
                 }
-
             }
 
             override fun onChildDraw(
@@ -272,7 +273,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun showBtnClearAll(isStringEmpty: Boolean) {
         btnClearSearchField.visibility = if (isStringEmpty) View.GONE else View.VISIBLE
     }
-
 
     override fun showRemovePairDialog(
         chosenPairKey: String,
@@ -428,7 +428,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
     private fun swapEditTexts(et1: EditText, et2: EditText) {
-        Log.d("swapEditTexts", "swapEditTexts: callback ok ")
         val newEt1 = et2.text
         val newEt2 = et1.text
 
@@ -451,12 +450,12 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
 
-    override fun obtainWordSetForTest(currentPairSet: PairSet) {
+    override fun obtainPairsetForTest(currentPairSet: PairSet) {
         pairSetForTesting = currentPairSet
     }
 
     override fun setOnEmptyStub(count: Int) {
-        emptyPairsetStub.visibility = if(count==0) View.VISIBLE else View.GONE
+        emptyPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
     override fun updateRecyclerOnSwap(
