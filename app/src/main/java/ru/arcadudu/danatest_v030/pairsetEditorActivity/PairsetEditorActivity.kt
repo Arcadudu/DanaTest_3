@@ -79,9 +79,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
-        toolbar.setOnClickListener {
-            pairsetEditorPresenter.onToolbarClick()
-        }
+
 
         pairRecyclerView = activityWsEditorBinding.pairsRecycler
         preparePairRecycler(pairRecyclerView)
@@ -156,6 +154,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 startActivity(Intent(this@PairsetEditorActivity, HomeActivity::class.java))
             }
             overflowIcon = popUpMenuDrawable
+            setOnClickListener {
+                pairsetEditorPresenter.onToolbarClick()
+            }
         }
         pairsetEditorPresenter.provideDataForToolbar()
     }
@@ -174,7 +175,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     private fun preparePairRecycler(targetRecyclerView: RecyclerView) {
         pairRowAdapter = PairRowAdapter()
-
         targetRecyclerView.apply {
             setHasFixedSize(true)
             adapter = pairRowAdapter
@@ -459,11 +459,11 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         // positive btn
         editPairsetNameDialogBinding.btnAddPairSet.setOnClickListener {
-            if(newPairsetName.isEmpty()){
+            if (newPairsetName.isEmpty()) {
                 editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
                     error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
                 }
-            }else{
+            } else {
                 //todo presenter check pairsetList for pairset with same names
                 pairsetEditorPresenter.setNewPairsetName(newPairsetName)
                 editPairsetNameDialog.dismiss()
