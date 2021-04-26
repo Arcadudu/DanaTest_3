@@ -8,6 +8,7 @@ import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.utils.PairsetListSPHandler
+import ru.arcadudu.danatest_v030.utils.getCreationDate
 import java.util.*
 
 @InjectViewState
@@ -31,11 +32,24 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         val pairsetListToEdit = spHandler.loadSpPairsetList()
         val pairsetToEdit = pairsetListToEdit[currentPairsetIndex]
         pairsetToEdit.setNewPairList(editedPairList)
+        pairsetToEdit.date = getCreationDate()
         pairsetListToEdit.apply {
             removeAt(currentPairsetIndex)
             add(currentPairsetIndex, pairsetToEdit)
         }
         spHandler.saveSpPairsetList(pairsetListToEdit)
+        viewState.getDataForToolbar(pairsetToEdit.name, pairsetToEdit.date)
+    }
+
+    fun setNewPairsetName(newPairsetName: String) {
+        spHandler = PairsetListSPHandler(context)
+        val pairsetListToEdit = spHandler.loadSpPairsetList()
+        pairsetListToEdit[currentPairsetIndex].apply {
+            name = newPairsetName
+            date = getCreationDate()
+        }
+        spHandler.saveSpPairsetList(pairsetListToEdit)
+        viewState.getDataForToolbar(pairsetListToEdit[currentPairsetIndex].name, pairsetListToEdit[currentPairsetIndex].date)
     }
 
     fun extractIncomingPairset(
@@ -125,6 +139,10 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
             updateRecyclerOnRemoved(currentPairList, removePosition)
             setOnEmptyStub(currentPairList.count())
         }
+    }
+
+    fun onToolbarClick() {
+        viewState.showEditPairsetName(currentPairsetName = currentPairSet.name)
     }
 
 

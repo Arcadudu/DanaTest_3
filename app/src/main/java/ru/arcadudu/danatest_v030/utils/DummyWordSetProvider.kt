@@ -101,16 +101,8 @@ fun getTimePairSet(): PairSet {
         for (i in timeRu.indices) {
             timePairSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())
         }
-
-
     }
     return timePairSet
 }
 
-//static String[] timeRu = {"январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
-//            "ноябрь", "декабрь", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье",
-//            "год", "месяц", "неделя", "день", "час", "минута", "секунда", "полночь", "полдень", "вечер", "утро"};
-//
-//    static String[] timeEng = {"january", "february", "march", "april", "may", "june", "july", "august", "september",
-//            "october", "november", "december", "monday", "tu    esday", "wednesday", "thursday", "friday", "saturday", "sunday",
-//            "year", "month", "week", "day", "hour", "minute", "second", "midnight", "noon", "evening", "morning"};
+

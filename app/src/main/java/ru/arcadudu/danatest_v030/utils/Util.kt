@@ -45,27 +45,11 @@ fun getCreationDate():String{
 
 fun getFirstVisitDefaultPairsetList():MutableList<PairSet>{
     val defaultPairsetList:MutableList<PairSet> = mutableListOf()
-    var pairSetCount = 0
-    repeat(3) {
-        pairSetCount++
-        defaultPairsetList.add(
-            PairSet(
-                name = "Набор #$pairSetCount"
-            )
-        )
+    return defaultPairsetList.apply {
+        add(0, getTimePairSet())
+        add(0, getDummyPairSet())
     }
-    defaultPairsetList.add(0, getTimePairSet())
-    defaultPairsetList.add(0, getDummyPairSet())
-    return defaultPairsetList
 }
-
-
-//val emptyPairsetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-//        val emptyPairsetDialogView =
-//            this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
-//        emptyPairsetDialogBuilder.setView(emptyPairsetDialogView)
-//        val emptyPairsetDialog = emptyPairsetDialogBuilder.create()
-
 
 
 

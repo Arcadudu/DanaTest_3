@@ -27,6 +27,7 @@ import ru.arcadudu.danatest_v030.activities.HomeActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
 import ru.arcadudu.danatest_v030.databinding.ActivityPairsetEditorBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
+import ru.arcadudu.danatest_v030.databinding.DialogAddPairsetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.PairSet
@@ -78,6 +79,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         toolbar = activityWsEditorBinding.toolbar
         prepareToolbar(toolbar)
+        toolbar.setOnClickListener {
+            pairsetEditorPresenter.onToolbarClick()
+        }
 
         pairRecyclerView = activityWsEditorBinding.pairsRecycler
         preparePairRecycler(pairRecyclerView)
@@ -161,10 +165,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         startActivity(Intent(this@PairsetEditorActivity, HomeActivity::class.java))
     }
 
-    override fun getDataForToolbar(wordSetTitle: String, wordSetDescription: String) {
+    override fun getDataForToolbar(pairsetTitle: String, pairsetUpdateDate: String) {
         toolbar.apply {
-            title = wordSetTitle.capitalize(Locale.ROOT).trim()
-            subtitle = wordSetDescription
+            title = pairsetTitle.capitalize(Locale.ROOT).trim()
+            subtitle = pairsetUpdateDate
         }
     }
 
@@ -434,6 +438,46 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         addPairDialog.show()
     }
+
+    override fun showEditPairsetName(currentPairsetName: String) {
+        val editPairsetNameDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_add_pairset, null, false)
+        val editPairsetNameDialog = dialogBuilder.setView(editPairsetNameDialogView).create()
+
+        val editPairsetNameDialogBinding = DialogAddPairsetBinding.bind(editPairsetNameDialogView)
+        editPairsetNameDialogBinding.tvAddPairSetDialogTitle.text =
+            getString(R.string.dt_add_pairset_dialog_title)
+
+        var newPairsetName = ""
+
+        editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+            setText(currentPairsetName)
+            doOnTextChanged { text, _, _, _ ->
+                newPairsetName = text.toString().capitalize(Locale.getDefault()).trim()
+            }
+        }
+
+        // positive btn
+        editPairsetNameDialogBinding.btnAddPairSet.setOnClickListener {
+            if(newPairsetName.isEmpty()){
+                editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+                    error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
+                }
+            }else{
+                //todo presenter check pairsetList for pairset with same names
+                pairsetEditorPresenter.setNewPairsetName(newPairsetName)
+                editPairsetNameDialog.dismiss()
+            }
+        }
+
+        // negative btn
+        editPairsetNameDialogBinding.btnCancelAddWordSet.setOnClickListener {
+            editPairsetNameDialog.dismiss()
+        }
+
+        editPairsetNameDialog.show()
+    }
+
 
     private fun swapEditTexts(et1: EditText, et2: EditText) {
         val newEt1 = et2.text

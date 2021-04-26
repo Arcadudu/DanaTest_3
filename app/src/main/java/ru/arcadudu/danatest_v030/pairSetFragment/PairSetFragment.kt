@@ -161,7 +161,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     ItemTouchHelper.RIGHT -> {
                         vibratePhone(24)
                         pairSetPresenter.onSwipedRight(position)
-
                     }
                 }
             }
