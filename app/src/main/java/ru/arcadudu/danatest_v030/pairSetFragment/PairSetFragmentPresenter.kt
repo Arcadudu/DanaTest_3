@@ -1,25 +1,27 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
 import android.content.Context
-import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.models.PairSet
-import ru.arcadudu.danatest_v030.utils.getDummyPairSet
-import ru.arcadudu.danatest_v030.utils.getTimePairSet
+import ru.arcadudu.danatest_v030.utils.PairsetListSPHandler
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 @InjectViewState
 class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     private lateinit var pairSetList: MutableList<PairSet>
+
+    private lateinit var pairsetListSPHandler: PairsetListSPHandler
     private lateinit var context: Context
 
 
     fun captureContext(context: Context) {
         this.context = context
+        pairsetListSPHandler = PairsetListSPHandler(context)
     }
 
     fun providePairSetListCount() {
@@ -33,19 +35,11 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun initiatePairSetList() {
         pairSetList = mutableListOf()
-
-        //no database stub
-        var pairSetCount = 0
-        repeat(3) {
-            pairSetCount++
-            pairSetList.add(
-                PairSet(
-                    name = "Набор #$pairSetCount"
-                )
-            )
+        pairSetList.apply {
+            clear()
+            addAll(pairsetListSPHandler.loadSpPairsetList())
         }
-        pairSetList.add(0, getTimePairSet())
-        pairSetList.add(0, getDummyPairSet())
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
     }
 
     fun providePairSetList() {
@@ -55,7 +49,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(pairSetList, fromPosition, toPosition)
         viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
-
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
     }
 
     fun onSwipedLeft(swipePosition: Int) {
@@ -74,13 +68,16 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         } else {
             viewState.showOnEmptyPairSetDialog(chosenPairset)
         }
-
     }
 
     fun removePairSetAtPosition(position: Int) {
         pairSetList.removeAt(position)
-        viewState.updateRecyclerOnRemoved(pairSetList, position)
-        viewState.setOnEmptyStub(pairSetList.count())
+        viewState.apply {
+            updateRecyclerOnRemoved(pairSetList, position)
+            setOnEmptyStub(pairSetList.count())
+        }
+
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
     }
 
     fun filter(text: String) {
@@ -95,14 +92,6 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         viewState.obtainFilteredList(filteredList)
     }
 
-    fun onAddNewPairSet() {
-        for (i in 0..30) {
-            val plural = context.resources.getQuantityString(R.plurals.plurals_2, i, i)
-            Log.d("plural", "onAddNewPairSet: i = $i // plural = $plural")
-        }
-        viewState.showAddNewPairSetDialog()
-    }
-
     fun addNewPairSet(inputPairSetName: String) {
         val dateOfAdding =
             SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault()).format(Date()).toString()
@@ -111,13 +100,15 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             index = 0,
             element = PairSet(name = inputPairSetName, date = dateOfAdding)
         )
-        viewState.updateRecyclerOnAdded(pairSetList)
-        viewState.setOnEmptyStub(pairSetList.count())
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+        viewState.apply {
+            updateRecyclerOnAdded(pairSetList)
+            setOnEmptyStub(pairSetList.count())
+        }
     }
 
     fun checkIfThereAnyPairsets() {
         viewState.setOnEmptyStub(pairSetList.count())
     }
-
 
 }

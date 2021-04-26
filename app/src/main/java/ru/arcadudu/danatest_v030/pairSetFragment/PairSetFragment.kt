@@ -30,14 +30,11 @@ import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.DtSwipeDecorator
-import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
-import ru.arcadudu.danatest_v030.utils.vibratePhone
+import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
 
 private const val TAG = "cycle"
-private const val TO_EDITOR_SELECTED_WORD_SET = "selectedWordSet"
 
 class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
@@ -52,7 +49,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     private lateinit var pairSetAdapter: PairSetAdapter
     private lateinit var fabAddNewPairSet: FloatingActionButton
     private lateinit var noPairsetStub: MaterialTextView
-
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
@@ -80,12 +76,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         toolbar = fragmentWordSetBinding.toolbar
         prepareToolbar(toolbar)
 
-        val context = context
-        if (context != null) {
-            pairSetPresenter.captureContext(context)
+        pairSetPresenter.apply {
+            captureContext(requireContext())
+            initiatePairSetList()
         }
-
-        pairSetPresenter.initiatePairSetList()
 
         pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
         preparePairsetRecycler(pairSetRecyclerView)
@@ -167,7 +161,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                     ItemTouchHelper.RIGHT -> {
                         vibratePhone(24)
                         pairSetPresenter.onSwipedRight(position)
-
                     }
                 }
             }
@@ -353,7 +346,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             }
             startActivity(toTestIntent)
             startTestDialog.dismiss()
-
         }
 
         //negative btn
@@ -410,17 +402,17 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
-        removeDialogBinding.tvRemoveDialogTitle.text = name
-        removeDialogBinding.tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
-
-        removeDialogBinding.btnCancelRemove.setOnClickListener {
-            removeDialog.dismiss()
-        }
-
-        removeDialogBinding.btnRemovePair.setOnClickListener {
-            pairSetPresenter.removePairSetAtPosition(position)
-            dismissedWithAction = true
-            removeDialog.dismiss()
+        removeDialogBinding.apply {
+            tvRemoveDialogTitle.text = name
+            tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
+            btnCancelRemove.setOnClickListener {
+                removeDialog.dismiss()
+            }
+            btnRemovePair.setOnClickListener {
+                pairSetPresenter.removePairSetAtPosition(position)
+                dismissedWithAction = true
+                removeDialog.dismiss()
+            }
         }
         removeDialog.show()
     }
@@ -443,26 +435,30 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     override fun obtainFilteredList(filteredList: MutableList<PairSet>) {
-        pairSetAdapter.filterList(filteredList)
-        pairSetAdapter.notifyDataSetChanged()
+        pairSetAdapter.apply {
+            filterList(filteredList)
+            notifyDataSetChanged()
+        }
         recyclerLayoutAnimation(pairSetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
-    override fun putPairSetIntoIntent(chosenPairSet: PairSet) {
-        val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java)
-        toEditorIntent.putExtra(TO_EDITOR_SELECTED_WORD_SET, chosenPairSet)
+    override fun putPairSetIntoIntent(chosenPairSet: PairSet, bindingAdapterPosition: Int) {
+        val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java).apply {
+            putExtra(SELECTED_PAIRSET_TO_EDITOR_TAG, chosenPairSet)
+            putExtra(SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG, bindingAdapterPosition)
+        }
         startActivity(toEditorIntent)
     }
 
     override fun setOnEmptyStub(count: Int) {
-        noPairsetStub.visibility = if(count ==0) View.VISIBLE else View.GONE
+        noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
+
 
     //lifecycle
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause:")
-
     }
 
     override fun onStop() {
@@ -472,12 +468,13 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "onResume: ")
         pairSetAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
-        pairSetPresenter.detachView(this)
         super.onDestroy()
+        pairSetPresenter.detachView(this)
         Log.d(TAG, "onDestroy: ")
     }
 
@@ -506,5 +503,4 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
         pairSetPresenter.providePairSetListCount()
     }
-
 }

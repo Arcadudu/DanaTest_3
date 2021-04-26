@@ -70,7 +70,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wordSet_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
         android:paddingBottom="4dp"

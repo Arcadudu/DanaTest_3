@@ -7,6 +7,9 @@ import android.graphics.drawable.Drawable
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.RecyclerView
+import ru.arcadudu.danatest_v030.models.PairSet
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun drawableToBitmap(drawable: Drawable): Bitmap? {
@@ -34,13 +37,19 @@ fun recyclerLayoutAnimation(targetRecyclerView: RecyclerView, animationId: Int) 
     targetRecyclerView.scheduleLayoutAnimation()
 }
 
+fun getCreationDate():String{
+    val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
+    return simpleDateFormatExact.format(Date()).toString()
 
-//val emptyPairsetDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
-//        val emptyPairsetDialogView =
-//            this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
-//        emptyPairsetDialogBuilder.setView(emptyPairsetDialogView)
-//        val emptyPairsetDialog = emptyPairsetDialogBuilder.create()
+}
 
+fun getFirstVisitDefaultPairsetList():MutableList<PairSet>{
+    val defaultPairsetList:MutableList<PairSet> = mutableListOf()
+    return defaultPairsetList.apply {
+        add(0, getTimePairSet())
+        add(0, getDummyPairSet())
+    }
+}
 
 
 
