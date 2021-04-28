@@ -472,15 +472,15 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         pairSetAdapter.notifyDataSetChanged()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, "onAttach: ")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         pairSetPresenter.detachView(this)
         Log.d(TAG, "onDestroy: ")
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d(TAG, "onAttach: ")
     }
 
 
