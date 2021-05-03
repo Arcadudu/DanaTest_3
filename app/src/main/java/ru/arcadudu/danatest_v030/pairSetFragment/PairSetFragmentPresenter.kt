@@ -83,8 +83,7 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     fun filter(text: String) {
         val filteredList: MutableList<PairSet> = mutableListOf()
         for (item in pairSetList) {
-            if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
-                item.date.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
+            if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
             }

@@ -21,7 +21,7 @@
         <item name="materialCardViewStyle">@style/dt_CardViewStyle_listItem</item>
         <item name="editTextStyle">@style/dt_EditTextStyle_searchField</item>
         <item name="floatingActionButtonStyle">@style/dt_FloatingActionButtonStyle</item>
-        <item name="textInputStyle">@style/dt_TextInputLayoutStyle</item>
+        <item name="textInputStyle">@style/dt_TextInputLayoutFilledStyle</item>
 
 
     </style>

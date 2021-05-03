@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dt3_main_light_100"
+        android:background="@color/dt3_surface_100"
         android:padding="16dp">
 
         <com.google.android.material.textview.MaterialTextView
@@ -18,7 +18,7 @@
             android:layout_marginTop="@dimen/dialog_top_element_marginTop"
             android:gravity="start"
             android:text="@string/dt_add_pairset_dialog_title"
-            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
+            android:textAppearance="@style/TextAppearance.dt_pairsetItemTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/inputLayout_newPairSetName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="24dp"
             android:hint="@string/dt_add_pairset_dialog_new_pairset_name_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
             app:counterMaxLength="20"
@@ -41,7 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="20"
-                android:minHeight="74dp"/>
+
+                android:minHeight="74dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--positive button-->

@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dt3_main_light_100"
+        android:background="@color/dt3_surface_100"
         android:padding="16dp">
 
         <TextView
@@ -39,7 +39,7 @@
             android:id="@+id/input_layout_new_pair_key"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:hint="@string/dt_add_pair_dialog_new_pair_key_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
             app:counterMaxLength="20"
