@@ -62,16 +62,18 @@ class PairSetAdapter :
         RecyclerView.ViewHolder(view) {
         private val binding = PairsetRowLayoutBinding.bind(view)
         private val simpleDateFormatExact = SimpleDateFormat("dd MMMM", Locale.getDefault())
-        private val background = {drawableResource : Int ->
-            ResourcesCompat.getDrawable(pairSetFragmentContext.resources, drawableResource, pairSetFragmentContext.theme)
+        private val background = { drawableResource: Int ->
+            ResourcesCompat.getDrawable(
+                pairSetFragmentContext.resources,
+                drawableResource,
+                pairSetFragmentContext.theme
+            )
         }
-
 
 
         init {
             itemView.setOnClickListener {
-                val chosenPairSet = pairsetList[bindingAdapterPosition]
-                pairSetFragmentImplementation.putPairSetIntoIntent(chosenPairSet, bindingAdapterPosition)
+                pairSetFragmentImplementation.putPairsetIndexIntoIntent(bindingAdapterPosition)
             }
         }
 
@@ -82,15 +84,13 @@ class PairSetAdapter :
                 tvItemDetails.text = simpleDateFormatExact.format(date!!)
                 tvPairCounterBody.apply {
                     text = pairSet.getPairList().count().toString()
-                    background = if (pairSet.getPairList()
-                            .count() == 0
-                    ) background(R.drawable.pair_counter_container_has_no_pairs) else background(R.drawable.pair_counter_container_pairs)
-
+                    background = when (pairSet.getPairList().count()) {
+                        0 -> background(R.drawable.pair_counter_container_has_no_pairs)
+                        else -> background(R.drawable.pair_counter_container_pairs)
+                    }
                 }
             }
         }
-
-
     }
 
 

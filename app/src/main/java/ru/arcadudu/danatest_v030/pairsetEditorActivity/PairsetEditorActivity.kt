@@ -3,6 +3,7 @@ package ru.arcadudu.danatest_v030.pairsetEditorActivity
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -43,6 +44,8 @@ private const val VARIANTS_FRAGMENT_ID = "VARIANTS_FRAGMENT_ID"
 
 class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var activityWsEditorBinding: ActivityPairsetEditorBinding
+
+
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
     private lateinit var pairSetForTesting: PairSet
 
@@ -71,8 +74,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         pairsetEditorPresenter.apply {
             captureContext(applicationContext)
             extractIncomingPairset(
+                incomingIntent =
                 intent,
-                SELECTED_PAIRSET_TO_EDITOR_TAG,
+                pairset_index_tag =
                 SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
             )
         }
@@ -128,7 +132,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 VARIANTS_FRAGMENT_ID
             )
         }
-
         pairsetEditorPresenter.deliverPairsetForTest()
         toTestIntent.putExtra(CONST_PAIRSET_TO_TEST_TAG, pairSetForTesting)
         startActivity(toTestIntent)
@@ -543,6 +546,12 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             submitPairs(updatedPairList)
             notifyItemInserted(position)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("stop", "onStop: callback ok")
+        pairsetEditorPresenter.onEditorStop()
     }
 }
 
