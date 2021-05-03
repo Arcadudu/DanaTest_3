@@ -2,7 +2,6 @@ package ru.arcadudu.danatest_v030.pairsetEditorActivity
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
@@ -49,19 +48,23 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
             date = getCreationDate()
         }
         spHandler.saveSpPairsetList(pairsetListToEdit)
-        viewState.getDataForToolbar(pairsetListToEdit[currentPairsetIndex].name, pairsetListToEdit[currentPairsetIndex].date)
+        viewState.getDataForToolbar(
+            pairsetListToEdit[currentPairsetIndex].name,
+            pairsetListToEdit[currentPairsetIndex].date
+        )
     }
 
     fun extractIncomingPairset(
         incomingIntent: Intent,
-        pairset_tag: String,
         pairset_index_tag: String
     ) {
-        currentPairSet = incomingIntent.getSerializableExtra(pairset_tag) as PairSet
+        spHandler = PairsetListSPHandler(context)
         currentPairsetIndex = incomingIntent.getIntExtra(pairset_index_tag, 0)
+        currentPairSet = spHandler.loadSpPairsetList()[currentPairsetIndex]
 
         pairSetTitle = currentPairSet.name
         pairSetDetails = currentPairSet.date
+
         currentPairList = currentPairSet.getPairList()
     }
 
@@ -75,8 +78,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun provideDataForToolbar() {
-        val pairsetUpdateExactDateString =
-            viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
+        viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
     }
 
     fun providePairList() {
@@ -124,7 +126,6 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     fun onSwipedLeft(swipePosition: Int) {
         val chosenPair = currentPairList[swipePosition]
-        Log.d("Swiper", "Presenter: onSwipedLeft: position = $swipePosition")
         viewState.showRemovePairDialog(
             chosenPair.pairKey,
             chosenPair.pairValue,
@@ -143,6 +144,11 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     fun onToolbarClick() {
         viewState.showEditPairsetName(currentPairsetName = currentPairSet.name)
+    }
+
+    fun onEditorStop() {
+        applyPairsetChangesIntoPairsetList(currentPairList)
+        spHandler = PairsetListSPHandler(context)
     }
 
 

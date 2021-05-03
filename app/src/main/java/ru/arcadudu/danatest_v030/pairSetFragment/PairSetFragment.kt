@@ -30,7 +30,10 @@ import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.*
+import ru.arcadudu.danatest_v030.utils.DtSwipeDecorator
+import ru.arcadudu.danatest_v030.utils.SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
+import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
+import ru.arcadudu.danatest_v030.utils.vibratePhone
 import java.util.*
 
 
@@ -442,9 +445,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         recyclerLayoutAnimation(pairSetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
-    override fun putPairSetIntoIntent(chosenPairSet: PairSet, bindingAdapterPosition: Int) {
+    override fun putPairsetIndexIntoIntent(bindingAdapterPosition: Int) {
         val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java).apply {
-            putExtra(SELECTED_PAIRSET_TO_EDITOR_TAG, chosenPairSet)
             putExtra(SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG, bindingAdapterPosition)
         }
         startActivity(toEditorIntent)
