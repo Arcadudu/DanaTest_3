@@ -26,7 +26,7 @@
         <item name="android:src">@drawable/icon_add_white</item>
         <item name="borderWidth">0dp</item>
         <item name="elevation">2dp</item>
-        <item name="fabSize">mini</item>
+        <item name="fabSize">normal</item>
         <item name="rippleColor">@color/dt3_on_brand_100</item>
     </style>
 
@@ -34,7 +34,7 @@
         <item name="boxBackgroundColor">@color/dt3_surface_100</item>
         <item name="boxBackgroundMode">filled</item>
         <item name="counterEnabled">true</item>
-        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">1dp</item>
         <item name="hintTextAppearance">@style/TextAppearance.App.TextInputLayout</item>
     </style>

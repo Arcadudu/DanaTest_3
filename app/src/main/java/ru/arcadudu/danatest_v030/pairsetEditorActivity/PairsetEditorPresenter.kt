@@ -40,7 +40,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         viewState.getDataForToolbar(pairsetToEdit.name, pairsetToEdit.date)
     }
 
-    fun setNewPairsetName(newPairsetName: String) {
+    fun changePairsetName(newPairsetName: String) {
         spHandler = PairsetListSPHandler(context)
         val pairsetListToEdit = spHandler.loadSpPairsetList()
         pairsetListToEdit[currentPairsetIndex].apply {
@@ -48,6 +48,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
             date = getCreationDate()
         }
         spHandler.saveSpPairsetList(pairsetListToEdit)
+        pairSetTitle = newPairsetName
         viewState.getDataForToolbar(
             pairsetListToEdit[currentPairsetIndex].name,
             pairsetListToEdit[currentPairsetIndex].date
@@ -143,13 +144,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun onToolbarClick() {
-        viewState.showEditPairsetName(currentPairsetName = currentPairSet.name)
+        viewState.showEditPairsetName(currentPairsetName = pairSetTitle)
     }
-
-    fun onEditorStop() {
-        applyPairsetChangesIntoPairsetList(currentPairList)
-        spHandler = PairsetListSPHandler(context)
-    }
-
 
 }

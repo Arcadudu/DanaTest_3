@@ -40,7 +40,8 @@
                 style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"/>
+                android:maxLength="20"
+                android:minHeight="74dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--positive button-->

@@ -7,20 +7,17 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="18dp"
     android:layout_marginBottom="4dp"
-    android:minHeight="48dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:minHeight="90dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:theme="@style/ThemeOverlay.DanaTest031.BrandOpaqueControlHighlight">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_item_title"
-            style="@style/TextAppearance.dt_itemTitle"
+            style="@style/TextAppearance.dt_pairsetItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -34,13 +31,13 @@
             android:id="@+id/tv_item_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:layout_marginBottom="12dp"
             android:maxLines="1"
+            android:layout_marginTop="2dp"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/card_handler"
             app:layout_constraintStart_toStartOf="@id/tv_item_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_title" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <FrameLayout
             android:id="@+id/pair_counter_container"
@@ -48,19 +45,19 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:padding="3dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/card_handler"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_title">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_pair_counter_body"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textSize="15sp"
                 android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-                android:textColor="@color/dt3_on_surface_70"/>
+                android:textColor="@color/dt3_on_surface_70"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
         </FrameLayout>
 
 
@@ -69,14 +66,14 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="end|center"
-            android:layout_marginEnd="12dp"
             android:src="@drawable/icon_drag_indicator_horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/pair_counter_container"
+            app:layout_constraintStart_toStartOf="@id/pair_counter_container"
+            app:layout_constraintTop_toBottomOf="@id/pair_counter_container"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </com.google.android.material.card.MaterialCardView>

@@ -468,7 +468,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 }
             } else {
                 //todo presenter check pairsetList for pairset with same names
-                pairsetEditorPresenter.setNewPairsetName(newPairsetName)
+                pairsetEditorPresenter.changePairsetName(newPairsetName)
                 editPairsetNameDialog.dismiss()
             }
         }
@@ -551,7 +551,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun onStop() {
         super.onStop()
         Log.d("stop", "onStop: callback ok")
-        pairsetEditorPresenter.onEditorStop()
+//        pairsetEditorPresenter.onEditorStop()
     }
 }
 
