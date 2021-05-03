@@ -144,7 +144,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun onToolbarClick() {
-        viewState.showEditPairsetName(currentPairsetName = pairSetTitle)
+        viewState.showEditPairsetNameDialog(currentPairsetName = pairSetTitle)
     }
 
 }

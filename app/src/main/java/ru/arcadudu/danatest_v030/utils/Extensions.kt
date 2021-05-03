@@ -79,5 +79,12 @@ fun MvpAppCompatActivity.forceHideKeyboard(view: View) {
     )
 }
 
+fun MvpAppCompatActivity.forceShowKeyboard(view: View) {
+    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
+        view,
+        InputMethodManager.SHOW_IMPLICIT
+    )
+}
+
 
 

@@ -442,7 +442,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         addPairDialog.show()
     }
 
-    override fun showEditPairsetName(currentPairsetName: String) {
+    override fun showEditPairsetNameDialog(currentPairsetName: String) {
         val editPairsetNameDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pairset, null, false)
         val editPairsetNameDialog = dialogBuilder.setView(editPairsetNameDialogView).create()
@@ -459,6 +459,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 newPairsetName = text.toString().capitalize(Locale.getDefault()).trim()
             }
         }
+        editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.requestFocus()
+
 
         // positive btn
         editPairsetNameDialogBinding.btnAddPairSet.setOnClickListener {
@@ -477,6 +479,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         editPairsetNameDialogBinding.btnCancelAddWordSet.setOnClickListener {
             editPairsetNameDialog.dismiss()
         }
+
+
 
         editPairsetNameDialog.show()
     }

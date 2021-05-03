@@ -36,7 +36,7 @@ interface PairsetEditorView : MvpView {
     fun showAddNewPairDialog()
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showEditPairsetName(currentPairsetName:String)
+    fun showEditPairsetNameDialog(currentPairsetName:String)
 
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
 

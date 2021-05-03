@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
+import moxy.MvpAppCompatActivity
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
@@ -30,10 +31,7 @@ import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.PairSet
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
-import ru.arcadudu.danatest_v030.utils.DtSwipeDecorator
-import ru.arcadudu.danatest_v030.utils.SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
-import ru.arcadudu.danatest_v030.utils.recyclerLayoutAnimation
-import ru.arcadudu.danatest_v030.utils.vibratePhone
+import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
 
@@ -372,6 +370,15 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.doOnTextChanged { text, _, _, _ ->
             inputPairSetName = text.toString().capitalize(Locale.getDefault()).trim()
+        }
+        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+            setOnFocusChangeListener { v, hasFocus ->
+
+                (activity as? MvpAppCompatActivity)?.forceShowKeyboard(v)
+
+
+            }
+            requestFocus()
         }
 
         // positive btn
