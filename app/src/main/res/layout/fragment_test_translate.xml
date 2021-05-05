@@ -70,7 +70,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:hint="@string/dt_test_translate_fragment_answerfield_hint"
-        android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+        android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
         app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"

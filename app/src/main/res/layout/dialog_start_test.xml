@@ -17,7 +17,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/dialog_top_element_marginTop"
             android:gravity="start"
-            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
+            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,9 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="@string/dt_start_test_dialog_input_layout_hint"
-            android:theme="@style/ThemeOverlay.DanaTest031.VioletPrimary"
+            android:textColorHint="@color/dt3_brand_100"
+            android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
             app:boxBackgroundColor="@color/dt3_on_brand_100"
             app:counterEnabled="false"
+            app:hintTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            app:hintTextColor="@color/dt3_brand_100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_start_test_dialog_title">
@@ -53,9 +56,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:textSize="16sp"
-            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:text="@string/dt_start_test_dialog_shuffle_checkbox"
+            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/inputLayout_autoCompleteTestCase"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_autoCompleteTestCase" />
 
@@ -65,8 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dt_start_test_dialog_more_variants_checkbox"
-            android:textSize="16sp"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/shuffle_pairSet_checkBox"
             app:layout_constraintTop_toBottomOf="@id/shuffle_pairSet_checkBox" />

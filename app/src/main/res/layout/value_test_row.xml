@@ -14,7 +14,7 @@
         android:id="@+id/quest_pair_value"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dt3_brand_70"
+        android:background="@color/dt3_brand_100"
         android:paddingStart="18dp"
         android:paddingTop="14dp"
         android:paddingEnd="14dp"

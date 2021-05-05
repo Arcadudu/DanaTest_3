@@ -17,7 +17,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/dialog_top_element_marginTop"
             android:gravity="start"
-            android:textAppearance="@style/TextAppearance.dt_widgetTitle"
+            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

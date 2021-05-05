@@ -37,8 +37,17 @@
         <item name="boxStrokeWidth">1dp</item>
         <item name="boxStrokeWidthFocused">2dp</item>
         <item name="boxStrokeColor">@color/dt3_brand_100</item>
-        <item name="hintTextAppearance">@style/TextAppearance.App.TextInputLayout</item>
+        <item name="hintTextAppearance">@style/TextAppearance.dt_subtitleTextStyle</item>
+        <item name="hintTextColor">@color/dt3_brand_100</item>
+        <item name="android:textColorHint">@color/dt3_brand_70</item>
+        <item name="counterTextAppearance">@style/TextAppearance.dt_subtitleTextStyle</item>
     </style>
+
+    <!--
+    app:hintTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+    app:hintTextColor="@color/dt3_brand_100"
+    android:textColorHint="@color/dt3_brand_70"
+    -->
 
     <style name="dt_TextInputLayoutOutlinedStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeWidth">1dp</item>

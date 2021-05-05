@@ -48,8 +48,8 @@
         <item name="colorPrimary">@color/dt3_brand_100</item>
     </style>
 
-    <style name="ThemeOverlay.DanaTest031.VioletPrimary" parent="">
-        <item name="colorPrimary">@color/dt3_hint_color_30</item>
+    <style name="ThemeOverlay.DanaTest031.AlternativePrimaryColor" parent="">
+        <item name="colorPrimary">@color/dt3_brand_100</item>
     </style>
 
     <style name="ThemeOverlay.DanaTest031.TestMaterialCardViewElevation" parent="">

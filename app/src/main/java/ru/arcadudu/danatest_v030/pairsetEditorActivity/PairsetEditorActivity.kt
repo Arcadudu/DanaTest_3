@@ -386,6 +386,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     swapEditTexts(etNewPairKey, etNewPairValue)
             }
         }
+
         editPairDialog.show()
     }
 
