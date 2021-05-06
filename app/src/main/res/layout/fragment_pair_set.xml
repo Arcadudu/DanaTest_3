@@ -20,7 +20,6 @@
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
             app:layout_scrollFlags="scroll|snapMargins"
-            app:menu="@menu/pairset_fragment_menu"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             app:title="@string/dt_pairset_fragment_toolbar_title"
@@ -76,7 +75,7 @@
         android:paddingBottom="4dp"
         android:scrollbarSize="3dp"
         android:scrollbarStyle="insideOverlay"
-        android:scrollbarThumbVertical="@color/dt3_hint_color_50"
+        android:scrollbarThumbVertical="@color/dt3_brand_100"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

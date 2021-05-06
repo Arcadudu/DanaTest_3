@@ -77,9 +77,8 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
         android:paddingBottom="18dp"
-        android:scrollbarSize="3dp"
         android:scrollbarStyle="insideOverlay"
-        android:scrollbarThumbVertical="@color/plt_search_icons"
+        android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -95,7 +94,6 @@
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
         />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_pair"
         android:layout_width="wrap_content"
@@ -104,6 +102,5 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="18dp"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -56,7 +56,6 @@ class PairSetAdapter :
         pairsetList = filteredList
     }
 
-
     //REGULAR
     inner class PairSetViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {

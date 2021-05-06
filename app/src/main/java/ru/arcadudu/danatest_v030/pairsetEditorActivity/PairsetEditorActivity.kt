@@ -386,7 +386,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     swapEditTexts(etNewPairKey, etNewPairValue)
             }
         }
-
+        etNewPairKey?.requestFocus()
         editPairDialog.show()
     }
 
@@ -440,6 +440,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             }
 
         }
+        etNewPairKey?.requestFocus()
         addPairDialog.show()
     }
 
@@ -450,7 +451,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         val editPairsetNameDialogBinding = DialogAddPairsetBinding.bind(editPairsetNameDialogView)
         editPairsetNameDialogBinding.tvAddPairSetDialogTitle.text =
-            getString(R.string.dt_add_pairset_dialog_title)
+            getString(R.string.dt_edit_pairset_name_dialog_title)
 
         var newPairsetName = ""
 
@@ -464,15 +465,18 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
 
         // positive btn
-        editPairsetNameDialogBinding.btnAddPairSet.setOnClickListener {
-            if (newPairsetName.isEmpty()) {
-                editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
-                    error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
+        editPairsetNameDialogBinding.btnAddPairSet.apply {
+            text = getString(R.string.dt_edit_pairset_name_dialog_positive_btn)
+            setOnClickListener {
+                if (newPairsetName.isEmpty()) {
+                    editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+                        error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
+                    }
+                } else {
+                    //todo presenter check pairsetList for pairset with same names
+                    pairsetEditorPresenter.changePairsetName(newPairsetName)
+                    editPairsetNameDialog.dismiss()
                 }
-            } else {
-                //todo presenter check pairsetList for pairset with same names
-                pairsetEditorPresenter.changePairsetName(newPairsetName)
-                editPairsetNameDialog.dismiss()
             }
         }
 

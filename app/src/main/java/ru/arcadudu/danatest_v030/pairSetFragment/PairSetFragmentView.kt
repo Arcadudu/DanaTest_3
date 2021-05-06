@@ -38,6 +38,7 @@ interface PairSetFragmentView : MvpView {
 
     fun setOnEmptyStub(count: Int)
 
+    fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<PairSet>)
 
 
 }

@@ -48,8 +48,8 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun onMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(pairSetList, fromPosition, toPosition)
-        viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
         pairsetListSPHandler.saveSpPairsetList(pairSetList)
+        viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
     }
 
     fun onSwipedLeft(swipePosition: Int) {
@@ -108,6 +108,14 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
     fun checkIfThereAnyPairsets() {
         viewState.setOnEmptyStub(pairSetList.count())
+    }
+
+    fun sortPairsetListByName(): Boolean {
+        pairSetList.sortBy { it.name }
+
+        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+        viewState.updateRecyclerOnSortedPairsetList(pairSetList)
+        return true
     }
 
 }

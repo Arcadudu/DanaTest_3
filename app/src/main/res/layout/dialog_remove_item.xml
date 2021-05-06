@@ -2,7 +2,8 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/dt_remove_pairset_dialog_message"
-            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
             app:layout_constraintStart_toStartOf="@id/tv_remove_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_title" />
 

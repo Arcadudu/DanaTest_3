@@ -109,12 +109,25 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
-        val popUpMenuDrawable = ResourcesCompat.getDrawable(
-            resources,
-            R.drawable.icon_hamgburger_menu_brand,
-            activity?.theme
-        )
-        targetToolbar.overflowIcon = popUpMenuDrawable
+        targetToolbar.apply {
+            inflateMenu(R.menu.pairset_fragment_toolbar_menu)
+            setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.toolbar_action_sortBy -> {
+                        pairSetPresenter.sortPairsetListByName()
+                        true
+                    }
+                    else -> false
+                   // R.id.toolbar_action_toSettings -> toSettings()
+                }
+            }
+        }
+//        val popUpMenuDrawable = ResourcesCompat.getDrawable(
+//            resources,
+//            R.drawable.icon_hamgburger_menu_brand,
+//            activity?.theme
+//        )
+//        targetToolbar.overflowIcon = popUpMenuDrawable
     }
 
     private fun showBtnClear(isStringEmpty: Boolean) {
@@ -414,7 +427,6 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
         removeDialogBinding.apply {
             tvRemoveDialogTitle.text = name
-            tvRemoveDialogMessage.text = getString(R.string.remove_dialog_message)
             btnCancelRemove.setOnClickListener {
                 removeDialog.dismiss()
             }
@@ -463,6 +475,10 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
+    override fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<PairSet>) {
+        pairSetAdapter.notifyItemRangeChanged(0, sortedList.count())
+    }
+
 
     //lifecycle
     override fun onPause() {
@@ -507,8 +523,9 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         toPosition: Int
     ) {
         pairSetAdapter.apply {
-            submitList(pairSetList)
+//            submitList(pairSetList)
             notifyItemMoved(fromPosition, toPosition)
+
         }
         pairSetPresenter.providePairSetListCount()
     }
