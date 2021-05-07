@@ -7,7 +7,7 @@ import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pairset
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface PairSetFragmentView : MvpView {
+interface PairsetFragmentView : MvpView {
 
 
     fun updateToolbarInfo(pairSetCounter: String)

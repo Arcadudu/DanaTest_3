@@ -37,7 +37,7 @@ import java.util.*
 
 private const val TAG = "cycle"
 
-class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
+class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     private lateinit var fragmentPairsetBinding: FragmentPairSetBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
@@ -55,7 +55,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
 
     @InjectPresenter
-    lateinit var pairsetPresenter: PairSetFragmentPresenter
+    lateinit var pairsetPresenter: PairsetFragmentPresenter
 
 
     override fun onCreateView(
@@ -477,6 +477,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<Pairset>) {
         pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
+        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
 

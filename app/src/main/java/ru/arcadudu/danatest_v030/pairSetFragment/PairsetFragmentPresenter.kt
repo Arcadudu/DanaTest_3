@@ -12,7 +12,7 @@ import java.util.*
 
 
 @InjectViewState
-class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
+class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
     private lateinit var pairsetList: MutableList<Pairset>
 
