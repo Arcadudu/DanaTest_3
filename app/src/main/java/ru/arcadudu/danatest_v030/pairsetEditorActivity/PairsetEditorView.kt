@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface PairsetEditorView : MvpView {
@@ -40,7 +40,7 @@ interface PairsetEditorView : MvpView {
 
     fun updateRecyclerOnSwap(updatedPairList: MutableList<Pair>, fromPosition: Int, toPosition: Int)
 
-    fun obtainPairsetForTest(currentPairSet: PairSet)
+    fun obtainPairsetForTest(currentPairset: Pairset)
 
     fun setOnEmptyStub(count: Int)
 

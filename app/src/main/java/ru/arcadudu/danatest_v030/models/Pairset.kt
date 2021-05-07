@@ -7,7 +7,7 @@ import java.util.*
 val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
 var creationDate = simpleDateFormatExact.format(Date()).toString()
 
-open class PairSet(var name: String, var date: String = creationDate) : Serializable {
+open class Pairset(var name: String, var date: String = creationDate) : Serializable {
     private var pairList: MutableList<Pair> = mutableListOf()
 
 

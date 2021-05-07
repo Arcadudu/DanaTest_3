@@ -5,7 +5,7 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface VariantsFragmentView : MvpView {
@@ -27,7 +27,7 @@ interface VariantsFragmentView : MvpView {
 
     fun updateRecyclerOnRemoved(updatedPairList: MutableList<Pair>, answerPosition: Int)
 
-    fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int)
+    fun toResultFragment(backUpPairset: Pairset, mistakeCount: Int)
 
 
 }

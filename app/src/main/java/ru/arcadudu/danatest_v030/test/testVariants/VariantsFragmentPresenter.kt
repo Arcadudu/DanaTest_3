@@ -4,13 +4,13 @@ import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 @InjectViewState
 class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
-    private lateinit var testedPairSet: PairSet
-    private lateinit var backUpPairSet: PairSet
+    private lateinit var testedPairset: Pairset
+    private lateinit var backUpPairset: Pairset
     private lateinit var testedPairList: MutableList<Pair>
     private lateinit var testedPairSetName: String
 
@@ -25,12 +25,12 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         private var originPairListCount = 0
     }
 
-    fun obtainTestedPairSet(incomingPairSet: PairSet) {
-        testedPairSet = incomingPairSet
-        backUpPairSet = testedPairSet
-        testedPairList = testedPairSet.getPairList()
+    fun obtainTestedPairSet(incomingPairset: Pairset) {
+        testedPairset = incomingPairset
+        backUpPairset = testedPairset
+        testedPairList = testedPairset.getPairList()
         backUpPairList.addAll(testedPairList)
-        testedPairSetName = testedPairSet.name
+        testedPairSetName = testedPairset.name
         originPairListCount = testedPairList.count()
         viewState.setProgressMax(originPairListCount)
     }
@@ -92,7 +92,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
         if (testedPairList.isEmpty()) {
-            viewState.toResultFragment(backUpPairSet, mistakeCount)
+            viewState.toResultFragment(backUpPairset, mistakeCount)
         } else {
             viewState.apply {
                 updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)

@@ -31,7 +31,7 @@ import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
 import ru.arcadudu.danatest_v030.databinding.DialogAddPairsetBinding
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
@@ -47,7 +47,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
 
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
-    private lateinit var pairSetForTesting: PairSet
+    private lateinit var pairsetForTesting: Pairset
 
     private lateinit var toolbar: MaterialToolbar
     private lateinit var etPairSearchField: EditText
@@ -133,7 +133,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             )
         }
         pairsetEditorPresenter.deliverPairsetForTest()
-        toTestIntent.putExtra(CONST_PAIRSET_TO_TEST_TAG, pairSetForTesting)
+        toTestIntent.putExtra(CONST_PAIRSET_TO_TEST_TAG, pairsetForTesting)
         startActivity(toTestIntent)
         return super.onOptionsItemSelected(item)
     }
@@ -516,8 +516,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
 
-    override fun obtainPairsetForTest(currentPairSet: PairSet) {
-        pairSetForTesting = currentPairSet
+    override fun obtainPairsetForTest(currentPairset: Pairset) {
+        pairsetForTesting = currentPairset
     }
 
     override fun setOnEmptyStub(count: Int) {

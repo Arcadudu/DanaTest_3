@@ -1,20 +1,45 @@
 package ru.arcadudu.danatest_v030.utils
 
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
+import java.util.*
 
-fun getDummyPairSet(): PairSet {
-    val dummyPairSet = PairSet("fake WordSet")
+fun getDefaultPairsetFurniture(): Pairset {
+    val defaultPairsetFurniture = Pairset("Мебель \uD83E\uDE91")
+    defaultPairsetFurniture.addPair("table", "стол")
+    defaultPairsetFurniture.addPair("chair", "стул")
+    defaultPairsetFurniture.addPair("sofa", "диван")
+    defaultPairsetFurniture.addPair("shelf", "полка")
+    defaultPairsetFurniture.addPair("stool", "барный стул")
+    defaultPairsetFurniture.addPair("pillow", "подушка")
+    defaultPairsetFurniture.addPair("lamp", "лампа")
+    return defaultPairsetFurniture
+}
 
-    dummyPairSet.addPair("table", "стол")
-    dummyPairSet.addPair("chair", "стул")
-    dummyPairSet.addPair("sofa", "диван")
-    dummyPairSet.addPair("shelf", "полка")
-    dummyPairSet.addPair("stool", "барный стул")
-    dummyPairSet.addPair("pillow", "подушка")
-    dummyPairSet.addPair("lamp", "лампа")
 
+fun getDefaultPairsetTime(): Pairset {
+    val timePairSet = Pairset("Время ⌚")
+    if (timeRu.count() == timeEng.count()) {
+        for (index in timeRu.indices) {
+            timePairSet.addPair(
+                timeEng[index].capitalize(Locale.ROOT),
+                timeRu[index].capitalize(Locale.ROOT)
+            )
+        }
+    }
+    return timePairSet
+}
 
-    return dummyPairSet
+fun getDefaultPairsetGreatBritain():Pairset{
+    val gbPairSet = Pairset("Великобритания \uD83C\uDDEC\uD83C\uDDE7")
+    if(gbRu.count()== gbEng.count()){
+        for (index in gbRu.indices){
+            gbPairSet.addPair(
+                gbEng[index].capitalize(Locale.ROOT),
+                gbRu[index].capitalize(Locale.ROOT)
+            )
+        }
+    }
+    return gbPairSet
 }
 
 var timeRu = listOf(
@@ -94,15 +119,5 @@ var gbEng = listOf(
     "Atlantic", "ocean", "area", "kilometer", "urban",
     "fog", "surface", "mountain", "mountainous", "lake", "river", "climate", "autumn"
 )
-
-fun getTimePairSet(): PairSet {
-    val timePairSet = PairSet("Time WordSet")
-    if (timeRu.count() == timeEng.count()) {
-        for (i in timeRu.indices) {
-            timePairSet.addPair(timeEng[i].capitalize(), timeRu[i].capitalize())
-        }
-    }
-    return timePairSet
-}
 
 

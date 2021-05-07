@@ -28,7 +28,7 @@ import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.adapters.PairSetAdapter
 import ru.arcadudu.danatest_v030.databinding.*
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.pairsetEditorActivity.PairsetEditorActivity
 import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.*
@@ -39,23 +39,23 @@ private const val TAG = "cycle"
 
 class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
-    private lateinit var fragmentWordSetBinding: FragmentPairSetBinding
+    private lateinit var fragmentPairsetBinding: FragmentPairSetBinding
     private lateinit var removeDialogBinding: DialogRemoveItemBinding
-    private lateinit var addPairSetDialogBinding: DialogAddPairsetBinding
+    private lateinit var addPairsetDialogBinding: DialogAddPairsetBinding
 
     private lateinit var toolbar: MaterialToolbar
-    private lateinit var etPairSetSearchField: EditText
+    private lateinit var etPairsetSearchField: EditText
     private lateinit var btnClearSearchField: ImageView
-    private lateinit var pairSetRecyclerView: RecyclerView
-    private lateinit var pairSetAdapter: PairSetAdapter
-    private lateinit var fabAddNewPairSet: FloatingActionButton
+    private lateinit var pairsetRecyclerView: RecyclerView
+    private lateinit var pairsetAdapter: PairSetAdapter
+    private lateinit var fabAddNewPairset: FloatingActionButton
     private lateinit var noPairsetStub: MaterialTextView
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
 
     @InjectPresenter
-    lateinit var pairSetPresenter: PairSetFragmentPresenter
+    lateinit var pairsetPresenter: PairSetFragmentPresenter
 
 
     override fun onCreateView(
@@ -70,41 +70,41 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated: ")
 
-        fragmentWordSetBinding = FragmentPairSetBinding.bind(view)
+        fragmentPairsetBinding = FragmentPairSetBinding.bind(view)
 
         dialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
 
-        toolbar = fragmentWordSetBinding.toolbar
+        toolbar = fragmentPairsetBinding.toolbar
         prepareToolbar(toolbar)
 
-        pairSetPresenter.apply {
+        pairsetPresenter.apply {
             captureContext(requireContext())
-            initiatePairSetList()
+            initiatePairsetList()
         }
 
-        pairSetRecyclerView = fragmentWordSetBinding.wordSetRecycler
-        preparePairsetRecycler(pairSetRecyclerView)
-        initRecyclerSwiper(pairSetRecyclerView)
+        pairsetRecyclerView = fragmentPairsetBinding.wordSetRecycler
+        preparePairsetRecycler(pairsetRecyclerView)
+        initRecyclerSwiper(pairsetRecyclerView)
 
-        pairSetPresenter.providePairSetListCount()
+        pairsetPresenter.providePairsetListCount()
 
-        etPairSetSearchField = fragmentWordSetBinding.etWsFragSearchfield
-        etPairSetSearchField.doOnTextChanged { text, _, _, _ ->
+        etPairsetSearchField = fragmentPairsetBinding.etPairsetFragmentSearchfield
+        etPairsetSearchField.doOnTextChanged { text, _, _, _ ->
             showBtnClear(text.toString().isEmpty())
-            pairSetPresenter.filter(text.toString())
+            pairsetPresenter.filter(text.toString())
         }
 
-        noPairsetStub = fragmentWordSetBinding.tvNoPairsetStub
-        pairSetPresenter.checkIfThereAnyPairsets()
+        noPairsetStub = fragmentPairsetBinding.tvNoPairsetStub
+        pairsetPresenter.checkIfThereAnyPairsets()
 
-        btnClearSearchField = fragmentWordSetBinding.btnSearchClose
+        btnClearSearchField = fragmentPairsetBinding.btnSearchClose
         btnClearSearchField.setOnClickListener {
-            etPairSetSearchField.text = null
+            etPairsetSearchField.text = null
         }
 
-        fabAddNewPairSet = fragmentWordSetBinding.fabAddPairSet
-        fabAddNewPairSet.setOnClickListener {
-            showAddNewPairSetDialog()
+        fabAddNewPairset = fragmentPairsetBinding.fabAddPairset
+        fabAddNewPairset.setOnClickListener {
+            showAddNewPairsetDialog()
         }
     }
 
@@ -114,7 +114,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             setOnMenuItemClickListener {
                 when(it.itemId){
                     R.id.toolbar_action_sortBy -> {
-                        pairSetPresenter.sortPairsetListByName()
+                        pairsetPresenter.sortPairsetListByName()
                         true
                     }
                     else -> false
@@ -135,15 +135,15 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     }
 
     private fun preparePairsetRecycler(targetRecyclerView: RecyclerView) {
-        pairSetAdapter = PairSetAdapter()
-        pairSetAdapter.captureContext(requireContext())
+        pairsetAdapter = PairSetAdapter()
+        pairsetAdapter.captureContext(requireContext())
         targetRecyclerView.apply {
             setHasFixedSize(true)
-            adapter = pairSetAdapter
+            adapter = pairsetAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-        pairSetPresenter.providePairSetList()
-        pairSetAdapter.onItemClickCallback(this)
+        pairsetPresenter.providePairsetList()
+        pairsetAdapter.onItemClickCallback(this)
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -160,7 +160,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
                 val fromPosition = viewHolder.bindingAdapterPosition
                 val toPosition = target.bindingAdapterPosition
-                pairSetPresenter.onMove(fromPosition, toPosition)
+                pairsetPresenter.onMove(fromPosition, toPosition)
                 return true
             }
 
@@ -169,12 +169,12 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         vibratePhone(24)
-                        pairSetPresenter.onSwipedLeft(position)
+                        pairsetPresenter.onSwipedLeft(position)
                     }
 
                     ItemTouchHelper.RIGHT -> {
                         vibratePhone(24)
-                        pairSetPresenter.onSwipedRight(position)
+                        pairsetPresenter.onSwipedRight(position)
                     }
                 }
             }
@@ -263,7 +263,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     }
 
-    override fun showOnEmptyPairSetDialog(chosenPairset: PairSet) {
+    override fun showOnEmptyPairsetDialog(chosenPairset: Pairset) {
         val emptyPairsetDialogView =
             this.layoutInflater.inflate(R.layout.dialog_on_empty_pairset, null, false)
         val emptyPairsetDialog = dialogBuilder.setView(emptyPairsetDialogView).create()
@@ -271,7 +271,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         val dismissedWithAction = false
         emptyPairsetDialog.setOnDismissListener {
             if (!dismissedWithAction) {
-                pairSetAdapter.notifyDataSetChanged()
+                pairsetAdapter.notifyDataSetChanged()
             }
         }
 
@@ -281,14 +281,14 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
         //dismiss button
         emptyPairsetDialogBinding.btnDismissDialog.setOnClickListener {
-            pairSetAdapter.notifyDataSetChanged()
+            pairsetAdapter.notifyDataSetChanged()
             emptyPairsetDialog.dismiss()
         }
 
         emptyPairsetDialog.show()
     }
 
-    override fun showStartTestDialog(chosenPairSet: PairSet) {
+    override fun showStartTestDialog(chosenPairset: Pairset) {
         val startTestDialogView =
             this.layoutInflater.inflate(R.layout.dialog_start_test, null, false)
         val startTestDialog = dialogBuilder.setView(startTestDialogView).create()
@@ -296,7 +296,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         var dismissedWithAction = false
         startTestDialog.setOnDismissListener {
             if (!dismissedWithAction) {
-                pairSetAdapter.notifyDataSetChanged()
+                pairsetAdapter.notifyDataSetChanged()
             }
         }
 
@@ -313,14 +313,14 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 setAdapter(testArrayAdapter)
                 setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
                 startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
-                    startTestDialogBinding.allPairSetVariantsCheckBox.visibility =
+                    startTestDialogBinding.allPairsetVariantsCheckBox.visibility =
                         if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
                 }
 
             }
 
             //todo : make a style for checkboxes with textColor colorset
-            shufflePairSetCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
+            shufflePairsetCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
                 checkBox.setTextColor(
@@ -332,7 +332,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 )
             }
 
-            allPairSetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
+            allPairsetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
                 checkBox.setTextColor(
@@ -348,7 +348,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {
 
-            val shufflePairset = startTestDialogBinding.shufflePairSetCheckBox.isChecked
+            val shufflePairset = startTestDialogBinding.shufflePairsetCheckBox.isChecked
             val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
             val toTestIntent = Intent(this.activity, TestActivity::class.java)
 
@@ -356,7 +356,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
             toTestIntent.apply {
                 putExtra("shuffle", shufflePairset)
                 putExtra("test", chosenTest)
-                putExtra("pairset", chosenPairSet)
+                putExtra("pairset", chosenPairset)
             }
             startActivity(toTestIntent)
             startTestDialog.dismiss()
@@ -370,21 +370,21 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         startTestDialog.show()
     }
 
-    override fun showAddNewPairSetDialog() {
-        val addPairSetDialogView =
+    override fun showAddNewPairsetDialog() {
+        val addPairsetDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pairset, null, false)
-        val addPairSetDialog = dialogBuilder.setView(addPairSetDialogView).create()
+        val addPairsetDialog = dialogBuilder.setView(addPairsetDialogView).create()
 
         var inputPairSetName = ""
 
-        addPairSetDialogBinding = DialogAddPairsetBinding.bind(addPairSetDialogView)
-        addPairSetDialogBinding.tvAddPairSetDialogTitle.text =
+        addPairsetDialogBinding = DialogAddPairsetBinding.bind(addPairsetDialogView)
+        addPairsetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.dt_add_pairset_dialog_title)
 
-        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.doOnTextChanged { text, _, _, _ ->
+        addPairsetDialogBinding.inputLayoutNewPairSetName.editText?.doOnTextChanged { text, _, _, _ ->
             inputPairSetName = text.toString().capitalize(Locale.getDefault()).trim()
         }
-        addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+        addPairsetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
             setOnFocusChangeListener { v, hasFocus ->
 
                 (activity as? MvpAppCompatActivity)?.forceShowKeyboard(v)
@@ -395,33 +395,33 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         }
 
         // positive btn
-        addPairSetDialogBinding.btnAddPairSet.setOnClickListener {
+        addPairsetDialogBinding.btnAddPairSet.setOnClickListener {
             if (inputPairSetName.isEmpty()) {
-                addPairSetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+                addPairsetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
                     error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
                 }
             } else {
-                pairSetPresenter.addNewPairSet(inputPairSetName)
-                addPairSetDialog.dismiss()
+                pairsetPresenter.addNewPairset(inputPairSetName)
+                addPairsetDialog.dismiss()
                 //todo presenter checks database for pairsets with same names
             }
         }
 
         //negative btn
-        addPairSetDialogBinding.btnCancelAddWordSet.setOnClickListener {
-            addPairSetDialog.dismiss()
+        addPairsetDialogBinding.btnCancelAddWordSet.setOnClickListener {
+            addPairsetDialog.dismiss()
         }
-        addPairSetDialog.show()
+        addPairsetDialog.show()
     }
 
-    override fun showRemovePairSetDialog(name: String, description: String, position: Int) {
+    override fun showRemovePairsetDialog(name: String, description: String, position: Int) {
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null, false)
         val removeDialog = dialogBuilder.setView(removeDialogView).create()
 
         var dismissedWithAction = false
         removeDialog.setOnDismissListener {
             if (!dismissedWithAction)
-                pairSetAdapter.notifyDataSetChanged()
+                pairsetAdapter.notifyDataSetChanged()
         }
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
@@ -431,7 +431,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
                 removeDialog.dismiss()
             }
             btnRemovePair.setOnClickListener {
-                pairSetPresenter.removePairSetAtPosition(position)
+                pairsetPresenter.removePairsetAtPosition(position)
                 dismissedWithAction = true
                 removeDialog.dismiss()
             }
@@ -439,29 +439,29 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         removeDialog.show()
     }
 
-    override fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>) {
-        pairSetAdapter.apply {
-            submitList(pairSetList)
+    override fun updateRecyclerOnAdded(pairsetList: MutableList<Pairset>) {
+        pairsetAdapter.apply {
+            submitList(pairsetList)
             notifyItemInserted(0)
         }
-        pairSetPresenter.providePairSetListCount()
-        pairSetRecyclerView.scrollToPosition(0)
+        pairsetPresenter.providePairsetListCount()
+        pairsetRecyclerView.scrollToPosition(0)
     }
 
-    override fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int) {
-        pairSetAdapter.apply {
-            submitList(updatedPairSetList)
+    override fun updateRecyclerOnRemoved(updatedPairsetList: MutableList<Pairset>, position: Int) {
+        pairsetAdapter.apply {
+            submitList(updatedPairsetList)
             notifyItemRemoved(position)
         }
-        pairSetPresenter.providePairSetListCount()
+        pairsetPresenter.providePairsetListCount()
     }
 
-    override fun obtainFilteredList(filteredList: MutableList<PairSet>) {
-        pairSetAdapter.apply {
+    override fun obtainFilteredList(filteredList: MutableList<Pairset>) {
+        pairsetAdapter.apply {
             filterList(filteredList)
             notifyDataSetChanged()
         }
-        recyclerLayoutAnimation(pairSetRecyclerView, R.anim.layout_fall_down_anim)
+        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
     override fun putPairsetIndexIntoIntent(bindingAdapterPosition: Int) {
@@ -475,8 +475,8 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
-    override fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<PairSet>) {
-        pairSetAdapter.notifyItemRangeChanged(0, sortedList.count())
+    override fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<Pairset>) {
+        pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
     }
 
 
@@ -494,7 +494,7 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: ")
-        pairSetAdapter.notifyDataSetChanged()
+        pairsetAdapter.notifyDataSetChanged()
     }
 
     override fun onAttach(context: Context) {
@@ -504,29 +504,29 @@ class PairSetFragment : MvpAppCompatFragment(), PairSetFragmentView {
 
     override fun onDestroy() {
         super.onDestroy()
-        pairSetPresenter.detachView(this)
+        pairsetPresenter.detachView(this)
         Log.d(TAG, "onDestroy: ")
     }
 
 
     override fun updateToolbarInfo(pairSetCounter: String) {
-        fragmentWordSetBinding.toolbar.subtitle = pairSetCounter
+        fragmentPairsetBinding.toolbar.subtitle = pairSetCounter
     }
 
-    override fun retrievePairSetList(pairSetList: MutableList<PairSet>) {
-        pairSetAdapter.submitList(pairSetList)
+    override fun retrievePairsetList(pairsetList: MutableList<Pairset>) {
+        pairsetAdapter.submitList(pairsetList)
     }
 
     override fun updateRecyclerOnSwap(
-        pairSetList: MutableList<PairSet>,
+        pairsetList: MutableList<Pairset>,
         fromPosition: Int,
         toPosition: Int
     ) {
-        pairSetAdapter.apply {
+        pairsetAdapter.apply {
 //            submitList(pairSetList)
             notifyItemMoved(fromPosition, toPosition)
 
         }
-        pairSetPresenter.providePairSetListCount()
+        pairsetPresenter.providePairsetListCount()
     }
 }

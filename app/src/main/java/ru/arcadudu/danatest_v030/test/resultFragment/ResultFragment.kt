@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.FragmentTestResultBinding
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 
 class ResultFragment: MvpAppCompatFragment(), ResultFragmentView {
@@ -45,7 +44,7 @@ class ResultFragment: MvpAppCompatFragment(), ResultFragmentView {
         val tvPairSetTitle = resultBinding.tvResultPairSetName
         val tvMistakesCount = resultBinding.tvResultMistakesCount
 
-        val pairSet = arguments?.getSerializable("testedPairSet") as PairSet
+        val pairSet = arguments?.getSerializable("testedPairSet") as Pairset
         tvPairSetTitle.text = pairSet.name
         val mistakes = arguments?.getInt("mistakes")
         tvMistakesCount.text = mistakes.toString()

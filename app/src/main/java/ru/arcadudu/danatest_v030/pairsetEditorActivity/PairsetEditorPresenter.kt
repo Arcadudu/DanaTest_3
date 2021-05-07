@@ -5,7 +5,7 @@ import android.content.Intent
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.utils.PairsetListSPHandler
 import ru.arcadudu.danatest_v030.utils.getCreationDate
 import java.util.*
@@ -13,7 +13,7 @@ import java.util.*
 @InjectViewState
 class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
-    private lateinit var currentPairSet: PairSet
+    private lateinit var currentPairset: Pairset
     private lateinit var currentPairList: MutableList<Pair>
     private var currentPairsetIndex = 0
     private lateinit var pairSetTitle: String
@@ -61,12 +61,13 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     ) {
         spHandler = PairsetListSPHandler(context)
         currentPairsetIndex = incomingIntent.getIntExtra(pairset_index_tag, 0)
-        currentPairSet = spHandler.loadSpPairsetList()[currentPairsetIndex]
+        currentPairset = spHandler.loadSpPairsetList()[currentPairsetIndex]
 
-        pairSetTitle = currentPairSet.name
-        pairSetDetails = currentPairSet.date
 
-        currentPairList = currentPairSet.getPairList()
+        pairSetTitle = currentPairset.name
+        pairSetDetails = currentPairset.date
+
+        currentPairList = currentPairset.getPairList()
     }
 
 
@@ -75,7 +76,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun deliverPairsetForTest() {
-        viewState.obtainPairsetForTest(currentPairSet)
+        viewState.obtainPairsetForTest(currentPairset)
     }
 
     fun provideDataForToolbar() {

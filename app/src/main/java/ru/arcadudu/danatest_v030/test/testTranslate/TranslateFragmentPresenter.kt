@@ -3,14 +3,14 @@ package ru.arcadudu.danatest_v030.test.testTranslate
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import java.util.*
 
 @InjectViewState
 class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
-    private lateinit var testedPairSet: PairSet
-    private lateinit var backUpPairSet: PairSet
+    private lateinit var testedPairset: Pairset
+    private lateinit var backUpPairset: Pairset
     private lateinit var testedPairList: MutableList<Pair>
     private lateinit var testedPairSetName: String
 
@@ -25,12 +25,12 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         private var originPairListCount = 0
     }
 
-    fun obtainTestedPairSet(incomingPairSet: PairSet) {
-        testedPairSet = incomingPairSet
-        backUpPairSet = testedPairSet
-        testedPairList = testedPairSet.getPairList()
+    fun obtainTestedPairSet(incomingPairset: Pairset) {
+        testedPairset = incomingPairset
+        backUpPairset = testedPairset
+        testedPairList = testedPairset.getPairList()
         backUpPairList.addAll(testedPairList)
-        testedPairSetName = testedPairSet.name
+        testedPairSetName = testedPairset.name
         originPairListCount = testedPairList.count()
         viewState.setProgressMax(originPairListCount)
     }
@@ -58,7 +58,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
         if (testedPairList.isEmpty()) {
-            viewState.toResultFragment(backUpPairSet, mistakeCount)
+            viewState.toResultFragment(backUpPairset, mistakeCount)
         }
 
         viewState.apply {

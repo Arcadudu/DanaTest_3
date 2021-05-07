@@ -1,10 +1,10 @@
 package ru.arcadudu.danatest_v030.interfaces
 
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 interface RemovableItem {
 
     fun obtainRemovableItemName(itemName:String)
 
-    fun removeRemovableItem(pairSet:PairSet)
+    fun removeRemovableItem(pairset:Pairset)
 }

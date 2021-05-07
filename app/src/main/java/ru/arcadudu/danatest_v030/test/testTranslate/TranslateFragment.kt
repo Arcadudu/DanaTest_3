@@ -29,7 +29,7 @@ import ru.arcadudu.danatest_v030.databinding.FragmentTestTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
@@ -62,7 +62,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
     private lateinit var translateSnapHelper: PagerSnapHelper
 
-    private lateinit var incomingPairSet: PairSet
+    private lateinit var incomingPairset: Pairset
 
     private var currentSnapPosition = 0
     private var shufflePairset = false
@@ -82,9 +82,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         super.onViewCreated(view, savedInstanceState)
         translateBinding = FragmentTestTranslateBinding.bind(view)
 
-        incomingPairSet = arguments?.getSerializable("pairSet") as PairSet
+        incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
-        translatePresenter.obtainTestedPairSet(incomingPairSet)
+        translatePresenter.obtainTestedPairSet(incomingPairset)
 
         toolbar = translateBinding.translateToolbar
         prepareToolbar(targetToolbar = toolbar)
@@ -266,8 +266,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         progressBar.max = originalPairListCount
     }
 
-    override fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int) {
-        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairSet, mistakeCount)
+    override fun toResultFragment(backUpPairset: Pairset, mistakeCount: Int) {
+        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairset, mistakeCount)
     }
 
     override fun updateRecyclerOnRestart(testedPairList: MutableList<Pair>) {

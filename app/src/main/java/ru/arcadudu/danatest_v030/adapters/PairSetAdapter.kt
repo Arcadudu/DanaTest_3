@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragmentView
 import ru.arcadudu.danatest_v030.utils.PairsetDiffUtil
 import java.text.SimpleDateFormat
@@ -18,7 +18,7 @@ import java.util.*
 class PairSetAdapter :
     RecyclerView.Adapter<PairSetAdapter.PairSetViewHolder>() {
 
-    private var pairsetList: MutableList<PairSet> = mutableListOf()
+    private var pairsetList: MutableList<Pairset> = mutableListOf()
     private lateinit var pairSetFragmentImplementation: PairSetFragmentView
 
     private lateinit var pairSetFragmentContext: Context
@@ -45,14 +45,14 @@ class PairSetAdapter :
     override fun getItemCount() = pairsetList.count()
 
 
-    fun submitList(newPairsetList: MutableList<PairSet>) {
+    fun submitList(newPairsetList: MutableList<Pairset>) {
         val pairsetDiffUtil = PairsetDiffUtil(pairsetList, newPairsetList)
         val diffResult = DiffUtil.calculateDiff(pairsetDiffUtil)
         pairsetList = newPairsetList
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun filterList(filteredList: MutableList<PairSet>) {
+    fun filterList(filteredList: MutableList<Pairset>) {
         pairsetList = filteredList
     }
 
@@ -76,14 +76,14 @@ class PairSetAdapter :
             }
         }
 
-        fun bind(pairSet: PairSet) {
+        fun bind(pairset: Pairset) {
             binding.apply {
-                tvItemTitle.text = pairSet.name.capitalize(Locale.ROOT).trim()
-                val date = simpleDateFormatExact.parse(pairSet.date)
+                tvItemTitle.text = pairset.name.capitalize(Locale.ROOT).trim()
+                val date = simpleDateFormatExact.parse(pairset.date)
                 tvItemDetails.text = simpleDateFormatExact.format(date!!)
                 tvPairCounterBody.apply {
-                    text = pairSet.getPairList().count().toString()
-                    background = when (pairSet.getPairList().count()) {
+                    text = pairset.getPairList().count().toString()
+                    background = when (pairset.getPairList().count()) {
                         0 -> background(R.drawable.pair_counter_container_has_no_pairs)
                         else -> background(R.drawable.pair_counter_container_pairs)
                     }

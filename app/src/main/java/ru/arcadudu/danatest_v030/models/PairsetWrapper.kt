@@ -4,10 +4,10 @@ import java.io.Serializable
 
 class PairsetWrapper(
     var name: String = "pairsetCollection",
-    private var collection: MutableList<PairSet>
+    private var collection: MutableList<Pairset>
 ) : Serializable {
 
-    fun retrieveCollection(): MutableList<PairSet> = collection
+    fun retrieveCollection(): MutableList<Pairset> = collection
 
 
 }

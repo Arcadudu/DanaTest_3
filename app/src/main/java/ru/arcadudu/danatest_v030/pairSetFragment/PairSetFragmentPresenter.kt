@@ -1,10 +1,11 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
 import android.content.Context
+import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.utils.PairsetListSPHandler
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,7 +14,7 @@ import java.util.*
 @InjectViewState
 class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
 
-    private lateinit var pairSetList: MutableList<PairSet>
+    private lateinit var pairsetList: MutableList<Pairset>
 
     private lateinit var pairsetListSPHandler: PairsetListSPHandler
     private lateinit var context: Context
@@ -24,37 +25,40 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         pairsetListSPHandler = PairsetListSPHandler(context)
     }
 
-    fun providePairSetListCount() {
+    fun providePairsetListCount() {
         val message = context.resources.getQuantityString(
             R.plurals.plurals_2,
-            pairSetList.count(),
-            pairSetList.count()
+            pairsetList.count(),
+            pairsetList.count()
         )
         viewState.updateToolbarInfo(message)
     }
 
-    fun initiatePairSetList() {
-        pairSetList = mutableListOf()
-        pairSetList.apply {
+    fun initiatePairsetList() {
+        pairsetList = mutableListOf()
+        pairsetList.apply {
             clear()
             addAll(pairsetListSPHandler.loadSpPairsetList())
         }
-        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+        pairsetList.forEach {
+            Log.d("pairset", it.name)
+        }
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
     }
 
-    fun providePairSetList() {
-        viewState.retrievePairSetList(pairSetList)
+    fun providePairsetList() {
+        viewState.retrievePairsetList(pairsetList)
     }
 
     fun onMove(fromPosition: Int, toPosition: Int) {
-        Collections.swap(pairSetList, fromPosition, toPosition)
-        pairsetListSPHandler.saveSpPairsetList(pairSetList)
-        viewState.updateRecyclerOnSwap(pairSetList, fromPosition, toPosition)
+        Collections.swap(pairsetList, fromPosition, toPosition)
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
+        viewState.updateRecyclerOnSwap(pairsetList, fromPosition, toPosition)
     }
 
     fun onSwipedLeft(swipePosition: Int) {
-        val chosenPairSet = pairSetList[swipePosition]
-        viewState.showRemovePairSetDialog(
+        val chosenPairSet = pairsetList[swipePosition]
+        viewState.showRemovePairsetDialog(
             chosenPairSet.name,
             chosenPairSet.date,
             position = swipePosition
@@ -62,27 +66,27 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
     }
 
     fun onSwipedRight(swipePosition: Int) {
-        val chosenPairset = pairSetList[swipePosition]
+        val chosenPairset = pairsetList[swipePosition]
         if (chosenPairset.getPairList().count() != 0) {
             viewState.showStartTestDialog(chosenPairset)
         } else {
-            viewState.showOnEmptyPairSetDialog(chosenPairset)
+            viewState.showOnEmptyPairsetDialog(chosenPairset)
         }
     }
 
-    fun removePairSetAtPosition(position: Int) {
-        pairSetList.removeAt(position)
+    fun removePairsetAtPosition(position: Int) {
+        pairsetList.removeAt(position)
         viewState.apply {
-            updateRecyclerOnRemoved(pairSetList, position)
-            setOnEmptyStub(pairSetList.count())
+            updateRecyclerOnRemoved(pairsetList, position)
+            setOnEmptyStub(pairsetList.count())
         }
 
-        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
     }
 
     fun filter(text: String) {
-        val filteredList: MutableList<PairSet> = mutableListOf()
-        for (item in pairSetList) {
+        val filteredList: MutableList<Pairset> = mutableListOf()
+        for (item in pairsetList) {
             if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
             ) {
                 filteredList.add(item)
@@ -91,30 +95,30 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
         viewState.obtainFilteredList(filteredList)
     }
 
-    fun addNewPairSet(inputPairSetName: String) {
+    fun addNewPairset(inputPairSetName: String) {
         val dateOfAdding =
             SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault()).format(Date()).toString()
 
-        pairSetList.add(
+        pairsetList.add(
             index = 0,
-            element = PairSet(name = inputPairSetName, date = dateOfAdding)
+            element = Pairset(name = inputPairSetName, date = dateOfAdding)
         )
-        pairsetListSPHandler.saveSpPairsetList(pairSetList)
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.apply {
-            updateRecyclerOnAdded(pairSetList)
-            setOnEmptyStub(pairSetList.count())
+            updateRecyclerOnAdded(pairsetList)
+            setOnEmptyStub(pairsetList.count())
         }
     }
 
     fun checkIfThereAnyPairsets() {
-        viewState.setOnEmptyStub(pairSetList.count())
+        viewState.setOnEmptyStub(pairsetList.count())
     }
 
     fun sortPairsetListByName(): Boolean {
-        pairSetList.sortBy { it.name }
+        pairsetList.sortBy { it.name }
 
-        pairsetListSPHandler.saveSpPairsetList(pairSetList)
-        viewState.updateRecyclerOnSortedPairsetList(pairSetList)
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
+        viewState.updateRecyclerOnSortedPairsetList(pairsetList)
         return true
     }
 

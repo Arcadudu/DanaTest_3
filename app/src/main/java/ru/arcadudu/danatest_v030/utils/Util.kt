@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.RecyclerView
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,11 +43,13 @@ fun getCreationDate():String{
 
 }
 
-fun getFirstVisitDefaultPairsetList():MutableList<PairSet>{
-    val defaultPairsetList:MutableList<PairSet> = mutableListOf()
+fun getFirstVisitDefaultPairsetList():MutableList<Pairset>{
+    val defaultPairsetList:MutableList<Pairset> = mutableListOf()
     return defaultPairsetList.apply {
-        add(0, getTimePairSet())
-        add(0, getDummyPairSet())
+        add(0, getDefaultPairsetTime())
+        add(0, getDefaultPairsetFurniture())
+        add(0, getDefaultPairsetGreatBritain())
+
     }
 }
 

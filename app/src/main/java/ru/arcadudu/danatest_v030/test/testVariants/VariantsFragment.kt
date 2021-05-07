@@ -26,7 +26,7 @@ import ru.arcadudu.danatest_v030.databinding.FragmentTestVariantsBinding
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
@@ -45,7 +45,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     private lateinit var variantsBinding: FragmentTestVariantsBinding
 
-    private lateinit var incomingPairSet: PairSet
+    private lateinit var incomingPairset: Pairset
 
     private lateinit var progressBar: ProgressBar
     private lateinit var toolbar: MaterialToolbar
@@ -78,9 +78,9 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         super.onViewCreated(view, savedInstanceState)
         variantsBinding = FragmentTestVariantsBinding.bind(view)
 
-        incomingPairSet = arguments?.getSerializable("pairSet") as PairSet
+        incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
-        variantsPresenter.obtainTestedPairSet(incomingPairSet)
+        variantsPresenter.obtainTestedPairSet(incomingPairset)
 
         toolbar = variantsBinding.variantsToolbar
         prepareToolbar(targetToolbar = toolbar)
@@ -260,8 +260,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
     }
 
-    override fun toResultFragment(backUpPairSet: PairSet, mistakeCount: Int) {
-        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairSet, mistakeCount)
+    override fun toResultFragment(backUpPairset: Pairset, mistakeCount: Int) {
+        (activity as? TestActivityView)?.onTestReadyForResult(backUpPairset, mistakeCount)
     }
 
     override fun onSnapPositionChange(position: Int) {

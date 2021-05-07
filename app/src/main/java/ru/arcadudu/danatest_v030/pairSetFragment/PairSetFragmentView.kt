@@ -4,7 +4,7 @@ import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.SkipStrategy
 import moxy.viewstate.strategy.StateStrategyType
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface PairSetFragmentView : MvpView {
@@ -12,33 +12,33 @@ interface PairSetFragmentView : MvpView {
 
     fun updateToolbarInfo(pairSetCounter: String)
 
-    fun retrievePairSetList(pairSetList: MutableList<PairSet>)
+    fun retrievePairsetList(pairsetList: MutableList<Pairset>)
 
-    fun updateRecyclerOnSwap(pairSetList: MutableList<PairSet>, fromPosition: Int, toPosition: Int)
-
-    @StateStrategyType(value = SkipStrategy::class)
-    fun showRemovePairSetDialog(name: String, description: String, position: Int)
+    fun updateRecyclerOnSwap(pairsetList: MutableList<Pairset>, fromPosition: Int, toPosition: Int)
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showAddNewPairSetDialog()
+    fun showRemovePairsetDialog(name: String, description: String, position: Int)
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showStartTestDialog(chosenPairSet:PairSet)
+    fun showAddNewPairsetDialog()
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showOnEmptyPairSetDialog(chosenPairset: PairSet)
+    fun showStartTestDialog(chosenPairset:Pairset)
 
-    fun updateRecyclerOnRemoved(updatedPairSetList: MutableList<PairSet>, position: Int)
+    @StateStrategyType(value = SkipStrategy::class)
+    fun showOnEmptyPairsetDialog(chosenPairset: Pairset)
 
-    fun obtainFilteredList(filteredList: MutableList<PairSet>)
+    fun updateRecyclerOnRemoved(updatedPairsetList: MutableList<Pairset>, position: Int)
 
-    fun updateRecyclerOnAdded(pairSetList: MutableList<PairSet>)
+    fun obtainFilteredList(filteredList: MutableList<Pairset>)
+
+    fun updateRecyclerOnAdded(pairsetList: MutableList<Pairset>)
 
     fun putPairsetIndexIntoIntent(bindingAdapterPosition: Int)
 
     fun setOnEmptyStub(count: Int)
 
-    fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<PairSet>)
+    fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<Pairset>)
 
 
 }

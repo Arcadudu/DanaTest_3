@@ -52,7 +52,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/shuffle_pairSet_checkBox"
+            android:id="@+id/shuffle_pairset_check_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -64,15 +64,15 @@
 
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/all_pairSet_variants_checkBox"
+            android:id="@+id/all_pairset_variants_check_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dt_start_test_dialog_more_variants_checkbox"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:textSize="16sp"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@id/shuffle_pairSet_checkBox"
-            app:layout_constraintTop_toBottomOf="@id/shuffle_pairSet_checkBox" />
+            app:layout_constraintStart_toStartOf="@id/shuffle_pairset_check_box"
+            app:layout_constraintTop_toBottomOf="@id/shuffle_pairset_check_box" />
 
 
         <!--positive btn-->
@@ -84,7 +84,7 @@
             android:layout_marginTop="18dp"
             android:text="@string/dt_start_test_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/all_pairSet_variants_checkBox" />
+            app:layout_constraintTop_toBottomOf="@id/all_pairset_variants_check_box" />
 
         <!--negative btn-->
         <com.google.android.material.button.MaterialButton

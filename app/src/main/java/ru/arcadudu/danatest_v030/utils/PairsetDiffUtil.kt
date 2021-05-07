@@ -1,11 +1,11 @@
 package ru.arcadudu.danatest_v030.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 
 class PairsetDiffUtil(
-    private val oldPairsetList: MutableList<PairSet>,
-    private val newPairsetList: MutableList<PairSet>
+    private val oldPairsetList: MutableList<Pairset>,
+    private val newPairsetList: MutableList<Pairset>
 ) : DiffUtil.Callback() {
 
 

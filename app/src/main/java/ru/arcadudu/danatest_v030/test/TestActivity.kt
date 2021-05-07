@@ -9,7 +9,7 @@ import moxy.MvpAppCompatActivity
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.HomeActivity
 import ru.arcadudu.danatest_v030.databinding.ActivityTestBinding
-import ru.arcadudu.danatest_v030.models.PairSet
+import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.test.resultFragment.ResultFragment
 import ru.arcadudu.danatest_v030.test.testShuffle.ShuffleFragment
 import ru.arcadudu.danatest_v030.test.testTranslate.TranslateFragment
@@ -25,7 +25,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
 
     private lateinit var binding: ActivityTestBinding
 
-    private lateinit var incomingPairSet: PairSet
+    private lateinit var incomingPairset: Pairset
     private lateinit var requestedTestFragmentId: String
     private var shufflePairSet = false
 
@@ -37,7 +37,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
 
         /*entering from Pairset fragment*/
         val incomingIntent = intent
-        incomingPairSet = incomingIntent.getSerializableExtra("pairset") as PairSet
+        incomingPairset = incomingIntent.getSerializableExtra("pairset") as Pairset
         Log.d("ddd", "onCreate: testString = ${incomingIntent.getStringExtra("test")} ")
         requestedTestFragmentId = when (incomingIntent.getStringExtra("test")) {
             getString(R.string.translate) -> CONST_TRANSLATE_FRAGMENT_ID
@@ -49,7 +49,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
 
 
         val testFragmentBundle = Bundle()
-        testFragmentBundle.putSerializable("pairSet", incomingPairSet)
+        testFragmentBundle.putSerializable("pairSet", incomingPairset)
         testFragmentBundle.putBoolean("shuffle", shufflePairSet)
         setActiveTestFragment(requestedTestFragmentId, testFragmentBundle)
     }
@@ -91,10 +91,10 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         startActivity(intent)
     }
 
-    override fun onTestReadyForResult(pairSet: PairSet, mistakes: Int) {
+    override fun onTestReadyForResult(pairset: Pairset, mistakes: Int) {
         val resultBundle = Bundle()
         resultBundle.apply {
-            putSerializable("testedPairSet", pairSet)
+            putSerializable("testedPairSet", pairset)
             putInt("mistakes", mistakes)
         }
         val resultFragment = ResultFragment.getResultFragmentInstance(resultBundle)

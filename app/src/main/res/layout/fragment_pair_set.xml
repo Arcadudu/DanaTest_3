@@ -41,7 +41,7 @@
 
 
             <EditText
-                android:id="@+id/et_ws_frag_searchfield"
+                android:id="@+id/et_pairset_fragment_searchfield"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:hint="@string/dt_pairset_fragment_searchfield_hint"
@@ -58,9 +58,9 @@
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/icon_close_search_grey"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/et_ws_frag_searchfield"
-                app:layout_constraintEnd_toEndOf="@id/et_ws_frag_searchfield"
-                app:layout_constraintTop_toTopOf="@id/et_ws_frag_searchfield" />
+                app:layout_constraintBottom_toBottomOf="@id/et_pairset_fragment_searchfield"
+                app:layout_constraintEnd_toEndOf="@id/et_pairset_fragment_searchfield"
+                app:layout_constraintTop_toTopOf="@id/et_pairset_fragment_searchfield" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,7 +93,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_pairSet"
+        android:id="@+id/fab_add_pairset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
