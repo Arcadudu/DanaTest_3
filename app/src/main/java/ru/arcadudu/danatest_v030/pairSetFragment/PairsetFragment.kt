@@ -122,12 +122,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 }
             }
         }
-//        val popUpMenuDrawable = ResourcesCompat.getDrawable(
-//            resources,
-//            R.drawable.icon_hamgburger_menu_brand,
-//            activity?.theme
-//        )
-//        targetToolbar.overflowIcon = popUpMenuDrawable
+
     }
 
     private fun showBtnClear(isStringEmpty: Boolean) {
@@ -464,9 +459,9 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
-    override fun putPairsetIndexIntoIntent(bindingAdapterPosition: Int) {
+    override fun putPairsetIdIntoIntent(selectedPairsetId: Int) {
         val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java).apply {
-            putExtra(SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG, bindingAdapterPosition)
+            putExtra(SELECTED_PAIRSET_ID_TO_EDITOR_TAG, selectedPairsetId)
         }
         startActivity(toEditorIntent)
     }
@@ -523,11 +518,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         fromPosition: Int,
         toPosition: Int
     ) {
-        pairsetAdapter.apply {
-//            submitList(pairSetList)
-            notifyItemMoved(fromPosition, toPosition)
-
-        }
+        pairsetAdapter.notifyItemMoved(fromPosition, toPosition)
         pairsetPresenter.providePairsetListCount()
     }
 }

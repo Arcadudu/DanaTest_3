@@ -72,7 +72,7 @@ class PairSetAdapter :
 
         init {
             itemView.setOnClickListener {
-                pairsetFragmentImplementation.putPairsetIndexIntoIntent(bindingAdapterPosition)
+                pairsetFragmentImplementation.putPairsetIdIntoIntent(pairsetList[bindingAdapterPosition].pairsetId)
             }
         }
 

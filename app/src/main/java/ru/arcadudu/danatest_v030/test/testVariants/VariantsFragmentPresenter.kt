@@ -69,9 +69,9 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun getVariantsForCurrentPosition(position: Int) {
         val trueKey = testedPairList[position].pairKey
-        val keySet : MutableList<String> = mutableListOf()
-        for(pair in backUpPairList){
-            if(pair.pairKey != trueKey){
+        val keySet: MutableList<String> = mutableListOf()
+        for (pair in backUpPairList) {
+            if (pair.pairKey != trueKey) {
                 keySet.add(pair.pairKey)
             }
         }
@@ -85,10 +85,12 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun checkAnswerAndDismiss(chosenVariantKey: CharSequence, answerPosition: Int) {
         val checkPair = testedPairList[answerPosition]
-        if (chosenVariantKey.toString() != checkPair.pairKey){
+        if (chosenVariantKey.toString() != checkPair.pairKey) {
             Log.d("check", "checkAnswerAndDismiss: mistake!")
-            mistakeCount++}else{
-            Log.d("check", "checkAnswerAndDismiss: correct!")}
+            mistakeCount++
+        } else {
+            Log.d("check", "checkAnswerAndDismiss: correct!")
+        }
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
         if (testedPairList.isEmpty()) {

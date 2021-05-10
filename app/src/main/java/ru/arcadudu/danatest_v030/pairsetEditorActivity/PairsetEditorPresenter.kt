@@ -16,8 +16,9 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     private lateinit var currentPairset: Pairset
     private lateinit var currentPairList: MutableList<Pair>
     private var currentPairsetIndex = 0
-    private lateinit var pairSetTitle: String
-    private lateinit var pairSetDetails: String
+    private var currentPairsetID = 0
+    private lateinit var pairsetTitle: String
+    private lateinit var pairsetActualDate: String
 
     private lateinit var context: Context
     private lateinit var spHandler: PairsetListSPHandler
@@ -26,13 +27,41 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         this.context = context
     }
 
+    fun extractIncomingPairset(
+        incomingIntent: Intent,
+        pairset_id_tag: String
+    ) {
+        spHandler = PairsetListSPHandler(context)
+        currentPairsetID = incomingIntent.getIntExtra(pairset_id_tag, 0)
+        val loadedPairsetList = spHandler.loadSpPairsetList()
+        for (pairset in loadedPairsetList) {
+            if (pairset.pairsetId == currentPairsetID) {
+                currentPairset = pairset
+                currentPairsetIndex = loadedPairsetList.indexOf(pairset)
+                pairsetTitle = pairset.name
+                pairsetActualDate = pairset.date
+                currentPairList = pairset.getPairList()
+            }
+        }
+
+    }
+
+    // here
     private fun applyPairsetChangesIntoPairsetList(editedPairList: MutableList<Pair>) {
         spHandler = PairsetListSPHandler(context)
         val pairsetListToEdit = spHandler.loadSpPairsetList()
         val pairsetToEdit = pairsetListToEdit[currentPairsetIndex]
         pairsetToEdit.setNewPairList(editedPairList)
         pairsetToEdit.date = getCreationDate()
+/*
+        var index = 0
+        for(pairset in pairsetListToEdit){
+            if(pairset.pairsetId == 111)
+                index = pairsetListToEdit.indexOf(pairset)
+        }
+        */
         pairsetListToEdit.apply {
+
             removeAt(currentPairsetIndex)
             add(currentPairsetIndex, pairsetToEdit)
         }
@@ -48,26 +77,11 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
             date = getCreationDate()
         }
         spHandler.saveSpPairsetList(pairsetListToEdit)
-        pairSetTitle = newPairsetName
+        pairsetTitle = newPairsetName
         viewState.getDataForToolbar(
             pairsetListToEdit[currentPairsetIndex].name,
             pairsetListToEdit[currentPairsetIndex].date
         )
-    }
-
-    fun extractIncomingPairset(
-        incomingIntent: Intent,
-        pairset_index_tag: String
-    ) {
-        spHandler = PairsetListSPHandler(context)
-        currentPairsetIndex = incomingIntent.getIntExtra(pairset_index_tag, 0)
-        currentPairset = spHandler.loadSpPairsetList()[currentPairsetIndex]
-
-
-        pairSetTitle = currentPairset.name
-        pairSetDetails = currentPairset.date
-
-        currentPairList = currentPairset.getPairList()
     }
 
 
@@ -80,7 +94,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun provideDataForToolbar() {
-        viewState.getDataForToolbar(pairSetTitle, pairSetDetails)
+        viewState.getDataForToolbar(pairsetTitle, pairsetActualDate)
     }
 
     fun providePairList() {
@@ -145,7 +159,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun onToolbarClick() {
-        viewState.showEditPairsetNameDialog(currentPairsetName = pairSetTitle)
+        viewState.showEditPairsetNameDialog(currentPairsetName = pairsetTitle)
     }
 
 }
