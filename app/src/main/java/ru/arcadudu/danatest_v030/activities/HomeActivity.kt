@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.ActivityMainBinding
 
-import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragment
+import ru.arcadudu.danatest_v030.pairSetFragment.PairsetFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val view = ActivityMainBinding.inflate(layoutInflater).root
         setContentView(view)
-        setFragment(PairSetFragment())
+        setFragment(PairsetFragment())
     }
 
 

@@ -12,7 +12,7 @@ import java.util.*
 
 
 @InjectViewState
-class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
+class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
     private lateinit var pairsetList: MutableList<Pairset>
 
@@ -41,9 +41,10 @@ class PairSetFragmentPresenter : MvpPresenter<PairSetFragmentView>() {
             addAll(pairsetListSPHandler.loadSpPairsetList())
         }
         pairsetList.forEach {
-            Log.d("pairset", it.name)
+            Log.d("pairset", it.pairsetId.toString()+"\n")
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
+
     }
 
     fun providePairsetList() {

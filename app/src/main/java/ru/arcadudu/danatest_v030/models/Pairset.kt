@@ -7,14 +7,12 @@ import java.util.*
 val simpleDateFormatExact = SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault())
 var creationDate = simpleDateFormatExact.format(Date()).toString()
 
-open class Pairset(var name: String, var date: String = creationDate) : Serializable {
+open class Pairset(
+    var name: String,
+    var date: String = creationDate,
+    val pairsetId: Int = (1..1000000).random()
+) : Serializable {
     private var pairList: MutableList<Pair> = mutableListOf()
-
-
-    companion object {
-        @JvmStatic
-        private val serialVersionUID: Long = 239
-    }
 
 
     fun getPairList() = pairList
@@ -44,6 +42,5 @@ open class Pairset(var name: String, var date: String = creationDate) : Serializ
         for (pair in pairList) valueSet.add(pair.pairValue)
         return valueSet
     }
-
-
 }
+

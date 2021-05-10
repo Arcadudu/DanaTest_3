@@ -14,17 +14,14 @@ class PairsetDiffUtil(
     override fun getNewListSize() = newPairsetList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldPairsetList[oldItemPosition] == newPairsetList[newItemPosition]
+        return oldPairsetList[oldItemPosition].pairsetId == newPairsetList[newItemPosition].pairsetId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return when{
             oldPairsetList[oldItemPosition].name != newPairsetList[newItemPosition].name -> false
             oldPairsetList[oldItemPosition].date != newPairsetList[newItemPosition].date ->false
-//            TODO: do proper comparing inner pairSets's lists
-//            oldPairsetList[oldItemPosition].getPairList() == newPairsetList[newItemPosition].getPairList() -> false
             else -> true
         }
-
     }
 }

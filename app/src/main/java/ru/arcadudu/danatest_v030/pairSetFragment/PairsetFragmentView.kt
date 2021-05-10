@@ -7,7 +7,7 @@ import moxy.viewstate.strategy.StateStrategyType
 import ru.arcadudu.danatest_v030.models.Pairset
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface PairSetFragmentView : MvpView {
+interface PairsetFragmentView : MvpView {
 
 
     fun updateToolbarInfo(pairSetCounter: String)
@@ -23,7 +23,7 @@ interface PairSetFragmentView : MvpView {
     fun showAddNewPairsetDialog()
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showStartTestDialog(chosenPairset:Pairset)
+    fun showStartTestDialog(chosenPairset: Pairset)
 
     @StateStrategyType(value = SkipStrategy::class)
     fun showOnEmptyPairsetDialog(chosenPairset: Pairset)
@@ -34,7 +34,7 @@ interface PairSetFragmentView : MvpView {
 
     fun updateRecyclerOnAdded(pairsetList: MutableList<Pairset>)
 
-    fun putPairsetIndexIntoIntent(bindingAdapterPosition: Int)
+    fun putPairsetIdIntoIntent(selectedPairsetId: Int)
 
     fun setOnEmptyStub(count: Int)
 

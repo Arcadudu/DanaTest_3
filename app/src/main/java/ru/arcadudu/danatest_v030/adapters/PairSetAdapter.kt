@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pairset
-import ru.arcadudu.danatest_v030.pairSetFragment.PairSetFragmentView
+import ru.arcadudu.danatest_v030.pairSetFragment.PairsetFragmentView
 import ru.arcadudu.danatest_v030.utils.PairsetDiffUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +19,7 @@ class PairSetAdapter :
     RecyclerView.Adapter<PairSetAdapter.PairSetViewHolder>() {
 
     private var pairsetList: MutableList<Pairset> = mutableListOf()
-    private lateinit var pairSetFragmentImplementation: PairSetFragmentView
+    private lateinit var pairsetFragmentImplementation: PairsetFragmentView
 
     private lateinit var pairSetFragmentContext: Context
 
@@ -28,8 +28,8 @@ class PairSetAdapter :
     }
 
 
-    fun onItemClickCallback(pairSetFragmentImplementation: PairSetFragmentView) {
-        this.pairSetFragmentImplementation = pairSetFragmentImplementation
+    fun onItemClickCallback(pairsetFragmentImplementation: PairsetFragmentView) {
+        this.pairsetFragmentImplementation = pairsetFragmentImplementation
     }
 
 
@@ -72,7 +72,7 @@ class PairSetAdapter :
 
         init {
             itemView.setOnClickListener {
-                pairSetFragmentImplementation.putPairsetIndexIntoIntent(bindingAdapterPosition)
+                pairsetFragmentImplementation.putPairsetIdIntoIntent(pairsetList[bindingAdapterPosition].pairsetId)
             }
         }
 

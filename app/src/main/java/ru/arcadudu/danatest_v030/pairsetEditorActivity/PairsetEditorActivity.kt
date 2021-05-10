@@ -76,8 +76,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             extractIncomingPairset(
                 incomingIntent =
                 intent,
-                pairset_index_tag =
-                SELECTED_PAIRSET_INDEX_TO_EDITOR_TAG
+                pairset_id_tag =
+                SELECTED_PAIRSET_ID_TO_EDITOR_TAG
             )
         }
 
