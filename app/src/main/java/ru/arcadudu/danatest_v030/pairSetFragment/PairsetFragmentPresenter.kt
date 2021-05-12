@@ -41,7 +41,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
             addAll(pairsetListSPHandler.loadSpPairsetList())
         }
         pairsetList.forEach {
-            Log.d("pairset", it.pairsetId.toString()+"\n")
+            Log.d("pairset", it.pairsetId.toString() + "\n")
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
 
@@ -115,11 +115,13 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         viewState.setOnEmptyStub(pairsetList.count())
     }
 
-    fun sortPairsetListByName(): Boolean {
-        pairsetList.sortBy { it.name }
-
+    fun sortPairsetList(sortByName: Boolean): Boolean {
+        when(sortByName){
+            true -> pairsetList.sortBy { it.name }
+            else -> pairsetList.sortByDescending{ it.getPairList().count()}
+        }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
-        viewState.updateRecyclerOnSortedPairsetList(pairsetList)
+        viewState.updateRecyclerOnSortedPairsetList(pairsetList, !sortByName)
         return true
     }
 

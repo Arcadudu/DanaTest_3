@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -53,6 +54,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
+    private var sortByName = true
 
     @InjectPresenter
     lateinit var pairsetPresenter: PairsetFragmentPresenter
@@ -112,13 +114,13 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         targetToolbar.apply {
             inflateMenu(R.menu.pairset_fragment_toolbar_menu)
             setOnMenuItemClickListener {
-                when(it.itemId){
+                when (it.itemId) {
                     R.id.toolbar_action_sortBy -> {
-                        pairsetPresenter.sortPairsetListByName()
+                        pairsetPresenter.sortPairsetList(sortByName)
                         true
                     }
                     else -> false
-                   // R.id.toolbar_action_toSettings -> toSettings()
+                    // R.id.toolbar_action_toSettings -> toSettings()
                 }
             }
         }
@@ -380,7 +382,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             inputPairSetName = text.toString().capitalize(Locale.getDefault()).trim()
         }
         addPairsetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
-            setOnFocusChangeListener { v, hasFocus ->
+            setOnFocusChangeListener { v, _ ->
 
                 (activity as? MvpAppCompatActivity)?.forceShowKeyboard(v)
 
@@ -470,8 +472,32 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
-    override fun updateRecyclerOnSortedPairsetList(sortedList: MutableList<Pairset>) {
+    override fun updateRecyclerOnSortedPairsetList(
+        sortedList: MutableList<Pairset>,
+        sortByName: Boolean
+    ) {
         pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
+        this.sortByName = sortByName
+        val sortToastText: String
+        var drawableResource = 0
+        when (sortByName) {
+            true -> {
+                sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
+                drawableResource = R.drawable.icon_sort_by_name
+            }
+            else -> {
+                sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_name_toast)
+                drawableResource = R.drawable.icon_sort_by
+            }
+        }
+        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
+            resources,
+            drawableResource,
+            activity?.theme
+        )
+        Toast.makeText(requireContext(), sortToastText, Toast.LENGTH_SHORT).show()
+
+
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
 

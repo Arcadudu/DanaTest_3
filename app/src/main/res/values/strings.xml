@@ -20,6 +20,8 @@
     <string name="dt_pairset_fragment_searchfield_hint">Поиск набора</string>
     <string name="dt_pairset_fragment_toolbar_action_sortBy">Сортировка</string>
     <string name="dt_pairset_fragment_toolbar_action_toSettings">Настройки</string>
+    <string name="dt_pairset_fragment_toolbar_sorted_by_name_toast">Сортировка по имени набора</string>
+    <string name="dt_pairset_fragment_toolbar_sorted_by_count_toast">Сортировка по количеству пар</string>
     <!--addPairsetDialog-->
     <string name="dt_add_pairset_dialog_title">Новый набор</string>
     <string name="dt_add_pairset_dialog_new_pairset_name_hint">Название</string>
