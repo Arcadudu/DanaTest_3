@@ -41,7 +41,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
             addAll(pairsetListSPHandler.loadSpPairsetList())
         }
         pairsetList.forEach {
-            Log.d("pairset", it.pairsetId.toString() + "\n")
+            Log.d("pairset", it.name + "\n")
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
 

@@ -29,10 +29,10 @@ fun getDefaultPairsetTime(): Pairset {
     return timePairSet
 }
 
-fun getDefaultPairsetGreatBritain():Pairset{
+fun getDefaultPairsetGreatBritain(): Pairset {
     val gbPairSet = Pairset("Великобритания \uD83C\uDDEC\uD83C\uDDE7")
-    if(gbRu.count()== gbEng.count()){
-        for (index in gbRu.indices){
+    if (gbRu.count() == gbEng.count()) {
+        for (index in gbRu.indices) {
             gbPairSet.addPair(
                 gbEng[index].capitalize(Locale.ROOT),
                 gbRu[index].capitalize(Locale.ROOT)
@@ -41,6 +41,46 @@ fun getDefaultPairsetGreatBritain():Pairset{
     }
     return gbPairSet
 }
+
+fun getDefaultPairsetHumanFace(): Pairset {
+    val humanFacePairset = Pairset("Лицо человека \uD83D\uDC68\uD83C\uDFFB\u200D")
+    if (faceRu.count() == faceEng.count()) {
+        for (index in faceRu.indices) {
+            humanFacePairset.addPair(
+                faceEng[index].capitalize(Locale.ROOT),
+                faceRu[index].capitalize(Locale.ROOT)
+            )
+        }
+    }
+    return humanFacePairset
+}
+
+fun getDefaultPairsetHumanBody(): Pairset{
+    val humanBodyPairset = Pairset("Части тела \uD83D\uDCAA\uD83C\uDFFB")
+    if(bodyRu.count() == bodyEng.count()){
+        for(index in bodyRu.indices){
+            humanBodyPairset.addPair(
+                bodyEng[index].capitalize(Locale.ROOT),
+                bodyRu[index].capitalize(Locale.ROOT)
+            )
+        }
+    }
+    return humanBodyPairset
+}
+
+fun getDefaultPairsetHouseBasic(): Pairset{
+    val houseBasicPairset = Pairset("Дом \uD83C\uDFE1")
+    if(houseBasicRu.count()== houseBasicEng.count()){
+        for (index in houseBasicRu.indices){
+            houseBasicPairset.addPair(
+                houseBasicEng[index].capitalize(Locale.ROOT),
+                houseBasicRu[index].capitalize(Locale.ROOT)
+            )
+        }
+    }
+    return houseBasicPairset
+}
+
 
 var timeRu = listOf(
     "январь",
@@ -119,5 +159,101 @@ var gbEng = listOf(
     "Atlantic", "ocean", "area", "kilometer", "urban",
     "fog", "surface", "mountain", "mountainous", "lake", "river", "climate", "autumn"
 )
+
+val faceRu = listOf(
+    "лоб", "волосы", "бровь", "брови", "глаз",
+    "глаза", "ресницы", "зрачок", "нос", "губы",
+    "зуб", "зубы", "язык", "ухо", "уши", "рот"
+)
+
+val faceEng = listOf(
+    "forehead", "hair", "brow", "brows", "eye",
+    "eyes", "eyelashes", "pupil", "nose", "lips",
+    "tooth", "teeth", "tongue", "ear", "ears", "mouth"
+)
+
+
+var bodyRu = listOf(
+    "голова",
+    "шея",
+    "плечо",
+    "руки",
+    "локоть",
+    "предплечье",
+    "кисть руки",
+    "ладонь",
+    "пальцы",
+    "грудная клетка",
+    "живот (желудок)",
+    "бедро",
+    "нога",
+    "колено",
+    "икра",
+    "ступня",
+    "ступни",
+    "пальцы на ногах",
+    "позвоночник",
+    "спина",
+    "попа"
+)
+
+var bodyEng = listOf(
+    "head",
+    "neck",
+    "shoulder",
+    "arms",
+    "elbow",
+    "forearm",
+    "hand",
+    "palm",
+    "fingers",
+    "chest",
+    "stomach",
+    "hip",
+    "leg",
+    "knee",
+    "calf",
+    "foot",
+    "feet",
+    "toes",
+    "spine",
+    "back",
+    "butt"
+)
+
+var houseBasicRu = listOf(
+    "кухня", "спальня", "столовая", "ванная", "туалет", "гостиная", "зал", "подвал", "чердак",
+    "гараж", "балкон", "пол", "стена", "потолок", "дверь", "ворота", "окно", "этаж", "крыша",
+    "задний двор", "сад", "лифт"
+)
+
+var houseBasicEng = listOf(
+    "kitchen",
+    "bedroom",
+    "dining.room",
+    "bathroom",
+    "toilet",
+    "living.room",
+    "hall",
+    "basement",
+    "attic",
+    "garage",
+    "balcony",
+    "floor",
+    "wall",
+    "ceiling",
+    "door",
+    "gates",
+    "window",
+    "floor",
+    "roof",
+    "backyard",
+    "garden",
+    "elevator"
+)
+
+
+
+
 
 

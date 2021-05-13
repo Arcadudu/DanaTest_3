@@ -49,6 +49,9 @@ fun getFirstVisitDefaultPairsetList():MutableList<Pairset>{
         add(0, getDefaultPairsetTime())
         add(0, getDefaultPairsetFurniture())
         add(0, getDefaultPairsetGreatBritain())
+        add(0, getDefaultPairsetHumanFace())
+        add(0, getDefaultPairsetHumanBody())
+        add(0, getDefaultPairsetHouseBasic())
 
     }
 }
