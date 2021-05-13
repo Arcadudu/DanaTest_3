@@ -483,11 +483,11 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         when (sortByName) {
             true -> {
                 sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
-                drawableResource = R.drawable.icon_sort_by_name
+                drawableResource = R.drawable.icon_sort_by_count_svg
             }
             else -> {
                 sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_name_toast)
-                drawableResource = R.drawable.icon_sort_by
+                drawableResource = R.drawable.icon_sort_by_name_svg
             }
         }
         toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
