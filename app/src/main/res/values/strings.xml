@@ -87,6 +87,7 @@
     <string name="dt_test_translate_fragment_counter_body_with_message">@string/dt_test_counter_with_message</string>
     <string name="dt_test_translate_fragment_counter_body">%1$d/%2$d</string>
     <string name="dt_test_translate_fragment_counter_line">Решено</string>
+    <string name="dt_test_translate_fragment_hint_button">Подсказка</string>
     <!--restartTestDialog-->
     <string name="dt_restart_test_dialog_title">%1$s</string>
     <string name="dt_restart_test_dialog_message">Вы действительно хотите начать тест заново?</string>

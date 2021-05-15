@@ -40,7 +40,6 @@ import java.util.*
 class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAdapterCallback,
     OnSnapPositionChangeListener {
 
-
     companion object {
         fun getTranslateFragmentInstance(args: Bundle?): TranslateFragment =
             TranslateFragment().apply { arguments = args }
@@ -58,7 +57,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     private lateinit var etAnswerField: TextInputEditText
     private lateinit var btnConfirmAnswer: ImageView
     private lateinit var progressBar: ProgressBar
-    private lateinit var tvCounterLine: MaterialTextView
+    private lateinit var tvPairCounter: MaterialTextView
 
     private lateinit var translateSnapHelper: PagerSnapHelper
 
@@ -110,7 +109,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
             }
         })
 
-        tvCounterLine = translateBinding.tvTranslateCounterLine
+        tvPairCounter = translateBinding.tvPairDoneAndTotalCounter
 
         btnConfirmAnswer.setOnClickListener {
             val answer = etAnswerField.text.toString().trim().toLowerCase(Locale.ROOT)
@@ -120,7 +119,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
                 inputAnswer = answer,
                 answerPosition = answerPosition
             )
-            //todo presenter onProgressChange()
         }
 
         progressBar = translateBinding.translateTestProgressbar
@@ -133,7 +131,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
+        translatePresenter.getToolbarTitle()
         targetToolbar.apply {
+
             inflateMenu(R.menu.test_menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -155,6 +155,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         translatePresenter.provideDataForToolbar()
     }
 
+
+
+    override fun onStop() {
+        super.onStop()
+        translatePresenter.onTestStop()
+        Log.d("testTranslate", "onStop: callback")
+    }
 
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
@@ -184,11 +191,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
     }
 
-
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
     }
-
 
     override fun showOnRestartDialog(pairSetName: String) {
         val restartDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
@@ -226,7 +231,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         pairListCount: Int,
         pairListOriginalCount: Int
     ) {
-        tvCounterLine.text = getString(
+        tvPairCounter.text = getString(
             R.string.dt_test_translate_fragment_counter_body,
             pairListCount,
             pairListOriginalCount
@@ -235,7 +240,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
 
     }
-
 
     override fun initPairList(testedPairList: MutableList<Pair>) {
         translateAdapter.apply {
@@ -262,6 +266,10 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         progressBar.progress = answeredPairCount
     }
 
+    override fun setToolbarTitle(pairsetTitleForToolbar: String) {
+        toolbar.title = pairsetTitleForToolbar
+    }
+
     override fun setProgressMax(originalPairListCount: Int) {
         progressBar.max = originalPairListCount
     }
@@ -281,7 +289,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
     override fun getLayoutPosition(layoutPosition: Int) {
         if (!snapHelperAttached) {
-            tvCounterLine.text = layoutPosition.toString()
+            tvPairCounter.text = layoutPosition.toString()
         }
     }
 
@@ -308,10 +316,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         }
         etAnswerInputLayout.visibility = View.VISIBLE
         etAnswerInputLayout.editText?.text = null
-        tvCounterLine.visibility = View.VISIBLE
+        tvPairCounter.visibility = View.VISIBLE
         progressBar.visibility = View.VISIBLE
     }
-
 
     /* Disables snap and hides most of interactive elements,
      leaving only itemList, restart and endTest buttons.*/
@@ -323,7 +330,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         etAnswerInputLayout.visibility = View.GONE
         btnConfirmAnswer.visibility = View.GONE
         progressBar.visibility = View.GONE
-        tvCounterLine.visibility = View.GONE
+        tvPairCounter.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true
     }
 

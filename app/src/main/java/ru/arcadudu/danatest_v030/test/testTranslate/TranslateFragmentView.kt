@@ -26,6 +26,7 @@ interface TranslateFragmentView : MvpView {
 
     fun updateAnsweredProgress(answeredPairCount: Int, duration: Long)
 
+    fun setToolbarTitle(pairsetTitleForToolbar:String)
 
     fun setProgressMax(originalPairListCount: Int)
 

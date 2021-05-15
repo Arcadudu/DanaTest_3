@@ -482,7 +482,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         var drawableResource = 0
         when (sortByName) {
             true -> {
-                sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
+                sortToastText =
+                    getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
                 drawableResource = R.drawable.icon_sort_by_count_svg
             }
             else -> {

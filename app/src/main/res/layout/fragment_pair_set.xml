@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            app:layout_scrollFlags="scroll|snapMargins"
+
+            app:layout_scrollFlags="scroll"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             app:title="@string/dt_pairset_fragment_toolbar_title"
@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_scrollFlags="noScroll|enterAlwaysCollapsed|snapMargins">
+            app:layout_scrollFlags="noScroll|enterAlwaysCollapsed">
 
 
             <EditText

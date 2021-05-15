@@ -26,6 +26,8 @@
 
     </style>
 
+
+
     <!--DT overlays-->
     <style name="ThemeOverlay.DanaTest031.BrandOpaqueControlHighlight" parent="">
         <item name="colorControlHighlight">@color/dt3_highlight_20</item>
@@ -35,6 +37,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
     </style>
+
+
 
     <style name="ThemeOverlay.Widget.MaterialComponents.Button.TextButton" parent="">
         <item name="colorPrimary">@color/dt3_brand_70</item>
@@ -50,6 +54,10 @@
 
     <style name="ThemeOverlay.DanaTest031.AlternativePrimaryColor" parent="">
         <item name="colorPrimary">@color/dt3_brand_100</item>
+    </style>
+
+    <style name="ThemeOverlay.DanaTest031.TestScreenBackground" parent="">
+        <item name="colorPrimary">@color/dt3_brand_50</item>
     </style>
 
     <style name="ThemeOverlay.DanaTest031.TestMaterialCardViewElevation" parent="">

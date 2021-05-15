@@ -11,10 +11,10 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
 
     private lateinit var testedPairset: Pairset
     private lateinit var backUpPairset: Pairset
-    private lateinit var testedPairList: MutableList<Pair>
-    private lateinit var testedPairSetName: String
+    private lateinit var testedPairlist: MutableList<Pair>
+    private lateinit var testedPairsetName: String
 
-    private var backUpPairList: MutableList<Pair> = mutableListOf()
+    private var backUpPairlist: MutableList<Pair> = mutableListOf()
 
     companion object {
         const val progressMultiplier = 1000
@@ -22,48 +22,48 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         const val restartProgressDuration = 640
         private var mistakeCount = 0
         private var answeredPairCount = 0
-        private var originPairListCount = 0
+        private var originalPairlistCount = 0
     }
 
     fun obtainTestedPairSet(incomingPairset: Pairset) {
         testedPairset = incomingPairset
         backUpPairset = testedPairset
-        testedPairList = testedPairset.getPairList()
-        backUpPairList.addAll(testedPairList)
-        testedPairSetName = testedPairset.name
-        originPairListCount = testedPairList.count()
-        viewState.setProgressMax(originPairListCount)
+        testedPairlist = testedPairset.getPairList()
+        backUpPairlist.addAll(testedPairlist)
+        testedPairsetName = testedPairset.name
+        originalPairlistCount = testedPairlist.count()
+        viewState.setProgressMax(originalPairlistCount)
     }
 
     fun provideShuffledPairList() {
-        testedPairList.shuffle()
-        viewState.initPairList(testedPairList)
+        testedPairlist.shuffle()
+        viewState.initPairList(testedPairlist)
     }
 
     fun provideOrderedPairList() {
-        viewState.initPairList(testedPairList)
+        viewState.initPairList(testedPairlist)
     }
 
     fun onRestartButton() {
-        viewState.showOnRestartDialog(pairSetName = testedPairSetName)
+        viewState.showOnRestartDialog(pairSetName = testedPairsetName)
     }
 
     fun provideDataForToolbar() {
-        viewState.updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
+        viewState.updateCounterLine(testedPairsetName, answeredPairCount, originalPairlistCount)
     }
 
     fun checkAnswerAndDismiss(inputAnswer: String, answerPosition: Int) {
-        val checkPair = testedPairList[answerPosition]
+        val checkPair = testedPairlist[answerPosition]
         if (inputAnswer != checkPair.pairKey.toLowerCase(Locale.ROOT)) mistakeCount++
         answeredPairCount++
-        testedPairList.removeAt(answerPosition)
-        if (testedPairList.isEmpty()) {
+        testedPairlist.removeAt(answerPosition)
+        if (testedPairlist.isEmpty()) {
             viewState.toResultFragment(backUpPairset, mistakeCount)
         }
 
         viewState.apply {
-            updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
-            updateRecyclerOnRemoved(testedPairList, answerPosition)
+            updateCounterLine(testedPairsetName, answeredPairCount, originalPairlistCount)
+            updateRecyclerOnRemoved(testedPairlist, answerPosition)
             updateAnsweredProgress(
                 answeredPairCount * Companion.progressMultiplier,
                 positiveProgressDuration.toLong()
@@ -72,24 +72,34 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     }
 
     fun getProgressMax() {
-        viewState.setProgressMax(originPairListCount * Companion.progressMultiplier)
+        viewState.setProgressMax(originalPairlistCount * Companion.progressMultiplier)
     }
 
     fun restartTranslateTest(shufflePairset: Boolean) {
         mistakeCount = 0
         answeredPairCount = 0
-        testedPairList.apply {
+        testedPairlist.apply {
             clear()
-            addAll(backUpPairList)
+            addAll(backUpPairlist)
             if (shufflePairset)
                 shuffle()
         }
         viewState.apply {
-            updateCounterLine(testedPairSetName, answeredPairCount, testedPairList.count())
-            initPairList(testedPairList)
+            updateCounterLine(testedPairsetName, answeredPairCount, testedPairlist.count())
+            initPairList(testedPairlist)
             updateAnsweredProgress(answeredPairCount, restartProgressDuration.toLong())
         }
 
+    }
+
+    fun onTestStop() {
+        mistakeCount = 0
+        answeredPairCount = 0
+        originalPairlistCount = 0
+    }
+
+    fun getToolbarTitle() {
+        viewState.setToolbarTitle(testedPairsetName)
     }
 
 
