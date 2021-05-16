@@ -102,5 +102,10 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.setToolbarTitle(testedPairsetName)
     }
 
+    fun provideHintForCurrentPosition(currentSnapPosition: Int) {
+        val questPair = testedPairlist[currentSnapPosition]
+        viewState.getHintForCurrentPosition(questPair.pairKey)
+    }
+
 
 }

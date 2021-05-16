@@ -13,7 +13,8 @@
         >
         <activity
             android:name=".test.TestActivity"
-            android:windowSoftInputMode="adjustNothing"
+            android:windowSoftInputMode="stateVisible|adjustNothing"
+
             />
         <activity
             android:name=".pairsetEditorActivity.PairsetEditorActivity"

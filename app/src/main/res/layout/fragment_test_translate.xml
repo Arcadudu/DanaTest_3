@@ -44,6 +44,7 @@
         android:layout_height="wrap_content"
         android:text="2/21"
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/translate_test_progressbar"
         app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintTop_toTopOf="@+id/translate_test_progressbar" />
@@ -92,6 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="18dp"
         android:hint="@string/dt_test_translate_fragment_answerfield_hint"
         android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
