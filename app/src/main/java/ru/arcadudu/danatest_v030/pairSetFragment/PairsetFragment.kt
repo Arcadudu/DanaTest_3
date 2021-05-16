@@ -54,6 +54,14 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
+    private val sortIconList = listOf(
+        R.drawable.icon_sort_by_name_ascending,
+        R.drawable.icon_sort_by_name_descending,
+        R.drawable.icon_sort_by_count_ascending,
+        R.drawable.icon_sort_by_count_descending
+    )
+    private var sortByIndex = 0
+
     private var sortByName = true
 
     @InjectPresenter
@@ -113,15 +121,11 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
         targetToolbar.apply {
             inflateMenu(R.menu.pairset_fragment_toolbar_menu)
+
             setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.toolbar_action_sortBy -> {
-                        pairsetPresenter.sortPairsetList(sortByName)
-                        true
-                    }
-                    else -> false
-                    // R.id.toolbar_action_toSettings -> toSettings()
-                }
+                pairsetPresenter.sortPairsetList(sortByIndex)
+                if (sortByIndex == 3) sortByIndex = 0 else sortByIndex++
+                true
             }
         }
 
@@ -488,32 +492,26 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
 
-    override fun updateRecyclerOnSortedPairsetList(
+    override fun updateFragmentOnSorted(
         sortedList: MutableList<Pairset>,
-        sortByName: Boolean
+        sortIndex: Int
     ) {
         pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
-        this.sortByName = sortByName
-        val sortToastText: String
-        var drawableResource = 0
-        when (sortByName) {
-            true -> {
-                sortToastText =
-                    getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
-                drawableResource = R.drawable.icon_sort_by_count_svg
-            }
-            else -> {
-                sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_name_toast)
-                drawableResource = R.drawable.icon_sort_by_name_svg
-            }
+
+        val drawableResource = sortIconList[sortIndex]
+        val sortToastText = when (sortIndex) {
+            0 -> "Сортировка по имени ++"
+            1 -> "Сортировка по имени --"
+            2 -> "Сортировка по количеству пар ++"
+            else -> "Сортировка по количеству пар -- "
         }
+
         toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
             resources,
             drawableResource,
             activity?.theme
         )
         Toast.makeText(requireContext(), sortToastText, Toast.LENGTH_SHORT).show()
-
 
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
