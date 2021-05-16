@@ -49,10 +49,10 @@
     </style>
 
     <style name="dt_QuestCardTextStyle">
-        <item name="fontFamily">@font/roboto_medium</item>
-        <item name="android:textSize">28sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">46sp</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textColor">@color/dt3_on_brand_100</item>
+        <item name="android:textColor">@color/dt3_on_surface_90</item>
     </style>
 
     <style name="dt_answerCardTextStyle" parent="dt_QuestCardTextStyle">

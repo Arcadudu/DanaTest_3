@@ -4,25 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="18dp"
     android:layout_marginBottom="18dp"
     android:layout_marginStart="18dp"
     android:layout_marginEnd="18dp"
+    android:minHeight="240dp"
     style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/quest_pair_value"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/dt3_brand_100"
-        android:paddingStart="18dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="14dp"
+        android:text="Table"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:textAppearance="@style/dt_QuestCardTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
         />
 
 </com.google.android.material.card.MaterialCardView>

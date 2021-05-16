@@ -28,6 +28,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
     private lateinit var incomingPairset: Pairset
     private lateinit var requestedTestFragmentId: String
     private var shufflePairSet = false
+    private var enableHintForPairset = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,6 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         /*entering from Pairset fragment*/
         val incomingIntent = intent
         incomingPairset = incomingIntent.getSerializableExtra("pairset") as Pairset
-        Log.d("ddd", "onCreate: testString = ${incomingIntent.getStringExtra("test")} ")
         requestedTestFragmentId = when (incomingIntent.getStringExtra("test")) {
             getString(R.string.translate) -> CONST_TRANSLATE_FRAGMENT_ID
             getString(R.string.variants) -> CONST_VARIANTS_FRAGMENT_ID
@@ -46,11 +46,14 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         }
         Log.d("ddd", "onCreate: fragmentId = $requestedTestFragmentId")
         shufflePairSet = incomingIntent.getBooleanExtra("shuffle", false)
+        enableHintForPairset = incomingIntent.getBooleanExtra("enableHints", false)
+
 
 
         val testFragmentBundle = Bundle()
         testFragmentBundle.putSerializable("pairSet", incomingPairset)
         testFragmentBundle.putBoolean("shuffle", shufflePairSet)
+        testFragmentBundle.putBoolean("enableHints", enableHintForPairset)
         setActiveTestFragment(requestedTestFragmentId, testFragmentBundle)
     }
 

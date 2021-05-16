@@ -329,6 +329,18 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 )
             }
 
+            enableHintsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
+                val checkBoxTextColor =
+                    if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
+                checkBox.setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        checkBoxTextColor,
+                        activity?.theme
+                    )
+                )
+            }
+
             allPairsetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
@@ -345,13 +357,17 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {
 
+            // collecting contents for testing:
             val shufflePairset = startTestDialogBinding.shufflePairsetCheckBox.isChecked
+            val enableHintsForTest = startTestDialogBinding.enableHintsCheckBox.isChecked
             val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
+
             val toTestIntent = Intent(this.activity, TestActivity::class.java)
 
             dismissedWithAction = true
             toTestIntent.apply {
                 putExtra("shuffle", shufflePairset)
+                putExtra("enableHints", enableHintsForTest)
                 putExtra("test", chosenTest)
                 putExtra("pairset", chosenPairset)
             }
@@ -482,7 +498,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         var drawableResource = 0
         when (sortByName) {
             true -> {
-                sortToastText = getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
+                sortToastText =
+                    getString(R.string.dt_pairset_fragment_toolbar_sorted_by_count_toast)
                 drawableResource = R.drawable.icon_sort_by_count_svg
             }
             else -> {

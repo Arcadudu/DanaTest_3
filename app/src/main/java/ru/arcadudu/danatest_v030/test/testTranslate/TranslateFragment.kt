@@ -3,14 +3,14 @@ package ru.arcadudu.danatest_v030.test.testTranslate
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +40,6 @@ import java.util.*
 class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAdapterCallback,
     OnSnapPositionChangeListener {
 
-
     companion object {
         fun getTranslateFragmentInstance(args: Bundle?): TranslateFragment =
             TranslateFragment().apply { arguments = args }
@@ -58,7 +57,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     private lateinit var etAnswerField: TextInputEditText
     private lateinit var btnConfirmAnswer: ImageView
     private lateinit var progressBar: ProgressBar
-    private lateinit var tvCounterLine: MaterialTextView
+    private lateinit var tvPairCounter: MaterialTextView
+    private lateinit var btnGiveMeHint: Button
 
     private lateinit var translateSnapHelper: PagerSnapHelper
 
@@ -66,6 +66,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
     private var currentSnapPosition = 0
     private var shufflePairset = false
+    private var enableHintForPairset = false
     private var snapHelperAttached = false
 
 
@@ -84,10 +85,23 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
         incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
+        enableHintForPairset = arguments?.getBoolean("enableHints", false)!!
+
         translatePresenter.obtainTestedPairSet(incomingPairset)
 
         toolbar = translateBinding.translateToolbar
         prepareToolbar(targetToolbar = toolbar)
+
+
+        btnGiveMeHint = translateBinding.btnGiveMeHint
+        btnGiveMeHint.apply {
+            setOnClickListener {
+                translatePresenter.provideHintForCurrentPosition(
+                    currentSnapPosition
+                )
+            }
+            this.visibility = if (enableHintForPairset) View.VISIBLE else View.GONE
+        }
 
         questTranslateRecycler = translateBinding.translateQuestRecycler
         prepareRecycler(targetRecycler = questTranslateRecycler)
@@ -95,32 +109,29 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         etAnswerInputLayout = translateBinding.etTranslateFragmentAnswerField
 
         etAnswerField = etAnswerInputLayout.editText as TextInputEditText
-        etAnswerField.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-                (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
-
+        etAnswerField.apply {
+            requestFocus()
+            setOnFocusChangeListener { v, hasFocus ->
+                if (!hasFocus)
+                    (activity as? MvpAppCompatActivity)?.forceHideKeyboard(v)
+            }
+            doOnTextChanged { text, _, _, _ ->
+                showConfirmButton(text.toString().isNotEmpty())
+            }
         }
+
+
         btnConfirmAnswer = translateBinding.ivConfirmAnswer
 
-        etAnswerField.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                showConfirmButton(s.toString().isNotEmpty())
-            }
-        })
-
-        tvCounterLine = translateBinding.tvTranslateCounterLine
+        tvPairCounter = translateBinding.tvPairDoneAndTotalCounter
 
         btnConfirmAnswer.setOnClickListener {
             val answer = etAnswerField.text.toString().trim().toLowerCase(Locale.ROOT)
-            val answerPosition = currentSnapPosition
             etAnswerField.text = null
             translatePresenter.checkAnswerAndDismiss(
                 inputAnswer = answer,
-                answerPosition = answerPosition
+                answerPosition = currentSnapPosition
             )
-            //todo presenter onProgressChange()
         }
 
         progressBar = translateBinding.translateTestProgressbar
@@ -133,7 +144,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     }
 
     private fun prepareToolbar(targetToolbar: Toolbar) {
+        translatePresenter.getToolbarTitle()
         targetToolbar.apply {
+
             inflateMenu(R.menu.test_menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -155,6 +168,12 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         translatePresenter.provideDataForToolbar()
     }
 
+
+    override fun onStop() {
+        super.onStop()
+        translatePresenter.onTestStop()
+        Log.d("testTranslate", "onStop: callback")
+    }
 
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
@@ -184,11 +203,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
     }
 
-
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
     }
-
 
     override fun showOnRestartDialog(pairSetName: String) {
         val restartDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
@@ -226,7 +243,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         pairListCount: Int,
         pairListOriginalCount: Int
     ) {
-        tvCounterLine.text = getString(
+        tvPairCounter.text = getString(
             R.string.dt_test_translate_fragment_counter_body,
             pairListCount,
             pairListOriginalCount
@@ -235,7 +252,6 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
 
     }
-
 
     override fun initPairList(testedPairList: MutableList<Pair>) {
         translateAdapter.apply {
@@ -262,6 +278,10 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         progressBar.progress = answeredPairCount
     }
 
+    override fun setToolbarTitle(pairsetTitleForToolbar: String) {
+        toolbar.title = pairsetTitleForToolbar
+    }
+
     override fun setProgressMax(originalPairListCount: Int) {
         progressBar.max = originalPairListCount
     }
@@ -281,7 +301,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
 
     override fun getLayoutPosition(layoutPosition: Int) {
         if (!snapHelperAttached) {
-            tvCounterLine.text = layoutPosition.toString()
+            tvPairCounter.text = layoutPosition.toString()
         }
     }
 
@@ -292,6 +312,10 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
             toTestMode(questTranslateRecycler)
         }
         Log.d("aaa", "onAdapterItemClick: snapHelperAttached = $snapHelperAttached ")
+    }
+
+    override fun getHintForCurrentPosition(pairKey: String) {
+        etAnswerField.setText(pairKey)
     }
 
     /* Enables snap scrolling behavior
@@ -308,10 +332,10 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         }
         etAnswerInputLayout.visibility = View.VISIBLE
         etAnswerInputLayout.editText?.text = null
-        tvCounterLine.visibility = View.VISIBLE
+        tvPairCounter.visibility = View.VISIBLE
         progressBar.visibility = View.VISIBLE
+        btnGiveMeHint.visibility = View.VISIBLE
     }
-
 
     /* Disables snap and hides most of interactive elements,
      leaving only itemList, restart and endTest buttons.*/
@@ -323,8 +347,9 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         etAnswerInputLayout.visibility = View.GONE
         btnConfirmAnswer.visibility = View.GONE
         progressBar.visibility = View.GONE
-        tvCounterLine.visibility = View.GONE
+        tvPairCounter.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true
+        btnGiveMeHint.visibility = View.GONE
     }
 
 

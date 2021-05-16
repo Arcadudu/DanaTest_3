@@ -6,8 +6,7 @@
     android:animateLayoutChanges="true"
     android:clickable="true"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:theme="@style/Theme.DanaTest031">
+    android:focusableInTouchMode="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/translate_toolbar"
@@ -15,13 +14,55 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:paddingStart="18dp"
-        android:paddingEnd="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
         app:title="@string/dt_translate"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
+
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/translate_test_progressbar"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="18dp"
+        android:indeterminate="false"
+        android:maxHeight="12dp"
+        android:minHeight="10dp"
+        android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
+        app:layout_constraintEnd_toStartOf="@id/tv_pair_done_and_total_counter"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintTop_toBottomOf="@+id/translate_toolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_pair_done_and_total_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2/21"
+        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/translate_test_progressbar"
+        app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
+        app:layout_constraintTop_toTopOf="@+id/translate_test_progressbar" />
+
+    <Button
+        android:id="@+id/btn_give_me_hint"
+        style="@style/dt_DialogButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/dt3_main_light_100"
+        android:scaleType="fitCenter"
+        android:text="@string/dt_test_translate_fragment_hint_button"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/translate_quest_recycler"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/translate_quest_recycler"
@@ -34,22 +75,6 @@
         android:scrollbarTrackHorizontal="@drawable/scrollbar_track"
         android:scrollbars="horizontal"
         app:layout_constraintBottom_toTopOf="@id/translate_test_center_line" />
-
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/translate_test_progressbar"
-        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
-        android:indeterminate="false"
-        android:maxHeight="4dp"
-        android:minHeight="4dp"
-        android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
-        app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintStart_toStartOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
 
 
     <View
@@ -68,6 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="18dp"
         android:hint="@string/dt_test_translate_fragment_answerfield_hint"
         android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
@@ -75,6 +101,7 @@
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:counterEnabled="false"
+        app:hintTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/translate_test_center_line">
@@ -85,21 +112,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textVisiblePassword"
-            android:textSize="22sp" />
+            android:minHeight="84dp"
+            android:textSize="28sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_translate_counter_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="20dp"
-        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_translate_fragment_answer_field" />
 
 
     <ImageView

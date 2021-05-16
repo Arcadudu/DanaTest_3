@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import moxy.MvpView
 import ru.arcadudu.danatest_v030.R
-import ru.arcadudu.danatest_v030.databinding.ValueTestRowBinding
+import ru.arcadudu.danatest_v030.databinding.QuestCardBinding
 import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
 import java.util.*
@@ -15,6 +15,7 @@ import java.util.*
 class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelectorViewHolder>() {
     private var pairList: MutableList<Pair> = mutableListOf()
     private lateinit var translateFragmentImpl: TestAdapterCallback
+    private var pairsetName = ""
 
 
     fun submitData(list: MutableList<Pair>) {
@@ -28,7 +29,7 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PairSelectorViewHolder {
         return PairSelectorViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.value_test_row, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.quest_card, parent, false)
         )
     }
 
@@ -43,7 +44,7 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
 
     inner class PairSelectorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = ValueTestRowBinding.bind(itemView)
+        private val binding = QuestCardBinding.bind(itemView)
         private val questWordItem = binding.questPairValue
 
 
@@ -55,6 +56,7 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
         fun bindNoCounter(pair: Pair) {
             questWordItem.text = pair.pairValue.capitalize(Locale.ROOT).trim()
+
 
         }
 

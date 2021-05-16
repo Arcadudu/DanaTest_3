@@ -116,9 +116,9 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun sortPairsetList(sortByName: Boolean): Boolean {
-        when(sortByName){
+        when (sortByName) {
             true -> pairsetList.sortBy { it.name }
-            else -> pairsetList.sortByDescending{ it.getPairList().count()}
+            else -> pairsetList.sortByDescending { it.getPairList().count() }
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.updateRecyclerOnSortedPairsetList(pairsetList, !sortByName)

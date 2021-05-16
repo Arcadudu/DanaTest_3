@@ -26,6 +26,7 @@ interface TranslateFragmentView : MvpView {
 
     fun updateAnsweredProgress(answeredPairCount: Int, duration: Long)
 
+    fun setToolbarTitle(pairsetTitleForToolbar:String)
 
     fun setProgressMax(originalPairListCount: Int)
 
@@ -37,6 +38,7 @@ interface TranslateFragmentView : MvpView {
     fun getLayoutPosition(layoutPosition: Int)
 
     fun onAdapterItemClick()
+    fun getHintForCurrentPosition(pairKey: String)
 
 
 }
