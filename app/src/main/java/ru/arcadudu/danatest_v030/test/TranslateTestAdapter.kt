@@ -56,8 +56,6 @@ class TranslateTestAdapter : RecyclerView.Adapter<TranslateTestAdapter.PairSelec
 
         fun bindNoCounter(pair: Pair) {
             questWordItem.text = pair.pairValue.capitalize(Locale.ROOT).trim()
-
-
         }
 
 

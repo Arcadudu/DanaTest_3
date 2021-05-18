@@ -15,14 +15,52 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:paddingStart="18dp"
-        android:paddingEnd="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-        app:title="@string/dt_variants"
+        app:subtitle="@string/dt_variants"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle"
         />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/variants_test_progressbar"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:indeterminate="false"
+        android:maxHeight="12dp"
+        android:minHeight="10dp"
+        android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
+        app:layout_constraintEnd_toStartOf="@id/tv_variants_counter_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/variants_toolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_variants_counter_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/variants_test_progressbar"
+        app:layout_constraintTop_toTopOf="@id/variants_test_progressbar"
+        app:layout_constraintEnd_toEndOf="@id/toggle_group_parent_nest"/>
+
+    <Button
+        android:id="@+id/btn_give_me_hint_variants"
+        style="@style/dt_DialogButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/dt3_main_light_100"
+        android:text="@string/dt_test_translate_fragment_hint_button"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/variants_quest_recycler"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/variants_quest_recycler"
@@ -45,30 +83,92 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/abcdContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/toggle_group_parent_nest"
+        app:layout_constraintBottom_toBottomOf="@id/toggle_group_parent_nest"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        android:layout_marginStart="18dp"
+        android:gravity="start"
+        >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="a."
+            android:layout_gravity="start"
+            android:gravity="start|center_vertical"
+            android:layout_weight="0.25"
+            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textSize="20sp"
+            android:textColor="@color/dt3_brand_100"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="b."
+            android:layout_gravity="start"
+            android:gravity="start|center_vertical"
+            android:layout_weight="0.25"
+            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textSize="20sp"
+            android:textColor="@color/dt3_brand_100"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="c."
+            android:layout_gravity="start"
+            android:gravity="start|center_vertical"
+            android:layout_weight="0.25"
+            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textSize="20sp"
+            android:textColor="@color/dt3_brand_100"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="d."
+            android:layout_gravity="start"
+            android:gravity="start|center_vertical"
+            android:layout_weight="0.25"
+            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+            android:textSize="20sp"
+            android:textColor="@color/dt3_brand_100"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/toggle_group_parent_nest"
+        style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
-        android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
-        style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation">
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/abcdContainer"
+        app:layout_constraintTop_toBottomOf="@id/variants_test_center_line">
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/answer_button_toggle_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:elevation="10dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
             app:selectionRequired="true"
-            app:singleSelection="true"
-            >
-
+            app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/answer_button1"
@@ -78,10 +178,9 @@
                 android:gravity="center_vertical|start"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:minHeight="60dp"
+                android:minHeight="64dp"
                 android:text="Answer1"
-                android:textColor="@color/answer_card_text_color_state"
-                />
+                android:textColor="@color/answer_card_text_color_state" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/answer_button2"
@@ -91,10 +190,9 @@
                 android:gravity="center_vertical|start"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:minHeight="60dp"
+                android:minHeight="64dp"
                 android:text="Answer2"
-                android:textColor="@color/answer_card_text_color_state"
-                />
+                android:textColor="@color/answer_card_text_color_state" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/answer_button3"
@@ -104,10 +202,9 @@
                 android:gravity="center_vertical|start"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:minHeight="60dp"
+                android:minHeight="64dp"
                 android:text="Answer3"
-                android:textColor="@color/answer_card_text_color_state"
-                />
+                android:textColor="@color/answer_card_text_color_state" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/answer_button4"
@@ -117,42 +214,18 @@
                 android:gravity="center_vertical|start"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:minHeight="60dp"
+                android:minHeight="64dp"
                 android:text="Answer4"
-                android:textColor="@color/answer_card_text_color_state"
-                />
+                android:textColor="@color/answer_card_text_color_state" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/variants_test_progressbar"
-        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:indeterminate="false"
-        android:maxHeight="4dp"
-        android:minHeight="4dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="18dp"
-        android:progressDrawable="@drawable/horizontal_progressbar_drawable_brand"
-        app:layout_constraintEnd_toEndOf="@id/toggle_group_parent_nest"
-        app:layout_constraintStart_toStartOf="@id/toggle_group_parent_nest"
-        app:layout_constraintTop_toBottomOf="@id/toggle_group_parent_nest" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_variants_counter_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="20dp"
-        android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toggle_group_parent_nest" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

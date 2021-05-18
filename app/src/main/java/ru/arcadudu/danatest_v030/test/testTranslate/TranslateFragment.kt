@@ -93,7 +93,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         prepareToolbar(targetToolbar = toolbar)
 
 
-        btnGiveMeHint = translateBinding.btnGiveMeHint
+        btnGiveMeHint = translateBinding.btnGiveMeHintTranslate
         btnGiveMeHint.apply {
             setOnClickListener {
                 translatePresenter.provideHintForCurrentPosition(

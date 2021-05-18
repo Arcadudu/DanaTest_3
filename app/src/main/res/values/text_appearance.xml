@@ -59,7 +59,8 @@
     </style>
 
     <style name="dt_answerCardTextStyle" parent="dt_QuestCardTextStyle">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">28sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
 

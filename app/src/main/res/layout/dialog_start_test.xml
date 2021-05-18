@@ -55,7 +55,7 @@
             android:id="@+id/shuffle_pairset_check_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="18dp"
             android:text="@string/dt_start_test_dialog_shuffle_checkbox"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:textSize="16sp"

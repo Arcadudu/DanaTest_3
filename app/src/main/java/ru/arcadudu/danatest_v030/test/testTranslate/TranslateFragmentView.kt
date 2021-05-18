@@ -38,6 +38,7 @@ interface TranslateFragmentView : MvpView {
     fun getLayoutPosition(layoutPosition: Int)
 
     fun onAdapterItemClick()
+
     fun getHintForCurrentPosition(pairKey: String)
 
 

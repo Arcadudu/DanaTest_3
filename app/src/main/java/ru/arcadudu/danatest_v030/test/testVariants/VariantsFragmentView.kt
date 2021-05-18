@@ -29,5 +29,7 @@ interface VariantsFragmentView : MvpView {
 
     fun toResultFragment(backUpPairset: Pairset, mistakeCount: Int)
 
+    fun getHintForCurrentPosition(pairKey: String)
+
 
 }

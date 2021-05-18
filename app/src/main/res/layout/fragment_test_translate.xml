@@ -49,19 +49,17 @@
         app:layout_constraintTop_toTopOf="@+id/translate_test_progressbar" />
 
     <Button
-        android:id="@+id/btn_give_me_hint"
+        android:id="@+id/btn_give_me_hint_translate"
         style="@style/dt_DialogButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginBottom="12dp"
         android:backgroundTint="@color/dt3_main_light_100"
-        android:scaleType="fitCenter"
         android:text="@string/dt_test_translate_fragment_hint_button"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/translate_quest_recycler"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/translate_quest_recycler"
@@ -75,7 +73,6 @@
         android:scrollbars="horizontal"
         app:layout_constraintBottom_toTopOf="@id/translate_test_center_line" />
 
-
     <View
         android:id="@+id/translate_test_center_line"
         android:layout_width="match_parent"
@@ -84,7 +81,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/et_translate_fragment_answer_field"

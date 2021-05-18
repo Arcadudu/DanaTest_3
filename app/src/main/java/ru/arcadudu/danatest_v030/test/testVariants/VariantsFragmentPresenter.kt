@@ -93,6 +93,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         }
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
+
         if (testedPairList.isEmpty()) {
             viewState.toResultFragment(backUpPairset, mistakeCount)
         } else {
@@ -105,5 +106,10 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
                 )
             }
         }
+    }
+
+    fun provideHintForCurrentPosition(currentSnapPosition: Int) {
+        val questPair = testedPairList[currentSnapPosition]
+        viewState.getHintForCurrentPosition(questPair.pairKey)
     }
 }

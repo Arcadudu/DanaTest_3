@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -58,6 +59,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var btnAnswer3: MaterialButton
     private lateinit var btnAnswer4: MaterialButton
     private lateinit var checkedButton: MaterialButton
+    private lateinit var btnGiveMeHint: Button
 
     private lateinit var variantsSnapHelper: PagerSnapHelper
 
@@ -85,6 +87,13 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         toolbar = variantsBinding.variantsToolbar
         prepareToolbar(targetToolbar = toolbar)
 
+        btnGiveMeHint = variantsBinding.btnGiveMeHintVariants
+        btnGiveMeHint.apply {
+            setOnClickListener {
+                variantsPresenter.provideHintForCurrentPosition(currentSnapPosition)
+            }
+        }
+
         questVariantsRecycler = variantsBinding.variantsQuestRecycler
         prepareRecycler(targetRecycler = questVariantsRecycler)
 
@@ -106,6 +115,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                     }
 
                 checkedButton.isChecked = false
+
                 variantsPresenter.checkAnswerAndDismiss(
                     checkedButton.text.toString(),
                     currentSnapPosition
@@ -242,10 +252,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         variantList.clear()
         variantList = keySetCut
         variantList.shuffle()
-        btnAnswer1.text = variantList[0].capitalize(Locale.ROOT)
-        btnAnswer2.text = variantList[1].capitalize(Locale.ROOT)
-        btnAnswer3.text = variantList[2].capitalize(Locale.ROOT)
-        btnAnswer4.text = variantList[3].capitalize(Locale.ROOT)
+        btnAnswer1.text = variantList[0].trim().toLowerCase(Locale.ROOT)
+        btnAnswer2.text = variantList[1].trim().toLowerCase(Locale.ROOT)
+        btnAnswer3.text = variantList[2].trim().toLowerCase(Locale.ROOT)
+        btnAnswer4.text = variantList[3].trim().toLowerCase(Locale.ROOT)
     }
 
     override fun updateRecyclerOnRemoved(
@@ -264,6 +274,18 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         (activity as? TestActivityView)?.onTestReadyForResult(backUpPairset, mistakeCount)
     }
 
+    override fun getHintForCurrentPosition(pairKey: String) {
+
+        for (i in 0 until answerToggleGroup.childCount) {
+            val button = answerToggleGroup[i] as MaterialButton
+            if (button.text == pairKey.toLowerCase(Locale.ROOT).trim()) {
+                button.isPressed = true
+            }
+
+        }
+
+    }
+
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
         Log.d("rrr", "onSnapPositionChange: currentSnapPosition = $currentSnapPosition ")
@@ -280,8 +302,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             )
             isHorizontalScrollBarEnabled = false
         }
-//        etAnswerInputLayout.visibility = View.VISIBLE
-//        autoCompleteAnswerField.text = null
         tvCounterLine.visibility = View.VISIBLE
         progressBar.visibility = View.VISIBLE
     }
@@ -289,7 +309,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
         variantsSnapHelper.attachToRecyclerView(null)
-//        etAnswerInputLayout.visibility = View.GONE
         progressBar.visibility = View.GONE
         tvCounterLine.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true
