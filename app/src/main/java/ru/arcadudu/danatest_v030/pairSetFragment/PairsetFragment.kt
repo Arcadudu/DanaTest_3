@@ -58,11 +58,11 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         R.drawable.icon_sort_by_name_ascending,
         R.drawable.icon_sort_by_name_descending,
         R.drawable.icon_sort_by_count_ascending,
-        R.drawable.icon_sort_by_count_descending
+        R.drawable.icon_sort_by_count_descending,
+        R.drawable.icon_sort_by_date_ascending
     )
     private var sortByIndex = 0
 
-    private var sortByName = true
 
     @InjectPresenter
     lateinit var pairsetPresenter: PairsetFragmentPresenter
@@ -123,8 +123,12 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             inflateMenu(R.menu.pairset_fragment_toolbar_menu)
 
             setOnMenuItemClickListener {
-                pairsetPresenter.sortPairsetList(sortByIndex)
-                if (sortByIndex == 3) sortByIndex = 0 else sortByIndex++
+                when(it.itemId){
+                    R.id.toolbar_action_sortBy ->{
+                        pairsetPresenter.sortPairsetList(sortByIndex)
+                        if (sortByIndex == 4) sortByIndex = 0 else sortByIndex++
+                    }
+                }
                 true
             }
         }
@@ -503,6 +507,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             0 -> "Сортировка по имени ++"
             1 -> "Сортировка по имени --"
             2 -> "Сортировка по количеству пар ++"
+            3 -> "Сортировка по дате"
             else -> "Сортировка по количеству пар -- "
         }
 

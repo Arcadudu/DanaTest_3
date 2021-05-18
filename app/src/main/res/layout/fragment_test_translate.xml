@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-        app:title="@string/dt_translate"
+        app:subtitle="@string/translate"
         app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
 
@@ -42,7 +42,6 @@
         android:id="@+id/tv_pair_done_and_total_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2/21"
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/translate_test_progressbar"

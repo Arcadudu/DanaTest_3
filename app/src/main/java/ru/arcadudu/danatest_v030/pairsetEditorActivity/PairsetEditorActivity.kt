@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -58,6 +57,12 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var emptyPairsetStub: MaterialTextView
 
     private lateinit var dialogBuilder: AlertDialog.Builder
+
+    private val sortIconList = listOf(
+        R.drawable.icon_sort_by_name_ascending,
+        R.drawable.icon_sort_by_name_descending,
+    )
+    private var sortByIndex = 0
 
 
     @InjectPresenter
@@ -118,31 +123,11 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val toTestIntent = Intent(this, TestActivity::class.java)
-        when (item.itemId) {
-            R.id.begin_test_translate_menu_action -> toTestIntent.putExtra(
-                "testFragmentId",
-                TRANSLATE_FRAGMENT_ID
-            )
-            R.id.begin_test_shuffle_menu_action -> toTestIntent.putExtra(
-                "testFragmentId",
-                SHUFFLE_FRAGMENT_ID
-            )
-            R.id.begin_test_variants_menu_action -> toTestIntent.putExtra(
-                "testFragmentId",
-                VARIANTS_FRAGMENT_ID
-            )
-        }
-        pairsetEditorPresenter.deliverPairsetForTest()
-        toTestIntent.putExtra(CONST_PAIRSET_TO_TEST_TAG, pairsetForTesting)
-        startActivity(toTestIntent)
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
-        val popUpMenuDrawable = ContextCompat.getDrawable(
-            applicationContext,
-            R.drawable.icon_play_button
-        )
+
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -156,9 +141,15 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             this.setNavigationOnClickListener {
                 startActivity(Intent(this@PairsetEditorActivity, HomeActivity::class.java))
             }
-            overflowIcon = popUpMenuDrawable
+
             setOnClickListener {
                 pairsetEditorPresenter.onToolbarClick()
+            }
+
+            setOnMenuItemClickListener {
+                pairsetEditorPresenter.sortPairlist(sortByIndex)
+                if (sortByIndex == 1) sortByIndex = 0 else sortByIndex++
+                true
             }
         }
         pairsetEditorPresenter.provideDataForToolbar()
@@ -523,6 +514,39 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun setOnEmptyStub(count: Int) {
         emptyPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
     }
+
+    override fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int) {
+        pairRowAdapter.notifyItemRangeChanged(0, sortedPairlist.count())
+        val drawableResource = sortIconList[sortIndex]
+        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(resources, drawableResource,
+            this.theme
+        )
+        recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
+    }
+
+    //override fun updateFragmentOnSorted(
+    //        sortedList: MutableList<Pairset>,
+    //        sortIndex: Int
+    //    ) {
+    //        pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
+    //
+    //        val drawableResource = sortIconList[sortIndex]
+    //        val sortToastText = when (sortIndex) {
+    //            0 -> "Сортировка по имени ++"
+    //            1 -> "Сортировка по имени --"
+    //            2 -> "Сортировка по количеству пар ++"
+    //            else -> "Сортировка по количеству пар -- "
+    //        }
+    //
+    //        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
+    //            resources,
+    //            drawableResource,
+    //            activity?.theme
+    //        )
+    //        Toast.makeText(requireContext(), sortToastText, Toast.LENGTH_SHORT).show()
+    //
+    //        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
+    //    }
 
     override fun updateRecyclerOnSwap(
         updatedPairList: MutableList<Pair>,

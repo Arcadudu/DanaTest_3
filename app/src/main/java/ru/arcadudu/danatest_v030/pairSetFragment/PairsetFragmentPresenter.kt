@@ -122,6 +122,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
             1 -> pairsetList.sortByDescending { it.name }
             2 -> pairsetList.sortBy { it.getPairList().count() }
             3 -> pairsetList.sortByDescending { it.getPairList().count() }
+            4 -> pairsetList.sortByDescending { it.date }
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.updateFragmentOnSorted(pairsetList, sortIndex)

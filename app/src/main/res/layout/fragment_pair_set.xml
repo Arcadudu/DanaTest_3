@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:paddingStart="18dp"
-
             app:layout_scrollFlags="scroll"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"

@@ -162,4 +162,14 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         viewState.showEditPairsetNameDialog(currentPairsetName = pairsetTitle)
     }
 
+    fun sortPairlist(sortIndex: Int) {
+        when (sortIndex) {
+            0 -> currentPairList.sortBy { it.pairKey }
+            1 -> currentPairList.sortByDescending { it.pairKey }
+        }
+        applyPairsetChangesIntoPairsetList(currentPairList)
+        viewState.updateViewOnSortedPairlist(currentPairList, sortIndex)
+
+    }
+
 }
