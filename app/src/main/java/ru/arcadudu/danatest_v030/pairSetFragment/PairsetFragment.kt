@@ -368,6 +368,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             // collecting contents for testing:
             val shufflePairset = startTestDialogBinding.shufflePairsetCheckBox.isChecked
             val enableHintsForTest = startTestDialogBinding.enableHintsCheckBox.isChecked
+            val useAllExistingPairsetsValuesAsVariants = startTestDialogBinding.allPairsetVariantsCheckBox.isChecked
             val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
 
             val toTestIntent = Intent(this.activity, TestActivity::class.java)
@@ -376,6 +377,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             toTestIntent.apply {
                 putExtra("shuffle", shufflePairset)
                 putExtra("enableHints", enableHintsForTest)
+                putExtra("useAllPairsets", useAllExistingPairsetsValuesAsVariants)
                 putExtra("test", chosenTest)
                 putExtra("pairset", chosenPairset)
             }

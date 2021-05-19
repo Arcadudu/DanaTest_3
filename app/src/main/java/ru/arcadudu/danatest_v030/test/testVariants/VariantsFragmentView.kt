@@ -31,5 +31,7 @@ interface VariantsFragmentView : MvpView {
 
     fun getHintForCurrentPosition(pairKey: String)
 
+    fun setToolbarTitle(testedPairSetName: String)
+
 
 }

@@ -66,6 +66,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private var currentSnapPosition = 0
     private var shufflePairset = false
     private var snapHelperAttached = false
+    private var enableHintForPairset = false
+    private var useAllExistingPairsetsValuesAsVariants = false
     private var variantList: MutableList<String> = mutableListOf()
 
     override fun onCreateView(
@@ -76,12 +78,18 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         return inflater.inflate(R.layout.fragment_test_variants, container, false)
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         variantsBinding = FragmentTestVariantsBinding.bind(view)
 
         incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
+        enableHintForPairset = arguments?.getBoolean("enableHints", false)!!
+        useAllExistingPairsetsValuesAsVariants = arguments?.getBoolean("useAllPairsets", false)!!
+
+        variantsPresenter.captureContext(requireContext())
         variantsPresenter.obtainTestedPairSet(incomingPairset)
 
         toolbar = variantsBinding.variantsToolbar
@@ -92,6 +100,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             setOnClickListener {
                 variantsPresenter.provideHintForCurrentPosition(currentSnapPosition)
             }
+            this.visibility = if (enableHintForPairset) View.VISIBLE else View.GONE
         }
 
         questVariantsRecycler = variantsBinding.variantsQuestRecycler
@@ -158,6 +167,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
+        variantsPresenter.getToolbarTitle()
         targetToolbar.apply {
             inflateMenu(R.menu.test_menu)
             setOnMenuItemClickListener {
@@ -178,7 +188,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     override fun onResume() {
         super.onResume()
-        variantsPresenter.restartVariantsTest(shufflePairset)
+        variantsPresenter.restartVariantsTest(shufflePairset, useAllExistingPairsetsValuesAsVariants)
     }
 
     override fun setProgressMax(originPairListCount: Int) {
@@ -207,7 +217,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
 
         btnRestartTest.setOnClickListener {
-            variantsPresenter.restartVariantsTest(shufflePairset)
+            variantsPresenter.restartVariantsTest(shufflePairset, useAllExistingPairsetsValuesAsVariants)
             variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
             restartDialog.dismiss()
         }
@@ -256,6 +266,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         btnAnswer2.text = variantList[1].trim().toLowerCase(Locale.ROOT)
         btnAnswer3.text = variantList[2].trim().toLowerCase(Locale.ROOT)
         btnAnswer4.text = variantList[3].trim().toLowerCase(Locale.ROOT)
+        answerToggleGroup.isPressed = false
     }
 
     override fun updateRecyclerOnRemoved(
@@ -284,6 +295,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         }
 
+    }
+
+    override fun setToolbarTitle(testedPairSetName: String) {
+        toolbar.title = testedPairSetName
     }
 
     override fun onSnapPositionChange(position: Int) {

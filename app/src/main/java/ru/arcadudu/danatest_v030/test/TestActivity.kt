@@ -29,6 +29,8 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
     private lateinit var requestedTestFragmentId: String
     private var shufflePairSet = false
     private var enableHintForPairset = false
+    private var useAllExistingPairsetsValuesAsVariants = false
+    //"useAllPairsets", useAllExistingPairsetsValuesAsVariants
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,13 +49,15 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         Log.d("ddd", "onCreate: fragmentId = $requestedTestFragmentId")
         shufflePairSet = incomingIntent.getBooleanExtra("shuffle", false)
         enableHintForPairset = incomingIntent.getBooleanExtra("enableHints", false)
-
+        useAllExistingPairsetsValuesAsVariants =
+            incomingIntent.getBooleanExtra("useAllPairsets", false)
 
 
         val testFragmentBundle = Bundle()
         testFragmentBundle.putSerializable("pairSet", incomingPairset)
         testFragmentBundle.putBoolean("shuffle", shufflePairSet)
         testFragmentBundle.putBoolean("enableHints", enableHintForPairset)
+        testFragmentBundle.putBoolean("useAllPairsets", useAllExistingPairsetsValuesAsVariants)
         setActiveTestFragment(requestedTestFragmentId, testFragmentBundle)
     }
 
