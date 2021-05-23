@@ -437,7 +437,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         addPairsetDialog.show()
     }
 
-    override fun showRemovePairsetDialog(name: String, description: String, position: Int) {
+    override fun showRemovePairsetDialog(name: String, description: String, position: Int, pairCount:Int) {
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null, false)
         val removeDialog = dialogBuilder.setView(removeDialogView).create()
 
@@ -450,6 +450,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
         removeDialogBinding.apply {
             tvRemoveDialogTitle.text = name
+            tvRemovePairsetDialogPairCounter.text = pairCount.toString()
             btnCancelRemove.setOnClickListener {
                 removeDialog.dismiss()
             }
@@ -569,4 +570,6 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         pairsetAdapter.notifyItemMoved(fromPosition, toPosition)
         pairsetPresenter.providePairsetListCount()
     }
+
+
 }

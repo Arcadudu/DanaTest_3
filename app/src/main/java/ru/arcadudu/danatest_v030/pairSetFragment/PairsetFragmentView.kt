@@ -17,7 +17,7 @@ interface PairsetFragmentView : MvpView {
     fun updateRecyclerOnSwap(pairsetList: MutableList<Pairset>, fromPosition: Int, toPosition: Int)
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showRemovePairsetDialog(name: String, description: String, position: Int)
+    fun showRemovePairsetDialog(name: String, description: String, position: Int, pairCount:Int)
 
     @StateStrategyType(value = SkipStrategy::class)
     fun showAddNewPairsetDialog()

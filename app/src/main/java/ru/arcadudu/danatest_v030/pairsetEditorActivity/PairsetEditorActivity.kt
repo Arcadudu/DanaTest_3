@@ -36,9 +36,6 @@ import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
 
-private const val TRANSLATE_FRAGMENT_ID = "TRANSLATE_FRAGMENT_ID"
-private const val SHUFFLE_FRAGMENT_ID = "SHUFFLE_FRAGMENT_ID"
-private const val VARIANTS_FRAGMENT_ID = "VARIANTS_FRAGMENT_ID"
 
 
 class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
@@ -300,6 +297,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             tvRemoveDialogMessage.text =
                 getString(R.string.dt_remove_pair_dialog_message)
 
+            flRemovePairsetDialogPairCounterContainer.visibility = View.GONE
             //negative btn
             btnCancelRemove.setOnClickListener {
                 removeDialog.dismiss()
@@ -524,29 +522,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
     }
 
-    //override fun updateFragmentOnSorted(
-    //        sortedList: MutableList<Pairset>,
-    //        sortIndex: Int
-    //    ) {
-    //        pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
-    //
-    //        val drawableResource = sortIconList[sortIndex]
-    //        val sortToastText = when (sortIndex) {
-    //            0 -> "Сортировка по имени ++"
-    //            1 -> "Сортировка по имени --"
-    //            2 -> "Сортировка по количеству пар ++"
-    //            else -> "Сортировка по количеству пар -- "
-    //        }
-    //
-    //        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
-    //            resources,
-    //            drawableResource,
-    //            activity?.theme
-    //        )
-    //        Toast.makeText(requireContext(), sortToastText, Toast.LENGTH_SHORT).show()
-    //
-    //        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
-    //    }
 
     override fun updateRecyclerOnSwap(
         updatedPairList: MutableList<Pair>,

@@ -62,7 +62,8 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         viewState.showRemovePairsetDialog(
             chosenPairSet.name,
             chosenPairSet.date,
-            position = swipePosition
+            position = swipePosition,
+            pairCount = chosenPairSet.getPairList().count()
         )
     }
 

@@ -32,6 +32,31 @@
             app:layout_constraintStart_toStartOf="@id/tv_remove_dialog_title"
             app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_title" />
 
+        <!--pairCounter-->
+        <FrameLayout
+            android:id="@+id/fl_remove_pairset_dialog_pair_counter_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:padding="3dp"
+            android:background="@drawable/pair_counter_container_pairs_on_remove_dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_remove_dialog_title">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_remove_pairset_dialog_pair_counter"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="21"
+                android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+                android:textColor="@color/dt3_on_surface_70"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </FrameLayout>
+
+
         <!--positive button-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_remove_pair"

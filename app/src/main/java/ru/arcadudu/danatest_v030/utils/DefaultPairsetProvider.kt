@@ -230,10 +230,10 @@ var houseBasicRu = listOf(
 var houseBasicEng = listOf(
     "kitchen",
     "bedroom",
-    "dining.room",
+    "dining room",
     "bathroom",
     "toilet",
-    "living.room",
+    "living room",
     "hall",
     "basement",
     "attic",

@@ -89,10 +89,6 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         viewState.setOnEmptyStub(currentPairList.count())
     }
 
-    fun deliverPairsetForTest() {
-        viewState.obtainPairsetForTest(currentPairset)
-    }
-
     fun provideDataForToolbar() {
         viewState.getDataForToolbar(pairsetTitle, pairsetActualDate)
     }
