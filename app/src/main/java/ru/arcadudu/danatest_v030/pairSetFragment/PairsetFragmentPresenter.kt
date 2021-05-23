@@ -117,16 +117,17 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
 
-    fun sortPairsetList(sortIndex: Int) {
-        when (sortIndex) {
+    fun sortPairsetList(sortId: Int) {
+        when (sortId) {
             0 -> pairsetList.sortBy { it.name }
             1 -> pairsetList.sortByDescending { it.name }
             2 -> pairsetList.sortBy { it.getPairList().count() }
             3 -> pairsetList.sortByDescending { it.getPairList().count() }
             4 -> pairsetList.sortByDescending { it.date }
+            5 -> pairsetList.sortBy { it.date }
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
-        viewState.updateFragmentOnSorted(pairsetList, sortIndex)
+        viewState.updateFragmentOnSorted(pairsetList)
 
     }
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.DanaTest031">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dt3_surface_100"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_sort_items_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:gravity="start"
+            android:text="@string/dt_sort_pairset_list_dialog_title"
+            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RadioGroup
+            android:id="@+id/sort_items_dialog_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_sort_items_dialog_title">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/sort_items_dialog_rb_sortByName_ascending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_ascending" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/sort_items_dialog_rb_sortByName_descending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_descending" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/sort_items_dialog_rb_sortByCount_ascending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_ascending" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/sort_items_dialog_rb_sortByCount_descending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_descending" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/sort_items_dialog_rb_sortByDate_ascending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_ascending" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/sort_items_dialog_rb_sortByDate_descending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_descending" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
