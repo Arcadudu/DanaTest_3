@@ -334,6 +334,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             autoCompleteTestCase.apply {
                 setAdapter(testArrayAdapter)
                 setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
+
                 startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
                     startTestDialogBinding.allPairsetVariantsCheckBox.visibility =
                         if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE

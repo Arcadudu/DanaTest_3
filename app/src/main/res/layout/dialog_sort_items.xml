@@ -29,48 +29,69 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/tv_sort_items_dialog_title">
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByName_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_ascending" />
+
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByName_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_descending" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/horizontal_divider"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByCount_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_ascending" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByCount_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_descending" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/horizontal_divider"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByDate_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_ascending" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByDate_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
+                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_descending" />
         </RadioGroup>
 

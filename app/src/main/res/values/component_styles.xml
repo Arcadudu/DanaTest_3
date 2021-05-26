@@ -101,5 +101,13 @@
         <item name="android:windowBackground">@drawable/custom_dialog_popup</item>
     </style>
 
+    <style name="dt_materialRadioButtonStyle" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.dt_dialogSubtitleMessageStyle</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/sorting_radio_button_colorset</item>
+    </style>
+
 
 </resources>
