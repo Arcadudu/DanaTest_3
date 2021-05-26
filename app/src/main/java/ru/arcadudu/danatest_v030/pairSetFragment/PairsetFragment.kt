@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -53,16 +52,6 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     private lateinit var noPairsetStub: MaterialTextView
 
     private lateinit var dialogBuilder: AlertDialog.Builder
-
-    private val sortIconList = listOf(
-        R.drawable.icon_sort_by_name_ascending,
-        R.drawable.icon_sort_by_name_descending,
-        R.drawable.icon_sort_by_count_ascending,
-        R.drawable.icon_sort_by_count_descending,
-        R.drawable.icon_sort_by_date_ascending
-    )
-    private var sortByIndex = 0
-
 
     @InjectPresenter
     lateinit var pairsetPresenter: PairsetFragmentPresenter
@@ -123,14 +112,14 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             inflateMenu(R.menu.pairset_fragment_toolbar_menu)
 
             setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.toolbar_action_sortBy ->{
-                        pairsetPresenter.sortPairsetList(sortByIndex)
-                        if (sortByIndex == 4) sortByIndex = 0 else sortByIndex++
+                when (it.itemId) {
+                    R.id.toolbar_action_sortBy -> {
+                        showSortPairsetListDialog()
                     }
                 }
                 true
             }
+
         }
 
     }
@@ -293,6 +282,34 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         emptyPairsetDialog.show()
     }
 
+    private fun showSortPairsetListDialog() {
+        val sortPairsetListDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_sort_items, null, false)
+        val sortPairsetDialog = dialogBuilder.setView(sortPairsetListDialogView).create()
+
+        val sortPairsetListDialogBinding = DialogSortItemsBinding.bind(sortPairsetListDialogView)
+
+        sortPairsetListDialogBinding.apply {
+            val sortRadioGroup = this.sortItemsDialogRadioGroup
+            sortRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+                val sortId =
+                    when (checkedId) {
+                        R.id.sort_items_dialog_rb_sortByName_ascending -> 0
+                        R.id.sort_items_dialog_rb_sortByName_descending -> 1
+                        R.id.sort_items_dialog_rb_sortByCount_ascending -> 2
+                        R.id.sort_items_dialog_rb_sortByCount_descending -> 3
+                        R.id.sort_items_dialog_rb_sortByDate_ascending -> 4
+                        else -> 5
+                    }
+
+                pairsetPresenter.sortPairsetList(sortId)
+            }
+        }
+
+        sortPairsetDialog.show()
+
+    }
+
     override fun showStartTestDialog(chosenPairset: Pairset) {
         val startTestDialogView =
             this.layoutInflater.inflate(R.layout.dialog_start_test, null, false)
@@ -317,6 +334,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             autoCompleteTestCase.apply {
                 setAdapter(testArrayAdapter)
                 setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
+
                 startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
                     startTestDialogBinding.allPairsetVariantsCheckBox.visibility =
                         if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
@@ -368,7 +386,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             // collecting contents for testing:
             val shufflePairset = startTestDialogBinding.shufflePairsetCheckBox.isChecked
             val enableHintsForTest = startTestDialogBinding.enableHintsCheckBox.isChecked
-            val useAllExistingPairsetsValuesAsVariants = startTestDialogBinding.allPairsetVariantsCheckBox.isChecked
+            val useAllExistingPairsetsValuesAsVariants =
+                startTestDialogBinding.allPairsetVariantsCheckBox.isChecked
             val chosenTest = startTestDialogBinding.autoCompleteTestCase.text.toString()
 
             val toTestIntent = Intent(this.activity, TestActivity::class.java)
@@ -437,7 +456,12 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         addPairsetDialog.show()
     }
 
-    override fun showRemovePairsetDialog(name: String, description: String, position: Int, pairCount:Int) {
+    override fun showRemovePairsetDialog(
+        name: String,
+        description: String,
+        position: Int,
+        pairCount: Int
+    ) {
         val removeDialogView = this.layoutInflater.inflate(R.layout.dialog_remove_item, null, false)
         val removeDialog = dialogBuilder.setView(removeDialogView).create()
 
@@ -500,27 +524,9 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     }
 
     override fun updateFragmentOnSorted(
-        sortedList: MutableList<Pairset>,
-        sortIndex: Int
+        sortedList: MutableList<Pairset>
     ) {
         pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
-
-        val drawableResource = sortIconList[sortIndex]
-        val sortToastText = when (sortIndex) {
-            0 -> "Сортировка по имени ++"
-            1 -> "Сортировка по имени --"
-            2 -> "Сортировка по количеству пар ++"
-            3 -> "Сортировка по дате"
-            else -> "Сортировка по количеству пар -- "
-        }
-
-        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
-            resources,
-            drawableResource,
-            activity?.theme
-        )
-        Toast.makeText(requireContext(), sortToastText, Toast.LENGTH_SHORT).show()
-
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
 

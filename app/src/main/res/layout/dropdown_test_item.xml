@@ -8,6 +8,6 @@
     android:paddingTop="10dp"
     android:paddingEnd="18dp"
     android:paddingBottom="10dp"
-    android:textSize="20sp"
+    android:textSize="22sp"
     android:textColor="@color/dt3_on_brand_100"
-    app:fontFamily="@font/roboto_medium" />
+    app:fontFamily="@font/roboto_light" />

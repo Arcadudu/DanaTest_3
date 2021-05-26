@@ -36,8 +36,6 @@ import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
 
-
-
 class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var activityWsEditorBinding: ActivityPairsetEditorBinding
 
@@ -473,8 +471,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         editPairsetNameDialogBinding.btnCancelAddWordSet.setOnClickListener {
             editPairsetNameDialog.dismiss()
         }
-
-
 
         editPairsetNameDialog.show()
     }

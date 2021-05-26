@@ -49,6 +49,15 @@
     <string name="dt_on_empty_pairset_dialog_title">%1$s  пустой</string>
     <string name="dt_on_empty_pairset_dialog_message">Невозможно начать тестирование\nс пустым набором</string>
     <string name="dt_on_empty_pairset_dismiss_button">Ок</string>
+    <!--sortPairlistDialog-->
+    <string name="dt_sort_pairset_list_dialog_title">Отсортировать наборы</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_name_ascending">Имя набора: по возрастанию</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_name_descending">Имя набора: по убыванию</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_count_ascending">Количество пар: по возрастанию</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_count_descending">Количество пар: по убыванию</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_date_ascending">Сначала новые</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_date_descending">Сначала старые</string>
+
     <!--/pairsetFragment-->
 
 
