@@ -40,5 +40,7 @@ interface PairsetFragmentView : MvpView {
 
     fun updateFragmentOnSorted(sortedList: MutableList<Pairset>)
 
+    fun showOnRemoveSnackbar(deletedPairset: Pairset)
+
 
 }

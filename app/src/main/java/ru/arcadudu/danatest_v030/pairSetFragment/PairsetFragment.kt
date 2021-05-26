@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
@@ -529,6 +530,20 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
+
+    override fun showOnRemoveSnackbar(deletedPairset: Pairset) =
+        Snackbar.make(fabAddNewPairset, "${deletedPairset.name} удален", 10_000)
+            .setBackgroundTint(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.dt3_error_100,
+                activity?.theme
+            )
+        )
+            .setAction("Отмена") {
+            pairsetPresenter.restoreDeletedPairset()
+        }
+            .setAnchorView(fabAddNewPairset).show()
 
 
     //lifecycle
