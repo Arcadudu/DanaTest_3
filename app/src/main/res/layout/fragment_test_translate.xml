@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:paddingStart="18dp"
+        android:paddingEnd="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,6 +59,7 @@
         android:backgroundTint="@color/dt3_main_light_100"
         android:text="@string/dt_test_translate_fragment_hint_button"
         android:textSize="18sp"
+        android:textColor="@color/dt3_brand_70"
         app:layout_constraintBottom_toTopOf="@id/translate_quest_recycler"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -125,7 +127,8 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
+        app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field"
+        android:contentDescription="@string/dt_test_translate_fragment_content_description_btn_confirm" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

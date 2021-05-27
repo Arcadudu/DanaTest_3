@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
@@ -72,6 +73,7 @@ fun MvpAppCompatActivity.vibratePhone(milliSeconds: Long) {
 }
 
 fun MvpAppCompatActivity.forceHideKeyboard(view: View) {
+    Log.d("forceHideKeyboard", "forceHideKeyboard: callback")
     (getSystemService(Context.INPUT_METHOD_SERVICE)
             as InputMethodManager).hideSoftInputFromWindow(
         view.windowToken,

@@ -7,21 +7,28 @@
     android:layout_marginBottom="18dp"
     android:layout_marginStart="18dp"
     android:layout_marginEnd="18dp"
-    android:minHeight="240dp"
-    style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation">
+    android:minHeight="132dp"
+    app:cardElevation="0dp"
+    android:background="@drawable/quest_card_with_stoke_background_drawable"
+    android:backgroundTintMode="src_over"
+    >
+
+    <!--style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation"-->
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/quest_pair_value"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Table"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textAppearance="@style/dt_QuestCardTextStyle"
+        style="@style/TextAppearance.dt_pairsetItemTitle"
+        android:textSize="46sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
         />
+
+    <!--android:textAppearance="@style/dt_QuestCardTextStyle"-->
 
 </com.google.android.material.card.MaterialCardView>

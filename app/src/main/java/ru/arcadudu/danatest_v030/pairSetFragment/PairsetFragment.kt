@@ -311,6 +311,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     }
 
+
     override fun showStartTestDialog(chosenPairset: Pairset) {
         val startTestDialogView =
             this.layoutInflater.inflate(R.layout.dialog_start_test, null, false)
@@ -497,6 +498,18 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         pairsetRecyclerView.scrollToPosition(0)
     }
 
+    override fun updateRecyclerOnRestored(
+        pairsetList: MutableList<Pairset>,
+        restoredPairsetPosition: Int
+    ) {
+        pairsetAdapter.apply {
+            submitList(pairsetList)
+            notifyItemInserted(restoredPairsetPosition)
+        }
+        pairsetPresenter.providePairsetList()
+        pairsetRecyclerView.scrollToPosition(restoredPairsetPosition)
+    }
+
     override fun updateRecyclerOnRemoved(updatedPairsetList: MutableList<Pairset>, position: Int) {
         pairsetAdapter.apply {
             submitList(updatedPairsetList)
@@ -531,18 +544,18 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
     }
 
-    override fun showOnRemoveSnackbar(deletedPairset: Pairset) =
-        Snackbar.make(fabAddNewPairset, "${deletedPairset.name} удален", 10_000)
+    override fun showOnRemoveSnackbar(deletedPairsetName: String) =
+        Snackbar.make(fabAddNewPairset, getString(R.string.dt_on_remove_snackBar_title,deletedPairsetName), 10_000)
             .setBackgroundTint(
-            ResourcesCompat.getColor(
-                resources,
-                R.color.dt3_error_100,
-                activity?.theme
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.dt3_error_100,
+                    activity?.theme
+                )
             )
-        )
-            .setAction("Отмена") {
-            pairsetPresenter.restoreDeletedPairset()
-        }
+            .setAction(R.string.dt_on_remove_snackBar_action_text) {
+                pairsetPresenter.restoreDeletedPairset()
+            }
             .setAnchorView(fabAddNewPairset).show()
 
 

@@ -51,12 +51,15 @@
     <string name="dt_on_empty_pairset_dismiss_button">Ок</string>
     <!--sortPairlistDialog-->
     <string name="dt_sort_pairset_list_dialog_title">Отсортировать наборы</string>
-    <string name="dt_sort_pairset_list_dialog_sort_by_name_ascending">Имя набора: по возрастанию</string>
-    <string name="dt_sort_pairset_list_dialog_sort_by_name_descending">Имя набора: по убыванию</string>
-    <string name="dt_sort_pairset_list_dialog_sort_by_count_ascending">Количество пар: по возрастанию</string>
-    <string name="dt_sort_pairset_list_dialog_sort_by_count_descending">Количество пар: по убыванию</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_name_ascending">Алфавитном порядке</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_name_descending">В обратном порядке</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_count_ascending">Сначала мало пар</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_count_descending">Сначала много пар</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_date_ascending">Сначала новые</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_date_descending">Сначала старые</string>
+    <!--onRemoveSnackBar-->
+    <string name="dt_on_remove_snackBar_title">Набор \"%1$s\" удален</string>
+    <string name="dt_on_remove_snackBar_action_text">Отмена</string>
 
     <!--/pairsetFragment-->
 
@@ -68,7 +71,10 @@
     <string name="dt_pairset_editor_toolbar_action_variants">Четыре варианта</string>
     <string name="dt_pairset_editor_toolbar_action_shuffle">Перемешать</string>
     <string name="dt_pairset_editor_searchfield_hint">Поиск слова</string>
+    <string name="dt_pairset_editor_searchfield_hint_autofill">search for value</string>
+    <string name="dt_pairset_editor_searchfield_btn_close_search_content_description">Очистить поле поиска</string>
     <string name="dt_pairset_editor_on_empty_pairset_stub">Здесь пока ничего нет</string>
+    <string name="dt_pairset_editor_fab_add_new_pair_content_description">Добавить новую пару</string>
     <!--addPairDialog-->
     <string name="dt_add_pair_dialog_title">Новая пара</string>
     <string name="dt_add_pair_dialog_new_pair_key_hint">Ключ</string>
@@ -92,7 +98,8 @@
     <string name="dt_test_translate_fragment_toolbar_title">@string/dt_translate</string>
     <string name="dt_test_translate_fragment_toolbar_action_restart_test">@string/dt_test_restart_test</string>
     <string name="dt_test_translate_fragment_toolbar_action_end_test">@string/dt_test_end_test</string>
-    <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>
+    <string name="dt_test_translate_fragment_answerfield_hint">Ответ:</string>
+    <!--    <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>-->
     <string name="dt_test_translate_fragment_counter_body_with_message">@string/dt_test_counter_with_message</string>
     <string name="dt_test_translate_fragment_counter_body">%1$d/%2$d</string>
     <string name="dt_test_translate_fragment_counter_line">Решено</string>
@@ -102,6 +109,8 @@
     <string name="dt_restart_test_dialog_message">Вы действительно хотите начать тест заново?</string>
     <string name="dt_restart_test_dialog_negative_btn">Нет</string>
     <string name="dt_restart_test_dialog_positive_btn">Рестарт</string>
+    <!--content_description-->
+    <string name="dt_test_translate_fragment_content_description_btn_confirm">Подтвердить ответ</string>
     <!--/testTranslateFragment-->
 
     <!--testVariantsFragment-->

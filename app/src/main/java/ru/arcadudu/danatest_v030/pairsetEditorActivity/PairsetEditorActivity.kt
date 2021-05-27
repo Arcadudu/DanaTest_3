@@ -512,7 +512,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int) {
         pairRowAdapter.notifyItemRangeChanged(0, sortedPairlist.count())
         val drawableResource = sortIconList[sortIndex]
-        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(resources, drawableResource,
+        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
+            resources, drawableResource,
             this.theme
         )
         recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)

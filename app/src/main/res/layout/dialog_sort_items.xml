@@ -48,13 +48,14 @@
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_descending" />
 
             <View
+                android:id="@+id/sort_pairsetList_divider1"
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/horizontal_divider"/>
+                android:background="@drawable/horizontal_divider_brand"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByCount_ascending"
@@ -72,13 +73,14 @@
 
 
             <View
+                android:id="@+id/sort_pairsetList_divider2"
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/horizontal_divider"/>
+                android:background="@drawable/horizontal_divider_brand"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_items_dialog_rb_sortByDate_ascending"

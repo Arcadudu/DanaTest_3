@@ -16,6 +16,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
     private lateinit var pairsetList: MutableList<Pairset>
     private var trashBin: MutableList<Pairset> = mutableListOf()
+    private var lastRemovedPosition = 0
 
     private lateinit var pairsetListSPHandler: PairsetListSPHandler
     private lateinit var context: Context
@@ -78,6 +79,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun removePairsetAtPosition(position: Int) {
+        lastRemovedPosition = position
         trashBin.apply {
             clear()
             add(pairsetList[position])
@@ -86,9 +88,18 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         viewState.apply {
             updateRecyclerOnRemoved(pairsetList, position)
             setOnEmptyStub(pairsetList.count())
-            showOnRemoveSnackbar(trashBin[0])
+            showOnRemoveSnackbar(trashBin[0].name)
         }
 
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
+    }
+
+    fun restoreDeletedPairset() {
+        pairsetList.add(lastRemovedPosition,trashBin[0])
+        viewState.apply {
+            updateRecyclerOnRestored(pairsetList, lastRemovedPosition)
+            setOnEmptyStub(pairsetList.count())
+        }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
     }
 
@@ -118,10 +129,10 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         }
     }
 
+
     fun checkIfThereAnyPairsets() {
         viewState.setOnEmptyStub(pairsetList.count())
     }
-
 
     fun sortPairsetList(sortId: Int) {
         when (sortId) {
@@ -135,15 +146,6 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.updateFragmentOnSorted(pairsetList)
 
-    }
-
-    fun restoreDeletedPairset() {
-        pairsetList.add(0,trashBin[0])
-        pairsetListSPHandler.saveSpPairsetList(pairsetList)
-        viewState.apply {
-            updateRecyclerOnAdded(pairsetList)
-            setOnEmptyStub(pairsetList.count())
-        }
     }
 
 }

@@ -34,13 +34,15 @@ interface PairsetFragmentView : MvpView {
 
     fun updateRecyclerOnAdded(pairsetList: MutableList<Pairset>)
 
+    fun updateRecyclerOnRestored(pairsetList:MutableList<Pairset>, restoredPairsetPosition:Int)
+
     fun putPairsetIdIntoIntent(selectedPairsetId: Int)
 
     fun setOnEmptyStub(count: Int)
 
     fun updateFragmentOnSorted(sortedList: MutableList<Pairset>)
 
-    fun showOnRemoveSnackbar(deletedPairset: Pairset)
+    fun showOnRemoveSnackbar(deletedPairsetName: String)
 
 
 }

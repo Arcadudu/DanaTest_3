@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -53,7 +56,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    android:autofillHints="@string/dt_pairset_editor_searchfield_hint_autofill" />
 
                 <ImageView
                     android:id="@+id/btn_search_close"
@@ -63,12 +67,14 @@
                     android:src="@drawable/icon_close_search_grey"
                     app:layout_constraintBottom_toBottomOf="@id/et_editor_searchField"
                     app:layout_constraintEnd_toEndOf="@id/et_editor_searchField"
-                    app:layout_constraintTop_toTopOf="@id/et_editor_searchField" />
+                    app:layout_constraintTop_toTopOf="@id/et_editor_searchField"
+                    android:contentDescription="@string/dt_pairset_editor_searchfield_btn_close_search_content_description" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pairs_recycler"
@@ -77,6 +83,9 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
         android:paddingBottom="18dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
         android:scrollbars="vertical"
@@ -101,6 +110,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="18dp"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        android:contentDescription="@string/dt_pairset_editor_fab_add_new_pair_content_description" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

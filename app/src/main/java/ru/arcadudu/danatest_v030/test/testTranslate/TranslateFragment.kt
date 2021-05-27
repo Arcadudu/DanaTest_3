@@ -82,6 +82,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         translateBinding = FragmentTestTranslateBinding.bind(view)
+        translateBinding = FragmentTestTranslateBinding.bind(view)
 
         incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
