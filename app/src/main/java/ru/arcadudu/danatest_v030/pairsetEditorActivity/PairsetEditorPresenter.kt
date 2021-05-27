@@ -43,7 +43,6 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
                 currentPairList = pairset.getPairList()
             }
         }
-
     }
 
     // here

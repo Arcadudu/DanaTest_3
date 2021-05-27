@@ -15,6 +15,7 @@ import java.util.*
 class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
     private lateinit var pairsetList: MutableList<Pairset>
+    private var trashBin: MutableList<Pairset> = mutableListOf()
 
     private lateinit var pairsetListSPHandler: PairsetListSPHandler
     private lateinit var context: Context
@@ -77,10 +78,15 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun removePairsetAtPosition(position: Int) {
+        trashBin.apply {
+            clear()
+            add(pairsetList[position])
+        }
         pairsetList.removeAt(position)
         viewState.apply {
             updateRecyclerOnRemoved(pairsetList, position)
             setOnEmptyStub(pairsetList.count())
+            showOnRemoveSnackbar(trashBin[0])
         }
 
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
@@ -129,6 +135,15 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.updateFragmentOnSorted(pairsetList)
 
+    }
+
+    fun restoreDeletedPairset() {
+        pairsetList.add(0,trashBin[0])
+        pairsetListSPHandler.saveSpPairsetList(pairsetList)
+        viewState.apply {
+            updateRecyclerOnAdded(pairsetList)
+            setOnEmptyStub(pairsetList.count())
+        }
     }
 
 }
