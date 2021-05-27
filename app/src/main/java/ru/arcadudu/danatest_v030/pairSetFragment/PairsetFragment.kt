@@ -369,6 +369,11 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 )
             }
 
+            enableHintsCheckBox.isChecked = true
+            enableHintsCheckBox.setTextColor(ResourcesCompat.getColor(resources, R.color.dt3_brand_100,
+                requireActivity().theme
+            ))
+
             allPairsetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
