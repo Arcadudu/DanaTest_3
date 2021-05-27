@@ -15,21 +15,21 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:paddingStart="18dp"
+        android:paddingEnd="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
         app:subtitle="@string/dt_variants"
-        app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle"
-        />
+        app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/variants_test_progressbar"
         style="@style/Widget.MaterialComponents.LinearProgressIndicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="18dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="18dp"
         android:indeterminate="false"
         android:maxHeight="12dp"
@@ -46,8 +46,8 @@
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/variants_test_progressbar"
-        app:layout_constraintTop_toTopOf="@id/variants_test_progressbar"
-        app:layout_constraintEnd_toEndOf="@id/toggle_group_parent_nest"/>
+        app:layout_constraintEnd_toEndOf="@id/toggle_group_parent_nest"
+        app:layout_constraintTop_toTopOf="@id/variants_test_progressbar" />
 
     <Button
         android:id="@+id/btn_give_me_hint_variants"
@@ -83,155 +83,162 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/abcdContainer"
-        android:layout_width="match_parent"
-        android:layout_marginEnd="36dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="2dp"
-        android:background="@drawable/abcd_variants_container_background"
-        app:layout_constraintTop_toTopOf="@id/toggle_group_parent_nest"
-        app:layout_constraintBottom_toBottomOf="@id/toggle_group_parent_nest"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
-        android:layout_marginStart="18dp"
-        android:gravity="start"
-        android:paddingStart="8dp"
-        >
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="a"
-            android:layout_gravity="start"
-            android:gravity="start|center_vertical"
-            android:layout_weight="0.25"
-            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-            android:textSize="20sp"
-            android:textColor="@color/dt3_on_brand_100"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="b"
-            android:layout_gravity="start"
-            android:gravity="start|center_vertical"
-            android:layout_weight="0.25"
-            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-            android:textSize="20sp"
-            android:textColor="@color/dt3_on_brand_100"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="c"
-            android:layout_gravity="start"
-            android:gravity="start|center_vertical"
-            android:layout_weight="0.25"
-            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-            android:textSize="20sp"
-            android:textColor="@color/dt3_on_brand_100"
-            />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="d"
-            android:layout_gravity="start"
-            android:gravity="start|center_vertical"
-            android:layout_weight="0.25"
-            android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-            android:textSize="20sp"
-            android:textColor="@color/dt3_on_brand_100"
-            />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/toggle_group_parent_nest"
         style="@style/ThemeOverlay.DanaTest031.TestMaterialCardViewElevation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/abcdContainer"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/variants_test_center_line">
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/answer_button_toggle_group"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/variants_test_center_line"
-            app:selectionRequired="true"
-            app:singleSelection="true">
+            android:background="@color/dt3_brand_100">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/answer_button1"
-                style="@style/dt_variantCardButtonStyle"
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/abcdContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical|start"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minHeight="64dp"
-                android:text="Answer1"
-                android:textColor="@color/answer_card_text_color_state" />
+                android:layout_height="0dp"
+                android:background="@drawable/abcd_variants_container_background"
+                android:gravity="start"
+                android:orientation="vertical"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/answer_button2"
-                style="@style/dt_variantCardButtonStyle"
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="0.25"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/dt_test_variants_fragment_abcd_A"
+                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+                    android:textColor="@color/dt3_on_brand_100"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="0.25"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/dt_test_variants_fragment_abcd_B"
+                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+                    android:textColor="@color/dt3_on_brand_100"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="0.25"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/dt_test_variants_fragment_abcd_C"
+                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+                    android:textColor="@color/dt3_on_brand_100"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="0.25"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/dt_test_variants_fragment_abcd_D"
+                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+                    android:textColor="@color/dt3_on_brand_100"
+                    android:textSize="20sp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/answer_button_toggle_group"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical|start"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minHeight="64dp"
-                android:text="Answer2"
-                android:textColor="@color/answer_card_text_color_state" />
+                android:layout_height="match_parent"
+                android:elevation="10dp"
+                android:orientation="vertical"
+                android:layout_marginTop="1.4dp"
+                android:layout_marginBottom="1.4dp"
+                android:layout_marginEnd="1.4dp"
+                android:layout_marginStart="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:selectionRequired="true"
+                app:singleSelection="true">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/answer_button3"
-                style="@style/dt_variantCardButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical|start"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minHeight="64dp"
-                android:text="Answer3"
-                android:textColor="@color/answer_card_text_color_state" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/answer_button1"
+                    style="@style/dt_variantCardButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="64dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/answer_card_text_color_state" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/answer_button4"
-                style="@style/dt_variantCardButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical|start"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minHeight="64dp"
-                android:text="Answer4"
-                android:textColor="@color/answer_card_text_color_state" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/answer_button2"
+                    style="@style/dt_variantCardButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="64dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/answer_card_text_color_state" />
 
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/answer_button3"
+                    style="@style/dt_variantCardButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="64dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/answer_card_text_color_state" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/answer_button4"
+                    style="@style/dt_variantCardButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="64dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:textColor="@color/answer_card_text_color_state" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.google.android.material.card.MaterialCardView>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

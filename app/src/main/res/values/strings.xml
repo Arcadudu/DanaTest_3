@@ -120,7 +120,11 @@
     <string name="dt_test_variants_fragment_answerfield_hint">Выберите ответ</string>
     <string name="dt_test_variants_fragment_counter_body_with_message">@string/dt_test_counter_with_message</string>
     <string name="dt_test_variants_fragment_counter_body">%1$d/%2$d</string>
-
+    <string name="dt_test_variants_fragment_abcd_A">a</string>
+    <string name="dt_test_variants_fragment_abcd_B">b</string>
+    <string name="dt_test_variants_fragment_abcd_C">c</string>
+    <string name="dt_test_variants_fragment_abcd_D">d</string>
+    <!--/testVariantsFragment-->
 
     <!--pairsetCountPlurals-->
     <!-- Этот код мы используем для отладки: когда какой item выбирается системой -->
