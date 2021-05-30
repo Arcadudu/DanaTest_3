@@ -5,7 +5,7 @@
     <item
         android:id="@+id/btn_sortPairsBy"
         android:icon="@drawable/icon_sort_by"
-        android:title="@string/dt_pairset_editor_toolbar_action_translate"
+        android:title="@string/dt_pairset_editor_toolbar_action_sortBy"
         app:showAsAction="always"/>
 
 

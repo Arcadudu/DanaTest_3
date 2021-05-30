@@ -45,10 +45,22 @@
         <item name="android:textColor">@color/dt3_hint_color_50</item>
     </style>
 
+    <style name="TextAppearance.dt_abcd_lettersStyle" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/dt3_brand_70</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
     <style name="TextAppearance.dt_dialogSubtitleMessageStyle" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textSize">17sp</item>
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textColor">@color/dt3_hint_color_50</item>
+    </style>
+
+    <style name="TextAppearance.dt_sortingDialogRadioButtonTextStyle" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="dt_QuestCardTextStyle">
@@ -58,10 +70,13 @@
         <item name="android:textColor">@color/dt3_on_surface_90</item>
     </style>
 
-    <style name="dt_answerCardTextStyle" parent="dt_QuestCardTextStyle">
+    <style name="dt_answerCardTextStyle" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textSize">28sp</item>
-        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:textColor">@color/answer_card_text_color_state</item>
     </style>
+    //android:textColor="@color/answer_card_text_color_state"
 
 
 </resources>

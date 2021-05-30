@@ -54,14 +54,13 @@
         style="@style/dt_DialogButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginBottom="12dp"
         android:backgroundTint="@color/dt3_main_light_100"
         android:text="@string/dt_test_translate_fragment_hint_button"
         android:textSize="18sp"
-        android:textColor="@color/dt3_brand_70"
         app:layout_constraintBottom_toTopOf="@id/translate_quest_recycler"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/translate_quest_recycler"
@@ -121,14 +120,14 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/dt_test_translate_fragment_content_description_btn_confirm"
         android:padding="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/icon_done_active_brand_violet"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/et_translate_fragment_answer_field"
         app:layout_constraintEnd_toEndOf="@id/et_translate_fragment_answer_field"
-        app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field"
-        android:contentDescription="@string/dt_test_translate_fragment_content_description_btn_confirm" />
+        app:layout_constraintTop_toTopOf="@id/et_translate_fragment_answer_field" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

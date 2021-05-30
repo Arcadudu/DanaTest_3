@@ -21,6 +21,10 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     private lateinit var pairsetListSPHandler: PairsetListSPHandler
     private lateinit var context: Context
 
+    init {
+        pairsetList = mutableListOf()
+    }
+
 
     fun captureContext(context: Context) {
         this.context = context
@@ -37,7 +41,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun initiatePairsetList() {
-        pairsetList = mutableListOf()
+//        pairsetList = mutableListOf()
         pairsetList.apply {
             clear()
             addAll(pairsetListSPHandler.loadSpPairsetList())
@@ -87,7 +91,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         pairsetList.removeAt(position)
         viewState.apply {
             updateRecyclerOnRemoved(pairsetList, position)
-            setOnEmptyStub(pairsetList.count())
+            updateViewOnEmptyPairsetList(pairsetList.count())
             showOnRemoveSnackbar(trashBin[0].name)
         }
 
@@ -98,7 +102,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         pairsetList.add(lastRemovedPosition,trashBin[0])
         viewState.apply {
             updateRecyclerOnRestored(pairsetList, lastRemovedPosition)
-            setOnEmptyStub(pairsetList.count())
+            updateViewOnEmptyPairsetList(pairsetList.count())
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
     }
@@ -125,13 +129,13 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.apply {
             updateRecyclerOnAdded(pairsetList)
-            setOnEmptyStub(pairsetList.count())
+            updateViewOnEmptyPairsetList(pairsetList.count())
         }
     }
 
 
     fun checkIfThereAnyPairsets() {
-        viewState.setOnEmptyStub(pairsetList.count())
+        viewState.updateViewOnEmptyPairsetList(pairsetList.count())
     }
 
     fun sortPairsetList(sortId: Int) {

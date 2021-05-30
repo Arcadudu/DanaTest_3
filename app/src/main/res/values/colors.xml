@@ -54,6 +54,7 @@
     <color name="dt_on_error_100">#FFFFFFFF</color>
 
     <color name="dt3_hint_color_70">#B3000000</color>
+    <color name="dt3_hint_color_60">#99000000</color>
     <color name="dt3_hint_color_50">#80000000</color>
     <color name="dt3_hint_color_30">#4D000000</color>
     <color name="dt3_hint_color_20">#33000000</color>

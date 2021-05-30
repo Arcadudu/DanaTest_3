@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:paddingStart="18dp"
+            android:paddingEnd="0dp"
             app:layout_scrollFlags="scroll"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
@@ -83,12 +84,11 @@
         android:id="@+id/tv_no_pairset_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dt_pairset_editor_on_empty_pairset_stub"
         android:layout_gravity="center"
         android:gravity="center"
-        android:visibility="gone"
+        android:text="@string/dt_pairset_editor_on_empty_pairset_stub"
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-        />
+        android:visibility="gone" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -97,9 +97,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="18dp"
-        />
+        android:layout_marginBottom="18dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-<!-- app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"-->
+    <!-- app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"-->
