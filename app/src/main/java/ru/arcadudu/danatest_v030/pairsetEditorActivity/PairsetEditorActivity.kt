@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,10 +54,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
-    private val sortIconList = listOf(
-        R.drawable.icon_sort_by_name_ascending,
-        R.drawable.icon_sort_by_name_descending,
-    )
+//    private val sortIconList = listOf(
+//        R.drawable.icon_sort_by_name_ascending,
+//        R.drawable.icon_sort_by_name_descending,
+//    )
     private var sortByIndex = 0
 
 
@@ -122,7 +123,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
-
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -136,17 +136,22 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             this.setNavigationOnClickListener {
                 startActivity(Intent(this@PairsetEditorActivity, HomeActivity::class.java))
             }
-
+            inflateMenu(R.menu.pairset_editor_menu)
             setOnClickListener {
                 pairsetEditorPresenter.onToolbarClick()
             }
-
             setOnMenuItemClickListener {
                 pairsetEditorPresenter.sortPairlist(sortByIndex)
                 if (sortByIndex == 1) sortByIndex = 0 else sortByIndex++
                 true
             }
+            if(pairsetEditorPresenter.checkIfPairsetIsEmptyBoolean()) {
+                Log.d("menuItem", "prepareToolbar: pairset is Empty = ${pairsetEditorPresenter.checkIfPairsetIsEmptyBoolean()}")
+                toolbar.menu.getItem(0).isEnabled = false
+            }
         }
+
+//        pairsetEditorPresenter.checkIfPairsetIsEmpty()
         pairsetEditorPresenter.provideDataForToolbar()
     }
 
@@ -506,16 +511,24 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
     override fun setOnEmptyStub(count: Int) {
+        Log.d("menuItem", "setOnEmptyStub: count = $count ")
         emptyPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
+        toolbar.menu.getItem(0).apply {
+//            isVisible = count!=0
+            isEnabled = emptyPairsetStub.isVisible
+            val sortByIconDrawable =
+                if (count == 0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
+            icon = ResourcesCompat.getDrawable(
+                resources,
+                sortByIconDrawable,
+                this@PairsetEditorActivity.theme
+            )
+        }
     }
 
     override fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int) {
         pairRowAdapter.notifyItemRangeChanged(0, sortedPairlist.count())
-        val drawableResource = sortIconList[sortIndex]
-        toolbar.menu.getItem(0).icon = ResourcesCompat.getDrawable(
-            resources, drawableResource,
-            this.theme
-        )
+
         recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
     }
 

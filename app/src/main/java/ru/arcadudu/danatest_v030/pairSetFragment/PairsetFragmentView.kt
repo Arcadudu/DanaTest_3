@@ -38,7 +38,7 @@ interface PairsetFragmentView : MvpView {
 
     fun putPairsetIdIntoIntent(selectedPairsetId: Int)
 
-    fun setOnEmptyStub(count: Int)
+    fun updateViewOnEmptyPairsetList(count: Int)
 
     fun updateFragmentOnSorted(sortedList: MutableList<Pairset>)
 

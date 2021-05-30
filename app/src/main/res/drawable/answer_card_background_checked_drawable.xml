@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <solid android:color="@color/design_default_color_surface" />
+    <corners android:radius="10dp"/>
+    <stroke android:color="@color/dt3_brand_100" android:width="2dp" android:dashGap="0.4dp" android:dashWidth="2dp"/>
+
+</shape>

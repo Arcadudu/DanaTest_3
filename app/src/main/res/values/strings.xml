@@ -67,13 +67,11 @@
     <!--pairsetEditorActivity-->
     <string name="dt_pairset_editor_toolbar_title_stub">PairsetTitle</string>
     <string name="dt_pairset_editor_toolbar_subtitle_stub">PairsetSubtitle</string>
-    <string name="dt_pairset_editor_toolbar_action_translate">Прямой перевод</string>
-    <string name="dt_pairset_editor_toolbar_action_variants">Четыре варианта</string>
-    <string name="dt_pairset_editor_toolbar_action_shuffle">Перемешать</string>
+    <string name="dt_pairset_editor_toolbar_action_sortBy">Сортировать пары</string>
     <string name="dt_pairset_editor_searchfield_hint">Поиск слова</string>
     <string name="dt_pairset_editor_searchfield_hint_autofill">search for value</string>
     <string name="dt_pairset_editor_searchfield_btn_close_search_content_description">Очистить поле поиска</string>
-    <string name="dt_pairset_editor_on_empty_pairset_stub">Здесь пока ничего нет</string>
+    <string name="dt_pairset_editor_on_empty_pairset_stub">Здесь пока ничего нет…</string>
     <string name="dt_pairset_editor_fab_add_new_pair_content_description">Добавить новую пару</string>
     <!--addPairDialog-->
     <string name="dt_add_pair_dialog_title">Новая пара</string>

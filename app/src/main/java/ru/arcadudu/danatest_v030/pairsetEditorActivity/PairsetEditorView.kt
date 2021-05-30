@@ -43,6 +43,7 @@ interface PairsetEditorView : MvpView {
     fun obtainPairsetForTest(currentPairset: Pairset)
 
     fun setOnEmptyStub(count: Int)
+
     fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int)
 
 

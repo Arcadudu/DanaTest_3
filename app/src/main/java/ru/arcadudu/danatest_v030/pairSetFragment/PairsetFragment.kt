@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -111,7 +112,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
         targetToolbar.apply {
             inflateMenu(R.menu.pairset_fragment_toolbar_menu)
-
+            pairsetPresenter.checkIfThereAnyPairsets()
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.toolbar_action_sortBy -> {
@@ -135,7 +136,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         targetRecyclerView.apply {
             setHasFixedSize(true)
             adapter = pairsetAdapter
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = LinearLayoutManager(requireActivity())
         }
         pairsetPresenter.providePairsetList()
         pairsetAdapter.onItemClickCallback(this)
@@ -352,7 +353,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     ResourcesCompat.getColor(
                         resources,
                         checkBoxTextColor,
-                        activity?.theme
+                        requireActivity().theme
                     )
                 )
             }
@@ -364,7 +365,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     ResourcesCompat.getColor(
                         resources,
                         checkBoxTextColor,
-                        activity?.theme
+                        requireActivity().theme
                     )
                 )
             }
@@ -381,7 +382,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     ResourcesCompat.getColor(
                         resources,
                         checkBoxTextColor,
-                        activity?.theme
+                        requireActivity().theme
                     )
                 )
             }
@@ -532,14 +533,20 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     }
 
     override fun putPairsetIdIntoIntent(selectedPairsetId: Int) {
-        val toEditorIntent = Intent(activity, PairsetEditorActivity::class.java).apply {
+        val toEditorIntent = Intent(requireActivity(), PairsetEditorActivity::class.java).apply {
             putExtra(SELECTED_PAIRSET_ID_TO_EDITOR_TAG, selectedPairsetId)
         }
         startActivity(toEditorIntent)
     }
 
-    override fun setOnEmptyStub(count: Int) {
+    override fun updateViewOnEmptyPairsetList(count: Int) {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
+        toolbar.menu[0].apply {
+            isEnabled = count != 0
+            val sortByIconDrawable = if(count==0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
+            icon = ResourcesCompat.getDrawable(resources, sortByIconDrawable, requireActivity().theme)
+        }
+
     }
 
     override fun updateFragmentOnSorted(
@@ -555,7 +562,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 ResourcesCompat.getColor(
                     resources,
                     R.color.dt3_error_100,
-                    activity?.theme
+                    requireActivity().theme
                 )
             )
             .setAction(R.string.dt_on_remove_snackBar_action_text) {

@@ -54,13 +54,13 @@
         style="@style/dt_DialogButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_marginBottom="12dp"
         android:backgroundTint="@color/dt3_main_light_100"
         android:text="@string/dt_test_translate_fragment_hint_button"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/variants_quest_recycler"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/variants_quest_recycler"
@@ -92,6 +92,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="18dp"
+        android:clickable="false"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,19 +101,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dt3_brand_100">
+            android:background="@color/dt3_main_light_70">
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/abcdContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@drawable/abcd_variants_container_background"
+                android:layout_marginEnd="24dp"
                 android:gravity="start"
                 android:orientation="vertical"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:layout_marginEnd="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -124,9 +122,7 @@
                     android:layout_weight="0.25"
                     android:gravity="start|center_vertical"
                     android:text="@string/dt_test_variants_fragment_abcd_A"
-                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-                    android:textColor="@color/dt3_on_brand_100"
-                    android:textSize="20sp" />
+                    android:textAppearance="@style/TextAppearance.dt_abcd_lettersStyle" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -135,9 +131,7 @@
                     android:layout_weight="0.25"
                     android:gravity="start|center_vertical"
                     android:text="@string/dt_test_variants_fragment_abcd_B"
-                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-                    android:textColor="@color/dt3_on_brand_100"
-                    android:textSize="20sp" />
+                    android:textAppearance="@style/TextAppearance.dt_abcd_lettersStyle" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -146,9 +140,7 @@
                     android:layout_weight="0.25"
                     android:gravity="start|center_vertical"
                     android:text="@string/dt_test_variants_fragment_abcd_C"
-                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-                    android:textColor="@color/dt3_on_brand_100"
-                    android:textSize="20sp" />
+                    android:textAppearance="@style/TextAppearance.dt_abcd_lettersStyle" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -157,9 +149,7 @@
                     android:layout_weight="0.25"
                     android:gravity="start|center_vertical"
                     android:text="@string/dt_test_variants_fragment_abcd_D"
-                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-                    android:textColor="@color/dt3_on_brand_100"
-                    android:textSize="20sp" />
+                    android:textAppearance="@style/TextAppearance.dt_abcd_lettersStyle" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -167,19 +157,18 @@
                 android:id="@+id/answer_button_toggle_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:elevation="10dp"
+                android:layout_marginStart="28dp"
+                android:elevation="0dp"
                 android:orientation="vertical"
-                android:layout_marginTop="1.4dp"
-                android:layout_marginBottom="1.4dp"
-                android:layout_marginEnd="1.4dp"
-                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:selectionRequired="true"
                 app:singleSelection="true">
 
+
+                <!-- style="@style/dt_variantCardButtonStyle" -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/answer_button1"
                     style="@style/dt_variantCardButtonStyle"

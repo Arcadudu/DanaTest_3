@@ -43,6 +43,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
                 currentPairList = pairset.getPairList()
             }
         }
+        viewState.setOnEmptyStub(currentPairset.getPairList().count())
     }
 
     // here
@@ -86,6 +87,10 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     fun checkIfPairsetIsEmpty() {
         viewState.setOnEmptyStub(currentPairList.count())
+    }
+
+    fun checkIfPairsetIsEmptyBoolean(): Boolean {
+        return currentPairset.getPairList().count() == 0
     }
 
     fun provideDataForToolbar() {
@@ -164,7 +169,5 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         }
         applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateViewOnSortedPairlist(currentPairList, sortIndex)
-
     }
-
 }

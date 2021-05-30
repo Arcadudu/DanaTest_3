@@ -23,13 +23,13 @@
             android:minHeight="?attr/actionBarSize"
             android:paddingEnd="18dp"
             app:layout_scrollFlags="scroll|snapMargins"
-            app:menu="@menu/pairset_editor_menu"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
             app:subtitle="@string/dt_pairset_editor_toolbar_subtitle_stub"
+            app:titleMarginStart="0dp"
             app:subtitleTextAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             app:title="@string/dt_pairset_editor_toolbar_title_stub"
             app:titleTextAppearance="@style/TextAppearance.dt_widgetTitle"
-            tools:ignore="RtlSymmetry"/>
+            tools:ignore="RtlSymmetry" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/editor_searchBar"
@@ -46,32 +46,32 @@
             app:layout_scrollFlags="noScroll|enterAlwaysCollapsed|snapMargins">
 
 
-                <EditText
-                    android:id="@+id/et_editor_searchField"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:hint="@string/pair_search_field_hint"
-                    android:inputType="text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry"
-                    android:autofillHints="@string/dt_pairset_editor_searchfield_hint_autofill" />
+            <EditText
+                android:id="@+id/et_editor_searchField"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:autofillHints="@string/dt_pairset_editor_searchfield_hint_autofill"
+                android:hint="@string/pair_search_field_hint"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
 
-                <ImageView
-                    android:id="@+id/btn_search_close"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/icon_close_search_grey"
-                    app:layout_constraintBottom_toBottomOf="@id/et_editor_searchField"
-                    app:layout_constraintEnd_toEndOf="@id/et_editor_searchField"
-                    app:layout_constraintTop_toTopOf="@id/et_editor_searchField"
-                    android:contentDescription="@string/dt_pairset_editor_searchfield_btn_close_search_content_description" />
+            <ImageView
+                android:id="@+id/btn_search_close"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/dt_pairset_editor_searchfield_btn_close_search_content_description"
+                android:src="@drawable/icon_close_search_grey"
+                app:layout_constraintBottom_toBottomOf="@id/et_editor_searchField"
+                app:layout_constraintEnd_toEndOf="@id/et_editor_searchField"
+                app:layout_constraintTop_toTopOf="@id/et_editor_searchField" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -80,12 +80,12 @@
         android:id="@+id/pairs_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
-        android:paddingBottom="18dp"
         android:clickable="true"
+        android:clipToPadding="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
+        android:paddingBottom="18dp"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
         android:scrollbars="vertical"
@@ -96,12 +96,11 @@
         android:id="@+id/tv_no_pair_in_pairset_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dt_pairset_editor_on_empty_pairset_stub"
         android:layout_gravity="center"
         android:gravity="center"
-        android:visibility="gone"
+        android:text="@string/dt_pairset_editor_on_empty_pairset_stub"
         android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-        />
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_pair"
@@ -110,7 +109,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="18dp"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        android:contentDescription="@string/dt_pairset_editor_fab_add_new_pair_content_description" />
+        android:contentDescription="@string/dt_pairset_editor_fab_add_new_pair_content_description"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -61,7 +61,8 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:textSize">24sp</item>
         <item name="android:inputType">text</item>
-        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/dt3_on_main</item>
         <item name="android:gravity">bottom|start</item>
     </style>
@@ -80,16 +81,20 @@
 
 
     <style name="dt_variantCardButtonStyle" parent="@style/Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/answer_card_color_state</item>
         <item name="cornerRadius">10dp</item>
         <item name="android:elevation">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="paddingStart">36dp</item>
+        <item name="strokeWidth">1.4dp</item>
+        <item name="backgroundTint">@color/dt3_surface_100</item>
+        <item name="strokeColor">@color/dt3_main_light_100</item>
         <item name="android:colorControlHighlight">@color/dt3_brand_100</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="rippleColor">@color/dt3_brand_100</item>
         <item name="android:textAppearance">@style/dt_answerCardTextStyle</item>
+
+
     </style>
 
     <style name="dt_ToolbarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
@@ -102,15 +107,16 @@
     </style>
 
     <style name="dt_materialRadioButtonStyle" parent="">
-        <item name="android:textAppearance">@style/TextAppearance.dt_dialogSubtitleMessageStyle</item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.dt_sortingDialogRadioButtonTextStyle
+        </item>
+        <item name="android:textColor">@color/sorting_radio_button_colorset</item>
         <item name="android:paddingStart">12dp</item>//12
         <item name="android:paddingEnd">12dp</item>
-        <item name="android:textSize">17sp</item>
         <item name="android:layout_marginStart">6dp</item>
         <item name="android:layoutDirection">rtl</item>
         <item name="android:textDirection">ltr</item>
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textColor">@color/sorting_radio_button_colorset</item>
+
     </style>
 
 </resources>
