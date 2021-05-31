@@ -166,6 +166,8 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         when (sortIndex) {
             0 -> currentPairList.sortBy { it.pairKey }
             1 -> currentPairList.sortByDescending { it.pairKey }
+            2 -> currentPairList.sortBy { it.pairValue }
+            3 -> currentPairList.sortByDescending { it.pairValue }
         }
         applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateViewOnSortedPairlist(currentPairList, sortIndex)

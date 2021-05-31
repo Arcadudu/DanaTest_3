@@ -12,7 +12,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/tv_sort_items_dialog_title"
+            android:id="@+id/tv_sort_pairsets_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -25,15 +25,15 @@
 
 
         <RadioGroup
-            android:id="@+id/sort_items_dialog_radioGroup"
+            android:id="@+id/sort_pairsets_dialog_radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/tv_sort_items_dialog_title">
+            app:layout_constraintTop_toBottomOf="@id/tv_sort_pairsets_dialog_title">
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/sort_items_dialog_rb_sortByName_ascending"
+                android:id="@+id/sort_pairsets_dialog_rb_sortByName_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/dt_materialRadioButtonStyle"
@@ -41,7 +41,7 @@
 
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/sort_items_dialog_rb_sortByName_descending"
+                android:id="@+id/sort_pairsets_dialog_rb_sortByName_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/dt_materialRadioButtonStyle"
@@ -58,14 +58,14 @@
                 android:background="@drawable/horizontal_divider_brand"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/sort_items_dialog_rb_sortByCount_ascending"
+                android:id="@+id/sort_pairsets_dialog_rb_sortByCount_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_ascending" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/sort_items_dialog_rb_sortByCount_descending"
+                android:id="@+id/sort_pairsets_dialog_rb_sortByCount_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/dt_materialRadioButtonStyle"
@@ -83,14 +83,14 @@
                 android:background="@drawable/horizontal_divider_brand"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/sort_items_dialog_rb_sortByDate_ascending"
+                android:id="@+id/sort_pairsets_dialog_rb_sortByDate_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_ascending" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/sort_items_dialog_rb_sortByDate_descending"
+                android:id="@+id/sort_pairsets_dialog_rb_sortByDate_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/dt_materialRadioButtonStyle"
