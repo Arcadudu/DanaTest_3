@@ -286,21 +286,21 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     private fun showSortPairsetListDialog() {
         val sortPairsetListDialogView =
-            this.layoutInflater.inflate(R.layout.dialog_sort_items, null, false)
+            this.layoutInflater.inflate(R.layout.dialog_sort_pairset_list, null, false)
         val sortPairsetDialog = dialogBuilder.setView(sortPairsetListDialogView).create()
 
-        val sortPairsetListDialogBinding = DialogSortItemsBinding.bind(sortPairsetListDialogView)
+        val sortPairsetListDialogBinding = DialogSortPairsetListBinding.bind(sortPairsetListDialogView)
 
         sortPairsetListDialogBinding.apply {
-            val sortRadioGroup = this.sortItemsDialogRadioGroup
+            val sortRadioGroup = this.sortPairsetsDialogRadioGroup
             sortRadioGroup.setOnCheckedChangeListener { _, checkedId ->
                 val sortId =
                     when (checkedId) {
-                        R.id.sort_items_dialog_rb_sortByName_ascending -> 0
-                        R.id.sort_items_dialog_rb_sortByName_descending -> 1
-                        R.id.sort_items_dialog_rb_sortByCount_ascending -> 2
-                        R.id.sort_items_dialog_rb_sortByCount_descending -> 3
-                        R.id.sort_items_dialog_rb_sortByDate_ascending -> 4
+                        R.id.sort_pairsets_dialog_rb_sortByName_ascending -> 0
+                        R.id.sort_pairsets_dialog_rb_sortByName_descending -> 1
+                        R.id.sort_pairsets_dialog_rb_sortByCount_ascending -> 2
+                        R.id.sort_pairsets_dialog_rb_sortByCount_descending -> 3
+                        R.id.sort_pairsets_dialog_rb_sortByDate_ascending -> 4
                         else -> 5
                     }
 

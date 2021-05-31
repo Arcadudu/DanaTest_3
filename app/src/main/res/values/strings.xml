@@ -49,14 +49,20 @@
     <string name="dt_on_empty_pairset_dialog_title">%1$s  пустой</string>
     <string name="dt_on_empty_pairset_dialog_message">Невозможно начать тестирование\nс пустым набором</string>
     <string name="dt_on_empty_pairset_dismiss_button">Ок</string>
-    <!--sortPairlistDialog-->
+    <!--sortPairsetListDialog-->
     <string name="dt_sort_pairset_list_dialog_title">Отсортировать наборы</string>
-    <string name="dt_sort_pairset_list_dialog_sort_by_name_ascending">Алфавитном порядке</string>
+    <string name="dt_sort_pairset_list_dialog_sort_by_name_ascending">В алфавитном порядке</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_name_descending">В обратном порядке</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_count_ascending">Сначала мало пар</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_count_descending">Сначала много пар</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_date_ascending">Сначала новые</string>
     <string name="dt_sort_pairset_list_dialog_sort_by_date_descending">Сначала старые</string>
+    <!--sortPairlistDialog-->
+    <string name="dt_sort_pair_list_dialog_title">Отсортировать пары</string>
+    <string name="dt_sort_pair_list_on_key_ascending">По ключу в алфавитном порядке</string>
+    <string name="dt_sort_pair_list_on_key_descending">По ключу в обратном порядке</string>
+    <string name="dt_sort_pair_list_on_value_ascending">По значению в алфавитном порядке</string>
+    <string name="dt_sort_pair_list_on_value_descending">По значению в обратном порядке</string>
     <!--onRemoveSnackBar-->
     <string name="dt_on_remove_snackBar_title">Набор \"%1$s\" удален</string>
     <string name="dt_on_remove_snackBar_action_text">Отмена</string>
@@ -195,7 +201,7 @@
     <string name="pair_set_fragment_title">Здесь хранятся доступные Вам наборы</string>
     <string name="dummy2">DummyDetails</string>
     <string name="onEmptyPairsetMessage">Невозможно начать тест с пустым набором.</string>
-    <string name="dt_start_test_dialog_more_variants_checkbox">Варианты из всех наборов</string>
+    <string name="dt_start_test_dialog_more_variants_checkbox">Варианты ответа из всех наборов</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 

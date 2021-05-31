@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -26,13 +25,9 @@ import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.activities.HomeActivity
 import ru.arcadudu.danatest_v030.adapters.PairRowAdapter
-import ru.arcadudu.danatest_v030.databinding.ActivityPairsetEditorBinding
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairBinding
-import ru.arcadudu.danatest_v030.databinding.DialogAddPairsetBinding
-import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
+import ru.arcadudu.danatest_v030.databinding.*
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.Pairset
-import ru.arcadudu.danatest_v030.test.TestActivity
 import ru.arcadudu.danatest_v030.utils.*
 import java.util.*
 
@@ -53,13 +48,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     private lateinit var emptyPairsetStub: MaterialTextView
 
     private lateinit var dialogBuilder: AlertDialog.Builder
-
-//    private val sortIconList = listOf(
-//        R.drawable.icon_sort_by_name_ascending,
-//        R.drawable.icon_sort_by_name_descending,
-//    )
-    private var sortByIndex = 0
-
 
     @InjectPresenter
     lateinit var pairsetEditorPresenter: PairsetEditorPresenter
@@ -117,11 +105,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val toTestIntent = Intent(this, TestActivity::class.java)
-        return true
-    }
-
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
         setSupportActionBar(targetToolbar)
         targetToolbar.apply {
@@ -141,17 +124,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                 pairsetEditorPresenter.onToolbarClick()
             }
             setOnMenuItemClickListener {
-                pairsetEditorPresenter.sortPairlist(sortByIndex)
-                if (sortByIndex == 1) sortByIndex = 0 else sortByIndex++
+                showSortPairlistDialog()
                 true
             }
-            if(pairsetEditorPresenter.checkIfPairsetIsEmptyBoolean()) {
-                Log.d("menuItem", "prepareToolbar: pairset is Empty = ${pairsetEditorPresenter.checkIfPairsetIsEmptyBoolean()}")
-                toolbar.menu.getItem(0).isEnabled = false
-            }
         }
-
-//        pairsetEditorPresenter.checkIfPairsetIsEmpty()
         pairsetEditorPresenter.provideDataForToolbar()
     }
 
@@ -176,6 +152,30 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         pairsetEditorPresenter.providePairList()
         pairRowAdapter.onItemClickCallback(this)
+    }
+
+    private fun showSortPairlistDialog() {
+        val sortPairlistDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_sort_pair_list, null, false)
+        val sortPairlistDialog = dialogBuilder.setView(sortPairlistDialogView).create()
+
+        val sortPairlistDialogBinding = DialogSortPairListBinding.bind(sortPairlistDialogView)
+
+        sortPairlistDialogBinding.apply {
+            val sortPairlistRadioGroup = this.sortPairsDialogRadioGroup
+            sortPairlistRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+                val sortId =
+                    when (checkedId) {
+                        R.id.sort_pairs_dialog_key_sortByName_ascending -> 0
+                        R.id.sort_pairs_dialog_key_sortByName_descending -> 1
+                        R.id.sort_pairs_dialog_value_sortByName_ascending -> 2
+                        else -> 3
+                    }
+                pairsetEditorPresenter.sortPairlist(sortId)
+            }
+        }
+
+        sortPairlistDialog.show()
     }
 
     private fun initRecyclerSwiper(recyclerView: RecyclerView) {
@@ -556,6 +556,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             submitPairs(updatedPairList)
             notifyItemInserted(0)
         }
+        pairsetEditorPresenter.checkIfPairsetIsEmpty()
         pairRecyclerView.scrollToPosition(0)
     }
 
