@@ -66,7 +66,10 @@
     <!--onRemoveSnackBar-->
     <string name="dt_on_remove_snackBar_title">Набор \"%1$s\" удален</string>
     <string name="dt_on_remove_snackBar_action_text">Отмена</string>
-
+    <!--onTestResultDialog-->
+    <string name="dt_on_test_result_dialog_mistake_count_line">Ошибки: %1$d</string>
+    <string name="dt_on_test_result_dialog_restart_test">Рестарт</string>
+    <string name="dt_on_test_result_dialog_back_to_pairset_screen">В наборы</string>
     <!--/pairsetFragment-->
 
 

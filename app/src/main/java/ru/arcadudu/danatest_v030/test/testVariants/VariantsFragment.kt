@@ -23,11 +23,13 @@ import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
+import ru.arcadudu.danatest_v030.databinding.DialogTestResultBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentTestVariantsBinding
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.Pairset
+import ru.arcadudu.danatest_v030.test.MistakeListAdapter
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
@@ -53,6 +55,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var tvCounterLine: MaterialTextView
     private lateinit var questVariantsRecycler: RecyclerView
     private lateinit var testAdapter: TranslateTestAdapter
+    private lateinit var mistakeListAdapter: MistakeListAdapter
     private lateinit var answerToggleGroup: MaterialButtonToggleGroup
     private lateinit var btnAnswer1: MaterialButton
     private lateinit var btnAnswer2: MaterialButton
@@ -77,7 +80,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     ): View? {
         return inflater.inflate(R.layout.fragment_test_variants, container, false)
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -132,7 +134,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             }
         }
 
-
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
     }
@@ -166,6 +167,60 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
     }
 
+    override fun showOnTestResultDialog() {
+        val onTestResultDialogBuilder = AlertDialog.Builder(context,  R.style.dt_CustomAlertDialog)
+        val onTestResultDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_test_result, null, false)
+        onTestResultDialogBuilder.setView(onTestResultDialogView)
+        val onTestResultDialog = onTestResultDialogBuilder.create()
+
+        val onTestResultDialogBinding = DialogTestResultBinding.bind(onTestResultDialogView)
+        onTestResultDialogBinding.apply {
+            tvResultFragmentCardTestTitle.text = toolbar.subtitle.toString()
+            tvResultPairSetName.text = toolbar.title.toString()
+
+            val mistakesTotal = variantsPresenter.provideMistakes()
+            Log.d("check", "showOnTestResultDialog: mistakesTotal = $mistakesTotal")
+            tvResultMistakesCount.text = getString(
+                R.string.dt_on_test_result_dialog_mistake_count_line,
+                mistakesTotal
+            )
+            if (mistakesTotal == 0) {
+                mistakeListRecycler.visibility = View.GONE
+                mistakeListContainer.visibility = View.GONE
+            } else {
+                mistakeListContainer.visibility = View.VISIBLE
+                mistakeListRecycler.visibility = View.VISIBLE
+                mistakeListAdapter = MistakeListAdapter()
+                mistakeListRecycler.apply {
+                    adapter = mistakeListAdapter
+                    setHasFixedSize(true)
+                    layoutManager = LinearLayoutManager(requireActivity())
+                }
+                val mistakenPairAndAnswerMap = variantsPresenter.provideMistakenPairAndAnswerMap()
+                Log.d("check", "showOnTestResultDialog: mistakenPairAndAnswerMap = $mistakenPairAndAnswerMap")
+                mistakeListAdapter.submitMistakenPairMap(mistakenPairAndAnswerMap)
+            }
+
+            //restart button
+            btnTestResultDialogRestartTest.text = getString(R.string.dt_on_test_result_dialog_restart_test)
+            btnTestResultDialogRestartTest.setOnClickListener {
+                variantsPresenter.onRestartButton()
+                onTestResultDialog.dismiss()
+            }
+
+            //to pairset list screen
+            btnTestResultDialogToPairsets.text = getString(R.string.dt_on_test_result_dialog_back_to_pairset_screen)
+            btnTestResultDialogToPairsets.setOnClickListener {
+                (activity as? TestActivityView)?.onFragmentBackPressed()
+                onTestResultDialog.dismiss()
+            }
+
+        }
+
+        onTestResultDialog.show()
+    }
+
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {
         variantsPresenter.getToolbarTitle()
         targetToolbar.apply {
@@ -188,7 +243,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     override fun onResume() {
         super.onResume()
-        variantsPresenter.restartVariantsTest(shufflePairset, useAllExistingPairsetsValuesAsVariants)
+        variantsPresenter.restartVariantsTest(
+            shufflePairset,
+            useAllExistingPairsetsValuesAsVariants
+        )
     }
 
     override fun setProgressMax(originPairListCount: Int) {
@@ -217,7 +275,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
 
         btnRestartTest.setOnClickListener {
-            variantsPresenter.restartVariantsTest(shufflePairset, useAllExistingPairsetsValuesAsVariants)
+            variantsPresenter.restartVariantsTest(
+                shufflePairset,
+                useAllExistingPairsetsValuesAsVariants
+            )
             variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
             restartDialog.dismiss()
         }

@@ -33,5 +33,7 @@ interface VariantsFragmentView : MvpView {
 
     fun setToolbarTitle(testedPairSetName: String)
 
+    fun showOnTestResultDialog()
+
 
 }
