@@ -6,6 +6,7 @@
         app:cardCornerRadius="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +33,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="Части тела"
-                android:textSize="24sp"
-                android:layout_marginTop="18dp"
+                android:textSize="22sp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/dt3_on_surface_100"
                 app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -45,7 +47,7 @@
                 android:gravity="start"
                 android:textSize="18sp"
                 android:text="Результат: 3 ошибки"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
@@ -54,7 +56,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 style="@style/dt_DialogButtonStyle"
-                android:src="@drawable/icon_result_dialog_show_mistake_list"
+                android:src="@drawable/icon_result_dialog_hide_mistake_list"
                 app:layout_constraintTop_toTopOf="@id/tv_result_mistakes_count"
                 app:layout_constraintBottom_toBottomOf="@id/tv_result_mistakes_count"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -62,17 +64,20 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/mistake_list_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_result_mistakes_count"
-                android:layout_marginTop="12dp"
-                android:maxHeight="120dp"
+                android:layout_marginTop="14dp"
                 android:orientation="vertical"
                 >
 
                <androidx.recyclerview.widget.RecyclerView
                    android:id="@+id/mistake_list_recycler"
                    android:layout_width="match_parent"
-                   android:layout_height="match_parent"
+                   android:layout_height="240dp"
+                   android:scrollbarStyle="outsideOverlay"
+                   android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
+                   android:scrollbars="vertical"
+                   android:verticalScrollbarPosition="right"
                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

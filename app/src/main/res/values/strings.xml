@@ -105,8 +105,7 @@
     <string name="dt_test_translate_fragment_toolbar_title">@string/dt_translate</string>
     <string name="dt_test_translate_fragment_toolbar_action_restart_test">@string/dt_test_restart_test</string>
     <string name="dt_test_translate_fragment_toolbar_action_end_test">@string/dt_test_end_test</string>
-    <string name="dt_test_translate_fragment_answerfield_hint">Ответ:</string>
-    <!--    <string name="dt_test_translate_fragment_answerfield_hint">Введите слово</string>-->
+    <string name="dt_test_translate_fragment_answerfield_hint">Ответ:</string>>
     <string name="dt_test_translate_fragment_counter_body_with_message">@string/dt_test_counter_with_message</string>
     <string name="dt_test_translate_fragment_counter_body">%1$d/%2$d</string>
     <string name="dt_test_translate_fragment_counter_line">Решено</string>
@@ -132,6 +131,11 @@
     <string name="dt_test_variants_fragment_abcd_C">c</string>
     <string name="dt_test_variants_fragment_abcd_D">d</string>
     <!--/testVariantsFragment-->
+
+    <!--onTestResultDialog-->
+    <string name="dt_on_test_result_dialog_tv_quest_word_title_line">%1$d. %2$s</string>
+    <!--/onTestResultDialog-->
+
 
     <!--pairsetCountPlurals-->
     <!-- Этот код мы используем для отладки: когда какой item выбирается системой -->

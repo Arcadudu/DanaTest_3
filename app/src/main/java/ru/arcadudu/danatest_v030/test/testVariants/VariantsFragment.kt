@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -168,11 +170,16 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     }
 
     override fun showOnTestResultDialog() {
-        val onTestResultDialogBuilder = AlertDialog.Builder(context,  R.style.dt_CustomAlertDialog)
+        val onTestResultDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
         val onTestResultDialogView =
             this.layoutInflater.inflate(R.layout.dialog_test_result, null, false)
         onTestResultDialogBuilder.setView(onTestResultDialogView)
         val onTestResultDialog = onTestResultDialogBuilder.create()
+
+        var dismissedWithAction = false
+        onTestResultDialog.setOnDismissListener {
+            if (!dismissedWithAction) (activity as? TestActivityView)?.onFragmentBackPressed()
+        }
 
         val onTestResultDialogBinding = DialogTestResultBinding.bind(onTestResultDialogView)
         onTestResultDialogBinding.apply {
@@ -185,34 +192,72 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 R.string.dt_on_test_result_dialog_mistake_count_line,
                 mistakesTotal
             )
+
             if (mistakesTotal == 0) {
+
                 mistakeListRecycler.visibility = View.GONE
                 mistakeListContainer.visibility = View.GONE
+                ibShowOrHideMistakes.visibility = View.GONE
+
             } else {
+
                 mistakeListContainer.visibility = View.VISIBLE
                 mistakeListRecycler.visibility = View.VISIBLE
+                ibShowOrHideMistakes.visibility = View.VISIBLE
+
+                var mistakeListContainerIsShown = true
+                ibShowOrHideMistakes.setOnClickListener {
+                    mistakeListContainer.isVisible = mistakeListContainerIsShown
+                    mistakeListRecycler.isVisible = mistakeListContainerIsShown
+                    val iconImageResource =
+                        if (mistakeListContainerIsShown)
+                            R.drawable.icon_result_dialog_hide_mistake_list else R.drawable.icon_result_dialog_show_mistake_list
+                    ibShowOrHideMistakes.setImageDrawable(ResourcesCompat.getDrawable(resources, iconImageResource, requireActivity().theme))
+                    mistakeListContainerIsShown = !mistakeListContainerIsShown
+                }
+
                 mistakeListAdapter = MistakeListAdapter()
+                mistakeListAdapter.captureContext(requireContext())
+                val mLayoutManager = LinearLayoutManager(requireActivity())
+                val verticalDivider =
+                    DividerItemDecoration(mistakeListRecycler.context, mLayoutManager.orientation)
                 mistakeListRecycler.apply {
                     adapter = mistakeListAdapter
                     setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(requireActivity())
+                    layoutManager = mLayoutManager
+                    addItemDecoration(verticalDivider)
                 }
-                val mistakenPairAndAnswerMap = variantsPresenter.provideMistakenPairAndAnswerMap()
+                val mistakenPairAndAnswerList = variantsPresenter.provideMistakenPairAndAnswerList()
                 val wrongAnswerList = variantsPresenter.provideWrongAnswerList()
-                Log.d("check", "showOnTestResultDialog: mistakenPairAndAnswerMap = $mistakenPairAndAnswerMap")
-                mistakeListAdapter.submitMistakenPairMapAndWrongAnswerList(mistakenPairAndAnswerMap,wrongAnswerList)
+                Log.d(
+                    "check",
+                    "showOnTestResultDialog: mistakenPairAndAnswerMap = $mistakenPairAndAnswerList"
+                )
+                mistakeListAdapter.submitMistakenPairListAndWrongAnswerList(
+                    mistakenPairAndAnswerList,
+                    wrongAnswerList
+                )
             }
 
+
             //restart button
-            btnTestResultDialogRestartTest.text = getString(R.string.dt_on_test_result_dialog_restart_test)
+            btnTestResultDialogRestartTest.text =
+                getString(R.string.dt_on_test_result_dialog_restart_test)
             btnTestResultDialogRestartTest.setOnClickListener {
-                variantsPresenter.onRestartButton()
+                variantsPresenter.restartVariantsTest(
+                    shufflePairset,
+                    useAllExistingPairsetsValuesAsVariants
+                )
+                variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
+                dismissedWithAction = true
                 onTestResultDialog.dismiss()
             }
 
             //to pairset list screen
-            btnTestResultDialogToPairsets.text = getString(R.string.dt_on_test_result_dialog_back_to_pairset_screen)
+            btnTestResultDialogToPairsets.text =
+                getString(R.string.dt_on_test_result_dialog_back_to_pairset_screen)
             btnTestResultDialogToPairsets.setOnClickListener {
+                dismissedWithAction = true
                 (activity as? TestActivityView)?.onFragmentBackPressed()
                 onTestResultDialog.dismiss()
             }
@@ -220,6 +265,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         }
 
         onTestResultDialog.show()
+
     }
 
     private fun prepareToolbar(targetToolbar: MaterialToolbar) {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    >
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_quest_word_title_line"
@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
-        android:padding="8dp"
-        android:paddingStart="12dp"
+        android:padding="6dp"
         android:text="Предпречье"
         android:textColor="@color/dt3_on_surface_70"
         android:textSize="18sp"
@@ -24,7 +23,7 @@
         android:id="@+id/mistake_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="12dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,10 +38,9 @@
                 style="@style/TextAppearance.dt_itemTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/result_dialog_correct_answer_card_background"
                 android:fontFamily="@font/roboto_medium"
                 android:padding="6dp"
-                android:paddingStart="20dp"
+
                 android:text="Forearm"
                 android:layout_marginEnd="3dp"
                 android:textAlignment="textStart"
@@ -60,7 +58,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:background="@drawable/result_dialog_wrong_answer_card_background"
+
                 android:fontFamily="@font/roboto_medium"
                 android:padding="6dp"
                 android:paddingStart="20dp"

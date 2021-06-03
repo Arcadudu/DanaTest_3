@@ -24,7 +24,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     private var backUpPairList: MutableList<Pair> = mutableListOf()
 
-    private var mistakenPairAndAnswerMap: MutableMap<String, Pair> = mutableMapOf()
+    private var mistakenPairAndAnswerList: MutableList<Pair> = mutableListOf()
     private var wrongAnswerList: MutableList<String> = mutableListOf()
 
     companion object {
@@ -115,9 +115,9 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
             Log.d("check", "checkAnswerAndDismiss: mistake!")
             mistakeCount++
             wrongAnswerList.add(chosenVariantKey.toString())
-            mistakenPairAndAnswerMap[chosenVariantKey.toString()] = checkPair
+            mistakenPairAndAnswerList.add(checkPair)
             Log.d("check", "checkAnswerAndDismiss: wrongAnswer = $wrongAnswerList")
-            Log.d("check", "checkAnswerAndDismiss: currentMap = $mistakenPairAndAnswerMap ")
+            Log.d("check", "checkAnswerAndDismiss: currentMap = $mistakenPairAndAnswerList ")
 
         } else {
             Log.d("check", "checkAnswerAndDismiss: correct!")
@@ -141,7 +141,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     }
 
-    fun provideMistakenPairAndAnswerMap(): MutableMap<String, Pair> = mistakenPairAndAnswerMap
+    fun provideMistakenPairAndAnswerList(): MutableList<Pair> = mistakenPairAndAnswerList
 
     fun provideWrongAnswerList():MutableList<String> = wrongAnswerList
 
