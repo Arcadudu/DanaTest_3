@@ -143,6 +143,8 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun provideMistakenPairAndAnswerMap(): MutableMap<String, Pair> = mistakenPairAndAnswerMap
 
+    fun provideWrongAnswerList():MutableList<String> = wrongAnswerList
+
     fun provideHintForCurrentPosition(currentSnapPosition: Int) {
         val questPair = testedPairList[currentSnapPosition]
         viewState.getHintForCurrentPosition(questPair.pairKey)

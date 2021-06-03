@@ -198,8 +198,9 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                     layoutManager = LinearLayoutManager(requireActivity())
                 }
                 val mistakenPairAndAnswerMap = variantsPresenter.provideMistakenPairAndAnswerMap()
+                val wrongAnswerList = variantsPresenter.provideWrongAnswerList()
                 Log.d("check", "showOnTestResultDialog: mistakenPairAndAnswerMap = $mistakenPairAndAnswerMap")
-                mistakeListAdapter.submitMistakenPairMap(mistakenPairAndAnswerMap)
+                mistakeListAdapter.submitMistakenPairMapAndWrongAnswerList(mistakenPairAndAnswerMap,wrongAnswerList)
             }
 
             //restart button

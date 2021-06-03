@@ -13,9 +13,11 @@ class MistakeListAdapter : RecyclerView.Adapter<MistakeListAdapter.MistakeListRo
     private var wrongAnswerList = mutableListOf<String>()
     private var mistakeAndPairHashMap: MutableMap<String, Pair> = mutableMapOf()
 
-    fun submitMistakenPairMap(mutableMap: MutableMap<String, Pair>){
+    fun submitMistakenPairMapAndWrongAnswerList(mutableMap: MutableMap<String, Pair>, answerList:MutableList<String>){
         mistakeAndPairHashMap.clear()
         mistakeAndPairHashMap = mutableMap
+        wrongAnswerList.clear()
+        wrongAnswerList = answerList
         Log.d("check", "submitMistakenPairMap: mistakeAndPairHashMapCount = ${mistakeAndPairHashMap.count()}")
     }
 
