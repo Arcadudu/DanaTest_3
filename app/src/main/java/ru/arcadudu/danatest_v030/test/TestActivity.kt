@@ -46,7 +46,6 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
             getString(R.string.variants) -> CONST_VARIANTS_FRAGMENT_ID
             else -> CONST_SHUFFLE_FRAGMENT_ID
         }
-        Log.d("ddd", "onCreate: fragmentId = $requestedTestFragmentId")
         shufflePairSet = incomingIntent.getBooleanExtra("shuffle", false)
         enableHintForPairset = incomingIntent.getBooleanExtra("enableHints", false)
         useAllExistingPairsetsValuesAsVariants =
@@ -102,6 +101,7 @@ class TestActivity : MvpAppCompatActivity(), TestActivityView {
         val resultBundle = Bundle()
         resultBundle.apply {
             putSerializable("testedPairSet", pairset)
+            putString("passedTest", requestedTestFragmentId)
             putInt("mistakes", mistakes)
         }
         val resultFragment = ResultFragment.getResultFragmentInstance(resultBundle)

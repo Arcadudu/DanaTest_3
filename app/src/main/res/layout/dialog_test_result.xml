@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="18dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_result_fragment_card_test_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                android:text="Прямой перевод"/>
+
+            <TextView
+                android:id="@+id/tv_result_pair_set_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Части тела"
+                android:textSize="24sp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_result_mistakes_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_result_pair_set_name"
+                android:gravity="start"
+                android:textSize="18sp"
+                android:text="Результат: 3 ошибки"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <ImageButton
+                android:id="@+id/ib_show_or_hide_mistakes"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                style="@style/dt_DialogButtonStyle"
+                android:src="@drawable/icon_result_dialog_show_mistake_list"
+                app:layout_constraintTop_toTopOf="@id/tv_result_mistakes_count"
+                app:layout_constraintBottom_toBottomOf="@id/tv_result_mistakes_count"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mistake_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_result_mistakes_count"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                >
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/mistake_list_recycler"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_test_result_dialog_restart_test"
+                style="@style/dt_DialogButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Рестарт"
+                android:layout_marginTop="18dp"
+                app:layout_constraintEnd_toStartOf="@id/btn_test_result_dialog_to_pairsets"
+                app:layout_constraintTop_toBottomOf="@id/mistake_list_container" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_test_result_dialog_to_pairsets"
+                style="@style/dt_DialogButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="В наботы"
+                app:layout_constraintTop_toTopOf="@id/btn_test_result_dialog_restart_test"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
