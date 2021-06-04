@@ -56,13 +56,15 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     }
 
     fun onRestartButton() {
-        viewState.showOnRestartDialog(pairsetName = testedPairSetName)
+        viewState.showOnRestartDialog(pairsetName = testedPairSetName, pairsetPairCount = originPairListCount)
     }
 
     fun restartVariantsTest(shufflePairset: Boolean, useAllExistingPairsets: Boolean) {
         this.useAllExistingPairsets = useAllExistingPairsets
         mistakeCount = 0
         answeredPairCount = 0
+        mistakenPairAndAnswerList.clear()
+        wrongAnswerList.clear()
         testedPairList.apply {
             clear()
             addAll(backUpPairList)
@@ -116,7 +118,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
             mistakeCount++
             wrongAnswerList.add(chosenVariantKey.toString())
             mistakenPairAndAnswerList.add(checkPair)
-            Log.d("check", "checkAnswerAndDismiss: wrongAnswer = $wrongAnswerList")
+            Log.d("check", "checkAnswerAndDismiss: wrongAnswers = $wrongAnswerList")
             Log.d("check", "checkAnswerAndDismiss: currentMap = $mistakenPairAndAnswerList ")
 
         } else {
@@ -126,17 +128,17 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         testedPairList.removeAt(answerPosition)
 
         if (testedPairList.isEmpty()) {
-//            viewState.toResultFragment(backUpPairset, mistakeCount)
             viewState.showOnTestResultDialog()
         } else {
-            viewState.apply {
-                updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
-                updateRecyclerOnRemoved(testedPairList, answerPosition)
-                updateAnsweredProgress(
-                    answeredPairCount * progressMultiplier,
-                    positiveProgressDuration.toLong()
-                )
-            }
+
+            viewState.updateRecyclerOnRemoved(testedPairList, answerPosition)
+        }
+        viewState.apply {
+            updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
+            updateAnsweredProgress(
+                answeredPairCount * progressMultiplier,
+                positiveProgressDuration.toLong()
+            )
         }
 
     }

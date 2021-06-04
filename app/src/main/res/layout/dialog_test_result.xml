@@ -25,7 +25,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textAppearance="@style/TextAppearance.dt_dialogTitle"
-                android:text="Прямой перевод"/>
+                android:text="Тест завершен"/>
 
             <TextView
                 android:id="@+id/tv_result_pair_set_name"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:text="Части тела"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:layout_marginTop="6dp"
                 android:textColor="@color/dt3_on_surface_100"
                 app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title"
@@ -53,13 +53,13 @@
 
             <ImageButton
                 android:id="@+id/ib_show_or_hide_mistakes"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
                 style="@style/dt_DialogButtonStyle"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:src="@drawable/icon_result_dialog_hide_mistake_list"
-                app:layout_constraintTop_toTopOf="@id/tv_result_mistakes_count"
                 app:layout_constraintBottom_toBottomOf="@id/tv_result_mistakes_count"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintStart_toEndOf="@+id/tv_result_mistakes_count"
+                app:layout_constraintTop_toTopOf="@id/tv_result_mistakes_count" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/mistake_list_container"
@@ -73,8 +73,9 @@
                <androidx.recyclerview.widget.RecyclerView
                    android:id="@+id/mistake_list_recycler"
                    android:layout_width="match_parent"
-                   android:layout_height="240dp"
+                   android:layout_height="208dp"
                    android:scrollbarStyle="outsideOverlay"
+                   android:fadeScrollbars="false"
                    android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
                    android:scrollbars="vertical"
                    android:verticalScrollbarPosition="right"
@@ -87,7 +88,7 @@
                 style="@style/dt_DialogButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Рестарт"
+                android:text="Заново"
                 android:layout_marginTop="18dp"
                 app:layout_constraintEnd_toStartOf="@id/btn_test_result_dialog_to_pairsets"
                 app:layout_constraintTop_toBottomOf="@id/mistake_list_container" />

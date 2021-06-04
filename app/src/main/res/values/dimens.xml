@@ -6,5 +6,8 @@
     <dimen name="dialog_top_element_marginTop">12dp</dimen>
 
     <dimen name="dt_cardView_margin_startOrEnd">16dp</dimen>
-    
+
+    <dimen name="dt_on_test_result_dialog_mistakes_container_expanded">264dp</dimen>
+    <dimen name="dt_on_test_result_dialog_mistakes_container_seized">208dp</dimen>
+
 </resources>
