@@ -33,6 +33,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         const val restartProgressDuration = 640
         private var mistakeCount = 0
         private var answeredPairCount = 0
+        private var hintUsedCount = 0
         private var originPairListCount = 0
     }
 
@@ -63,6 +64,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         this.useAllExistingPairsets = useAllExistingPairsets
         mistakeCount = 0
         answeredPairCount = 0
+        hintUsedCount = 0
         mistakenPairAndAnswerList.clear()
         wrongAnswerList.clear()
         testedPairList.apply {
@@ -148,6 +150,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     fun provideWrongAnswerList():MutableList<String> = wrongAnswerList
 
     fun provideHintForCurrentPosition(currentSnapPosition: Int) {
+        ++hintUsedCount
         val questPair = testedPairList[currentSnapPosition]
         viewState.getHintForCurrentPosition(questPair.pairKey)
     }
@@ -157,4 +160,6 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     }
 
     fun provideMistakes(): Int = mistakeCount
+
+    fun provideHintUseCount():Int = hintUsedCount
 }

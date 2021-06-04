@@ -1,111 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:cardCornerRadius="10dp"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="18dp">
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_result_fragment_card_test_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Тест завершен"
+            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/tv_result_pair_set_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="start"
+            android:text="Части тела"
+            android:textColor="@color/dt3_on_surface_100"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_result_hint_use_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="start"
+            android:text="Использовано подсказок: 2"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_result_pair_set_name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_result_mistakes_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:text="Ошибки: 3"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_result_hint_use_count" />
+
+        <ImageButton
+            android:id="@+id/ib_show_or_hide_mistakes"
+            style="@style/dt_DialogButtonStyle"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@drawable/icon_result_dialog_hide_mistake_list"
+            app:layout_constraintBottom_toBottomOf="@id/tv_result_mistakes_count"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_result_mistakes_count" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/mistake_list_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="18dp">
+            android:layout_height="0dp"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/tv_result_mistakes_count">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_result_fragment_card_test_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
-                android:text="Тест завершен"/>
-
-            <TextView
-                android:id="@+id/tv_result_pair_set_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Части тела"
-                android:textSize="18sp"
-                android:layout_marginTop="6dp"
-                android:textColor="@color/dt3_on_surface_100"
-                app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/tv_result_mistakes_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_result_pair_set_name"
-                android:gravity="start"
-                android:textSize="18sp"
-                android:text="Результат: 3 ошибки"
-                android:layout_marginTop="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-
-            <ImageButton
-                android:id="@+id/ib_show_or_hide_mistakes"
-                style="@style/dt_DialogButtonStyle"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:src="@drawable/icon_result_dialog_hide_mistake_list"
-                app:layout_constraintBottom_toBottomOf="@id/tv_result_mistakes_count"
-                app:layout_constraintStart_toEndOf="@+id/tv_result_mistakes_count"
-                app:layout_constraintTop_toTopOf="@id/tv_result_mistakes_count" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/mistake_list_container"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mistake_list_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_result_mistakes_count"
-                android:layout_marginTop="14dp"
-                android:orientation="vertical"
-                >
+                android:layout_height="208dp"
+                android:fadeScrollbars="false"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
+                android:scrollbars="vertical"
+                android:verticalScrollbarPosition="right" />
 
-               <androidx.recyclerview.widget.RecyclerView
-                   android:id="@+id/mistake_list_recycler"
-                   android:layout_width="match_parent"
-                   android:layout_height="208dp"
-                   android:scrollbarStyle="outsideOverlay"
-                   android:fadeScrollbars="false"
-                   android:scrollbarThumbVertical="@drawable/vertical_scrollbar_thumb_drawable"
-                   android:scrollbars="vertical"
-                   android:verticalScrollbarPosition="right"
-                   />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_test_result_dialog_restart_test"
+            style="@style/dt_DialogButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Заново"
+            app:layout_constraintEnd_toStartOf="@id/btn_test_result_dialog_to_pairsets"
+            app:layout_constraintTop_toBottomOf="@id/mistake_list_container" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_test_result_dialog_restart_test"
-                style="@style/dt_DialogButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Заново"
-                android:layout_marginTop="18dp"
-                app:layout_constraintEnd_toStartOf="@id/btn_test_result_dialog_to_pairsets"
-                app:layout_constraintTop_toBottomOf="@id/mistake_list_container" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_test_result_dialog_to_pairsets"
-                style="@style/dt_DialogButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="В наботы"
-                app:layout_constraintTop_toTopOf="@id/btn_test_result_dialog_restart_test"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_test_result_dialog_to_pairsets"
+            style="@style/dt_DialogButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="В наботы"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_test_result_dialog_restart_test" />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>
 
 

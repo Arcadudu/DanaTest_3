@@ -77,7 +77,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private var useAllExistingPairsetsValuesAsVariants = false
     private var variantList: MutableList<String> = mutableListOf()
 
-    private lateinit var sharedPreferences:SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreateView(
@@ -93,8 +93,10 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         super.onViewCreated(view, savedInstanceState)
         variantsBinding = FragmentTestVariantsBinding.bind(view)
 
-        sharedPreferences = requireContext().getSharedPreferences( IS_RESULT_DIALOG_RESTORED_ON_RESUME,
-            Context.MODE_PRIVATE)
+        sharedPreferences = requireContext().getSharedPreferences(
+            IS_RESULT_DIALOG_RESTORED_ON_RESUME,
+            Context.MODE_PRIVATE
+        )
 
         incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
@@ -199,17 +201,23 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         val onTestResultDialogBinding = DialogTestResultBinding.bind(onTestResultDialogView)
         onTestResultDialogBinding.apply {
-//            tvResultFragmentCardTestTitle.text = toolbar.subtitle.toString()
             tvResultPairSetName.text = toolbar.title.toString()
 
             val mistakesTotal = variantsPresenter.provideMistakes()
-            Log.d("check", "showOnTestResultDialog: mistakesTotal = $mistakesTotal")
-            tvResultMistakesCount.text = getString(
-                R.string.dt_on_test_result_dialog_mistake_count_line,
-                mistakesTotal
-            )
 
             if (mistakesTotal == 0) {
+
+                tvResultMistakesCount.apply {
+                    setTextColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.dt3_brand_100,
+                            requireActivity().theme
+                        )
+                    )
+                    text =
+                        getString(R.string.dt_on_test_result_dialog_mistake_count_line_no_mistakes)
+                }
 
                 mistakeListRecycler.visibility = View.GONE
                 mistakeListContainer.visibility = View.GONE
@@ -217,9 +225,19 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
             } else {
 
+                tvResultMistakesCount.apply {
+                    text = getString(
+                        R.string.dt_on_test_result_dialog_mistake_count_line_has_mistakes,
+                        mistakesTotal
+                    )
+                }
+
                 mistakeListContainer.visibility = View.VISIBLE
                 mistakeListRecycler.visibility = View.VISIBLE
                 ibShowOrHideMistakes.visibility = View.VISIBLE
+
+                if (mistakesTotal <= 3)
+                    mistakeListRecycler.layoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT
 
                 var mistakeListContainerIsShown = true
                 ibShowOrHideMistakes.setOnClickListener {
@@ -238,7 +256,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                     )
                     mistakeListContainerIsShown = !mistakeListContainerIsShown
                 }
-
 
 
                 mistakeListAdapter = MistakeListAdapter()
@@ -264,6 +281,13 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 )
             }
 
+            when (variantsPresenter.provideHintUseCount()) {
+                0 -> tvResultHintUseCount.visibility = View.GONE
+                else -> tvResultHintUseCount.text = getString(
+                    R.string.dt_on_test_result_dialog_hint_used_count_line,
+                    variantsPresenter.provideHintUseCount()
+                )
+            }
 
             //restart button
             btnTestResultDialogRestartTest.text =
@@ -279,7 +303,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
                 variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
                 dismissedWithAction = true
-//                sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, false).apply()
                 onTestResultDialog.dismiss()
             }
 
@@ -288,15 +311,14 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 getString(R.string.dt_on_test_result_dialog_back_to_pairset_screen)
             btnTestResultDialogToPairsets.setOnClickListener {
                 dismissedWithAction = true
-//                sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, false).apply()
                 (activity as? TestActivityView)?.onFragmentBackPressed()
                 onTestResultDialog.dismiss()
             }
 
         }
 
-        // if app will stop and then resume this boolean will help to handle
-        // the fragment at the original state
+        // if app will stop and then resume this boolean will help
+        // to avoid unnecessary test restart
         sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, true).apply()
 
         onTestResultDialog.show()
@@ -327,7 +349,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         super.onResume()
 
         val isResultDialogIsShown = sharedPreferences.getBoolean("IS_RESULT_DIALOG_SHOWN", false)
-        if(!isResultDialogIsShown){
+        if (!isResultDialogIsShown) {
             variantsPresenter.restartVariantsTest(
                 shufflePairset,
                 useAllExistingPairsetsValuesAsVariants
