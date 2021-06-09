@@ -10,8 +10,8 @@
 
 
     <!--dt3 palette-->
-    <color name="dt3_main_light_100">#f7f7f7</color>
-<!--    <color name="dt3_main_light_100">#F5F8FD</color>-->
+    <!--<color name="dt3_main_light_100">#f7f7f7</color>-->
+    <color name="dt3_main_light_100">#F5F8FD</color>
     <color name="dt3_main_light_70">#B3F7F7F7</color>
     <color name="dt3_on_main">@color/black</color>
 
