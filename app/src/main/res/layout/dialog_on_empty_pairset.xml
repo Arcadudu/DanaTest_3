@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dt3_surface_100"
-        android:padding="16dp">
+        android:paddingBottom="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_on_empty_pairset_dialog_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_on_empty_pairset_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/dialog_top_element_marginTop"
-            android:gravity="start"
-            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            android:background="@color/dt3_main_light_100"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_on_empty_pairset_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/dialog_top_element_marginTop"
+                android:gravity="start"
+                android:text="Пустой набор"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_on_empty_pairset_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/dt_on_empty_pairset_dialog_message"
             android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
-            app:layout_constraintStart_toStartOf="@id/tv_on_empty_pairset_dialog_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_on_empty_pairset_dialog_title"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_on_empty_pairset_header" />
 
         <!--dismiss button-->
         <com.google.android.material.button.MaterialButton
@@ -38,12 +54,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/dt_on_empty_pairset_dismiss_button"
             android:textColor="@color/dt3_brand_100"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_on_empty_pairset_message"/>
-
-
+            app:layout_constraintTop_toBottomOf="@id/tv_on_empty_pairset_message" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

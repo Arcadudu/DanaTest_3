@@ -14,44 +14,62 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="18dp">
+        android:paddingBottom="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_result_fragment_card_test_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_test_result_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Тест завершен"
-            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            android:background="@color/dt3_main_light_100"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_result_pair_set_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="start"
-            android:text="Части тела"
-            android:textColor="@color/dt3_on_surface_100"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_result_fragment_card_test_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:text="Тест завершен"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_result_pair_set_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:gravity="start"
+                android:text="Части тела"
+                android:textColor="@color/dt3_on_surface_100"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_result_fragment_card_test_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_result_hint_use_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:gravity="start"
             android:text="Использовано подсказок: 2"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_result_pair_set_name" />
+            app:layout_constraintTop_toBottomOf="@id/dialog_test_result_header" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_result_mistakes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:gravity="start"
             android:text="Ошибки: 3"
@@ -75,7 +93,9 @@
             android:id="@+id/mistake_list_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="14dp"
+            android:layout_marginEnd="24dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/tv_result_mistakes_count">
 
@@ -106,6 +126,7 @@
             style="@style/dt_DialogButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:text="В наботы"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/btn_test_result_dialog_restart_test" />

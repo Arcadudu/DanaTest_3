@@ -8,25 +8,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dt3_surface_100"
-        android:padding="16dp">
+        android:paddingBottom="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_start_test_dialog_title"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_start_test_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/dialog_top_element_marginTop"
-            android:gravity="start"
-            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            android:background="@color/dt3_main_light_100"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_start_test_dialog_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/dialog_top_element_marginTop"
+                android:gravity="start"
+                android:text="Начать тест"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayout_autoCompleteTestCase"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:hint="@string/dt_start_test_dialog_input_layout_hint"
             android:textColorHint="@color/dt3_brand_100"
             android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
@@ -36,7 +53,7 @@
             app:hintTextColor="@color/dt3_brand_100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_start_test_dialog_title">
+            app:layout_constraintTop_toBottomOf="@id/dialog_start_test_header">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/autoCompleteTestCase"
@@ -55,33 +72,36 @@
             android:id="@+id/shuffle_pairset_check_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="18dp"
             android:text="@string/dt_start_test_dialog_shuffle_checkbox"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/inputLayout_autoCompleteTestCase"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_autoCompleteTestCase" />
+
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/enable_hints_check_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="Подсказки"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/shuffle_pairset_check_box"
-            app:layout_constraintTop_toBottomOf="@id/shuffle_pairset_check_box"/>
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shuffle_pairset_check_box" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/all_pairset_variants_check_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="@string/dt_start_test_dialog_more_variants_checkbox"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:textSize="16sp"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@id/enable_hints_check_box"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/enable_hints_check_box" />
 
 
@@ -92,6 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/dt_start_test_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/all_pairset_variants_check_box" />
