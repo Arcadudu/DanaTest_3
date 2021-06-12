@@ -27,6 +27,8 @@
     <color name="dt3_brand_100">#448AFF</color>
     <color name="dt3_brand_70">#B3448AFF</color>
     <color name="dt3_brand_50">#80448AFF</color>
+    <color name="dt3_brand_30">#4D448AFF</color>
+    <color name="dt3_brand_10">#1A448AFF</color>
 
     <color name="dt3_on_brand_100">#ffffff</color>
 
