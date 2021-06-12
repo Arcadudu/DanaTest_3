@@ -2,59 +2,74 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dt3_surface_100"
-        android:padding="16dp">
+        android:paddingBottom="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_remove_dialog_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_remove_item_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/dialog_top_element_marginTop"
-            android:gravity="start"
-            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            android:background="@color/dt3_main_light_100"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_remove_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/dialog_top_element_marginTop"
+                android:gravity="start"
+                android:text="Части тела"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/fl_remove_pairset_dialog_pair_counter_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/pair_counter_container_pairs_on_remove_dialog"
+                android:padding="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_remove_dialog_title">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_remove_pairset_dialog_pair_counter"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="21"
+                    android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
+                    android:textColor="@color/dt3_on_surface_70"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_remove_dialog_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/dt_remove_pairset_dialog_message"
             android:textAppearance="@style/TextAppearance.dt_dialogSubtitleMessageStyle"
-            app:layout_constraintStart_toStartOf="@id/tv_remove_dialog_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_remove_dialog_title" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_remove_item_header" />
 
         <!--pairCounter-->
-        <FrameLayout
-            android:id="@+id/fl_remove_pairset_dialog_pair_counter_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:padding="3dp"
-            android:background="@drawable/pair_counter_container_pairs_on_remove_dialog"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_remove_dialog_title">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_remove_pairset_dialog_pair_counter"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="21"
-                android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-                android:textColor="@color/dt3_on_surface_70"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </FrameLayout>
 
 
         <!--positive button-->
@@ -64,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/dt_remove_pairset_dialog_positive_btn"
             android:textColor="@color/dt3_error_100"
             app:layout_constraintEnd_toEndOf="parent"

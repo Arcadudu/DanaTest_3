@@ -13,7 +13,7 @@ interface VariantsFragmentView : MvpView {
     fun setProgressMax(originPairListCount: Int)
 
     @StateStrategyType(value = SkipStrategy::class)
-    fun showOnRestartDialog(pairsetName: String)
+    fun showOnRestartDialog(pairsetName: String, pairsetPairCount:Int)
 
     fun initPairList(testedPairList: MutableList<Pair>)
 
@@ -33,6 +33,7 @@ interface VariantsFragmentView : MvpView {
 
     fun setToolbarTitle(testedPairSetName: String)
 
+    @StateStrategyType(value = AddToEndSingleStrategy::class)
     fun showOnTestResultDialog()
 
 

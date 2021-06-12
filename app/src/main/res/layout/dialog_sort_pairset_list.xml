@@ -9,42 +9,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dt3_surface_100"
-        android:padding="16dp">
+        android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/tv_sort_pairsets_dialog_title"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_sort_pairset_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:gravity="start"
-            android:text="@string/dt_sort_pairset_list_dialog_title"
-            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+            android:background="@color/dt3_main_light_100"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_sort_pairsets_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:gravity="start"
+                android:text="@string/dt_sort_pairset_list_dialog_title"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <RadioGroup
             android:id="@+id/sort_pairsets_dialog_radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/tv_sort_pairsets_dialog_title">
+            app:layout_constraintTop_toBottomOf="@id/dialog_sort_pairset_header">
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_pairsets_dialog_rb_sortByName_ascending"
+                style="@style/dt_materialRadioButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_ascending" />
 
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_pairsets_dialog_rb_sortByName_descending"
+                style="@style/dt_materialRadioButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_name_descending" />
 
             <View
@@ -52,23 +67,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/horizontal_divider_brand"/>
+                android:background="@drawable/horizontal_divider_brand" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_pairsets_dialog_rb_sortByCount_ascending"
+                style="@style/dt_materialRadioButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_ascending" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_pairsets_dialog_rb_sortByCount_descending"
+                style="@style/dt_materialRadioButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_count_descending" />
 
 
@@ -77,23 +92,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/horizontal_divider_brand"/>
+                android:background="@drawable/horizontal_divider_brand" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_pairsets_dialog_rb_sortByDate_ascending"
+                style="@style/dt_materialRadioButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_ascending" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/sort_pairsets_dialog_rb_sortByDate_descending"
+                style="@style/dt_materialRadioButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/dt_materialRadioButtonStyle"
                 android:text="@string/dt_sort_pairset_list_dialog_sort_by_date_descending" />
         </RadioGroup>
 

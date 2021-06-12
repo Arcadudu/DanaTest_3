@@ -24,7 +24,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     private var backUpPairList: MutableList<Pair> = mutableListOf()
 
-    private var mistakenPairAndAnswerMap: MutableMap<String, Pair> = mutableMapOf()
+    private var mistakenPairAndAnswerList: MutableList<Pair> = mutableListOf()
     private var wrongAnswerList: MutableList<String> = mutableListOf()
 
     companion object {
@@ -33,6 +33,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         const val restartProgressDuration = 640
         private var mistakeCount = 0
         private var answeredPairCount = 0
+        private var hintUsedCount = 0
         private var originPairListCount = 0
     }
 
@@ -56,13 +57,16 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     }
 
     fun onRestartButton() {
-        viewState.showOnRestartDialog(pairsetName = testedPairSetName)
+        viewState.showOnRestartDialog(pairsetName = testedPairSetName, pairsetPairCount = originPairListCount)
     }
 
     fun restartVariantsTest(shufflePairset: Boolean, useAllExistingPairsets: Boolean) {
         this.useAllExistingPairsets = useAllExistingPairsets
         mistakeCount = 0
         answeredPairCount = 0
+        hintUsedCount = 0
+        mistakenPairAndAnswerList.clear()
+        wrongAnswerList.clear()
         testedPairList.apply {
             clear()
             addAll(backUpPairList)
@@ -115,9 +119,9 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
             Log.d("check", "checkAnswerAndDismiss: mistake!")
             mistakeCount++
             wrongAnswerList.add(chosenVariantKey.toString())
-            mistakenPairAndAnswerMap[chosenVariantKey.toString()] = checkPair
-            Log.d("check", "checkAnswerAndDismiss: wrongAnswer = $wrongAnswerList")
-            Log.d("check", "checkAnswerAndDismiss: currentMap = $mistakenPairAndAnswerMap ")
+            mistakenPairAndAnswerList.add(checkPair)
+            Log.d("check", "checkAnswerAndDismiss: wrongAnswers = $wrongAnswerList")
+            Log.d("check", "checkAnswerAndDismiss: currentMap = $mistakenPairAndAnswerList ")
 
         } else {
             Log.d("check", "checkAnswerAndDismiss: correct!")
@@ -126,26 +130,27 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         testedPairList.removeAt(answerPosition)
 
         if (testedPairList.isEmpty()) {
-//            viewState.toResultFragment(backUpPairset, mistakeCount)
             viewState.showOnTestResultDialog()
         } else {
-            viewState.apply {
-                updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
-                updateRecyclerOnRemoved(testedPairList, answerPosition)
-                updateAnsweredProgress(
-                    answeredPairCount * progressMultiplier,
-                    positiveProgressDuration.toLong()
-                )
-            }
+
+            viewState.updateRecyclerOnRemoved(testedPairList, answerPosition)
+        }
+        viewState.apply {
+            updateCounterLine(testedPairSetName, answeredPairCount, originPairListCount)
+            updateAnsweredProgress(
+                answeredPairCount * progressMultiplier,
+                positiveProgressDuration.toLong()
+            )
         }
 
     }
 
-    fun provideMistakenPairAndAnswerMap(): MutableMap<String, Pair> = mistakenPairAndAnswerMap
+    fun provideMistakenPairAndAnswerList(): MutableList<Pair> = mistakenPairAndAnswerList
 
     fun provideWrongAnswerList():MutableList<String> = wrongAnswerList
 
     fun provideHintForCurrentPosition(currentSnapPosition: Int) {
+        ++hintUsedCount
         val questPair = testedPairList[currentSnapPosition]
         viewState.getHintForCurrentPosition(questPair.pairKey)
     }
@@ -155,4 +160,6 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     }
 
     fun provideMistakes(): Int = mistakeCount
+
+    fun provideHintUseCount():Int = hintUsedCount
 }

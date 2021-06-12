@@ -8,21 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dt3_surface_100"
-        android:padding="18dp">
+        android:paddingBottom="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_add_pair_set_dialog_title"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_add_pairset_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/dialog_top_element_marginTop"
-            android:gravity="start"
-            android:text="@string/dt_add_pairset_dialog_title"
-            android:textAppearance="@style/TextAppearance.dt_dialogTitle"
-            android:textSize="22sp"
-            android:textStyle="normal"
+            android:background="@color/dt3_main_light_100"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_add_pair_set_dialog_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/dialog_top_element_marginTop"
+                android:gravity="start"
+                android:text="@string/dt_add_pairset_dialog_title"
+                android:textAppearance="@style/TextAppearance.dt_dialogTitle"
+                android:textSize="22sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <!--editText NEW PAIR NAME-->
@@ -30,13 +43,15 @@
             android:id="@+id/inputLayout_newPairSetName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:hint="@string/dt_add_pairset_dialog_new_pairset_name_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
             app:counterMaxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_add_pair_set_dialog_title">
+            app:layout_constraintTop_toBottomOf="@id/dialog_add_pairset_header">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/dt_TextInputEditTextStyle"
