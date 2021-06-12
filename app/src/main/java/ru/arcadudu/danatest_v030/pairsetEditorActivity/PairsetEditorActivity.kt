@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
@@ -300,7 +301,10 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             tvRemoveDialogMessage.text =
                 getString(R.string.dt_remove_pair_dialog_message)
 
+            // no need to show pair counter when a single pair is removed from pairset,
+            // so we hide it
             flRemovePairsetDialogPairCounterContainer.visibility = View.GONE
+
             //negative btn
             btnCancelRemove.setOnClickListener {
                 removeDialog.dismiss()
@@ -530,6 +534,29 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         pairRowAdapter.notifyItemRangeChanged(0, sortedPairlist.count())
 
         recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
+    }
+
+    override fun showOnRemovePairSnackbar(pair: Pair) {
+        Snackbar.make(
+            fabAddPair,
+            getString(R.string.dt_on_remove_pair_snackBar_title, pair.pairValue, pair.pairKey),
+            5000
+        ).setBackgroundTint(ResourcesCompat.getColor(resources, R.color.dt3_error_100, this.theme))
+            .setAction(getString(R.string.dt_on_remove_pair_snackBar_action_text)) {
+                pairsetEditorPresenter.restoreDeletedPair()
+            }.setAnchorView(fabAddPair).show()
+    }
+
+    override fun updateRecyclerOnRestored(
+        currentPairList: MutableList<Pair>,
+        lastRemovedPairPosition: Int
+    ) {
+        pairRowAdapter.apply {
+            submitPairs(currentPairList)
+            notifyItemInserted(lastRemovedPairPosition)
+        }
+//        pairsetEditorPresenter.providePairList()
+        pairRecyclerView.scrollToPosition(lastRemovedPairPosition)
     }
 
 

@@ -512,7 +512,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             submitList(pairsetList)
             notifyItemInserted(restoredPairsetPosition)
         }
-        pairsetPresenter.providePairsetList()
+//        pairsetPresenter.providePairsetList()
         pairsetRecyclerView.scrollToPosition(restoredPairsetPosition)
     }
 
@@ -557,7 +557,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     }
 
     override fun showOnRemoveSnackbar(deletedPairsetName: String) =
-        Snackbar.make(fabAddNewPairset, getString(R.string.dt_on_remove_snackBar_title,deletedPairsetName), 10_000)
+        Snackbar.make(fabAddNewPairset, getString(R.string.dt_on_remove_pairset_snackBar_title,deletedPairsetName), 10_000)
             .setBackgroundTint(
                 ResourcesCompat.getColor(
                     resources,
@@ -565,7 +565,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     requireActivity().theme
                 )
             )
-            .setAction(R.string.dt_on_remove_snackBar_action_text) {
+            .setAction(R.string.dt_on_remove_pairset_snackBar_action_text) {
                 pairsetPresenter.restoreDeletedPairset()
             }
             .setAnchorView(fabAddNewPairset).show()

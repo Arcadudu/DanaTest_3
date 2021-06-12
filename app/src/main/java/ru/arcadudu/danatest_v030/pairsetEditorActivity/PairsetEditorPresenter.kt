@@ -15,10 +15,14 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
 
     private lateinit var currentPairset: Pairset
     private lateinit var currentPairList: MutableList<Pair>
+    private var removedPairTrashBin: MutableList<Pair> = mutableListOf()
+    private var lastRemovedPairPosition = 0
+
     private var currentPairsetIndex = 0
     private var currentPairsetID = 0
     private lateinit var pairsetTitle: String
     private lateinit var pairsetActualDate: String
+
 
     private lateinit var context: Context
     private lateinit var spHandler: PairsetListSPHandler
@@ -150,13 +154,21 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
     fun removePairAtPosition(removePosition: Int) {
+        lastRemovedPairPosition = removePosition
+        removedPairTrashBin.apply {
+            clear()
+            add(currentPairList[removePosition])
+        }
         currentPairList.removeAt(removePosition)
         applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.apply {
             updateRecyclerOnRemoved(currentPairList, removePosition)
             setOnEmptyStub(currentPairList.count())
+            showOnRemovePairSnackbar(removedPairTrashBin[0])
         }
     }
+
+
 
     fun onToolbarClick() {
         viewState.showEditPairsetNameDialog(currentPairsetName = pairsetTitle)
@@ -171,5 +183,13 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         }
         applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.updateViewOnSortedPairlist(currentPairList, sortIndex)
+    }
+
+    fun restoreDeletedPair() {
+        currentPairList.add(lastRemovedPairPosition, removedPairTrashBin[0])
+        viewState.apply {
+            updateRecyclerOnRestored(currentPairList, lastRemovedPairPosition)
+        }
+        applyPairsetChangesIntoPairsetList(currentPairList)
     }
 }

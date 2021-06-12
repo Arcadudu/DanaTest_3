@@ -46,5 +46,9 @@ interface PairsetEditorView : MvpView {
 
     fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int)
 
+    fun showOnRemovePairSnackbar(pair: Pair)
+
+    fun updateRecyclerOnRestored(currentPairList: MutableList<Pair>, lastRemovedPairPosition: Int)
+
 
 }

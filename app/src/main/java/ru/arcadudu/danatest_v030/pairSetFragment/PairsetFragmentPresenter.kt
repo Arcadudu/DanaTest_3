@@ -14,16 +14,12 @@ import java.util.*
 @InjectViewState
 class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
-    private lateinit var pairsetList: MutableList<Pairset>
-    private var trashBin: MutableList<Pairset> = mutableListOf()
+    private var pairsetList: MutableList<Pairset> = mutableListOf()
+    private var removedPairsetTrashBin: MutableList<Pairset> = mutableListOf()
     private var lastRemovedPosition = 0
 
     private lateinit var pairsetListSPHandler: PairsetListSPHandler
     private lateinit var context: Context
-
-    init {
-        pairsetList = mutableListOf()
-    }
 
 
     fun captureContext(context: Context) {
@@ -84,7 +80,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
     fun removePairsetAtPosition(position: Int) {
         lastRemovedPosition = position
-        trashBin.apply {
+        removedPairsetTrashBin.apply {
             clear()
             add(pairsetList[position])
         }
@@ -92,14 +88,14 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         viewState.apply {
             updateRecyclerOnRemoved(pairsetList, position)
             updateViewOnEmptyPairsetList(pairsetList.count())
-            showOnRemoveSnackbar(trashBin[0].name)
+            showOnRemoveSnackbar(removedPairsetTrashBin[0].name)
         }
 
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
     }
 
     fun restoreDeletedPairset() {
-        pairsetList.add(lastRemovedPosition,trashBin[0])
+        pairsetList.add(lastRemovedPosition,removedPairsetTrashBin[0])
         viewState.apply {
             updateRecyclerOnRestored(pairsetList, lastRemovedPosition)
             updateViewOnEmptyPairsetList(pairsetList.count())
