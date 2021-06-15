@@ -66,7 +66,9 @@ class MistakeListAdapter : RecyclerView.Adapter<MistakeListAdapter.MistakeListRo
                 mistakenPair.pairValue
             )
             tvCorrectKeyLine.text = mistakenPair.pairKey.toLowerCase(Locale.ROOT)
+            Log.d("checkTr", "bindMistakeRow: correctKey = ${mistakenPair.pairKey} ")
             tvMistakenKeyLine.text = wrongAnswer
+            Log.d("checkTr", "bindMistakeRow: mistake = $wrongAnswer ")
         }
 
     }

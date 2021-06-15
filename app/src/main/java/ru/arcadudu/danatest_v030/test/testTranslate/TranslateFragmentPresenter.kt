@@ -14,6 +14,9 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     private lateinit var testedPairlist: MutableList<Pair>
     private lateinit var testedPairsetName: String
 
+    private var mistakenPairList: MutableList<Pair> = mutableListOf()
+    private var wrongAnswerList: MutableList<String> = mutableListOf()
+
     private var backUpPairlist: MutableList<Pair> = mutableListOf()
 
     companion object {
@@ -21,6 +24,7 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         const val positiveProgressDuration = 320
         const val restartProgressDuration = 640
         private var mistakeCount = 0
+        private var hintUsedCount = 0
         private var answeredPairCount = 0
         private var originalPairlistCount = 0
     }
@@ -52,18 +56,26 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
         viewState.updateCounterLine(testedPairsetName, answeredPairCount, originalPairlistCount)
     }
 
+    fun provideMistakes(): Int = mistakeCount
+
     fun checkAnswerAndDismiss(inputAnswer: String, answerPosition: Int) {
         val checkPair = testedPairlist[answerPosition]
-        if (inputAnswer != checkPair.pairKey.toLowerCase(Locale.ROOT)) mistakeCount++
+        if (inputAnswer != checkPair.pairKey.toLowerCase(Locale.ROOT)) {
+            mistakeCount++
+            wrongAnswerList.add(inputAnswer)
+            mistakenPairList.add(checkPair)
+        }
         answeredPairCount++
         testedPairlist.removeAt(answerPosition)
+
         if (testedPairlist.isEmpty()) {
-            viewState.toResultFragment(backUpPairset, mistakeCount)
+            viewState.showOnTestResultDialog()
+        } else {
+            viewState.updateRecyclerOnRemoved(testedPairlist, answerPosition)
         }
 
         viewState.apply {
             updateCounterLine(testedPairsetName, answeredPairCount, originalPairlistCount)
-            updateRecyclerOnRemoved(testedPairlist, answerPosition)
             updateAnsweredProgress(
                 answeredPairCount * Companion.progressMultiplier,
                 positiveProgressDuration.toLong()
@@ -78,6 +90,9 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     fun restartTranslateTest(shufflePairset: Boolean) {
         mistakeCount = 0
         answeredPairCount = 0
+        hintUsedCount = 0
+        mistakenPairList.clear()
+        wrongAnswerList.clear()
         testedPairlist.apply {
             clear()
             addAll(backUpPairlist)
@@ -103,9 +118,17 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
     }
 
     fun provideHintForCurrentPosition(currentSnapPosition: Int) {
+        ++hintUsedCount
         val questPair = testedPairlist[currentSnapPosition]
         viewState.getHintForCurrentPosition(questPair.pairKey)
     }
 
+    fun provideMistakenPairList(): MutableList<Pair> = mistakenPairList
+
+    fun provideWrongAnswerList(): MutableList<String> = wrongAnswerList
+
+    fun provideHintUseCount(): Int = hintUsedCount
 
 }
+
+

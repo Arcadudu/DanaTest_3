@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -266,7 +267,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         )
 
         /* In case of overScroll decoration is not needed -
-        * uncomment the following: */
+        comment VerticalOverScrollBounceEffectDecorator initialization and
+        uncomment the following: */
+
 //        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
 //        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
@@ -530,6 +533,15 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
     }
 
+    override fun updateViewOnEmptyPairList(count: Int) {
+        emptyPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
+        toolbar.menu[0].apply {
+            isEnabled = count!=0
+            val sortByIconDrawable = if(count ==0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
+            icon = ResourcesCompat.getDrawable(resources, sortByIconDrawable, theme)
+        }
+    }
+
     override fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int) {
         pairRowAdapter.notifyItemRangeChanged(0, sortedPairlist.count())
 
@@ -555,8 +567,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             submitPairs(currentPairList)
             notifyItemInserted(lastRemovedPairPosition)
         }
-//        pairsetEditorPresenter.providePairList()
-        pairRecyclerView.scrollToPosition(lastRemovedPairPosition)
+        //todo: find a way to smooth scroll to removed position
+//        pairRecyclerView.scrollToPosition(lastRemovedPairPosition)
     }
 
 
@@ -585,6 +597,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         pairsetEditorPresenter.checkIfPairsetIsEmpty()
         pairRecyclerView.scrollToPosition(0)
+        toolbar.menu[0].isEnabled = updatedPairList.isNotEmpty()
     }
 
     override fun updateRecyclerOnEditedPair(updatedPairList: MutableList<Pair>, position: Int) {
@@ -597,7 +610,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun onStop() {
         super.onStop()
         Log.d("stop", "onStop: callback ok")
-//        pairsetEditorPresenter.onEditorStop()
     }
 }
 

@@ -41,5 +41,7 @@ interface TranslateFragmentView : MvpView {
 
     fun getHintForCurrentPosition(pairKey: String)
 
+    fun showOnTestResultDialog()
+
 
 }

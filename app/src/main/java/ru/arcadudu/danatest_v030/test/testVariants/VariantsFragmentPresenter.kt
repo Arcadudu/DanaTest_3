@@ -120,11 +120,6 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
             mistakeCount++
             wrongAnswerList.add(chosenVariantKey.toString())
             mistakenPairAndAnswerList.add(checkPair)
-            Log.d("check", "checkAnswerAndDismiss: wrongAnswers = $wrongAnswerList")
-            Log.d("check", "checkAnswerAndDismiss: currentMap = $mistakenPairAndAnswerList ")
-
-        } else {
-            Log.d("check", "checkAnswerAndDismiss: correct!")
         }
         answeredPairCount++
         testedPairList.removeAt(answerPosition)
@@ -145,7 +140,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     }
 
-    fun provideMistakenPairAndAnswerList(): MutableList<Pair> = mistakenPairAndAnswerList
+    fun provideMistakenPairList(): MutableList<Pair> = mistakenPairAndAnswerList
 
     fun provideWrongAnswerList():MutableList<String> = wrongAnswerList
 

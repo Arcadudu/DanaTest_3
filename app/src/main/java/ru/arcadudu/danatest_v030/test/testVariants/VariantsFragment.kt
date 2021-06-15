@@ -9,13 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ProgressBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
@@ -36,7 +36,8 @@ import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.test.MistakeListAdapter
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
-import ru.arcadudu.danatest_v030.utils.*
+import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_RESTORED_ON_RESUME
+import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_SHOWN
 import java.util.*
 
 class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapterCallback,
@@ -49,6 +50,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     @InjectPresenter
     lateinit var variantsPresenter: VariantsFragmentPresenter
+
 
     private lateinit var variantsBinding: FragmentTestVariantsBinding
 
@@ -68,7 +70,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var checkedButton: MaterialButton
     private lateinit var btnGiveMeHint: Button
 
-    private lateinit var variantsSnapHelper: PagerSnapHelper
+    /*on default the fragment doesn't allow questCard recycler to scroll,
+   * but if scrolling is desired than uncomment the following SnapHelper initialization
+   * and attachment in prepareRecycler() method*/
+
+    //private lateinit var variantsSnapHelper: PagerSnapHelper
 
     private var currentSnapPosition = 0
     private var shufflePairset = false
@@ -157,20 +163,22 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         testAdapter = TranslateTestAdapter()
         testAdapter.adapterCallback(this)
-        variantsSnapHelper = PagerSnapHelper()
+        val linearLayoutManager =
+            object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
+                override fun canScrollHorizontally(): Boolean {
+                    return false
+                }
+            }
+        //variantsSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
             isHorizontalScrollBarEnabled = false
             adapter = testAdapter
-            layoutManager = LinearLayoutManager(
-                activity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            attachSnapHelperWithListener(
-                snapHelper = variantsSnapHelper,
-                onSnapPositionChangeListener = this@VariantsFragment
-            )
+            layoutManager = linearLayoutManager
+            //attachSnapHelperWithListener(
+            //    snapHelper = variantsSnapHelper,
+            //    onSnapPositionChangeListener = this@VariantsFragment
+            //)
         }
         snapHelperAttached = true
         if (shufflePairset) {
@@ -178,6 +186,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         } else {
             variantsPresenter.provideOrderedPairList()
         }
+        variantsPresenter.getVariantsForCurrentPosition(0)
 
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
     }
@@ -246,7 +255,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                     mistakeListRecycler.isVisible = mistakeListContainerIsShown
                     val iconImageResource =
                         if (mistakeListContainerIsShown)
-                            R.drawable.icon_result_dialog_hide_mistake_list else R.drawable.icon_result_dialog_show_mistake_list
+                            R.drawable.icon_result_dialog_hide_mistake_list
+                        else R.drawable.icon_result_dialog_show_mistake_list
                     ibShowOrHideMistakes.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
@@ -269,14 +279,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                     layoutManager = mLayoutManager
                     addItemDecoration(verticalDivider)
                 }
-                val mistakenPairAndAnswerList = variantsPresenter.provideMistakenPairAndAnswerList()
+                val mistakenPairList = variantsPresenter.provideMistakenPairList()
                 val wrongAnswerList = variantsPresenter.provideWrongAnswerList()
-                Log.d(
-                    "check",
-                    "showOnTestResultDialog: mistakenPairAndAnswerMap = $mistakenPairAndAnswerList"
-                )
+
                 mistakeListAdapter.submitMistakenPairListAndWrongAnswerList(
-                    mistakenPairAndAnswerList,
+                    mistakenPairList,
                     wrongAnswerList
                 )
             }
@@ -422,12 +429,13 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         progressBar.progress = answeredPairCount
     }
 
+    //method listening to questCardRecycler item touch
     override fun onAdapterItemClick() {
-        if (snapHelperAttached) {
-            toScrollMode(questVariantsRecycler)
-        } else {
-            toTestMode(questVariantsRecycler)
-        }
+//        if (snapHelperAttached) {
+//            toScrollMode(questVariantsRecycler)
+//        } else {
+//            toTestMode(questVariantsRecycler)
+//        }
     }
 
     override fun showVariants(keySetCut: MutableList<String>) {
@@ -480,24 +488,36 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     }
 
-    private fun toTestMode(targetRecyclerView: RecyclerView) {
-        snapHelperAttached = true
-        targetRecyclerView.apply {
-            attachSnapHelperWithListener(
-                variantsSnapHelper,
-                onSnapPositionChangeListener = this@VariantsFragment
-            )
-            isHorizontalScrollBarEnabled = false
-        }
-        tvCounterLine.visibility = View.VISIBLE
-        progressBar.visibility = View.VISIBLE
-    }
+    /* Enables snap scrolling behavior
+  and makes visible answer field editText with
+  according test-related elements */
 
-    private fun toScrollMode(targetRecyclerView: RecyclerView) {
-        snapHelperAttached = false
-        variantsSnapHelper.attachToRecyclerView(null)
-        progressBar.visibility = View.GONE
-        tvCounterLine.visibility = View.GONE
-        targetRecyclerView.isHorizontalScrollBarEnabled = true
-    }
+    /* private fun toTestMode(targetRecyclerView: RecyclerView) {
+         snapHelperAttached = true
+         targetRecyclerView.apply {
+             attachSnapHelperWithListener(
+                 variantsSnapHelper,
+                 onSnapPositionChangeListener = this@VariantsFragment
+             )
+             isHorizontalScrollBarEnabled = false
+         }
+         progressBar.visibility = View.VISIBLE
+         tvCounterLine.visibility = View.VISIBLE
+         answerToggleGroup.visibility = View.VISIBLE
+         btnGiveMeHint.visibility = View.VISIBLE
+     }*/
+
+
+    /* Disables snap and hides most of test-related elements,
+         leaving only itemList, restart and endTest buttons.*/
+
+    /* private fun toScrollMode(targetRecyclerView: RecyclerView) {
+         snapHelperAttached = false
+         variantsSnapHelper.attachToRecyclerView(null)
+         progressBar.visibility = View.GONE
+         tvCounterLine.visibility = View.GONE
+         answerToggleGroup.visibility = View.GONE
+         btnGiveMeHint.visibility = View.GONE
+         targetRecyclerView.isHorizontalScrollBarEnabled = true
+     }*/
 }

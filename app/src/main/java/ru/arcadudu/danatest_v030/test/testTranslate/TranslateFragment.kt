@@ -2,17 +2,22 @@ package ru.arcadudu.danatest_v030.test.testTranslate
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
@@ -25,14 +30,17 @@ import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.DialogRemoveItemBinding
+import ru.arcadudu.danatest_v030.databinding.DialogTestResultBinding
 import ru.arcadudu.danatest_v030.databinding.FragmentTestTranslateBinding
 import ru.arcadudu.danatest_v030.interfaces.OnSnapPositionChangeListener
 import ru.arcadudu.danatest_v030.interfaces.TestAdapterCallback
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.Pairset
+import ru.arcadudu.danatest_v030.test.MistakeListAdapter
 import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
-import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
+import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_RESTORED_ON_RESUME
+import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_SHOWN
 import ru.arcadudu.danatest_v030.utils.forceHideKeyboard
 import java.util.*
 
@@ -60,7 +68,15 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     private lateinit var tvPairCounter: MaterialTextView
     private lateinit var btnGiveMeHint: Button
 
-    private lateinit var translateSnapHelper: PagerSnapHelper
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var mistakeListAdapter: MistakeListAdapter
+
+    /*on default the fragment doesn't allow questCard recycler to scroll,
+    * but if scrolling is desired than uncomment the following SnapHelper initialization
+    * and attachment in prepareRecycler() method*/
+
+    //private lateinit var translateSnapHelper: PagerSnapHelper
 
     private lateinit var incomingPairset: Pairset
 
@@ -83,6 +99,10 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         super.onViewCreated(view, savedInstanceState)
         translateBinding = FragmentTestTranslateBinding.bind(view)
         translateBinding = FragmentTestTranslateBinding.bind(view)
+
+        sharedPreferences = requireContext().getSharedPreferences(
+            IS_RESULT_DIALOG_RESTORED_ON_RESUME, Context.MODE_PRIVATE
+        )
 
         incomingPairset = arguments?.getSerializable("pairSet") as Pairset
         shufflePairset = arguments?.getBoolean("shuffle", false)!!
@@ -179,22 +199,25 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
         translateAdapter.adapterCallback(this)
-        translateSnapHelper = PagerSnapHelper()
+        val linearLayoutManager =
+            object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
+                override fun canScrollHorizontally(): Boolean {
+                    return false
+                }
+            }
+//        translateSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
             isHorizontalScrollBarEnabled = false
             adapter = translateAdapter
-            layoutManager = LinearLayoutManager(
-                activity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            attachSnapHelperWithListener(
-                snapHelper = translateSnapHelper,
-                onSnapPositionChangeListener = this@TranslateFragment
-            )
+            layoutManager = linearLayoutManager
+            //attachSnapHelperWithListener(
+            //    snapHelper = translateSnapHelper,
+            //    onSnapPositionChangeListener = this@TranslateFragment
+            //)
         }
-        snapHelperAttached = true
+        //snapHelperAttached = true
+
         if (shufflePairset) {
             translatePresenter.provideShuffledPairList()
         } else {
@@ -306,41 +329,185 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         }
     }
 
+    //method listening to questCardRecycler item touch//method listening to questCardRecycler item touch
     override fun onAdapterItemClick() {
-        if (snapHelperAttached) {
-            toScrollMode(questTranslateRecycler)
-        } else {
-            toTestMode(questTranslateRecycler)
-        }
-        Log.d("aaa", "onAdapterItemClick: snapHelperAttached = $snapHelperAttached ")
+//        if (snapHelperAttached) {
+//            toScrollMode(questTranslateRecycler)
+//        } else {
+//            toTestMode(questTranslateRecycler)
+//        }
     }
 
     override fun getHintForCurrentPosition(pairKey: String) {
         etAnswerField.setText(pairKey)
     }
 
-    /* Enables snap scrolling behavior
-     and makes visible answer field editText with
-     according test elements */
-    private fun toTestMode(targetRecyclerView: RecyclerView) {
-        snapHelperAttached = true
-        targetRecyclerView.apply {
-            attachSnapHelperWithListener(
-                translateSnapHelper,
-                onSnapPositionChangeListener = this@TranslateFragment
-            )
-            isHorizontalScrollBarEnabled = false
+    override fun showOnTestResultDialog() {
+        val onTestResultDialogBuilder = AlertDialog.Builder(context, R.style.dt_CustomAlertDialog)
+        val onTestResultDialogView =
+            this.layoutInflater.inflate(R.layout.dialog_test_result, null, false)
+        onTestResultDialogBuilder.setView(onTestResultDialogView)
+        val onTestResultDialog = onTestResultDialogBuilder.create()
+
+        var dismissedWithAction = false
+        onTestResultDialog.setOnDismissListener {
+            sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, false).apply()
+            if (!dismissedWithAction) (activity as? TestActivityView)?.onFragmentBackPressed()
         }
-        etAnswerInputLayout.visibility = View.VISIBLE
-        etAnswerInputLayout.editText?.text = null
-        tvPairCounter.visibility = View.VISIBLE
-        progressBar.visibility = View.VISIBLE
-        btnGiveMeHint.visibility = View.VISIBLE
+
+        questTranslateRecycler.visibility = View.GONE
+        etAnswerInputLayout.visibility = View.GONE
+        btnGiveMeHint.visibility = View.GONE
+
+        val onTestResultDialogBinding = DialogTestResultBinding.bind(onTestResultDialogView)
+        onTestResultDialogBinding.apply {
+            tvResultPairSetName.text = toolbar.title.toString()
+
+            val mistakesTotal = translatePresenter.provideMistakes()
+
+            if (mistakesTotal == 0) {
+
+                tvResultMistakesCount.apply {
+                    setTextColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.dt3_brand_100,
+                            requireActivity().theme
+                        )
+                    )
+                    text =
+                        getString(R.string.dt_on_test_result_dialog_mistake_count_line_no_mistakes)
+                }
+
+                mistakeListRecycler.visibility = View.GONE
+                mistakeListContainer.visibility = View.GONE
+                ibShowOrHideMistakes.visibility = View.GONE
+
+            } else {
+
+                tvResultMistakesCount.text = getString(
+                    R.string.dt_on_test_result_dialog_mistake_count_line_has_mistakes,
+                    mistakesTotal
+                )
+
+                mistakeListRecycler.visibility = View.VISIBLE
+                mistakeListContainer.visibility = View.VISIBLE
+                ibShowOrHideMistakes.visibility = View.VISIBLE
+
+                if (mistakesTotal <= 3)
+                    mistakeListRecycler.layoutParams.height = RecyclerView.LayoutParams.WRAP_CONTENT
+
+                var mistakeListContainerIsShown = true
+                ibShowOrHideMistakes.setOnClickListener {
+
+                    mistakeListRecycler.isVisible = mistakeListContainerIsShown
+                    mistakeListContainer.isVisible = mistakeListContainerIsShown
+                    val iconImageResource =
+                        if (mistakeListContainerIsShown)
+                            R.drawable.icon_result_dialog_hide_mistake_list
+                        else R.drawable.icon_result_dialog_show_mistake_list
+                    ibShowOrHideMistakes.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            iconImageResource,
+                            requireActivity().theme
+                        )
+                    )
+                    mistakeListContainerIsShown = !mistakeListContainerIsShown
+                }
+
+                mistakeListAdapter = MistakeListAdapter()
+                mistakeListAdapter.captureContext(requireContext())
+                val mLayoutManager = LinearLayoutManager(requireActivity())
+                val verticalDivider =
+                    DividerItemDecoration(mistakeListRecycler.context, mLayoutManager.orientation)
+                mistakeListRecycler.apply {
+                    adapter = mistakeListAdapter
+                    setHasFixedSize(true)
+                    layoutManager = mLayoutManager
+                    addItemDecoration(verticalDivider)
+                }
+                val mistakenPairList = translatePresenter.provideMistakenPairList()
+                val wrongAnswerList = translatePresenter.provideWrongAnswerList()
+                mistakeListAdapter.submitMistakenPairListAndWrongAnswerList(
+                    mistakenPairList,
+                    wrongAnswerList
+                )
+            }
+
+            when (translatePresenter.provideHintUseCount()) {
+                0 -> tvResultHintUseCount.visibility = View.GONE
+                else -> tvResultHintUseCount.text = getString(
+                    R.string.dt_on_test_result_dialog_hint_used_count_line,
+                    translatePresenter.provideHintUseCount()
+                )
+            }
+
+            //restart button
+            btnTestResultDialogRestartTest.text =
+                getString(R.string.dt_on_test_result_dialog_restart_test)
+            btnTestResultDialogRestartTest.setOnClickListener {
+                translatePresenter.restartTranslateTest(
+                    shufflePairset
+                )
+                questTranslateRecycler.visibility = View.VISIBLE
+                etAnswerInputLayout.visibility = View.VISIBLE
+                btnGiveMeHint.visibility = View.VISIBLE
+
+                dismissedWithAction = true
+                onTestResultDialog.dismiss()
+            }
+
+            //to pairset list screen button
+            btnTestResultDialogToPairsets.text =
+                getString(R.string.dt_on_test_result_dialog_back_to_pairset_screen)
+            btnTestResultDialogToPairsets.setOnClickListener {
+                dismissedWithAction = true
+                (activity as? TestActivityView)?.onFragmentBackPressed()
+                onTestResultDialog.dismiss()
+            }
+
+            sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, true).apply()
+
+            onTestResultDialog.show()
+        }
     }
 
-    /* Disables snap and hides most of interactive elements,
-     leaving only itemList, restart and endTest buttons.*/
-    private fun toScrollMode(targetRecyclerView: RecyclerView) {
+
+    override fun onResume() {
+        super.onResume()
+
+        val isResultDialogIsShown = sharedPreferences.getBoolean("IS_RESULT_DIALOG_SHOWN", false)
+        if (!isResultDialogIsShown) {
+            translatePresenter.restartTranslateTest(shufflePairset)
+        }
+    }
+
+    /* Enables snap scrolling behavior
+   and makes visible answer field editText with
+   according test-related elements */
+
+    /* private fun toTestMode(targetRecyclerView: RecyclerView) {
+         snapHelperAttached = true
+         targetRecyclerView.apply {
+             attachSnapHelperWithListener(
+                 translateSnapHelper,
+                 onSnapPositionChangeListener = this@TranslateFragment
+             )
+             isHorizontalScrollBarEnabled = false
+         }
+         etAnswerInputLayout.visibility = View.VISIBLE
+         etAnswerInputLayout.editText?.text = null
+         tvPairCounter.visibility = View.VISIBLE
+         progressBar.visibility = View.VISIBLE
+         btnGiveMeHint.visibility = View.VISIBLE
+     }*/
+
+
+    /* Disables snap and hides most of test-related elements,
+         leaving only itemList, restart and endTest buttons.*/
+
+   /* private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
         (activity as? MvpAppCompatActivity)?.forceHideKeyboard(etAnswerInputLayout)
         translateSnapHelper.attachToRecyclerView(null)
@@ -351,7 +518,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         tvPairCounter.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true
         btnGiveMeHint.visibility = View.GONE
-    }
+    }*/
 
 
 }

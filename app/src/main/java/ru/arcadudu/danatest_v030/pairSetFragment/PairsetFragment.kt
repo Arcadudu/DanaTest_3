@@ -212,7 +212,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     }
                 }
 
-                // swiping right -> play test
+                // swiping right -> show start test dialog
                 if (dX > 0 && actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
                     val background = dtSwipeDecorator.getSwipeBackgroundRectF(dX)

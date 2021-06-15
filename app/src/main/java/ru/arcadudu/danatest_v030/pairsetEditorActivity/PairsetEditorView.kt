@@ -44,6 +44,8 @@ interface PairsetEditorView : MvpView {
 
     fun setOnEmptyStub(count: Int)
 
+    fun updateViewOnEmptyPairList(count:Int)
+
     fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int)
 
     fun showOnRemovePairSnackbar(pair: Pair)

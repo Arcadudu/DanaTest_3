@@ -163,7 +163,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.apply {
             updateRecyclerOnRemoved(currentPairList, removePosition)
-            setOnEmptyStub(currentPairList.count())
+            updateViewOnEmptyPairList(currentPairList.count())
             showOnRemovePairSnackbar(removedPairTrashBin[0])
         }
     }
@@ -189,6 +189,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         currentPairList.add(lastRemovedPairPosition, removedPairTrashBin[0])
         viewState.apply {
             updateRecyclerOnRestored(currentPairList, lastRemovedPairPosition)
+            updateViewOnEmptyPairList(currentPairList.count())
         }
         applyPairsetChangesIntoPairsetList(currentPairList)
     }

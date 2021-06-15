@@ -19,6 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ответ:"
+        android:textColor="@color/dt3_hint_color_30"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintTop_toTopOf="@id/tv_quest_word_title_line"
+        app:layout_constraintBottom_toBottomOf="@id/tv_quest_word_title_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="80dp"/>
+
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mistake_card"
@@ -59,7 +73,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-
                 android:fontFamily="@font/roboto_medium"
                 android:padding="6dp"
                 android:paddingStart="20dp"
