@@ -3,7 +3,7 @@
     android:id="@+id/tv_"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/translate"
+    android:text="@string/variants"
     android:paddingStart="18dp"
     android:paddingTop="10dp"
     android:paddingEnd="18dp"
