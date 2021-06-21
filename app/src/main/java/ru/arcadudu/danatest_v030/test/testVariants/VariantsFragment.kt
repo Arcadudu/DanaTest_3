@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
@@ -38,6 +38,7 @@ import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_RESTORED_ON_RESUME
 import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_SHOWN
+import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
 import java.util.*
 
 class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapterCallback,
@@ -70,11 +71,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private lateinit var checkedButton: MaterialButton
     private lateinit var btnGiveMeHint: Button
 
-    /*on default the fragment doesn't allow questCard recycler to scroll,
-   * but if scrolling is desired than uncomment the following SnapHelper initialization
-   * and attachment in prepareRecycler() method*/
-
-    //private lateinit var variantsSnapHelper: PagerSnapHelper
+    private lateinit var variantsSnapHelper: PagerSnapHelper
 
     private var currentSnapPosition = 0
     private var shufflePairset = false
@@ -109,8 +106,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         enableHintForPairset = arguments?.getBoolean("enableHints", false)!!
         useAllExistingPairsetsValuesAsVariants = arguments?.getBoolean("useAllPairsets", false)!!
 
-        variantsPresenter.captureContext(requireContext())
-        variantsPresenter.obtainTestedPairSet(incomingPairset)
+        variantsPresenter.apply {
+            captureContext(requireContext())
+            captureTestSettings(useAllExistingPairsetsValuesAsVariants)
+            obtainTestedPairSet(incomingPairset)
+        }
 
         toolbar = variantsBinding.variantsToolbar
         prepareToolbar(targetToolbar = toolbar)
@@ -163,22 +163,18 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         testAdapter = TranslateTestAdapter()
         testAdapter.adapterCallback(this)
-        val linearLayoutManager =
-            object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
-                override fun canScrollHorizontally(): Boolean {
-                    return false
-                }
-            }
-        //variantsSnapHelper = PagerSnapHelper()
+
+        variantsSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
             isHorizontalScrollBarEnabled = false
             adapter = testAdapter
-            layoutManager = linearLayoutManager
-            //attachSnapHelperWithListener(
-            //    snapHelper = variantsSnapHelper,
-            //    onSnapPositionChangeListener = this@VariantsFragment
-            //)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            attachSnapHelperWithListener(
+                snapHelper = variantsSnapHelper,
+                onSnapPositionChangeListener = this@VariantsFragment
+            )
         }
         snapHelperAttached = true
         if (shufflePairset) {
@@ -431,11 +427,12 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     //method listening to questCardRecycler item touch
     override fun onAdapterItemClick() {
-//        if (snapHelperAttached) {
-//            toScrollMode(questVariantsRecycler)
-//        } else {
-//            toTestMode(questVariantsRecycler)
-//        }
+        if (snapHelperAttached) {
+            toScrollMode(questVariantsRecycler)
+        } else {
+            questVariantsRecycler.smoothScrollToPosition(0)
+            toTestMode(questVariantsRecycler)
+        }
     }
 
     override fun showVariants(keySetCut: MutableList<String>) {
@@ -483,41 +480,42 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
-        Log.d("rrr", "onSnapPositionChange: currentSnapPosition = $currentSnapPosition ")
         variantsPresenter.getVariantsForCurrentPosition(position)
-
     }
 
     /* Enables snap scrolling behavior
-  and makes visible answer field editText with
-  according test-related elements */
+     and makes visible answer field editText with
+     according test-related elements */
 
-    /* private fun toTestMode(targetRecyclerView: RecyclerView) {
-         snapHelperAttached = true
-         targetRecyclerView.apply {
-             attachSnapHelperWithListener(
-                 variantsSnapHelper,
-                 onSnapPositionChangeListener = this@VariantsFragment
-             )
-             isHorizontalScrollBarEnabled = false
-         }
-         progressBar.visibility = View.VISIBLE
-         tvCounterLine.visibility = View.VISIBLE
-         answerToggleGroup.visibility = View.VISIBLE
-         btnGiveMeHint.visibility = View.VISIBLE
-     }*/
+    private fun toTestMode(targetRecyclerView: RecyclerView) {
+        snapHelperAttached = true
+        targetRecyclerView.apply {
+            attachSnapHelperWithListener(
+                variantsSnapHelper,
+                onSnapPositionChangeListener = this@VariantsFragment
+            )
+            isHorizontalScrollBarEnabled = false
+
+        }
+
+        progressBar.visibility = View.VISIBLE
+        tvCounterLine.visibility = View.VISIBLE
+        answerToggleGroup.visibility = View.VISIBLE
+        btnGiveMeHint.visibility = View.VISIBLE
+    }
 
 
-    /* Disables snap and hides most of test-related elements,
-         leaving only itemList, restart and endTest buttons.*/
+    /* Disables snap, enabling faster scrolling
+     and hides most of test-related elements,
+     leaving only itemList, restart and endTest buttons.*/
 
-    /* private fun toScrollMode(targetRecyclerView: RecyclerView) {
-         snapHelperAttached = false
-         variantsSnapHelper.attachToRecyclerView(null)
-         progressBar.visibility = View.GONE
-         tvCounterLine.visibility = View.GONE
-         answerToggleGroup.visibility = View.GONE
-         btnGiveMeHint.visibility = View.GONE
-         targetRecyclerView.isHorizontalScrollBarEnabled = true
-     }*/
+    private fun toScrollMode(targetRecyclerView: RecyclerView) {
+        snapHelperAttached = false
+        variantsSnapHelper.attachToRecyclerView(null)
+        progressBar.visibility = View.GONE
+        tvCounterLine.visibility = View.GONE
+        answerToggleGroup.visibility = View.GONE
+        btnGiveMeHint.visibility = View.GONE
+        targetRecyclerView.isHorizontalScrollBarEnabled = true
+    }
 }

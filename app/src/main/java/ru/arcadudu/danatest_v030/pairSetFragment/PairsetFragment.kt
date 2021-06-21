@@ -289,7 +289,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             this.layoutInflater.inflate(R.layout.dialog_sort_pairset_list, null, false)
         val sortPairsetDialog = dialogBuilder.setView(sortPairsetListDialogView).create()
 
-        val sortPairsetListDialogBinding = DialogSortPairsetListBinding.bind(sortPairsetListDialogView)
+        val sortPairsetListDialogBinding =
+            DialogSortPairsetListBinding.bind(sortPairsetListDialogView)
 
         sortPairsetListDialogBinding.apply {
             val sortRadioGroup = this.sortPairsetsDialogRadioGroup
@@ -372,9 +373,12 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             }
 
             enableHintsCheckBox.isChecked = true
-            enableHintsCheckBox.setTextColor(ResourcesCompat.getColor(resources, R.color.dt3_brand_100,
-                requireActivity().theme
-            ))
+            enableHintsCheckBox.setTextColor(
+                ResourcesCompat.getColor(
+                    resources, R.color.dt3_brand_100,
+                    requireActivity().theme
+                )
+            )
 
             allPairsetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
@@ -387,12 +391,17 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     )
                 )
             }
+
+            allPairsetVariantsCheckBox.apply {
+                isChecked = chosenPairset.getPairList().count() < 4
+                isEnabled = chosenPairset.getPairList().count() >= 4
+            }
         }
 
         //positive btn
         startTestDialogBinding.btnStartTest.setOnClickListener {
 
-            // collecting contents for testing:
+            // collecting settings for test:
             val shufflePairset = startTestDialogBinding.shufflePairsetCheckBox.isChecked
             val enableHintsForTest = startTestDialogBinding.enableHintsCheckBox.isChecked
             val useAllExistingPairsetsValuesAsVariants =
@@ -437,10 +446,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         }
         addPairsetDialogBinding.inputLayoutNewPairSetName.editText?.apply {
             setOnFocusChangeListener { v, _ ->
-
                 (activity as? MvpAppCompatActivity)?.forceShowKeyboard(v)
-
-
             }
             requestFocus()
         }
@@ -544,8 +550,10 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         noPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
         toolbar.menu[0].apply {
             isEnabled = count != 0
-            val sortByIconDrawable = if(count==0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
-            icon = ResourcesCompat.getDrawable(resources, sortByIconDrawable, requireActivity().theme)
+            val sortByIconDrawable =
+                if (count == 0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
+            icon =
+                ResourcesCompat.getDrawable(resources, sortByIconDrawable, requireActivity().theme)
         }
 
     }
@@ -558,7 +566,11 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     }
 
     override fun showOnRemoveSnackbar(deletedPairsetName: String) =
-        Snackbar.make(fabAddNewPairset, getString(R.string.dt_on_remove_pairset_snackBar_title,deletedPairsetName), 10_000)
+        Snackbar.make(
+            fabAddNewPairset,
+            getString(R.string.dt_on_remove_pairset_snackBar_title, deletedPairsetName),
+            10_000
+        )
             .setBackgroundTint(
                 ResourcesCompat.getColor(
                     resources,

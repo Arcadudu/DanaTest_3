@@ -72,7 +72,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_fall_down_with_alpha_anim"
-        android:paddingBottom="4dp"
+        android:paddingBottom="84dp"
         android:scrollbarSize="3dp"
         android:scrollbarStyle="insideOverlay"
         android:scrollbarThumbVertical="@color/dt3_brand_100"

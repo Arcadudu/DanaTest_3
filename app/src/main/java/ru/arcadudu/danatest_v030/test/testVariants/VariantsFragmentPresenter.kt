@@ -42,6 +42,10 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         pairsetListSPHandler = PairsetListSPHandler(context)
     }
 
+    fun captureTestSettings(useAllExistingPairsets: Boolean){
+        this.useAllExistingPairsets = useAllExistingPairsets
+    }
+
     fun obtainTestedPairSet(incomingPairset: Pairset) {
         testedPairset = incomingPairset
         backUpPairset = testedPairset
