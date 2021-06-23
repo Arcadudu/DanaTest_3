@@ -42,7 +42,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
         pairsetListSPHandler = PairsetListSPHandler(context)
     }
 
-    fun captureTestSettings(useAllExistingPairsets: Boolean){
+    fun captureTestSettings(useAllExistingPairsets: Boolean) {
         this.useAllExistingPairsets = useAllExistingPairsets
     }
 
@@ -57,11 +57,14 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     }
 
     fun getProgressMax() {
-        viewState.setProgressMax(originPairListCount * Companion.progressMultiplier)
+        viewState.setProgressMax(originPairListCount * progressMultiplier)
     }
 
     fun onRestartButton() {
-        viewState.showOnRestartDialog(pairsetName = testedPairSetName, pairsetPairCount = originPairListCount)
+        viewState.showOnRestartDialog(
+            pairsetName = testedPairSetName,
+            pairsetPairCount = originPairListCount
+        )
     }
 
     fun restartVariantsTest(shufflePairset: Boolean, useAllExistingPairsets: Boolean) {
@@ -118,6 +121,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
     }
 
     fun checkAnswerAndDismiss(chosenVariantKey: CharSequence, answerPosition: Int) {
+
         val checkPair = testedPairList[answerPosition]
         if (chosenVariantKey.toString() != checkPair.pairKey.toLowerCase(Locale.ROOT).trim()) {
             Log.d("check", "checkAnswerAndDismiss: mistake!")
@@ -146,7 +150,9 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun provideMistakenPairList(): MutableList<Pair> = mistakenPairAndAnswerList
 
-    fun provideWrongAnswerList():MutableList<String> = wrongAnswerList
+
+    fun provideWrongAnswerList(): MutableList<String> = wrongAnswerList
+
 
     fun provideHintForCurrentPosition(currentSnapPosition: Int) {
         ++hintUsedCount
@@ -160,5 +166,7 @@ class VariantsFragmentPresenter : MvpPresenter<VariantsFragmentView>() {
 
     fun provideMistakes(): Int = mistakeCount
 
-    fun provideHintUseCount():Int = hintUsedCount
+
+    fun provideHintUseCount(): Int = hintUsedCount
+
 }

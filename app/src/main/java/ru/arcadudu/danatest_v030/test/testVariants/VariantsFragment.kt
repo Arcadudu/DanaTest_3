@@ -155,8 +155,6 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
 
         progressBar = variantsBinding.variantsTestProgressbar
         variantsPresenter.getProgressMax()
-
-
     }
 
 
@@ -177,12 +175,9 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             )
         }
         snapHelperAttached = true
-        if (shufflePairset) {
-            variantsPresenter.provideShuffledPairList()
-        } else {
-            variantsPresenter.provideOrderedPairList()
-        }
-        variantsPresenter.getVariantsForCurrentPosition(0)
+
+        if (shufflePairset) variantsPresenter.provideShuffledPairList()
+        else variantsPresenter.provideOrderedPairList()
 
         HorizontalOverScrollBounceEffectDecorator(RecyclerViewOverScrollDecorAdapter(targetRecycler))
     }
@@ -426,14 +421,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     }
 
     //method listening to questCardRecycler item touch
-    override fun onAdapterItemClick() {
-        if (snapHelperAttached) {
-            toScrollMode(questVariantsRecycler)
-        } else {
-            questVariantsRecycler.smoothScrollToPosition(0)
-            toTestMode(questVariantsRecycler)
-        }
-    }
+
 
     override fun showVariants(keySetCut: MutableList<String>) {
         variantList.clear()
@@ -450,11 +438,16 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         updatedPairList: MutableList<Pair>,
         answerPosition: Int
     ) {
-
         testAdapter.apply {
             submitData(updatedPairList)
             notifyItemRemoved(answerPosition)
+
+            if (answerPosition != 0) {
+                questVariantsRecycler.smoothScrollToPosition(answerPosition - 1)
+                currentSnapPosition = answerPosition - 1
+            }
             variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
+
         }
     }
 
@@ -463,13 +456,11 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     }
 
     override fun getHintForCurrentPosition(pairKey: String) {
-
         for (i in 0 until answerToggleGroup.childCount) {
             val button = answerToggleGroup[i] as MaterialButton
             if (button.text == pairKey.toLowerCase(Locale.ROOT).trim()) {
                 button.isPressed = true
             }
-
         }
 
     }
@@ -481,6 +472,13 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
     override fun onSnapPositionChange(position: Int) {
         currentSnapPosition = position
         variantsPresenter.getVariantsForCurrentPosition(position)
+    }
+
+
+    override fun onAdapterItemClick() {
+        if (snapHelperAttached) toScrollMode(questVariantsRecycler)
+        else toTestMode(questVariantsRecycler)
+
     }
 
     /* Enables snap scrolling behavior

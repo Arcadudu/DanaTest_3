@@ -18,6 +18,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.TextInputEditText
@@ -41,6 +42,7 @@ import ru.arcadudu.danatest_v030.test.TestActivityView
 import ru.arcadudu.danatest_v030.test.TranslateTestAdapter
 import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_RESTORED_ON_RESUME
 import ru.arcadudu.danatest_v030.utils.IS_RESULT_DIALOG_SHOWN
+import ru.arcadudu.danatest_v030.utils.attachSnapHelperWithListener
 import ru.arcadudu.danatest_v030.utils.forceHideKeyboard
 import java.util.*
 
@@ -76,7 +78,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     * but if scrolling is desired than uncomment the following SnapHelper initialization
     * and attachment in prepareRecycler() method*/
 
-    //private lateinit var translateSnapHelper: PagerSnapHelper
+    private lateinit var translateSnapHelper: PagerSnapHelper
 
     private lateinit var incomingPairset: Pairset
 
@@ -199,24 +201,19 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
     private fun prepareRecycler(targetRecycler: RecyclerView) {
         translateAdapter = TranslateTestAdapter()
         translateAdapter.adapterCallback(this)
-        val linearLayoutManager =
-            object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
-                override fun canScrollHorizontally(): Boolean {
-                    return false
-                }
-            }
-//        translateSnapHelper = PagerSnapHelper()
+
+        translateSnapHelper = PagerSnapHelper()
         targetRecycler.apply {
             setHasFixedSize(true)
             isHorizontalScrollBarEnabled = false
             adapter = translateAdapter
-            layoutManager = linearLayoutManager
-            //attachSnapHelperWithListener(
-            //    snapHelper = translateSnapHelper,
-            //    onSnapPositionChangeListener = this@TranslateFragment
-            //)
+            layoutManager = LinearLayoutManager(targetRecycler.context, RecyclerView.HORIZONTAL, false)
+            attachSnapHelperWithListener(
+                snapHelper = translateSnapHelper,
+                onSnapPositionChangeListener = this@TranslateFragment
+            )
         }
-        //snapHelperAttached = true
+        snapHelperAttached = true
 
         if (shufflePairset) {
             translatePresenter.provideShuffledPairList()
@@ -329,13 +326,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         }
     }
 
-    //method listening to questCardRecycler item touch//method listening to questCardRecycler item touch
+    //method listening to questCardRecycler item touch
     override fun onAdapterItemClick() {
-//        if (snapHelperAttached) {
-//            toScrollMode(questTranslateRecycler)
-//        } else {
-//            toTestMode(questTranslateRecycler)
-//        }
+        if (snapHelperAttached) {
+            toScrollMode(questTranslateRecycler)
+        } else {
+            toTestMode(questTranslateRecycler)
+        }
     }
 
     override fun getHintForCurrentPosition(pairKey: String) {
@@ -483,11 +480,11 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         }
     }
 
-    /* Enables snap scrolling behavior
+  /*   Enables snap scrolling behavior
    and makes visible answer field editText with
    according test-related elements */
 
-    /* private fun toTestMode(targetRecyclerView: RecyclerView) {
+     private fun toTestMode(targetRecyclerView: RecyclerView) {
          snapHelperAttached = true
          targetRecyclerView.apply {
              attachSnapHelperWithListener(
@@ -501,13 +498,13 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
          tvPairCounter.visibility = View.VISIBLE
          progressBar.visibility = View.VISIBLE
          btnGiveMeHint.visibility = View.VISIBLE
-     }*/
+     }
 
 
     /* Disables snap and hides most of test-related elements,
          leaving only itemList, restart and endTest buttons.*/
 
-   /* private fun toScrollMode(targetRecyclerView: RecyclerView) {
+    private fun toScrollMode(targetRecyclerView: RecyclerView) {
         snapHelperAttached = false
         (activity as? MvpAppCompatActivity)?.forceHideKeyboard(etAnswerInputLayout)
         translateSnapHelper.attachToRecyclerView(null)
@@ -518,7 +515,7 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         tvPairCounter.visibility = View.GONE
         targetRecyclerView.isHorizontalScrollBarEnabled = true
         btnGiveMeHint.visibility = View.GONE
-    }*/
+    }
 
 
 }
