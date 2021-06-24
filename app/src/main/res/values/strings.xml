@@ -43,6 +43,8 @@
         <item>Перемешать</item>
     </string-array>
     <string name="dt_start_test_dialog_shuffle_checkbox">Перемешать набор</string>
+    <string name="dt_start_test_dialog_enable_hints_checkbox">Подсказки</string>
+    <string name="dt_start_test_dialog_more_variants_checkbox">Варианты ответа из всех наборов</string>
     <string name="dt_start_test_dialog_negative_btn">Нет</string>
     <string name="dt_start_test_dialog_positive_btn">Начать</string>
     <!--onEmptyPairsetDialog-->
@@ -213,7 +215,7 @@
     <string name="pair_set_fragment_title">Здесь хранятся доступные Вам наборы</string>
     <string name="dummy2">DummyDetails</string>
     <string name="onEmptyPairsetMessage">Невозможно начать тест с пустым набором.</string>
-    <string name="dt_start_test_dialog_more_variants_checkbox">Варианты ответа из всех наборов</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 
 

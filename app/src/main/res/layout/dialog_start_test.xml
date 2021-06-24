@@ -22,14 +22,25 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_start_test_dialog_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/dialog_top_element_marginTop"
                 android:gravity="start"
-                android:text="Начать тест"
+
                 android:textAppearance="@style/TextAppearance.dt_dialogTitle"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/im_start_test_dialog_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="18dp"
+                android:src="@drawable/icon_test_icon_variants_descriptive"
+                app:layout_constraintBottom_toBottomOf="@id/tv_start_test_dialog_title"
+                app:layout_constraintStart_toEndOf="@+id/tv_start_test_dialog_title"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -86,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Подсказки"
+            android:text="@string/dt_start_test_dialog_enable_hints_checkbox"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
