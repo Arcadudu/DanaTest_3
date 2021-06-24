@@ -346,6 +346,8 @@ class TranslateFragment : MvpAppCompatFragment(), TranslateFragmentView, TestAda
         onTestResultDialogBuilder.setView(onTestResultDialogView)
         val onTestResultDialog = onTestResultDialogBuilder.create()
 
+        translatePresenter.applyTestPassReward(translatePresenter.provideMistakes(), translatePresenter.provideHintUseCount(), requireContext())
+
         var dismissedWithAction = false
         onTestResultDialog.setOnDismissListener {
             sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, false).apply()

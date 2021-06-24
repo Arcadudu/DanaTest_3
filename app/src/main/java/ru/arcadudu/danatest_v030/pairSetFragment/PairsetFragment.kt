@@ -360,7 +360,6 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
             }
 
-            //todo : make a style for checkboxes with textColor colorset
             shufflePairsetCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70

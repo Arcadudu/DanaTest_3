@@ -57,13 +57,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         val pairsetToEdit = pairsetListToEdit[currentPairsetIndex]
         pairsetToEdit.setNewPairList(editedPairList)
         pairsetToEdit.date = getCreationDate()
-/*
-        var index = 0
-        for(pairset in pairsetListToEdit){
-            if(pairset.pairsetId == 111)
-                index = pairsetListToEdit.indexOf(pairset)
-        }
-        */
+
         pairsetListToEdit.apply {
 
             removeAt(currentPairsetIndex)
