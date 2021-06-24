@@ -343,29 +343,19 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
                     startTestDialogBinding.allPairsetVariantsCheckBox.visibility =
                         if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
-                    when (text.toString()) {
-                        getString(R.string.variants) -> startTestDialogBinding.imStartTestDialogIcon.setImageDrawable(
-                            ResourcesCompat.getDrawable(
-                                resources,
-                                R.drawable.icon_test_icon_variants_descriptive,
-                                requireActivity().theme
-                            )
+                    val headerTestVariationIcon =
+                        when(text.toString()){
+                            getString(R.string.variants) -> R.drawable.icon_test_icon_variants_descriptive
+                            getString(R.string.translate) -> R.drawable.icon_test_icon_translate_descriptive
+                            else -> R.drawable.icon_test_icon_shuffle_descriptive
+                        }
+                    startTestDialogBinding.imStartTestDialogIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            headerTestVariationIcon,
+                            requireActivity().theme
                         )
-                        getString(R.string.translate) -> startTestDialogBinding.imStartTestDialogIcon.setImageDrawable(
-                            ResourcesCompat.getDrawable(
-                                resources,
-                                R.drawable.icon_test_icon_translate_descriptive,
-                                requireActivity().theme
-                            )
-                        )
-                        else -> startTestDialogBinding.imStartTestDialogIcon.setImageDrawable(
-                            ResourcesCompat.getDrawable(
-                                resources,
-                                R.drawable.icon_test_icon_shuffle_descriptive,
-                                requireActivity().theme
-                            )
-                        )
-                    }
+                    )
                 }
 
             }
