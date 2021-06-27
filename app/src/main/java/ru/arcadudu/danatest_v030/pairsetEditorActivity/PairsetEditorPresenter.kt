@@ -50,7 +50,7 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         viewState.setOnEmptyStub(currentPairset.getPairList().count())
     }
 
-    // here
+    //
     private fun applyPairsetChangesIntoPairsetList(editedPairList: MutableList<Pair>) {
         spHandler = PairsetListSPHandler(context)
         val pairsetListToEdit = spHandler.loadSpPairsetList()
@@ -59,7 +59,6 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         pairsetToEdit.date = getCreationDate()
 
         pairsetListToEdit.apply {
-
             removeAt(currentPairsetIndex)
             add(currentPairsetIndex, pairsetToEdit)
         }
@@ -163,7 +162,6 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
     }
 
 
-
     fun onToolbarClick() {
         viewState.showEditPairsetNameDialog(currentPairsetName = pairsetTitle)
     }
@@ -187,4 +185,32 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         }
         applyPairsetChangesIntoPairsetList(currentPairList)
     }
+
+    fun removePassedTestRewardsOnAddedPair() {
+        val pairsetListToEdit = spHandler.loadSpPairsetList()
+        val pairsetToBeUnrewarded = pairsetListToEdit[currentPairsetIndex]
+        if (pairsetToBeUnrewarded.translateTestPassed ||
+            pairsetToBeUnrewarded.variantsTestPassed ||
+            pairsetToBeUnrewarded.shuffleTestPassed
+        ) {
+            viewState.showOnRemoveRewardsSnackBar(pairsetTitle)
+        }
+        pairsetToBeUnrewarded.apply {
+            setPairsetPassedVariantsTest(false)
+            setPairsetPassedTranslateTest(false)
+            setPairsetPassedShuffleTest(false)
+        }
+        pairsetListToEdit.apply {
+            removeAt(currentPairsetIndex)
+            add(currentPairsetIndex, pairsetToBeUnrewarded)
+        }
+        spHandler.saveSpPairsetList(pairsetListToEdit)
+
+    }
+
+    fun checkPairsetHasRewards(): Boolean {
+        return (currentPairset.shuffleTestPassed || currentPairset.variantsTestPassed || currentPairset.translateTestPassed)
+    }
+
+
 }

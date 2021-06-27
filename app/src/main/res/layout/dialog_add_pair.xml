@@ -9,18 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dt3_surface_100"
-        android:paddingBottom="16dp"
-        >
+        android:paddingBottom="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dialog_add_pair_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/dt3_main_light_100"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_add_pair_dialog_title"
@@ -46,34 +45,30 @@
                 app:layout_constraintTop_toTopOf="@id/tv_add_pair_dialog_title" />
 
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_new_pair_key"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:hint="@string/dt_add_pair_dialog_new_pair_key_hint"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
+            android:hint="@string/dt_add_pair_dialog_new_pair_key_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
             app:counterMaxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_add_pair_header">
+            app:layout_constraintTop_toBottomOf="@id/cl_on_reward_remove_information">
 
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="74dp"
-                android:maxLength="20"/>
+                android:maxLength="20"
+                android:minHeight="74dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -81,10 +76,10 @@
             android:id="@+id/inputLayout_newPairValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:hint="@string/dt_add_pair_dialog_new_pair_value_hint"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:hint="@string/dt_add_pair_dialog_new_pair_value_hint"
             android:theme="@style/ThemeOverlay.DanaTest031.AlternativePrimaryColor"
             app:counterMaxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,11 +90,23 @@
                 style="@style/dt_TextInputEditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="74dp"
-                android:maxLength="20"/>
+                android:maxLength="20"
+                android:minHeight="74dp" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
+        <include
+            android:id="@+id/cl_on_reward_remove_information"
+            layout="@layout/on_reward_remove_information_note_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_add_pair_header" />
 
         <Button
             android:id="@+id/btn_add_pair"
@@ -107,9 +114,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="@string/dt_add_pair_dialog_positive_btn"
             android:layout_marginEnd="16dp"
-
+            android:text="@string/dt_add_pair_dialog_positive_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/inputLayout_newPairValue" />
 

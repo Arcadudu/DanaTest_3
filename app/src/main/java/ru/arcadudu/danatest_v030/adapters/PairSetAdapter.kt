@@ -68,7 +68,7 @@ class PairSetAdapter :
                 pairSetFragmentContext.theme
             )
         }
-        private val rewardDrawable = {drawableResource: Int ->
+        private val rewardDrawable = { drawableResource: Int ->
             ResourcesCompat.getDrawable(
                 pairSetFragmentContext.resources,
                 drawableResource,
@@ -89,13 +89,15 @@ class PairSetAdapter :
                 else R.drawable.icon_test_icon_variants_disabled
 
             val translateRewardDrawableResource =
-                if(pairset.translateTestPassed) R.drawable.icon_test_icon_translate_enabled
+                if (pairset.translateTestPassed) R.drawable.icon_test_icon_translate_enabled
                 else R.drawable.icon_test_icon_translate_disabled
 
             binding.apply {
                 tvItemTitle.text = pairset.name.capitalize(Locale.ROOT).trim()
+
                 val date = simpleDateFormatExact.parse(pairset.date)
                 tvItemDetails.text = simpleDateFormatExact.format(date!!)
+
                 tvPairCounterBody.apply {
                     text = pairset.getPairList().count().toString()
                     background = when (pairset.getPairList().count()) {
