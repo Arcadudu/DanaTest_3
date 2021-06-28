@@ -44,6 +44,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_add_pair_dialog_title" />
 
+            <include
+                android:id="@+id/cl_on_reward_remove_information"
+                layout="@layout/on_reward_remove_information_note_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="@id/tv_add_pair_dialog_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_add_pair_dialog_title"
+                />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -60,7 +72,7 @@
             app:counterMaxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_on_reward_remove_information">
+            app:layout_constraintTop_toBottomOf="@id/dialog_add_pair_header">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -97,16 +109,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <include
-            android:id="@+id/cl_on_reward_remove_information"
-            layout="@layout/on_reward_remove_information_note_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_add_pair_header" />
+
 
         <Button
             android:id="@+id/btn_add_pair"

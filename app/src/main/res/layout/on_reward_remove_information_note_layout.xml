@@ -37,7 +37,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/roboto_light"
         android:textStyle="bold"
-        android:text="При изменении/добавлении\ пары - результаты тестов будут сброшены"
+        android:text="При изменении/добавлении\ пары - результаты пройденных тестов будут сброшены"
         android:textSize="13sp"
         />
 
