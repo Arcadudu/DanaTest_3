@@ -349,6 +349,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         etNewPairKey?.setText(pairKey.capitalize(Locale.ROOT))
         etNewPairValue?.setText(pairValue.capitalize(Locale.ROOT))
 
+
+
         etNewPairKey?.doOnTextChanged { text, _, _, _ ->
             pairKeyAfterChange = text.toString().capitalize(Locale.getDefault()).trim()
         }
@@ -358,6 +360,11 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
 
         editPairBinding.apply {
+
+            //on reward info warning
+            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility = if(pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
+
+
             // positive button
             btnAddPair.text = getString(R.string.edit_pair_dialog_save_button_text)
             btnAddPair.setOnClickListener {
@@ -370,8 +377,12 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
                 if (resultPairKey == pairKey && resultPairValue == pairValue) {
                     editPairDialog.dismiss()
+
                 } else {
-                    pairsetEditorPresenter.saveEditedPair(resultPairKey, resultPairValue, position)
+                    pairsetEditorPresenter.apply {
+                        saveEditedPair(resultPairKey, resultPairValue, position)
+                        removePassedTestRewardsOnAddedPair()
+                    }
                 }
                 editPairDialog.dismiss()
             }
@@ -413,6 +424,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
 
         addPairBinding.apply {
+
+            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility = if(pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
+
             // positive button
             btnAddPair.setOnClickListener {
                 if (inputKey.isBlank() || inputValue.isBlank()) {
@@ -425,10 +439,11 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     }
                 } else {
                     pairsetEditorPresenter.addNewPair(inputKey, inputValue)
+                    pairsetEditorPresenter.removePassedTestRewardsOnAddedPair()
                     addPairDialog.dismiss()
                 }
             }
-            // positive button
+            // negative button
             btnCancelAddPair.setOnClickListener {
                 addPairDialog.dismiss()
             }
@@ -536,8 +551,9 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun updateViewOnEmptyPairList(count: Int) {
         emptyPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
         toolbar.menu[0].apply {
-            isEnabled = count!=0
-            val sortByIconDrawable = if(count ==0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
+            isEnabled = count != 0
+            val sortByIconDrawable =
+                if (count == 0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
             icon = ResourcesCompat.getDrawable(resources, sortByIconDrawable, theme)
         }
     }
@@ -553,10 +569,21 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             fabAddPair,
             getString(R.string.dt_on_remove_pair_snackBar_title, pair.pairValue, pair.pairKey),
             5000
-        ).setBackgroundTint(ResourcesCompat.getColor(resources, R.color.dt3_error_100, this.theme))
-            .setAction(getString(R.string.dt_on_remove_pair_snackBar_action_text)) {
+        ).apply {
+            anchorView = fabAddPair
+            setBackgroundTint(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.dt3_error_100,
+                    this@PairsetEditorActivity.theme
+                )
+            )
+            setAction(getString(R.string.dt_on_remove_pair_snackBar_action_text)) {
                 pairsetEditorPresenter.restoreDeletedPair()
-            }.setAnchorView(fabAddPair).show()
+            }
+            show()
+        }
+
     }
 
     override fun updateRecyclerOnRestored(
@@ -569,6 +596,21 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
         //todo: find a way to smooth scroll to removed position
 //        pairRecyclerView.scrollToPosition(lastRemovedPairPosition)
+    }
+
+    override fun showOnRemoveRewardsSnackBar(pairsetTitle: String) {
+        Snackbar.make(fabAddPair, "$pairsetTitle изменен: результаты сброшены", 5000)
+            .apply {
+                anchorView = fabAddPair
+                setBackgroundTint(
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.dt3_brand_100,
+                        this@PairsetEditorActivity.theme
+                    )
+                )
+                show()
+            }
     }
 
 

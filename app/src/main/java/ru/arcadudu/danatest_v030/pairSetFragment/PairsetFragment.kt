@@ -343,11 +343,23 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 startTestDialogBinding.autoCompleteTestCase.doOnTextChanged { text, _, _, _ ->
                     startTestDialogBinding.allPairsetVariantsCheckBox.visibility =
                         if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
+                    val headerTestVariationIcon =
+                        when(text.toString()){
+                            getString(R.string.variants) -> R.drawable.icon_test_icon_variants_descriptive
+                            getString(R.string.translate) -> R.drawable.icon_test_icon_translate_descriptive
+                            else -> R.drawable.icon_test_icon_shuffle_descriptive
+                        }
+                    startTestDialogBinding.imStartTestDialogIcon.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            headerTestVariationIcon,
+                            requireActivity().theme
+                        )
+                    )
                 }
 
             }
 
-            //todo : make a style for checkboxes with textColor colorset
             shufflePairsetCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70

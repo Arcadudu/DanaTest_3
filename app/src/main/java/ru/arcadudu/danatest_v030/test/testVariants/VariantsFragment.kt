@@ -189,9 +189,16 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
         onTestResultDialogBuilder.setView(onTestResultDialogView)
         val onTestResultDialog = onTestResultDialogBuilder.create()
 
+        variantsPresenter.applyTestPassReward(
+            variantsPresenter.provideMistakes(),
+            variantsPresenter.provideHintUseCount(),
+            requireContext()
+        )
+
         var dismissedWithAction = false
         onTestResultDialog.setOnDismissListener {
             sharedPreferences.edit().putBoolean(IS_RESULT_DIALOG_SHOWN, false).apply()
+
             if (!dismissedWithAction) (activity as? TestActivityView)?.onFragmentBackPressed()
         }
 
@@ -204,7 +211,9 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
             tvResultPairSetName.text = toolbar.title.toString()
 
             val mistakesTotal = variantsPresenter.provideMistakes()
+            val hintsUsed = variantsPresenter.provideHintUseCount()
 
+            // no mistakes
             if (mistakesTotal == 0) {
 
                 tvResultMistakesCount.apply {
@@ -223,6 +232,8 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 mistakeListContainer.visibility = View.GONE
                 ibShowOrHideMistakes.visibility = View.GONE
 
+
+                // has mistakes
             } else {
 
                 tvResultMistakesCount.apply {
@@ -279,7 +290,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 )
             }
 
-            when (variantsPresenter.provideHintUseCount()) {
+            when (hintsUsed) {
                 0 -> tvResultHintUseCount.visibility = View.GONE
                 else -> tvResultHintUseCount.text = getString(
                     R.string.dt_on_test_result_dialog_hint_used_count_line,
@@ -309,11 +320,13 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 getString(R.string.dt_on_test_result_dialog_back_to_pairset_screen)
             btnTestResultDialogToPairsets.setOnClickListener {
                 dismissedWithAction = true
+                /*variantsPresenter.applyTestPassReward(mistakesTotal, hintsUsed, requireContext())*/
                 (activity as? TestActivityView)?.onFragmentBackPressed()
                 onTestResultDialog.dismiss()
             }
 
         }
+
 
         // if app will stop and then resume this boolean will help
         // to avoid unnecessary test restart

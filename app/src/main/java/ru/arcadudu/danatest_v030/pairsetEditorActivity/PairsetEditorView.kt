@@ -52,5 +52,7 @@ interface PairsetEditorView : MvpView {
 
     fun updateRecyclerOnRestored(currentPairList: MutableList<Pair>, lastRemovedPairPosition: Int)
 
+    fun showOnRemoveRewardsSnackBar(pairsetTitle: String)
+
 
 }

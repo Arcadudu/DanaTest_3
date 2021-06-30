@@ -1,9 +1,11 @@
 package ru.arcadudu.danatest_v030.test.testTranslate
 
+import android.content.Context
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.models.Pair
 import ru.arcadudu.danatest_v030.models.Pairset
+import ru.arcadudu.danatest_v030.utils.PairsetListSPHandler
 import java.util.*
 
 @InjectViewState
@@ -81,6 +83,33 @@ class TranslateFragmentPresenter : MvpPresenter<TranslateFragmentView>() {
                 positiveProgressDuration.toLong()
             )
         }
+    }
+
+    fun applyTestPassReward(mistakesTotal:Int, hintsUsed:Int, fragmentContext: Context) {
+        val spHandler = PairsetListSPHandler(fragmentContext)
+
+        //loading full pairsetList from memory
+        val pairsetListToEdit = spHandler.loadSpPairsetList()
+
+        val testedPairsetId = testedPairset.pairsetId
+
+        //searching for required pairset which we want to edit as passed
+        val pairsetToEdit = pairsetListToEdit.first { it.pairsetId == testedPairsetId }
+        //defining it's index in full pairsetList
+        val pairsetToEditIndexInList = pairsetListToEdit.indexOf(pairsetToEdit)
+
+        //setting this pairset as test passed
+        val testPassed = mistakesTotal==0 && hintUsedCount ==0
+        pairsetToEdit.setPairsetPassedTranslateTest(testPassed)
+
+        //replacing previous pairset with new one
+        pairsetListToEdit.apply {
+            removeAt(pairsetToEditIndexInList)
+            add(pairsetToEditIndexInList, pairsetToEdit)
+        }
+
+        //saving the result
+        spHandler.saveSpPairsetList(pairsetListToEdit)
     }
 
     fun getProgressMax() {

@@ -10,7 +10,10 @@ var creationDate = simpleDateFormatExact.format(Date()).toString()
 open class Pairset(
     var name: String,
     var date: String = creationDate,
-    val pairsetId: Int = (1..1000000).random()
+    val pairsetId: Int = (1..1000000).random(),
+    var variantsTestPassed: Boolean = false,
+    var translateTestPassed: Boolean = false,
+    var shuffleTestPassed: Boolean = false
 ) : Serializable {
     private var pairList: MutableList<Pair> = mutableListOf()
 
@@ -23,6 +26,18 @@ open class Pairset(
             clear()
             addAll(newPairList)
         }
+    }
+
+    fun setPairsetPassedVariantsTest(passedVariantsTest: Boolean) {
+        this.variantsTestPassed = passedVariantsTest
+    }
+
+    fun setPairsetPassedTranslateTest(passedTranslateTest: Boolean) {
+        this.translateTestPassed = passedTranslateTest
+    }
+
+    fun setPairsetPassedShuffleTest(passedShuffleTest: Boolean) {
+        this.shuffleTestPassed = passedShuffleTest
     }
 
     fun addPair(key: String, value: String) {

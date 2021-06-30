@@ -68,6 +68,13 @@ class PairSetAdapter :
                 pairSetFragmentContext.theme
             )
         }
+        private val rewardDrawable = { drawableResource: Int ->
+            ResourcesCompat.getDrawable(
+                pairSetFragmentContext.resources,
+                drawableResource,
+                pairSetFragmentContext.theme
+            )
+        }
 
 
         init {
@@ -77,10 +84,20 @@ class PairSetAdapter :
         }
 
         fun bind(pairset: Pairset) {
+            val variantsRewardDrawableResource =
+                if (pairset.variantsTestPassed) R.drawable.icon_test_icon_variants_enabled
+                else R.drawable.icon_test_icon_variants_disabled
+
+            val translateRewardDrawableResource =
+                if (pairset.translateTestPassed) R.drawable.icon_test_icon_translate_enabled
+                else R.drawable.icon_test_icon_translate_disabled
+
             binding.apply {
                 tvItemTitle.text = pairset.name.capitalize(Locale.ROOT).trim()
+
                 val date = simpleDateFormatExact.parse(pairset.date)
                 tvItemDetails.text = simpleDateFormatExact.format(date!!)
+
                 tvPairCounterBody.apply {
                     text = pairset.getPairList().count().toString()
                     background = when (pairset.getPairList().count()) {
@@ -88,6 +105,8 @@ class PairSetAdapter :
                         else -> background(R.drawable.pair_counter_container_pairs)
                     }
                 }
+                rewardMarkVariants.setImageDrawable(rewardDrawable(variantsRewardDrawableResource))
+                rewardMarkTranslate.setImageDrawable(rewardDrawable(translateRewardDrawableResource))
             }
         }
     }
