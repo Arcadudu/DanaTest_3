@@ -92,6 +92,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         etPairsetSearchField = fragmentPairsetBinding.etPairsetFragmentSearchfield
         etPairsetSearchField.doOnTextChanged { text, _, _, _ ->
             showBtnClear(text.toString().isEmpty())
+            fabAddNewPairset.visibility =
+                if (text.toString().isEmpty()) View.VISIBLE else View.GONE
             pairsetPresenter.filter(text.toString())
         }
 
@@ -335,6 +337,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         startTestDialogBinding.apply {
             tvStartTestDialogTitle.text =
                 getString(R.string.dt_start_test_dialog_title)
+            tvStartTestDialogPairsetTitle.text = chosenPairset.name
             autoCompleteTestCase.apply {
                 setAdapter(testArrayAdapter)
                 setDropDownBackgroundResource(R.drawable.drop_down_background_drawable)
@@ -344,7 +347,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     startTestDialogBinding.allPairsetVariantsCheckBox.visibility =
                         if (text.toString() == getString(R.string.variants)) View.VISIBLE else View.GONE
                     val headerTestVariationIcon =
-                        when(text.toString()){
+                        when (text.toString()) {
                             getString(R.string.variants) -> R.drawable.icon_test_icon_variants_descriptive
                             getString(R.string.translate) -> R.drawable.icon_test_icon_translate_descriptive
                             else -> R.drawable.icon_test_icon_shuffle_descriptive
@@ -545,7 +548,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     override fun obtainFilteredList(filteredList: MutableList<Pairset>) {
         pairsetAdapter.apply {
-            filterList(filteredList)
+//            filterList(filteredList)
+            submitList(filteredList)
             notifyDataSetChanged()
         }
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)

@@ -83,6 +83,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
         etPairSearchField.doOnTextChanged { text, _, _, _ ->
             showBtnClearAll(text.toString().isEmpty())
+            fabAddPair.visibility = if(text.toString().isEmpty()) View.VISIBLE else View.GONE
             pairsetEditorPresenter.filter(text.toString())
         }
 

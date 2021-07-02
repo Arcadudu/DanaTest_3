@@ -27,7 +27,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/dialog_top_element_marginTop"
                 android:gravity="start"
-
                 android:textAppearance="@style/TextAppearance.dt_dialogTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +41,16 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_start_test_dialog_title"
                 app:layout_constraintStart_toEndOf="@+id/tv_start_test_dialog_title"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_start_test_dialog_pairset_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_start_test_dialog_title"
+                app:layout_constraintStart_toStartOf="@id/tv_start_test_dialog_title"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/TextAppearance.dt_pairsetItemTitle"
+                android:textSize="20sp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

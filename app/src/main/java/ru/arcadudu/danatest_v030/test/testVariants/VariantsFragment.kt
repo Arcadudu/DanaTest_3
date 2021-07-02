@@ -365,6 +365,7 @@ class VariantsFragment : MvpAppCompatFragment(), VariantsFragmentView, TestAdapt
                 shufflePairset,
                 useAllExistingPairsetsValuesAsVariants
             )
+            variantsPresenter.getVariantsForCurrentPosition(currentSnapPosition)
         }
 
 

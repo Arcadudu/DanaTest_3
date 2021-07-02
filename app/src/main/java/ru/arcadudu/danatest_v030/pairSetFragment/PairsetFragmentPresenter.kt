@@ -1,7 +1,6 @@
 package ru.arcadudu.danatest_v030.pairSetFragment
 
 import android.content.Context
-import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.arcadudu.danatest_v030.R
@@ -15,6 +14,7 @@ import java.util.*
 class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
 
     private var pairsetList: MutableList<Pairset> = mutableListOf()
+    private var filteredList: MutableList<Pairset> = mutableListOf()
     private var removedPairsetTrashBin: MutableList<Pairset> = mutableListOf()
     private var lastRemovedPairsetPosition = 0
 
@@ -37,13 +37,9 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun initiatePairsetList() {
-//        pairsetList = mutableListOf()
         pairsetList.apply {
             clear()
             addAll(pairsetListSPHandler.loadSpPairsetList())
-        }
-        pairsetList.forEach {
-            Log.d("pairset", it.name + "\n")
         }
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
 
@@ -70,12 +66,15 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun onSwipedRight(swipePosition: Int) {
-        val chosenPairset = pairsetList[swipePosition]
-        if (chosenPairset.getPairList().count() != 0) {
-            viewState.showStartTestDialog(chosenPairset)
-        } else {
-            viewState.showOnEmptyPairsetDialog(chosenPairset)
+        val filteredListIsEmpty = filteredList.count() == 0
+        val chosenPairset =
+            if (filteredListIsEmpty) pairsetList[swipePosition] else filteredList[swipePosition]
+
+        when (chosenPairset.getPairList().count()) {
+            0 -> viewState.showOnEmptyPairsetDialog(chosenPairset)
+            else -> viewState.showStartTestDialog(chosenPairset)
         }
+
     }
 
     fun removePairsetAtPosition(position: Int) {
@@ -95,7 +94,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun restoreDeletedPairset() {
-        pairsetList.add(lastRemovedPairsetPosition,removedPairsetTrashBin[0])
+        pairsetList.add(lastRemovedPairsetPosition, removedPairsetTrashBin[0])
         viewState.apply {
             updateRecyclerOnRestored(pairsetList, lastRemovedPairsetPosition)
             updateViewOnEmptyPairsetList(pairsetList.count())
@@ -104,12 +103,12 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     }
 
     fun filter(text: String) {
-        val filteredList: MutableList<Pairset> = mutableListOf()
+        filteredList.clear()
         for (item in pairsetList) {
-            if (item.name.toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))
-            ) {
-                filteredList.add(item)
-            }
+            if (item.name.toLowerCase(Locale.ROOT)
+                    .contains(text.toLowerCase(Locale.ROOT))
+            ) filteredList.add(item)
+
         }
         viewState.obtainFilteredList(filteredList)
     }
