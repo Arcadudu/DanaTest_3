@@ -121,7 +121,6 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         applyPairsetChangesIntoPairsetList(currentPairList)
         viewState.apply {
             updateRecyclerOnAdded(currentPairList)
-            setOnEmptyStub(currentPairList.count())
         }
     }
 

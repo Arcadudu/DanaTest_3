@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,7 +82,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         etPairSearchField = activityWsEditorBinding.etEditorSearchField
         etPairSearchField.doOnTextChanged { text, _, _, _ ->
             showBtnClearAll(text.toString().isEmpty())
-            fabAddPair.visibility = if(text.toString().isEmpty()) View.VISIBLE else View.GONE
+            fabAddPair.visibility = if (text.toString().isEmpty()) View.VISIBLE else View.GONE
             pairsetEditorPresenter.filter(text.toString())
         }
 
@@ -175,6 +174,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                         else -> 3
                     }
                 pairsetEditorPresenter.sortPairlist(sortId)
+                sortPairlistDialog.dismiss()
             }
         }
 
@@ -363,7 +363,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         editPairBinding.apply {
 
             //on reward info warning
-            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility = if(pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
+            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility =
+                if (pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
 
 
             // positive button
@@ -426,7 +427,8 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         addPairBinding.apply {
 
-            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility = if(pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
+            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility =
+                if (pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
 
             // positive button
             btnAddPair.setOnClickListener {
@@ -536,17 +538,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     override fun setOnEmptyStub(count: Int) {
         Log.d("menuItem", "setOnEmptyStub: count = $count ")
         emptyPairsetStub.visibility = if (count == 0) View.VISIBLE else View.GONE
-        toolbar.menu.getItem(0).apply {
-//            isVisible = count!=0
-            isEnabled = emptyPairsetStub.isVisible
-            val sortByIconDrawable =
-                if (count == 0) R.drawable.icon_sort_by_disabled else R.drawable.icon_sort_by
-            icon = ResourcesCompat.getDrawable(
-                resources,
-                sortByIconDrawable,
-                this@PairsetEditorActivity.theme
-            )
-        }
     }
 
     override fun updateViewOnEmptyPairList(count: Int) {
@@ -560,9 +551,15 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
     override fun updateViewOnSortedPairlist(sortedPairlist: MutableList<Pair>, sortIndex: Int) {
-        pairRowAdapter.notifyItemRangeChanged(0, sortedPairlist.count())
+        pairRowAdapter.apply {
+            submitPairs(sortedPairlist)
+            notifyItemRangeChanged(0, sortedPairlist.count())
+        }
+        recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_with_alpha_anim)
 
-        recyclerLayoutAnimation(pairRecyclerView, R.anim.layout_fall_down_anim)
+        //pairsetAdapter.submitList(sortedList)
+        //        pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
+        //        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_with_alpha_anim)
     }
 
     override fun showOnRemovePairSnackbar(pair: Pair) {
@@ -587,16 +584,21 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     }
 
+    override fun updateRecyclerOnAdded(updatedPairList: MutableList<Pair>) {
+        pairRowAdapter.submitPairs(updatedPairList)
+        pairRowAdapter.notifyItemInserted(0)
+        pairsetEditorPresenter.checkIfPairsetIsEmpty()
+//        toolbar.menu[0].isEnabled = updatedPairList.isNotEmpty()
+        pairRecyclerView.smoothScrollToPosition(0)
+    }
+
     override fun updateRecyclerOnRestored(
         currentPairList: MutableList<Pair>,
         lastRemovedPairPosition: Int
     ) {
-        pairRowAdapter.apply {
-            submitPairs(currentPairList)
-            notifyItemInserted(lastRemovedPairPosition)
-        }
-        //todo: find a way to smooth scroll to removed position
-//        pairRecyclerView.scrollToPosition(lastRemovedPairPosition)
+        pairRowAdapter.submitPairs(currentPairList)
+        pairRowAdapter.notifyItemInserted(lastRemovedPairPosition)
+        pairRecyclerView.smoothScrollToPosition(lastRemovedPairPosition)
     }
 
     override fun showOnRemoveRewardsSnackBar(pairsetTitle: String) {
@@ -633,15 +635,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         }
     }
 
-    override fun updateRecyclerOnAdded(updatedPairList: MutableList<Pair>) {
-        pairRowAdapter.apply {
-            submitPairs(updatedPairList)
-            notifyItemInserted(0)
-        }
-        pairsetEditorPresenter.checkIfPairsetIsEmpty()
-        pairRecyclerView.scrollToPosition(0)
-        toolbar.menu[0].isEnabled = updatedPairList.isNotEmpty()
-    }
 
     override fun updateRecyclerOnEditedPair(updatedPairList: MutableList<Pair>, position: Int) {
         pairRowAdapter.apply {

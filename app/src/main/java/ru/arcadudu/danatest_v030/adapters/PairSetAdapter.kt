@@ -52,11 +52,7 @@ class PairSetAdapter :
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun filterList(filteredList: MutableList<Pairset>) {
-        pairsetList = filteredList
-    }
 
-    //REGULAR
     inner class PairSetViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
         private val binding = PairsetRowLayoutBinding.bind(view)

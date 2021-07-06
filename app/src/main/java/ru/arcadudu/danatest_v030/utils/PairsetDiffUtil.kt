@@ -18,9 +18,10 @@ class PairsetDiffUtil(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return when{
+        return when {
+            oldPairsetList[oldItemPosition].pairsetId != newPairsetList[newItemPosition].pairsetId -> false
             oldPairsetList[oldItemPosition].name != newPairsetList[newItemPosition].name -> false
-            oldPairsetList[oldItemPosition].date != newPairsetList[newItemPosition].date ->false
+            oldPairsetList[oldItemPosition].date != newPairsetList[newItemPosition].date -> false
             else -> true
         }
     }

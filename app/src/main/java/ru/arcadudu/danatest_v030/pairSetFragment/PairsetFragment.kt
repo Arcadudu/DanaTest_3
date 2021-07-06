@@ -308,6 +308,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     }
 
                 pairsetPresenter.sortPairsetList(sortId)
+                sortPairsetDialog.dismiss()
             }
         }
 
@@ -523,7 +524,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             notifyItemInserted(0)
         }
         pairsetPresenter.providePairsetListCount()
-        pairsetRecyclerView.scrollToPosition(0)
+        pairsetRecyclerView.smoothScrollToPosition(0)
     }
 
     override fun updateRecyclerOnRestored(
@@ -535,7 +536,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             notifyItemInserted(restoredPairsetPosition)
         }
 //        pairsetPresenter.providePairsetList()
-        pairsetRecyclerView.scrollToPosition(restoredPairsetPosition)
+        pairsetRecyclerView.smoothScrollToPosition(restoredPairsetPosition)
     }
 
     override fun updateRecyclerOnRemoved(updatedPairsetList: MutableList<Pairset>, position: Int) {
@@ -577,8 +578,9 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     override fun updateFragmentOnSorted(
         sortedList: MutableList<Pairset>
     ) {
+        pairsetAdapter.submitList(sortedList)
         pairsetAdapter.notifyItemRangeChanged(0, sortedList.count())
-        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_anim)
+        recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_with_alpha_anim)
     }
 
     override fun showOnRemoveSnackbar(deletedPairsetName: String) =

@@ -2,6 +2,6 @@
 <layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
     android:animation="@anim/item_fall_down_with_alpha_anim"
     android:animationOrder="normal"
-    android:delay="20%">
+    android:delay="5%">
 
 </layoutAnimation>

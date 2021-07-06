@@ -36,10 +36,10 @@
             style="@style/TextAppearance.dt_itemTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="54dp"
+            android:layout_marginEnd="0dp"
             android:layout_weight="1"
-            android:padding="22dp"
-            android:paddingStart="20dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="22dp"
             android:paddingEnd="20dp"
             android:textStyle="bold"
             android:text="Предплечье"
@@ -58,6 +58,7 @@
             android:src="@drawable/icon_drag_indicator_horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

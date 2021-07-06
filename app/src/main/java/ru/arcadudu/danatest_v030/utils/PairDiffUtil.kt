@@ -12,11 +12,12 @@ class PairDiffUtil(private val oldList: MutableList<Pair>, private val newList: 
     override fun getNewListSize() = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+        return oldList[oldItemPosition].pairId == newList[newItemPosition].pairId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return when{
+            oldList[oldItemPosition].pairId != newList[newItemPosition].pairId -> false
             oldList[oldItemPosition].pairKey != newList[newItemPosition].pairKey -> false
             oldList[oldItemPosition].pairValue != newList[newItemPosition].pairValue -> false
             else -> true
