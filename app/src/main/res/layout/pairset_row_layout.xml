@@ -7,10 +7,11 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="18dp"
     android:layout_marginBottom="4dp"
-    app:cardElevation="0dp"
+    app:cardElevation="1.0dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pairset_row_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -36,11 +37,11 @@
             android:layout_marginBottom="12dp"
             android:maxLines="1"
             android:text="12/06/2021"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="12dp"
             android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
-            app:layout_constraintTop_toTopOf="@id/card_handler"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_item_title"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_title" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
@@ -84,33 +85,34 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:padding="3dp"
+            android:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_item_details"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_item_title">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_pair_counter_body"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.dt_subtitleTextStyle"
                 android:textColor="@color/dt3_on_surface_70"
-                android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </FrameLayout>
 
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/card_handler"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="end|center"
             android:src="@drawable/icon_drag_indicator_horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_item_details"
             app:layout_constraintEnd_toEndOf="@id/pair_counter_container"
             app:layout_constraintStart_toStartOf="@id/pair_counter_container"
-            app:layout_constraintTop_toBottomOf="@id/pair_counter_container"
-            />
+            app:layout_constraintTop_toTopOf="@+id/tv_item_details" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

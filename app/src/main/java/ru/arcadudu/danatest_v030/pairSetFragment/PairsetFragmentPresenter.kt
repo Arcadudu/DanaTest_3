@@ -87,7 +87,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         viewState.apply {
             updateRecyclerOnRemoved(pairsetList, position)
             updateViewOnEmptyPairsetList(pairsetList.count())
-            showOnRemoveSnackbar(removedPairsetTrashBin[0].name)
+            showOnRemoveSnackbar(removedPairsetTrashBin[0].name, pairsetColor = removedPairsetTrashBin[0].pairsetColor)
         }
 
         pairsetListSPHandler.saveSpPairsetList(pairsetList)

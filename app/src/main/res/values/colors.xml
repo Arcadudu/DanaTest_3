@@ -8,34 +8,28 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
-    <!--dt3 palette-->
-    <!--<color name="dt3_main_light_100">#f7f7f7</color>-->
     <color name="dt3_main_light_100">#F5F8FD</color>
     <color name="dt3_main_light_70">#B3F7F7F7</color>
     <color name="dt3_on_main">@color/black</color>
 
     <color name="dt3_transparent_0">#00FFFFFF</color>
 
-<!--violet-->
-    <!--<color name="dt3_brand_100">#8B97D6</color>-->
-    <!--<color name="dt3_brand_70">#B38896E1</color>-->
-    <!--<color name="dt3_brand_50">#808896E1</color>-->
-
-
     <!--blue-->
-    <color name="dt3_brand_100">#448AFF</color>
-    <color name="dt3_brand_70">#B3448AFF</color>
-    <color name="dt3_brand_50">#80448AFF</color>
-    <color name="dt3_brand_30">#4D448AFF</color>
-    <color name="dt3_brand_10">#1A448AFF</color>
+    <color name="dt3_brand_100">#010C1E</color>
+    <color name="dt3_brand_70">#B3010C1E</color>
+    <color name="dt3_brand_50">#80010C1E</color>
+    <color name="dt3_brand_30">#4D010C1E</color>
+    <color name="dt3_brand_10">#1A010C1E</color>
+<!--    <color name="dt3_brand_100">#448AFF</color>-->
+<!--    <color name="dt3_brand_70">#B3448AFF</color>-->
+<!--    <color name="dt3_brand_50">#80448AFF</color>-->
+<!--    <color name="dt3_brand_30">#4D448AFF</color>-->
+<!--    <color name="dt3_brand_10">#1A448AFF</color>-->
 
     <color name="dt3_on_brand_100">#ffffff</color>
 
-    <!--highlight is 20% opacity brand color-->
-    <!--violet-->
-    <!--<color name="dt3_highlight_20">#337986CB</color>-->
-    <color name="dt3_highlight_20">#33448AFF</color>
+<!--    <color name="dt3_highlight_20">#33448AFF</color>-->
+    <color name="dt3_highlight_20">#33010C1E</color>
 
     <color name="dt3_surface_100">#FFFFFFFF</color>
     <color name="dt3_on_surface_100">#000000</color>
@@ -45,11 +39,6 @@
     <color name="dt3_on_surface_60">#99000000</color>
 
     <color name="dt3_control_normal_black_20">#33000000</color>
-
-    <!--classic red-->
-    <!--<color name="dt3_error_100">#FF8A80</color>-->
-    <!--<color name="dt3_error_70">#B3FF8A80</color>-->
-    <!--<color name="dt3_error_50">#80FF8A80</color>-->-->
 
     <color name="dt3_error_100">#FF5252</color>
     <color name="dt3_error_70">#B3FF5252</color>
@@ -62,6 +51,13 @@
     <color name="dt3_hint_color_30">#4D000000</color>
     <color name="dt3_hint_color_20">#33000000</color>
     <color name="dt3_hint_color_10">#1A000000</color>
+
+    <color name="dt3_pairset_color_default">@color/dt3_surface_100</color>
+    <color name="dt3_pairset_color_blue">#E9FFFE</color>
+    <color name="dt3_pairset_color_green">#DAFBE7</color>
+    <color name="dt3_pairset_color_red">#FFEBEB</color>
+    <color name="dt3_pairset_color_violet">#F3EBFF</color>
+    <color name="dt3_pairset_color_grey">#F4F4F4</color>
 
 
     <!--palette-->

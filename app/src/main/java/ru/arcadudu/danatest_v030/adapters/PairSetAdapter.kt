@@ -1,6 +1,7 @@
 package ru.arcadudu.danatest_v030.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import ru.arcadudu.danatest_v030.R
 import ru.arcadudu.danatest_v030.databinding.PairsetRowLayoutBinding
 import ru.arcadudu.danatest_v030.models.Pairset
 import ru.arcadudu.danatest_v030.pairSetFragment.PairsetFragmentView
-import ru.arcadudu.danatest_v030.utils.PairsetDiffUtil
+import ru.arcadudu.danatest_v030.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,10 +58,11 @@ class PairSetAdapter :
         RecyclerView.ViewHolder(view) {
         private val binding = PairsetRowLayoutBinding.bind(view)
         private val simpleDateFormatExact = SimpleDateFormat("dd MMMM", Locale.getDefault())
-        private val background = { drawableResource: Int ->
-            ResourcesCompat.getDrawable(
+
+        private val containerBackground = { colorResource: Int ->
+            ResourcesCompat.getColor(
                 pairSetFragmentContext.resources,
-                drawableResource,
+                colorResource,
                 pairSetFragmentContext.theme
             )
         }
@@ -88,21 +90,29 @@ class PairSetAdapter :
                 if (pairset.translateTestPassed) R.drawable.icon_test_icon_translate_enabled
                 else R.drawable.icon_test_icon_translate_disabled
 
+            Log.d("color", "bind: pairsetcolor = ${pairset.pairsetColor}")
+
+            val containerColor = when (pairset.pairsetColor) {
+                PAIRSET_COLOR_BLUE -> R.color.dt3_pairset_color_blue
+                PAIRSET_COLOR_GREEN -> R.color.dt3_pairset_color_green
+                PAIRSET_COLOR_RED -> R.color.dt3_pairset_color_red
+                PAIRSET_COLOR_GREY -> R.color.dt3_pairset_color_grey
+                PAIRSET_COLOR_VIOLET -> R.color.dt3_pairset_color_violet
+                else -> R.color.dt3_pairset_color_default
+            }
+
             binding.apply {
                 tvItemTitle.text = pairset.name.capitalize(Locale.ROOT).trim()
 
                 val date = simpleDateFormatExact.parse(pairset.date)
                 tvItemDetails.text = simpleDateFormatExact.format(date!!)
 
-                tvPairCounterBody.apply {
-                    text = pairset.getPairList().count().toString()
-                    background = when (pairset.getPairList().count()) {
-                        0 -> background(R.drawable.pair_counter_container_has_no_pairs)
-                        else -> background(R.drawable.pair_counter_container_pairs)
-                    }
-                }
+                tvPairCounterBody.text = pairset.getPairList().count().toString()
+
                 rewardMarkVariants.setImageDrawable(rewardDrawable(variantsRewardDrawableResource))
                 rewardMarkTranslate.setImageDrawable(rewardDrawable(translateRewardDrawableResource))
+
+                pairsetRowContainer.setBackgroundColor(containerBackground(containerColor))
             }
         }
     }

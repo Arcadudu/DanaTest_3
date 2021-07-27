@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -23,9 +24,8 @@
         android:textAppearance="@style/TextAppearance.dt_onRewardRemoveInformationNoteTitleTextStyle"
         app:layout_constraintBottom_toBottomOf="@id/information_note_icon"
         app:layout_constraintStart_toEndOf="@id/information_note_icon"
-        app:layout_constraintTop_toTopOf="@id/information_note_icon"
 
-        />
+        app:layout_constraintTop_toTopOf="@id/information_note_icon" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
@@ -33,7 +33,9 @@
         android:layout_marginTop="4dp"
         android:text="@string/dt_on_remove_reward_information_body"
         android:textAppearance="@style/TextAppearance.dt_onRewardRemoveInformationNoteBodyTextStyle"
-        app:layout_constraintStart_toStartOf="@id/information_note_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/materialTextView"
         app:layout_constraintTop_toBottomOf="@id/information_note_icon" />
 
 

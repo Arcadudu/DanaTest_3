@@ -17,7 +17,7 @@ fun getDefaultPairsetFurniture(): Pairset {
 
 
 fun getDefaultPairsetTime(): Pairset {
-    val timePairSet = Pairset("Время ⌚")
+    val timePairSet = Pairset("Время ⌚", pairsetColor = PAIRSET_COLOR_RED)
     if (timeRu.count() == timeEng.count()) {
         for (index in timeRu.indices) {
             timePairSet.addPair(
@@ -30,7 +30,7 @@ fun getDefaultPairsetTime(): Pairset {
 }
 
 fun getDefaultPairsetGreatBritain(): Pairset {
-    val gbPairSet = Pairset("Великобритания \uD83C\uDDEC\uD83C\uDDE7")
+    val gbPairSet = Pairset("Великобритания \uD83C\uDDEC\uD83C\uDDE7", pairsetColor = PAIRSET_COLOR_BLUE)
     if (gbRu.count() == gbEng.count()) {
         for (index in gbRu.indices) {
             gbPairSet.addPair(
@@ -43,7 +43,7 @@ fun getDefaultPairsetGreatBritain(): Pairset {
 }
 
 fun getDefaultPairsetHumanFace(): Pairset {
-    val humanFacePairset = Pairset("Лицо человека \uD83D\uDC68\uD83C\uDFFB\u200D")
+    val humanFacePairset = Pairset("Лицо человека \uD83D\uDC68\uD83C\uDFFB\u200D", pairsetColor = PAIRSET_COLOR_GREY)
     if (faceRu.count() == faceEng.count()) {
         for (index in faceRu.indices) {
             humanFacePairset.addPair(
@@ -56,7 +56,7 @@ fun getDefaultPairsetHumanFace(): Pairset {
 }
 
 fun getDefaultPairsetHumanBody(): Pairset{
-    val humanBodyPairset = Pairset("Части тела \uD83D\uDCAA\uD83C\uDFFB")
+    val humanBodyPairset = Pairset("Части тела \uD83D\uDCAA\uD83C\uDFFB", pairsetColor = PAIRSET_COLOR_GREEN)
     if(bodyRu.count() == bodyEng.count()){
         for(index in bodyRu.indices){
             humanBodyPairset.addPair(
@@ -69,7 +69,7 @@ fun getDefaultPairsetHumanBody(): Pairset{
 }
 
 fun getDefaultPairsetHouseBasic(): Pairset{
-    val houseBasicPairset = Pairset("Дом \uD83C\uDFE1")
+    val houseBasicPairset = Pairset("Дом \uD83C\uDFE1", pairsetColor = PAIRSET_COLOR_VIOLET)
     if(houseBasicRu.count()== houseBasicEng.count()){
         for (index in houseBasicRu.indices){
             houseBasicPairset.addPair(

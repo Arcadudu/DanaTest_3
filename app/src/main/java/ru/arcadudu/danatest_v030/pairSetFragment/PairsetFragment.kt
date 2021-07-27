@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.core.widget.doOnTextChanged
@@ -329,6 +330,15 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             }
         }
 
+        @ColorInt
+        val colorInt = when (chosenPairset.pairsetColor) {
+            PAIRSET_COLOR_VIOLET -> R.color.dt3_pairset_color_violet
+            PAIRSET_COLOR_BLUE -> R.color.dt3_pairset_color_blue
+            PAIRSET_COLOR_GREEN -> R.color.dt3_pairset_color_green
+            PAIRSET_COLOR_RED -> R.color.dt3_pairset_color_red
+            else -> R.color.dt3_pairset_color_default
+        }
+
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
@@ -336,8 +346,14 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         val startTestDialogBinding = DialogStartTestBinding.bind(startTestDialogView)
 
         startTestDialogBinding.apply {
-            tvStartTestDialogTitle.text =
-                getString(R.string.dt_start_test_dialog_title)
+            dialogStartTestHeader.setBackgroundColor(
+                ResourcesCompat.getColor(
+                    resources,
+                    colorInt,
+                    requireActivity().theme
+                )
+            )
+
             tvStartTestDialogPairsetTitle.text = chosenPairset.name
             autoCompleteTestCase.apply {
                 setAdapter(testArrayAdapter)
@@ -353,13 +369,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                             getString(R.string.translate) -> R.drawable.icon_test_icon_translate_descriptive
                             else -> R.drawable.icon_test_icon_shuffle_descriptive
                         }
-                    startTestDialogBinding.imStartTestDialogIcon.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            headerTestVariationIcon,
-                            requireActivity().theme
-                        )
-                    )
+//
                 }
 
             }
@@ -583,13 +593,27 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_with_alpha_anim)
     }
 
-    override fun showOnRemoveSnackbar(deletedPairsetName: String) =
+    override fun showOnRemoveSnackbar(deletedPairsetName: String, pairsetColor:String) {
+
         Snackbar.make(
             fabAddNewPairset,
             getString(R.string.dt_on_remove_pairset_snackBar_title, deletedPairsetName),
             10_000
         )
             .setBackgroundTint(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.dt3_surface_100,
+                    requireActivity().theme
+                )
+            ).setTextColor(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.dt3_on_surface_100,
+                    requireActivity().theme
+                )
+            )
+            .setActionTextColor(
                 ResourcesCompat.getColor(
                     resources,
                     R.color.dt3_error_100,
@@ -600,6 +624,8 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                 pairsetPresenter.restoreDeletedPairset()
             }
             .setAnchorView(fabAddNewPairset).show()
+
+    }
 
 
     //lifecycle

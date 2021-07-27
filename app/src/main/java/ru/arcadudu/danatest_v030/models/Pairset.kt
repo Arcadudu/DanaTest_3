@@ -1,5 +1,6 @@
 package ru.arcadudu.danatest_v030.models
 
+import ru.arcadudu.danatest_v030.utils.PAIRSET_COLOR_DEFAULT
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,13 +14,17 @@ open class Pairset(
     val pairsetId: Int = (1..1000000).random(),
     var variantsTestPassed: Boolean = false,
     var translateTestPassed: Boolean = false,
-    var shuffleTestPassed: Boolean = false
+    var shuffleTestPassed: Boolean = false,
+    var pairsetColor: String = PAIRSET_COLOR_DEFAULT
 ) : Serializable {
     private var pairList: MutableList<Pair> = mutableListOf()
 
 
     fun getPairList() = pairList
 
+    fun setNewPairsetColor(newPairsetColor: String) {
+        this.pairsetColor = newPairsetColor
+    }
 
     fun setNewPairList(newPairList: MutableList<Pair>) {
         this.pairList.apply {
@@ -58,4 +63,6 @@ open class Pairset(
         return valueSet
     }
 }
+
+
 
