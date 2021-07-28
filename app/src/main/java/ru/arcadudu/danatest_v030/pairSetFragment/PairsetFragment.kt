@@ -56,6 +56,16 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
+    private val pairsetColorHandler = PairsetColorHandler()
+
+    private val paintWithColorResource = { colorResource: Int ->
+        ResourcesCompat.getColor(
+            resources,
+            colorResource,
+            requireActivity().theme
+        )
+    }
+
     @InjectPresenter
     lateinit var pairsetPresenter: PairsetFragmentPresenter
 
@@ -275,13 +285,19 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         }
 
         val emptyPairsetDialogBinding = DialogOnEmptyPairsetBinding.bind(emptyPairsetDialogView)
-        emptyPairsetDialogBinding.tvOnEmptyPairsetDialogTitle.text =
-            getString(R.string.dt_on_empty_pairset_dialog_title, chosenPairset.name)
+        emptyPairsetDialogBinding.apply {
+            val chosenPairsetColor =
+                pairsetColorHandler.getColorIntOnColorConstant(chosenPairset.pairsetColor)
+            dialogOnEmptyPairsetHeader.setBackgroundColor(paintWithColorResource(chosenPairsetColor))
 
-        //dismiss button
-        emptyPairsetDialogBinding.btnDismissDialog.setOnClickListener {
-            pairsetAdapter.notifyDataSetChanged()
-            emptyPairsetDialog.dismiss()
+            tvOnEmptyPairsetDialogTitle.text =
+                getString(R.string.dt_on_empty_pairset_dialog_title, chosenPairset.name)
+
+            //dismiss button
+            btnDismissDialog.setOnClickListener {
+                pairsetAdapter.notifyDataSetChanged()
+                emptyPairsetDialog.dismiss()
+            }
         }
 
         emptyPairsetDialog.show()
@@ -330,29 +346,17 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             }
         }
 
-        @ColorInt
-        val colorInt = when (chosenPairset.pairsetColor) {
-            PAIRSET_COLOR_VIOLET -> R.color.dt3_pairset_color_violet
-            PAIRSET_COLOR_BLUE -> R.color.dt3_pairset_color_blue
-            PAIRSET_COLOR_GREEN -> R.color.dt3_pairset_color_green
-            PAIRSET_COLOR_RED -> R.color.dt3_pairset_color_red
-            else -> R.color.dt3_pairset_color_default
-        }
-
         val testArray = resources.getStringArray(R.array.dt_test_names_array)
         val testArrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_test_item, testArray)
 
         val startTestDialogBinding = DialogStartTestBinding.bind(startTestDialogView)
 
+        @ColorInt
+        val colorInt = pairsetColorHandler.getColorIntOnColorConstant(chosenPairset.pairsetColor)
+
         startTestDialogBinding.apply {
-            dialogStartTestHeader.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    colorInt,
-                    requireActivity().theme
-                )
-            )
+            dialogStartTestHeader.setBackgroundColor(paintWithColorResource(colorInt))
 
             tvStartTestDialogPairsetTitle.text = chosenPairset.name
             autoCompleteTestCase.apply {
@@ -377,45 +381,25 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             shufflePairsetCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
-                checkBox.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        checkBoxTextColor,
-                        requireActivity().theme
-                    )
-                )
+                checkBox.setTextColor(paintWithColorResource(checkBoxTextColor))
             }
 
             enableHintsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
-                checkBox.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        checkBoxTextColor,
-                        requireActivity().theme
-                    )
-                )
+                checkBox.setTextColor(paintWithColorResource(checkBoxTextColor))
+
             }
 
             enableHintsCheckBox.isChecked = true
             enableHintsCheckBox.setTextColor(
-                ResourcesCompat.getColor(
-                    resources, R.color.dt3_brand_100,
-                    requireActivity().theme
-                )
+                paintWithColorResource(R.color.dt3_brand_100)
             )
 
             allPairsetVariantsCheckBox.setOnCheckedChangeListener { checkBox, isChecked ->
                 val checkBoxTextColor =
                     if (isChecked) R.color.dt3_brand_100 else R.color.dt3_on_surface_70
-                checkBox.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        checkBoxTextColor,
-                        requireActivity().theme
-                    )
-                )
+                checkBox.setTextColor(paintWithColorResource(checkBoxTextColor))
             }
 
             allPairsetVariantsCheckBox.apply {
@@ -467,6 +451,23 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         addPairsetDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.dt_add_pairset_dialog_title)
 
+
+        var colorIndex = 0
+        var pairsetColorConstant = ""
+        addPairsetDialogBinding.ivPaintPairset.setOnClickListener {
+            if (colorIndex > pairsetColorHandler.getListLastIndex()) colorIndex = 0
+            val pairsetColorInt = pairsetColorHandler.getColorIntOnIndex(colorIndex)
+            pairsetColorConstant = pairsetColorHandler.getColorConstantOnIndex(colorIndex)
+
+
+            addPairsetDialogBinding.dialogAddPairsetHeader.setBackgroundColor(
+                paintWithColorResource(pairsetColorInt)
+
+            )
+            colorIndex++
+
+        }
+
         addPairsetDialogBinding.inputLayoutNewPairSetName.editText?.doOnTextChanged { text, _, _, _ ->
             inputPairSetName = text.toString().capitalize(Locale.getDefault()).trim()
         }
@@ -484,7 +485,10 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
                     error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
                 }
             } else {
-                pairsetPresenter.addNewPairset(inputPairSetName)
+                pairsetPresenter.addNewPairset(
+                    inputPairSetName,
+                    newPairsetColor = pairsetColorConstant
+                )
                 addPairsetDialog.dismiss()
                 //todo presenter checks database for pairsets with same names
             }
@@ -498,8 +502,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
     }
 
     override fun showRemovePairsetDialog(
-        name: String,
-        description: String,
+        chosenPairset: Pairset,
         position: Int,
         pairCount: Int
     ) {
@@ -514,7 +517,13 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
 
         removeDialogBinding = DialogRemoveItemBinding.bind(removeDialogView)
         removeDialogBinding.apply {
-            tvRemoveDialogTitle.text = name
+            val chosenPairsetColorInt =
+                pairsetColorHandler.getColorIntOnColorConstant(chosenPairset.pairsetColor)
+            dialogRemoveItemHeader.setBackgroundColor(
+                paintWithColorResource(chosenPairsetColorInt)
+
+            )
+            tvRemoveDialogTitle.text = chosenPairset.name
             tvRemovePairsetDialogPairCounter.text = pairCount.toString()
             btnCancelRemove.setOnClickListener {
                 removeDialog.dismiss()
@@ -593,7 +602,7 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
         recyclerLayoutAnimation(pairsetRecyclerView, R.anim.layout_fall_down_with_alpha_anim)
     }
 
-    override fun showOnRemoveSnackbar(deletedPairsetName: String, pairsetColor:String) {
+    override fun showOnRemoveSnackbar(deletedPairsetName: String, pairsetColor: String) {
 
         Snackbar.make(
             fabAddNewPairset,
@@ -601,29 +610,14 @@ class PairsetFragment : MvpAppCompatFragment(), PairsetFragmentView {
             10_000
         )
             .setBackgroundTint(
-                ResourcesCompat.getColor(
-                    resources,
-                    R.color.dt3_surface_100,
-                    requireActivity().theme
-                )
+                paintWithColorResource(R.color.dt3_surface_100)
             ).setTextColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    R.color.dt3_on_surface_100,
-                    requireActivity().theme
-                )
-            )
-            .setActionTextColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    R.color.dt3_error_100,
-                    requireActivity().theme
-                )
-            )
-            .setAction(R.string.dt_on_remove_pairset_snackBar_action_text) {
+                paintWithColorResource(R.color.dt3_on_surface_100)
+            ).setActionTextColor(
+                paintWithColorResource(R.color.dt3_error_100)
+            ).setAction(R.string.dt_on_remove_pairset_snackBar_action_text) {
                 pairsetPresenter.restoreDeletedPairset()
-            }
-            .setAnchorView(fabAddNewPairset).show()
+            }.setAnchorView(fabAddNewPairset).show()
 
     }
 

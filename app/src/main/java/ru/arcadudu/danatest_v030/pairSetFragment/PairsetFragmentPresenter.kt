@@ -58,8 +58,7 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
     fun onSwipedLeft(swipePosition: Int) {
         val chosenPairSet = pairsetList[swipePosition]
         viewState.showRemovePairsetDialog(
-            chosenPairSet.name,
-            chosenPairSet.date,
+            chosenPairSet,
             position = swipePosition,
             pairCount = chosenPairSet.getPairList().count()
         )
@@ -113,13 +112,13 @@ class PairsetFragmentPresenter : MvpPresenter<PairsetFragmentView>() {
         viewState.obtainFilteredList(filteredList)
     }
 
-    fun addNewPairset(inputPairSetName: String) {
+    fun addNewPairset(inputPairSetName: String, newPairsetColor:String) {
         val dateOfAdding =
             SimpleDateFormat("dd MMMM yyyy kk:mm", Locale.getDefault()).format(Date()).toString()
 
         pairsetList.add(
             index = 0,
-            element = Pairset(name = inputPairSetName, date = dateOfAdding)
+            element = Pairset(name = inputPairSetName, date = dateOfAdding, pairsetColor = newPairsetColor)
         )
         pairsetListSPHandler.saveSpPairsetList(pairsetList)
         viewState.apply {

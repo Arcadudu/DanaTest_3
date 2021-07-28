@@ -50,6 +50,24 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
+    private val pairsetColorValueList = listOf(
+        PAIRSET_COLOR_DEFAULT,
+        PAIRSET_COLOR_BLUE,
+        PAIRSET_COLOR_GREEN,
+        PAIRSET_COLOR_RED,
+        PAIRSET_COLOR_VIOLET,
+        PAIRSET_COLOR_GREY
+    )
+
+    private val pairsetColorList = listOf(
+        R.color.dt3_pairset_color_default,
+        R.color.dt3_pairset_color_blue,
+        R.color.dt3_pairset_color_green,
+        R.color.dt3_pairset_color_red,
+        R.color.dt3_pairset_color_violet,
+        R.color.dt3_pairset_color_grey
+    )
+
     @InjectPresenter
     lateinit var pairsetEditorPresenter: PairsetEditorPresenter
 
@@ -351,7 +369,6 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         etNewPairValue?.setText(pairValue.capitalize(Locale.ROOT))
 
 
-
         etNewPairKey?.doOnTextChanged { text, _, _, _ ->
             pairKeyAfterChange = text.toString().capitalize(Locale.getDefault()).trim()
         }
@@ -363,7 +380,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         editPairBinding.apply {
 
             //on reward info warning
-            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility =
+            constraintLayoutOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility =
                 if (pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
 
 
@@ -427,7 +444,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
         addPairBinding.apply {
 
-            clOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility =
+            constraintLayoutOnRewardRemoveInformation.onRewardRemoveInformationNoteContainer.visibility =
                 if (pairsetEditorPresenter.checkPairsetHasRewards()) View.VISIBLE else View.GONE
 
             // positive button
@@ -470,6 +487,32 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
         editPairsetNameDialogBinding.tvAddPairSetDialogTitle.text =
             getString(R.string.dt_edit_pairset_name_dialog_title)
 
+        var colorIndex =
+            pairsetColorValueList.indexOf(pairsetEditorPresenter.getCurrentPairsetColor())
+        var currentPairsetColor = pairsetColorList[colorIndex]
+
+        editPairsetNameDialogBinding.dialogAddPairsetHeader.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                currentPairsetColor,
+                theme
+            )
+        )
+
+        editPairsetNameDialogBinding.ivPaintPairset.setOnClickListener {
+            colorIndex++
+            if(colorIndex==5) colorIndex = 0
+            currentPairsetColor = pairsetColorList[colorIndex]
+            editPairsetNameDialogBinding.dialogAddPairsetHeader.setBackgroundColor(
+                ResourcesCompat.getColor(
+                    resources,
+                    currentPairsetColor,
+                    theme
+                )
+            )
+        }
+
+
         var newPairsetName = ""
 
         editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
@@ -491,7 +534,7 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
                     }
                 } else {
                     //todo presenter check pairsetList for pairset with same names
-                    pairsetEditorPresenter.changePairsetName(newPairsetName)
+                    pairsetEditorPresenter.changePairsetName(newPairsetName, pairsetColorValueList[colorIndex])
                     editPairsetNameDialog.dismiss()
                 }
             }

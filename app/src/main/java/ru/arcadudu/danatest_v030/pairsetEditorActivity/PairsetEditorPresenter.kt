@@ -31,6 +31,8 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         this.context = context
     }
 
+    fun getCurrentPairsetColor(): String = currentPairset.pairsetColor
+
     fun extractIncomingPairset(
         incomingIntent: Intent,
         pairset_id_tag: String
@@ -66,12 +68,13 @@ class PairsetEditorPresenter : MvpPresenter<PairsetEditorView>() {
         viewState.getDataForToolbar(pairsetToEdit.name, pairsetToEdit.date)
     }
 
-    fun changePairsetName(newPairsetName: String) {
+    fun changePairsetName(newPairsetName: String, pairsetColorValue: String) {
         spHandler = PairsetListSPHandler(context)
         val pairsetListToEdit = spHandler.loadSpPairsetList()
         pairsetListToEdit[currentPairsetIndex].apply {
             name = newPairsetName
             date = getCreationDate()
+            pairsetColor = pairsetColorValue
         }
         spHandler.saveSpPairsetList(pairsetListToEdit)
         pairsetTitle = newPairsetName

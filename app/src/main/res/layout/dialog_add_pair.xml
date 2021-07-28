@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toTopOf="@id/tv_add_pair_dialog_title" />
 
             <include
-                android:id="@+id/cl_on_reward_remove_information"
+                android:id="@+id/constraint_layout_on_reward_remove_information"
                 layout="@layout/on_reward_remove_information_note_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
