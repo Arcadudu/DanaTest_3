@@ -50,23 +50,16 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
 
     private lateinit var dialogBuilder: AlertDialog.Builder
 
-    private val pairsetColorValueList = listOf(
-        PAIRSET_COLOR_DEFAULT,
-        PAIRSET_COLOR_BLUE,
-        PAIRSET_COLOR_GREEN,
-        PAIRSET_COLOR_RED,
-        PAIRSET_COLOR_VIOLET,
-        PAIRSET_COLOR_GREY
-    )
+    private val pairsetColorHandler = PairsetColorHandler()
 
-    private val pairsetColorList = listOf(
-        R.color.dt3_pairset_color_default,
-        R.color.dt3_pairset_color_blue,
-        R.color.dt3_pairset_color_green,
-        R.color.dt3_pairset_color_red,
-        R.color.dt3_pairset_color_violet,
-        R.color.dt3_pairset_color_grey
-    )
+    private val paintWithColorResource = { colorResource: Int ->
+        ResourcesCompat.getColor(
+            resources,
+            colorResource,
+            theme
+        )
+    }
+
 
     @InjectPresenter
     lateinit var pairsetEditorPresenter: PairsetEditorPresenter
@@ -479,6 +472,11 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
     }
 
     override fun showEditPairsetNameDialog(currentPairsetName: String) {
+
+        // flags indicating pairset changes
+        var hasPairsetColorChanged = false
+        var hasPairsetNameChanged: Boolean
+
         val editPairsetNameDialogView =
             this.layoutInflater.inflate(R.layout.dialog_add_pairset, null, false)
         val editPairsetNameDialog = dialogBuilder.setView(editPairsetNameDialogView).create()
@@ -488,65 +486,81 @@ class PairsetEditorActivity : MvpAppCompatActivity(), PairsetEditorView {
             getString(R.string.dt_edit_pairset_name_dialog_title)
 
         var colorIndex =
-            pairsetColorValueList.indexOf(pairsetEditorPresenter.getCurrentPairsetColor())
-        var currentPairsetColor = pairsetColorList[colorIndex]
+            pairsetColorHandler.getIndexOfColorConstant(pairsetEditorPresenter.getCurrentPairsetColor())
 
-        editPairsetNameDialogBinding.dialogAddPairsetHeader.setBackgroundColor(
-            ResourcesCompat.getColor(
-                resources,
-                currentPairsetColor,
-                theme
-            )
-        )
+        // pairset original colorIntId and colorConstant
+        val pairsetColorIntBeforeChange = pairsetColorHandler.getColorIntOnIndex(colorIndex)
+        val pairsetColorConstantBeforeChange = pairsetEditorPresenter.getCurrentPairsetColor()
 
-        editPairsetNameDialogBinding.ivPaintPairset.setOnClickListener {
+        // dialog header is painted with original pairsetColor
+        val alertDialogHeader = editPairsetNameDialogBinding.dialogAddPairsetHeader
+        alertDialogHeader.setBackgroundColor(paintWithColorResource(pairsetColorIntBeforeChange))
+
+        // variables used to save color change
+        var pairsetColorIntAfterChange: Int
+        var pairsetColorConstantAfterChange = pairsetColorConstantBeforeChange
+
+        // paint button (imageView)
+        val buttonPaintPairset = editPairsetNameDialogBinding.ivPaintPairset
+        buttonPaintPairset.setOnClickListener {
             colorIndex++
-            if(colorIndex==5) colorIndex = 0
-            currentPairsetColor = pairsetColorList[colorIndex]
-            editPairsetNameDialogBinding.dialogAddPairsetHeader.setBackgroundColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    currentPairsetColor,
-                    theme
-                )
-            )
+            if (colorIndex > pairsetColorHandler.getListLastIndex()) colorIndex = 0
+
+            pairsetColorIntAfterChange = pairsetColorHandler.getColorIntOnIndex(colorIndex)
+            pairsetColorConstantAfterChange =
+                pairsetColorHandler.getColorConstantOnIndex(colorIndex)
+
+            alertDialogHeader.setBackgroundColor(paintWithColorResource(pairsetColorIntAfterChange))
+
+            // checks whether color changed or not
+            hasPairsetColorChanged = pairsetColorIntBeforeChange != pairsetColorIntAfterChange
         }
 
-
-        var newPairsetName = ""
-
-        editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
+        // editText
+        val pairsetNameEditText = editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText
+        pairsetNameEditText?.apply {
             setText(currentPairsetName)
-            doOnTextChanged { text, _, _, _ ->
-                newPairsetName = text.toString().capitalize(Locale.getDefault()).trim()
-            }
+            requestFocus()
         }
-        editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.requestFocus()
 
+        // positive button
+        val buttonSaveChanges = editPairsetNameDialogBinding.btnAddPairSet
+        buttonSaveChanges.text = getString(R.string.dt_edit_pairset_name_dialog_positive_btn)
+        buttonSaveChanges.setOnClickListener {
 
-        // positive btn
-        editPairsetNameDialogBinding.btnAddPairSet.apply {
-            text = getString(R.string.dt_edit_pairset_name_dialog_positive_btn)
-            setOnClickListener {
-                if (newPairsetName.isEmpty()) {
-                    editPairsetNameDialogBinding.inputLayoutNewPairSetName.editText?.apply {
-                        error = getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
-                    }
-                } else {
-                    //todo presenter check pairsetList for pairset with same names
-                    pairsetEditorPresenter.changePairsetName(newPairsetName, pairsetColorValueList[colorIndex])
+            val pairsetFinalName = pairsetNameEditText?.text?.trim()
+            hasPairsetNameChanged = pairsetFinalName?.equals(currentPairsetName)!!
+
+            when {
+                // empty name causes error to appear
+                pairsetFinalName.isEmpty() ->
+                    pairsetNameEditText.error =
+                        getString(R.string.dt_add_pairset_dialog_on_empty_title_error)
+
+                // no changes dismisses dialog
+                !hasPairsetColorChanged && !hasPairsetNameChanged ->
+                    editPairsetNameDialog.dismiss()
+
+                // changes applied to pairset
+                else -> {
+                    pairsetEditorPresenter.changePairsetName(
+                        newPairsetName = pairsetFinalName.toString(),
+                        pairsetColorValue = pairsetColorConstantAfterChange
+                    )
                     editPairsetNameDialog.dismiss()
                 }
             }
         }
 
-        // negative btn
-        editPairsetNameDialogBinding.btnCancelAddWordSet.setOnClickListener {
+        // dismiss without changes button
+        val buttonCancelChanges = editPairsetNameDialogBinding.btnCancelAddWordSet
+        buttonCancelChanges.setOnClickListener {
             editPairsetNameDialog.dismiss()
         }
 
         editPairsetNameDialog.show()
     }
+
 
 
     private fun swapEditTexts(et1: EditText, et2: EditText) {
